@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color">
+    <include layout="@layout/activity_page_top"/>
+    <LinearLayout
+        android:baselineAligned="false"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/double_column_left_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/double_column_left_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/title_register_phone"
+                android:textColor="@color/head_color"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/double_column_right_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/double_column_right_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/real_name_authentication"
+                android:textColor="@color/gray"
+                android:textSize="15sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/double_column_view"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray"
+        />
+
+    <FrameLayout
+        android:id="@+id/double_column_fragment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_color">
+    </FrameLayout>
+
+
+</LinearLayout>

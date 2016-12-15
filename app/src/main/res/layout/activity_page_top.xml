@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/topbar"
+    android:layout_width="match_parent"
+    android:layout_height="44dp"
+    android:background="@color/head_color" >
+    <ImageButton
+        android:id="@+id/top_left"
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:scaleType="center"
+        android:src="@drawable/icon_back" />
+
+    <TextView
+        android:id="@+id/top_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="#fff"
+        android:textSize="18sp" />
+
+    <ImageButton
+        android:id="@+id/top_right"
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:background="@null"
+        android:scaleType="center"
+        android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/top_right_text_image"
+        android:layout_width="10dp"
+        android:layout_height="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="5dp"
+        android:background="@null"
+        android:scaleType="center"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/top_right_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@id/top_right_text_image"
+        android:ellipsize="end"
+        android:maxEms="4"
+        android:singleLine="true"
+        android:text="昆明 "
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+</RelativeLayout>

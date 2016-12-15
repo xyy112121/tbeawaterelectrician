@@ -8,4 +8,22 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="login_base_theme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_marginLeft">26dp</item>
+        <item name="android:layout_marginRight">26dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- login interface input box style-->
+    <style name="login_inputbox_theme" parent="@style/login_base_theme">
+        <item name="android:background">@drawable/login_inputbox_bg</item>
+        <item name="android:textColor">#FFF</item>
+        <item name="android:textColorHint">#8FFF</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
 </resources>
