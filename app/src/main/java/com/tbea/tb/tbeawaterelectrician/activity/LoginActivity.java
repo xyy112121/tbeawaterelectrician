@@ -27,5 +27,13 @@ public class LoginActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+        findViewById(R.id.lagin_finish_bth).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

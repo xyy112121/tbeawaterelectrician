@@ -1,17 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.tbea.tb.tbeawaterelectrician.MainActivity">
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:background="@color/blue"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="德阳"
+                android:textColor="@color/white"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_inverted_triangle"/>
+        </LinearLayout>
+        <EditText
+            android:id="@+id/expert_search_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:drawableLeft="@drawable/icon_logo"
+            android:hint="搜索商品或店铺"
+            android:textColor="#fff"
+            android:textColorHint="#fff"
+            android:textSize="12sp"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:src="@drawable/icon_message"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+
+    </LinearLayout>
+
+
+    <com.tbea.tb.tbeawaterelectrician.component.MainNavigateTabBar
+        android:id="@+id/mainTabBar"
+        android:layout_width="match_parent"
+        android:layout_height="50.0dip"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        app:containerId="@+id/main_container"
+        app:navigateTabSelectedTextColor="@color/blue"
+        app:navigateTabTextColor="@color/gray"/>
+
+    <FrameLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/mainTabBar"/>
+
+
+
+
+    <ImageView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_above="@+id/mainTabBar"
+        android:background="@drawable/comui_bar_top_shadow"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="76.0dip"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/transparent"
+        android:gravity="center|bottom"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/tab_post_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClickPublish"
+            android:src="@drawable/icon_scan_code"/>
+    </LinearLayout>
 </RelativeLayout>

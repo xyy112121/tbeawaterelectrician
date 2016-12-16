@@ -8,26 +8,25 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
-
-import com.tbea.tb.tbeawaterelectrician.Fragment.RealNameVerifyFragment;
-import com.tbea.tb.tbeawaterelectrician.Fragment.RegisterPhoneFragment;
+import com.tbea.tb.tbeawaterelectrician.fragment.RealNameVerifyFragment;
+import com.tbea.tb.tbeawaterelectrician.fragment.RegisterPhoneFragment;
 import com.tbea.tb.tbeawaterelectrician.R;
 
 /**
  * Created by abc on 16/12/15.注册页面
  */
 
-public class RegisterActivity extends FragmentActivity implements View.OnClickListener{
-   private Fragment mRegisterPhoneFragement;//手机号注册
-    private Fragment mRealNameVerifyFragment;//实名注册
+public class RegisterActivity extends  TopActivity implements View.OnClickListener{
+    private Fragment mRegisterPhoneFragement;//手机号注册
+    public Fragment mRealNameVerifyFragment;//实名注册
     private Fragment mCurrentFragement;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mRegisterPhoneFragement = new RegisterPhoneFragment();
+        initTopbar("注册");
         initView();
     }
 
@@ -75,6 +74,15 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(getSupportFragmentManager().getBackStackEntryCount() > 1){
+           getSupportFragmentManager().popBackStack();
+        }else {
+            finish();
+        }
+    }
 
     /**
      * 切换Fragment

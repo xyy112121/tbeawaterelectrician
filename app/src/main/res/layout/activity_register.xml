@@ -52,13 +52,25 @@
         android:layout_height="0.5dp"
         android:background="@color/gray"
         />
-
-    <FrameLayout
-        android:id="@+id/register_fragment_layout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/bg_color">
-    </FrameLayout>
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:id="@+id/register_fragment_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_color">
+        </FrameLayout>
+
+        <View
+            android:id="@+id/body_bg_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#6000"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+
 
 
 </LinearLayout>
