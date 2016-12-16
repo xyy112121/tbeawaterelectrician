@@ -18,13 +18,14 @@
             android:layout_weight="1" >
 
             <TextView
-                android:id="@+id/double_column_left_text"
+                android:id="@+id/register_phone_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/title_register_phone"
                 android:textColor="@color/head_color"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:onClick="Click"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -34,13 +35,14 @@
             android:layout_weight="1" >
 
             <TextView
-                android:id="@+id/double_column_right_text"
+                android:id="@+id/register_real_name_verify_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/real_name_authentication"
                 android:textColor="@color/gray"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:onClick="Click"/>
         </RelativeLayout>
     </LinearLayout>
 
@@ -52,7 +54,7 @@
         />
 
     <FrameLayout
-        android:id="@+id/double_column_fragment_layout"
+        android:id="@+id/register_fragment_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_color">
