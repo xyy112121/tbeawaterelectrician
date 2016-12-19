@@ -13,4 +13,5 @@
     <color name="orange">#F5A52E</color>
     <color name="tab_text_normal">#212121</color>
     <color name="red">#FF3333</color>
+    <color name="btn_my_item_click">#334FC3F7</color>
 </resources>

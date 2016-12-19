@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/fragment_mian_account_layout"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/blue"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
+                <com.tbea.tb.tbeawaterelectrician.component.CircleImageView
+                    android:id="@+id/title_logo_img"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/icon_head"
+                    app:border_color="#FFF"
+                    app:border_width="4dp" />
+
+
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFF"
+                    android:textSize="14sp"
+                    android:text="刘师傅"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:id="@+id/user_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFF"
+                    android:textSize="14sp"
+                    android:text="13818181616"
+                    android:layout_marginTop="5dp"/>
+            </LinearLayout>
+
+
+
+            <RelativeLayout
+                android:id="@+id/my_wallet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp" >
+
+                <TextView
+                    style="@style/my_text_style"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/icon_wallet"
+                    android:text="我的钱包" />
+
+                <TextView
+                    android:id="@+id/tv_wallet_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:drawableEnd="@drawable/icon_arrow_right"
+                    android:drawablePadding="10dp"
+                    android:text="1455.0"
+                    android:textColor="#C6C6C1"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/my_orader"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/tv_orader_size_tv"
+                    style="@style/my_text_style"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/icon_orader"
+                    android:text="我的订单" />
+
+                <TextView
+                    android:id="@+id/tv_medical_records_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:drawableEnd="@drawable/icon_arrow_right"
+                    android:drawablePadding="10dp"
+                    android:text="查看全部订单"
+                    android:textColor="#C6C6C1"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View style="@style/horizontal_view" />
+            <RelativeLayout
+                android:id="@+id/my_message"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp"
+               >
+
+                <TextView
+                    android:id="@+id/tv_message_size_tv"
+                    style="@style/my_text_style"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/icon_my_message"
+                    android:text="我的消息" />
+
+                <TextView
+                    android:id="@+id/tv_message_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:drawableEnd="@drawable/icon_arrow_right"
+                    android:drawablePadding="10dp"
+                    android:text="5条未读"
+                    android:textColor="#C6C6C1"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View style="@style/horizontal_view" />
+            <RelativeLayout
+                android:id="@+id/my_collect"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp"
+                >
+
+                <TextView
+                    android:id="@+id/tv_collect_size_tv"
+                    style="@style/my_text_style"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/icon_collect"
+                    android:text="我的消息" />
+
+                <TextView
+                    android:id="@+id/tv_collect_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:drawableEnd="@drawable/icon_arrow_right"
+                    android:drawablePadding="10dp"
+                    android:text="0"
+                    android:textColor="#C6C6C1"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/my_service"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp"
+                android:layout_marginTop="8dp"
+                >
+
+                <TextView
+                    android:id="@+id/tv_service_size_tv"
+                    style="@style/my_text_style"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/icon_service"
+                    android:text="我的消息" />
+
+                <TextView
+                    android:id="@+id/tv_service_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:drawableEnd="@drawable/icon_arrow_right"
+                    android:drawablePadding="10dp"
+                    android:text=""
+                    android:textColor="#C6C6C1"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+            <View style="@style/horizontal_view" />
+            <RelativeLayout
+                android:id="@+id/my_about"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp"
+                >
+
+                <TextView
+                    android:id="@+id/tv_about_size_tv"
+                    style="@style/my_text_style"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/icon_about"
+                    android:text="关于优商" />
+
+                <TextView
+                    android:id="@+id/tv_about_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:drawableEnd="@drawable/icon_arrow_right"
+                    android:drawablePadding="10dp"
+                    android:text=""
+                    android:textColor="#C6C6C1"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</LinearLayout>
