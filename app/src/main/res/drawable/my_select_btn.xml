@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true"><shape>
+        <solid android:color="@color/btn_my_item_click" />
+    </shape></item>
+    <item android:state_window_focused="false"><shape>
+        <solid android:color="#ffffff" />
+    </shape></item>
+
+</selector>

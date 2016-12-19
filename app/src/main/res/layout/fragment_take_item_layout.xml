@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+<LinearLayout
+android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        >
+        <com.tbea.tb.tbeawaterelectrician.component.CircleImageView
+            android:id="@+id/take_item_head"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_testpic2"
+            />
+
+        <TextView
+           android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray"
+            android:text="2016-08-08"
+            android:layout_marginLeft="2dp"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_toRightOf="@+id/take_item_head"
+            android:id="@+id/take_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:text="李聪"
+            android:textSize="14sp"
+           android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:drawableRight="@drawable/icon_person_attestation"
+            android:drawablePadding="8dp"
+          />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="招聘文员啦啦啦啦啦"
+        android:layout_marginLeft="2dp"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp"
+        >
+
+
+        <TextView
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray"
+            android:text="900m"
+            android:layout_marginLeft="2dp"
+            android:textSize="14sp"
+            android:drawableLeft="@drawable/icon_nearby_select"
+            android:drawablePadding="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray"
+            android:text="云南省 昆明市 五华区"
+            android:textSize="14sp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="8dp"
+
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>
+</FrameLayout>
