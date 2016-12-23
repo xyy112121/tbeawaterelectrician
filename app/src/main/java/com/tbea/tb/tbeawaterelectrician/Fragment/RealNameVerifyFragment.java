@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.RegisterActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomPopWindow;
 
 import java.io.File;
@@ -54,6 +55,13 @@ public class RealNameVerifyFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 showDialog(view);
+            }
+        });
+
+        view.findViewById(R.id.look_give_typical_examples_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((RegisterActivity)getActivity()).showGiveTypicalExamplesImage();
             }
         });
 

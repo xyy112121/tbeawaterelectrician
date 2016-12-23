@@ -1,71 +1,53 @@
 package com.tbea.tb.tbeawaterelectrician.fragment;
 
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tbea.tb.tbeawaterelectrician.R;
-import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
-import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
-import com.youth.banner.Transformer;
-//import com.youth.banner.loader.ImageLoader;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by cy on 2016/12/16.首页
+ * Created by cy on 2016/12/19.附近经销商
  */
 
-public class HomeFragment extends Fragment {
+public class NearbyFranchiserFagment extends LazyFragment {
+
+    private View view;
+    // 标志位，标志已经初始化完成。
+    private boolean isPrepared;
     private ListView mListView;
     private MyAdapter mAdapter;
 
-    @Nullable
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = (View)inflater.inflate(R.layout.fragment_home,null);
-        initView(view);
+        view = inflater.inflate(R.layout.fragment_nearby_franchiser_layout, container, false);
+        initUI();//实例化控件
+        isPrepared = true;
+        lazyLoad();//加载数据
+
         return view;
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        ((MainActivity)getActivity()).setTopShow();
-        super.onHiddenChanged(hidden);
-    }
-
-    private void initView(View view){
-        Integer[] images={R.drawable.icon_testpic1,R.drawable.icon_testpic3};
-        Banner banner = (Banner) view.findViewById(R.id.banner);
-        //设置banner样式
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-        //设置图片集合
-        banner.setImages(images);
-        //设置banner动画效果
-        banner.setBannerAnimation(Transformer.DepthPage);
-        //设置轮播时间
-//        banner.setDelayTime(1500);
-        //设置指示器位置（当banner模式中有指示器时）
-        banner.setIndicatorGravity(BannerConfig.CENTER);
-
-        mListView = (ListView)view.findViewById(R.id.home_list);
+    /**
+     * 实例化组件
+     */
+    private void initUI() {
+        ((TextView)view.findViewById(R.id.franchiser_search_condition1)).setText("全部类型");
+        ((TextView)view.findViewById(R.id.franchiser_search_condition2)).setText("全部品牌");
+        ((TextView)view.findViewById(R.id.franchiser_search_condition3)).setText("全部区域");
+        mListView = (ListView)view.findViewById(R.id.franchiser_select_list);
         mAdapter = new MyAdapter(getActivity());
         mListView.setAdapter(mAdapter);
-
     }
 
-    private class MyAdapter extends BaseAdapter{
+    private class MyAdapter extends BaseAdapter {
         /**
          * android 上下文环境
          */
@@ -83,7 +65,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 3;
+            return 14;
         }
 
         @Override
@@ -101,7 +83,7 @@ public class HomeFragment extends Fragment {
             LayoutInflater layoutInflater = (LayoutInflater) context
                     .getSystemService(context.LAYOUT_INFLATER_SERVICE);
             FrameLayout view = (FrameLayout) layoutInflater.inflate(
-                    R.layout.home_nearby_shop_layout, null);
+                    R.layout.fragment_nearby_franchiser_item_layout, null);
 
             return view;
         }
@@ -120,4 +102,13 @@ public class HomeFragment extends Fragment {
 
     }
 
+    /**
+     * 实现懒加载,当屏幕显示这个界面的时候才会触发次方法
+     */
+    @Override
+    protected void lazyLoad() {
+        if (isPrepared && isVisible) {
+
+        }
+    }
 }

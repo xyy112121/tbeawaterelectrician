@@ -132,6 +132,5 @@ public class TakeFragment extends Fragment {
             notifyDataSetChanged();
         }
 
-
     }
 }

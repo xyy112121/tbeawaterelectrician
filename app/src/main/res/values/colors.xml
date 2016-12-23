@@ -14,4 +14,8 @@
     <color name="tab_text_normal">#212121</color>
     <color name="red">#FF3333</color>
     <color name="btn_my_item_click">#334FC3F7</color>
+    <color name="blue3">#1B82D2</color>
+    <color name="blue4">#308DD6</color>
+    <color name="bottle_green">#B0D7D7</color>
+    <color name="pea_green">#CCE1F4</color>
 </resources>

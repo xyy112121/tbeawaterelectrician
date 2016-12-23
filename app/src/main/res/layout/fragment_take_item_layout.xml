@@ -16,8 +16,8 @@ android:orientation="vertical" android:layout_width="match_parent"
         >
         <com.tbea.tb.tbeawaterelectrician.component.CircleImageView
             android:id="@+id/take_item_head"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:src="@drawable/icon_testpic2"
             />
 
@@ -28,14 +28,14 @@ android:orientation="vertical" android:layout_width="match_parent"
             android:textColor="@color/gray"
             android:text="2016-08-08"
             android:layout_marginLeft="2dp"
-            android:textSize="14sp"/>
+            android:textSize="12sp"/>
 
         <TextView
             android:layout_toRightOf="@+id/take_item_head"
             android:id="@+id/take_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/blue"
+            android:textColor="@color/blue3"
             android:text="李聪"
             android:textSize="14sp"
            android:layout_centerVertical="true"
@@ -50,7 +50,7 @@ android:orientation="vertical" android:layout_width="match_parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:text="招聘文员啦啦啦啦啦"
+        android:text="招聘行政文员"
         android:layout_marginLeft="2dp"
         android:textSize="18sp"
         android:layout_marginTop="8dp"/>
@@ -66,7 +66,7 @@ android:orientation="vertical" android:layout_width="match_parent"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/gray"
+            android:textColor="@color/bottle_green"
             android:text="900m"
             android:layout_marginLeft="2dp"
             android:textSize="14sp"

@@ -33,10 +33,12 @@ public class RegisterActivity extends  TopActivity implements View.OnClickListen
     public  void initView(){
         TextView phoneView = (TextView)findViewById(R.id.register_phone_tv);
         TextView realNameView = (TextView)findViewById(R.id.register_real_name_verify_tv);
+
         Typeface iconfont = Typeface.createFromAsset(getAssets(),
                 "iconfont/iconfont.ttf");
         phoneView.setTypeface(iconfont);
         realNameView.setTypeface(iconfont);
+        ((TextView)findViewById(R.id.register_shili_image_cancel)).setTypeface(iconfont);
         phoneView.setOnClickListener(this);
         realNameView.setOnClickListener(this);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -45,6 +47,14 @@ public class RegisterActivity extends  TopActivity implements View.OnClickListen
         transaction.commit();
         mCurrentFragement = (Fragment) mRegisterPhoneFragement;
 
+        findViewById(R.id.register_shili_image_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                findViewById(R.id.body_bg_view2).setVisibility(View.GONE);
+                findViewById(R.id.regist_shili_image_2).setVisibility(View.GONE);
+                findViewById(R.id.register_shili_image_cancel).setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -101,5 +111,12 @@ public class RegisterActivity extends  TopActivity implements View.OnClickListen
             transaction.addToBackStack(null);
             transaction.commit();
         }
+    }
+
+    //显示示例图片
+    public void showGiveTypicalExamplesImage(){
+        findViewById(R.id.body_bg_view2).setVisibility(View.VISIBLE);
+        findViewById(R.id.regist_shili_image_2).setVisibility(View.VISIBLE);
+        findViewById(R.id.register_shili_image_cancel).setVisibility(View.VISIBLE);
     }
 }

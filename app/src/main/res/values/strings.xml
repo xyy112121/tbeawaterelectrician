@@ -4,4 +4,5 @@
     <string name="title_register_phone">&#xe643; 注册手机号</string>
     <string name="real_name_authentication">&#xe626; 实名认证</string>
     <string name="look_give_typical_examples_image">查看示例图片 &#xe600; </string>
+    <string name="cancel">&#xe613;</string>
 </resources>

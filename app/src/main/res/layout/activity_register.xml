@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <include layout="@layout/activity_page_top"/>
     <LinearLayout
         android:baselineAligned="false"
@@ -68,9 +72,35 @@
             android:layout_height="match_parent"
             android:background="#6000"
             android:visibility="gone" />
+
     </RelativeLayout>
+    </LinearLayout>
+    <View
+        android:id="@+id/body_bg_view2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#6000"
+        android:visibility="gone"
+        />
+    <ImageView
+        android:id="@+id/regist_shili_image_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_shili2"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/register_shili_image_cancel"
+        android:layout_below="@id/regist_shili_image_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="@string/cancel"
+        android:textSize="20sp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"/>
 
 
 
-
-</LinearLayout>
+</RelativeLayout>

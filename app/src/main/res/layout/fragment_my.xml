@@ -75,7 +75,7 @@
                     android:drawableEnd="@drawable/icon_arrow_right"
                     android:drawablePadding="10dp"
                     android:text="1455.0"
-                    android:textColor="#C6C6C1"
+                    android:textColor="#6B6B6B"
                     android:textSize="16sp" />
             </RelativeLayout>
             <RelativeLayout
@@ -102,7 +102,7 @@
                     android:drawableEnd="@drawable/icon_arrow_right"
                     android:drawablePadding="10dp"
                     android:text="查看全部订单"
-                    android:textColor="#C6C6C1"
+                    android:textColor="#6B6B6B"
                     android:textSize="16sp" />
             </RelativeLayout>
             <View style="@style/horizontal_view" />
@@ -130,7 +130,7 @@
                     android:drawableEnd="@drawable/icon_arrow_right"
                     android:drawablePadding="10dp"
                     android:text="5条未读"
-                    android:textColor="#C6C6C1"
+                    android:textColor="#6B6B6B"
                     android:textSize="16sp" />
             </RelativeLayout>
             <View style="@style/horizontal_view" />
@@ -147,7 +147,7 @@
                     style="@style/my_text_style"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/icon_collect"
-                    android:text="我的消息" />
+                    android:text="我的收藏" />
 
                 <TextView
                     android:id="@+id/tv_collect_size"
@@ -158,7 +158,7 @@
                     android:drawableEnd="@drawable/icon_arrow_right"
                     android:drawablePadding="10dp"
                     android:text="0"
-                    android:textColor="#C6C6C1"
+                    android:textColor="#6B6B6B"
                     android:textSize="16sp" />
             </RelativeLayout>
 
@@ -176,7 +176,7 @@
                     style="@style/my_text_style"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/icon_service"
-                    android:text="我的消息" />
+                    android:text="客服中心" />
 
                 <TextView
                     android:id="@+id/tv_service_size"
@@ -187,7 +187,7 @@
                     android:drawableEnd="@drawable/icon_arrow_right"
                     android:drawablePadding="10dp"
                     android:text=""
-                    android:textColor="#C6C6C1"
+                    android:textColor="#6B6B6B"
                     android:textSize="16sp" />
             </RelativeLayout>
             <View style="@style/horizontal_view" />
@@ -215,7 +215,7 @@
                     android:drawableEnd="@drawable/icon_arrow_right"
                     android:drawablePadding="10dp"
                     android:text=""
-                    android:textColor="#C6C6C1"
+                    android:textColor="#6B6B6B"
                     android:textSize="16sp" />
             </RelativeLayout>
         </LinearLayout>

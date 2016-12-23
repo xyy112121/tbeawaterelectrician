@@ -239,8 +239,10 @@
                         android:id="@+id/look_give_typical_examples_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/look_give_typical_examples_image"
-                        android:textColor="@color/blue"
+                        android:text="查看示例图片"
+                        android:textColor="@color/blue4"
+                        android:drawableRight="@drawable/icon_shili"
+                        android:drawablePadding="5dp"
                         android:layout_marginTop="5dp"/>
 
                 </LinearLayout>
