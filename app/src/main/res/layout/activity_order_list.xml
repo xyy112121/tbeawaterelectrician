@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color">
+    <include layout="@layout/activity_page_top"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/bg_color">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/bg_color">
+
+            <LinearLayout
+                android:id="@+id/id_tab01"
+               style="@style/order_top_layout"
+                >
+
+                <TextView
+                    android:id="@+id/id_tab01_info"
+                    style="@style/order_top_text"
+                    android:text="全部"
+                     />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/id_tab02"
+                style="@style/order_top_layout"
+               >
+
+                <TextView
+                    android:id="@+id/id_tab02_info"
+                    style="@style/order_top_text"
+                    android:text="待发货"
+                     />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/id_tab03"
+                style="@style/order_top_layout"
+                >
+
+                <TextView
+                    android:id="@+id/id_tab03_info"
+                    style="@style/order_top_text"
+                    android:text="待收货"
+                   />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/id_tab04"
+                style="@style/order_top_layout"
+                >
+
+                <TextView
+                    android:id="@+id/id_tab04_info"
+                    style="@style/order_top_text"
+                    android:text="待付款"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/id_tab05"
+                style="@style/order_top_layout"
+               >
+
+                <TextView
+                    android:id="@+id/id_tab05_info"
+                    style="@style/order_top_text"
+                    android:text="待评价"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/id_tab_line"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_lineblue"
+            />
+
+    </LinearLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/id_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

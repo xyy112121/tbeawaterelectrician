@@ -65,6 +65,12 @@ public class NearbyFragment extends android.app.Fragment {
         return view;
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        ((MainActivity)getActivity()).setTopShow();
+        super.onHiddenChanged(hidden);
+    }
+
     /**
      * 根据屏幕的宽度，初始化引导线的宽度
      */
