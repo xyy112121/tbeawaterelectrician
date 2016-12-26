@@ -1,16 +1,17 @@
-package com.tbea.tb.tbeawaterelectrician.activity;
+package com.tbea.tb.tbeawaterelectrician.activity.account;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
+
+import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.fragment.RealNameVerifyFragment;
 import com.tbea.tb.tbeawaterelectrician.fragment.RegisterPhoneFragment;
-import com.tbea.tb.tbeawaterelectrician.R;
 
 /**
  * Created by abc on 16/12/15.注册页面

@@ -1,4 +1,4 @@
-package com.tbea.tb.tbeawaterelectrician.activity.order;
+package com.tbea.tb.tbeawaterelectrician.activity.my;
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -11,13 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tbea.tb.tbeawaterelectrician.Fragment.my.OrderListFragmnet;
+import com.tbea.tb.tbeawaterelectrician.Fragment.nearby.FragmentAdapter;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
-import com.tbea.tb.tbeawaterelectrician.fragment.FragmentAdapter;
-import com.tbea.tb.tbeawaterelectrician.fragment.NearbyFranchiserFagment;
-import com.tbea.tb.tbeawaterelectrician.fragment.NearbyPurchaseFragment;
-import com.tbea.tb.tbeawaterelectrician.fragment.NearbyShopFragment;
-import com.tbea.tb.tbeawaterelectrician.fragment.OrderListFragmnet;
 
 import java.util.ArrayList;
 import java.util.List;

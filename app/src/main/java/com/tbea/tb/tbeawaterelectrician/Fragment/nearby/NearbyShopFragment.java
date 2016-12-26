@@ -1,4 +1,4 @@
-package com.tbea.tb.tbeawaterelectrician.fragment;
+package com.tbea.tb.tbeawaterelectrician.Fragment.nearby;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,10 +12,10 @@ import android.widget.ListView;
 import com.tbea.tb.tbeawaterelectrician.R;
 
 /**
- * Created by cy on 2016/12/19.附近采购
+ * Created by cy on 2016/12/19.附近商家
  */
 
-public class NearbyPurchaseFragment extends LazyFragment {
+public class NearbyShopFragment extends LazyFragment {
     private View view;
     // 标志位，标志已经初始化完成。
     private boolean isPrepared;
@@ -76,7 +76,7 @@ public class NearbyPurchaseFragment extends LazyFragment {
             LayoutInflater layoutInflater = (LayoutInflater) context
                     .getSystemService(context.LAYOUT_INFLATER_SERVICE);
             FrameLayout view = (FrameLayout) layoutInflater.inflate(
-                    R.layout.fragment_nearby_purchase_item_layout, null);
+                    R.layout.fragment_nearby_franchiser_item_layout, null);
 
             return view;
         }

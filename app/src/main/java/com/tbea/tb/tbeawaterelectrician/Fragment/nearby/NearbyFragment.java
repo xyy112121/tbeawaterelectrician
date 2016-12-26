@@ -1,4 +1,4 @@
-package com.tbea.tb.tbeawaterelectrician.fragment;
+package com.tbea.tb.tbeawaterelectrician.Fragment.nearby;
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -83,7 +83,7 @@ public class NearbyFragment extends android.app.Fragment {
         screenWidth = outMetrics.widthPixels;
 
         //获取控件的LayoutParams参数(注意：一定要用父控件的LayoutParams写LinearLayout.LayoutParams)
-        LinearLayout.LayoutParams lp = (android.widget.LinearLayout.LayoutParams) mTabLine.getLayoutParams();
+        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mTabLine.getLayoutParams();
         lp.width = screenWidth / 3;//设置该控件的layoutParams参数
         mTabLine.setLayoutParams(lp);//将修改好的layoutParams设置为该控件的layoutParams
     }
@@ -147,7 +147,7 @@ public class NearbyFragment extends android.app.Fragment {
 
         //当前页面被滑动时调用
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            LinearLayout.LayoutParams lp = (android.widget.LinearLayout.LayoutParams) mTabLine.getLayoutParams();
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mTabLine.getLayoutParams();
             //返回组件距离左侧组件的距离
             lp.leftMargin = (int) ((positionOffset + position) * screenWidth / 3);
             mTabLine.setLayoutParams(lp);

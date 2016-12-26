@@ -1,4 +1,4 @@
-package com.tbea.tb.tbeawaterelectrician.fragment;
+package com.tbea.tb.tbeawaterelectrician.Fragment.my;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,15 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.tbea.tb.tbeawaterelectrician.Fragment.nearby.LazyFragment;
 import com.tbea.tb.tbeawaterelectrician.R;
 
 /**
- * Created by cy on 2016/12/19.附近商家
+ * Created by abc on 16/12/24.
  */
 
-public class NearbyShopFragment extends LazyFragment {
+public class OrderListFragmnet extends LazyFragment {
     private View view;
     // 标志位，标志已经初始化完成。
     private boolean isPrepared;
@@ -23,7 +25,7 @@ public class NearbyShopFragment extends LazyFragment {
     private MyAdapter mAdapter;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_nearby_franchiser_layout, container, false);
+        view = inflater.inflate(R.layout.fragment_order_list, container, false);
         initUI();//实例化控件
         isPrepared = true;
         lazyLoad();//加载数据
@@ -35,7 +37,7 @@ public class NearbyShopFragment extends LazyFragment {
      * 实例化组件
      */
     private void initUI() {
-        mListView = (ListView)view.findViewById(R.id.franchiser_select_list);
+        mListView = (ListView)view.findViewById(R.id.order_listview);
         mAdapter = new MyAdapter(getActivity());
         mListView.setAdapter(mAdapter);
     }
@@ -76,8 +78,22 @@ public class NearbyShopFragment extends LazyFragment {
             LayoutInflater layoutInflater = (LayoutInflater) context
                     .getSystemService(context.LAYOUT_INFLATER_SERVICE);
             FrameLayout view = (FrameLayout) layoutInflater.inflate(
-                    R.layout.fragment_nearby_franchiser_item_layout, null);
+                    R.layout.fragment_order_list_item, null);
+            FrameLayout layout = (FrameLayout)layoutInflater.inflate(R.layout.fragment_order_list_item1,null);
+            LinearLayout parentsLayout = (LinearLayout)view.findViewById(R.id.item_goods_layout);
+            parentsLayout.removeAllViews();
+//            if(position == 2){
+//                parentsLayout.addView(layout);
+//                parentsLayout.addView(layout);
+//            }
+//
+//            if(position == 3){
+//                parentsLayout.addView(layout);
+//                parentsLayout.addView(layout);
+//                parentsLayout.addView(layout);
+//            }
 
+            parentsLayout.addView(layout);
             return view;
         }
 
