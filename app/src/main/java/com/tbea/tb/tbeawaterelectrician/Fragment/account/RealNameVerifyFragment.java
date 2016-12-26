@@ -1,11 +1,7 @@
-package com.tbea.tb.tbeawaterelectrician.fragment;
+package com.tbea.tb.tbeawaterelectrician.Fragment.account;
 
-import android.Manifest;
-import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,8 +13,6 @@ import android.widget.TextView;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.RegisterActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomPopWindow;
-
-import java.io.File;
 
 /**
  * Created by abc on 16/12/15. 实名认证注册

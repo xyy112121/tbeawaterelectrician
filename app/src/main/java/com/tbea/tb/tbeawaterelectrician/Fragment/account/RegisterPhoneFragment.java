@@ -1,4 +1,4 @@
-package com.tbea.tb.tbeawaterelectrician.fragment;
+package com.tbea.tb.tbeawaterelectrician.Fragment.account;
 
 
 import android.os.Bundle;
@@ -32,7 +32,7 @@ public class RegisterPhoneFragment extends Fragment {
                 if(activity.mRealNameVerifyFragment == null){
                     activity.mRealNameVerifyFragment = new RealNameVerifyFragment();
                 }
-                ((RegisterActivity)getActivity()).switchFragment(RegisterPhoneFragment.this,activity.mRealNameVerifyFragment,"");
+                ((RegisterActivity)getActivity()).switchFragment(com.tbea.tb.tbeawaterelectrician.fragment.RegisterPhoneFragment.this,activity.mRealNameVerifyFragment,"");
             }
         });
 
