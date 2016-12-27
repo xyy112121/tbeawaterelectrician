@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.OrderListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.SetionActivity;
 
 /**
  * Created by abc on 16/12/18.
@@ -34,6 +35,12 @@ public class MyFragment extends Fragment {
             }
         });
 
+        view.findViewById(R.id.image_set).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), SetionActivity.class));
+            }
+        });
     }
 
     @Override

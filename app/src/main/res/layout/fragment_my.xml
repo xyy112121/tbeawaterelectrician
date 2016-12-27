@@ -12,44 +12,60 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/fragment_mian_account_layout"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@color/blue"
-                android:gravity="center"
-                android:orientation="vertical"
-                >
-
-                <com.tbea.tb.tbeawaterelectrician.component.CircleImageView
-                    android:id="@+id/title_logo_img"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/icon_head"
-                    app:border_color="#FFF"
-                    app:border_width="4dp" />
-
-
-
-                <TextView
-                    android:id="@+id/user_name"
+                android:layout_height="240dp"
+                android:background="@color/blue">
+                <ImageView
+                    android:id="@+id/image_set"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#FFF"
-                    android:textSize="14sp"
-                    android:text="刘师傅"
-                    android:layout_marginTop="5dp"/>
+                    android:src="@drawable/icon_seticon"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingLeft="15dp"
+                    />
+                <LinearLayout
+                    android:layout_below="@id/image_set"
+                    android:id="@+id/fragment_mian_account_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@color/blue"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    >
+                    <com.tbea.tb.tbeawaterelectrician.component.CircleImageView
+                        android:id="@+id/title_logo_img"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/icon_head"
+                        app:border_color="#FFF"
+                        app:border_width="4dp" />
 
-                <TextView
-                    android:id="@+id/user_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#FFF"
-                    android:textSize="14sp"
-                    android:text="13818181616"
-                    android:layout_marginTop="5dp"/>
-            </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFF"
+                        android:textSize="14sp"
+                        android:text="刘师傅"
+                        android:layout_marginTop="5dp"/>
+
+                    <TextView
+                        android:id="@+id/user_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFF"
+                        android:textSize="14sp"
+                        android:text="13818181616"
+                        android:layout_marginTop="5dp"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+
 
 
 

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.fragment.nearby.CompanyDynamicsFragment;
 import com.tbea.tb.tbeawaterelectrician.fragment.nearby.NearbyPurchaseFragment;
 
 /**
@@ -16,8 +17,10 @@ import com.tbea.tb.tbeawaterelectrician.fragment.nearby.NearbyPurchaseFragment;
  */
 
 public class FranchiserViewActivity extends TopActivity {
-    public Fragment mCurrentFragment;
-    public NearbyPurchaseFragment mNearbyPurchaseFragment;
+    private Fragment mCurrentFragment;
+    private NearbyPurchaseFragment mNearbyPurchaseFragment;
+    private CompanyDynamicsFragment mCompanyDynamicsFragment;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,23 +33,34 @@ public class FranchiserViewActivity extends TopActivity {
         }
         switchFragment(mCurrentFragment,mNearbyPurchaseFragment,"");
         mCurrentFragment = mNearbyPurchaseFragment;
-        setViewGone();
-    }
-
-    private void setViewGone(){
-        mNearbyPurchaseFragment.setViewGone();
     }
 
     private void listener(){
         findViewById(R.id.fragment_view_all_goods_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                findViewById(R.id.franchiser_goods_search_condition_view).setVisibility(View.VISIBLE);
+                findViewById(R.id.franchiser_goods_search_condition_layout).setVisibility(View.VISIBLE);
                 setCompaySearchTextColor(R.id.fragment_view_all_goods_size,R.id.fragment_view_all_goods_tv);
                 if(mNearbyPurchaseFragment == null){
                     mNearbyPurchaseFragment = new NearbyPurchaseFragment();
                 }
                 switchFragment(mCurrentFragment,mNearbyPurchaseFragment,"");
                 mCurrentFragment = mNearbyPurchaseFragment;
+            }
+        });
+
+        findViewById(R.id.fragment_view_company_dynamics_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setCompaySearchTextColor(R.id.fragment_view_company_dynamics_size,R.id.fragment_view_company_dynamics_tv);
+                findViewById(R.id.franchiser_goods_search_condition_layout).setVisibility(View.GONE);
+                findViewById(R.id.franchiser_goods_search_condition_view).setVisibility(View.GONE);
+                if(mCompanyDynamicsFragment == null){
+                    mCompanyDynamicsFragment = new CompanyDynamicsFragment();
+                }
+                switchFragment(mCurrentFragment,mCompanyDynamicsFragment,"");
+                mCurrentFragment = mCompanyDynamicsFragment;
             }
         });
     }

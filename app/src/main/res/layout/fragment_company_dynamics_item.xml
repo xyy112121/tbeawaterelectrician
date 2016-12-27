@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11分钟前"
+            android:drawableLeft="@drawable/icon_bell"
+            android:drawablePadding="10dp"
+            android:textColor="@color/text_gray"/>
+        <View
+           style="@style/horizontal_view"
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今天购买的产品全部5折，今天购买的产品全部5折，今天购买的产品全部5折，今天购买的产品全部5折，今天购买的产品全部5折，今天购买的产品全部5折，今天购买的产品全部5折。"
+            android:textColor="@color/black"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
+
+</FrameLayout>

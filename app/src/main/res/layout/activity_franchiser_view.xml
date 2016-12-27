@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dip"
         android:src="@drawable/icon_advertisement"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY"
+        android:layout_marginTop="10dp"/>
     <View
         style="@style/horizontal_view"
         android:layout_marginTop="20dp"/>
@@ -122,8 +123,10 @@
             </LinearLayout>
         </LinearLayout>
         <View
+            android:id="@+id/franchiser_goods_search_condition_view"
             style="@style/horizontal_view"/>
     <RelativeLayout
+        android:id="@+id/franchiser_goods_search_condition_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_color">

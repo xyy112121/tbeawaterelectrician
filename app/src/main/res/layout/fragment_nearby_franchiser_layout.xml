@@ -113,6 +113,7 @@
         </RelativeLayout>
     </LinearLayout>
     <View
+        android:id="@+id/franchiser_search_condition_view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#C4C4C4" />
