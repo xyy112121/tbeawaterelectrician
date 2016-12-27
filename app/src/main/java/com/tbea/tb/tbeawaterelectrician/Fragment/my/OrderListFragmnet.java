@@ -1,4 +1,4 @@
-package com.tbea.tb.tbeawaterelectrician.Fragment.my;
+package com.tbea.tb.tbeawaterelectrician.fragment.my;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.tbea.tb.tbeawaterelectrician.Fragment.nearby.LazyFragment;
+import com.tbea.tb.tbeawaterelectrician.fragment.nearby.LazyFragment;
 import com.tbea.tb.tbeawaterelectrician.R;
 
 /**

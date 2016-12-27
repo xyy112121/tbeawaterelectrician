@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
+    android:background="#EFF0F1"
     android:orientation="vertical"
     >
 
@@ -11,8 +11,10 @@
         android:layout_height="match_parent"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginTop="2dp"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:background="#EFF0F1">
 
         <LinearLayout
             android:layout_width="match_parent"

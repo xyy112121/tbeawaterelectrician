@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tbea.tb.tbeawaterelectrician.Fragment.my.OrderListFragmnet;
-import com.tbea.tb.tbeawaterelectrician.Fragment.nearby.FragmentAdapter;
+import com.tbea.tb.tbeawaterelectrician.fragment.my.OrderListFragmnet;
+import com.tbea.tb.tbeawaterelectrician.fragment.nearby.FragmentAdapter;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 

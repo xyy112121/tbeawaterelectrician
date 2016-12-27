@@ -1,4 +1,4 @@
-package com.tbea.tb.tbeawaterelectrician.Fragment.nearby;
+package com.tbea.tb.tbeawaterelectrician.fragment.nearby;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

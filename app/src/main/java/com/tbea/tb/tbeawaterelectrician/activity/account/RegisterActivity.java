@@ -8,10 +8,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
+import com.tbea.tb.tbeawaterelectrician.fragment.account.RealNameVerifyFragment;
+import com.tbea.tb.tbeawaterelectrician.fragment.account.RegisterPhoneFragment;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
-import com.tbea.tb.tbeawaterelectrician.fragment.RealNameVerifyFragment;
-import com.tbea.tb.tbeawaterelectrician.fragment.RegisterPhoneFragment;
 
 /**
  * Created by abc on 16/12/15.注册页面

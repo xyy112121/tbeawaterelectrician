@@ -16,13 +16,13 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.component.MainNavigateTabBar;
 import com.tbea.tb.tbeawaterelectrician.fragment.HomeFragment;
-import com.tbea.tb.tbeawaterelectrician.fragment.MyFragment;
-import com.tbea.tb.tbeawaterelectrician.fragment.NearbyFragment;
-import com.tbea.tb.tbeawaterelectrician.fragment.TakeFragment;
+import com.tbea.tb.tbeawaterelectrician.fragment.my.MyFragment;
+import com.tbea.tb.tbeawaterelectrician.fragment.nearby.NearbyFragment;
+import com.tbea.tb.tbeawaterelectrician.fragment.thenLive.TakeFragment;
 
 import kr.co.namee.permissiongen.PermissionFail;
 import kr.co.namee.permissiongen.PermissionGen;
-import kr.co.namee.permissiongen.PermissionSuccess;
+
 
 public class MainActivity extends TopActivity {
     private MainNavigateTabBar mNavigateTabBar;

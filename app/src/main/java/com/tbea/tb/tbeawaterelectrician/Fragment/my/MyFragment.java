@@ -1,4 +1,4 @@
-package com.tbea.tb.tbeawaterelectrician.Fragment.my;
+package com.tbea.tb.tbeawaterelectrician.fragment.my;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
-import com.tbea.tb.tbeawaterelectrician.activity.order.OrderListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.OrderListActivity;
 
 /**
  * Created by abc on 16/12/18.

@@ -1,4 +1,4 @@
-package com.tbea.tb.tbeawaterelectrician.Fragment.thenLive;
+package com.tbea.tb.tbeawaterelectrician.fragment.thenLive;
 
 import android.app.Fragment;
 import android.content.Context;

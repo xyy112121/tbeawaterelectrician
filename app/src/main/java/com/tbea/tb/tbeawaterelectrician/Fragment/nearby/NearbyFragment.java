@@ -1,4 +1,4 @@
-package com.tbea.tb.tbeawaterelectrician.Fragment.nearby;
+package com.tbea.tb.tbeawaterelectrician.fragment.nearby;
 
 import android.content.res.Resources;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.tbea.tb.tbeawaterelectrician.Fragment.account;
+package com.tbea.tb.tbeawaterelectrician.fragment.account;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
-import com.tbea.tb.tbeawaterelectrician.activity.RegisterActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.account.RegisterActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomPopWindow;
 
 /**

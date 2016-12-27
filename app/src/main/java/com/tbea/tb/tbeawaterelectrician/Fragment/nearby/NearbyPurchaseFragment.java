@@ -1,4 +1,4 @@
-package com.tbea.tb.tbeawaterelectrician.Fragment.nearby;
+package com.tbea.tb.tbeawaterelectrician.fragment.nearby;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -29,6 +29,10 @@ public class NearbyPurchaseFragment extends LazyFragment {
         lazyLoad();//加载数据
 
         return view;
+    }
+
+    public void setViewGone(){
+        view.findViewById(R.id.franchiser_search_condition_layout).setVisibility(View.GONE);
     }
 
     /**

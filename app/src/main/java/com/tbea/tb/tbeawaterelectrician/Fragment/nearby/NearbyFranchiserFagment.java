@@ -1,17 +1,20 @@
-package com.tbea.tb.tbeawaterelectrician.Fragment.nearby;
+package com.tbea.tb.tbeawaterelectrician.fragment.nearby;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.nearby.FranchiserViewActivity;
 
 /**
  * Created by cy on 2016/12/19.附近经销商
@@ -30,8 +33,18 @@ public class NearbyFranchiserFagment extends LazyFragment {
         initUI();//实例化控件
         isPrepared = true;
         lazyLoad();//加载数据
-
+        listener();
         return view;
+    }
+
+    private void listener(){
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(new Intent(getActivity(),FranchiserViewActivity.class));
+            }
+        });
+
     }
 
     /**

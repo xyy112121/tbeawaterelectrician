@@ -1,4 +1,4 @@
-package com.tbea.tb.tbeawaterelectrician.Fragment.account;
+package com.tbea.tb.tbeawaterelectrician.fragment.account;
 
 
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tbea.tb.tbeawaterelectrician.R;
-import com.tbea.tb.tbeawaterelectrician.activity.RegisterActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.account.RegisterActivity;
 
 /**
  * Created by abc on 16/12/15.手机号注册
@@ -32,7 +32,7 @@ public class RegisterPhoneFragment extends Fragment {
                 if(activity.mRealNameVerifyFragment == null){
                     activity.mRealNameVerifyFragment = new RealNameVerifyFragment();
                 }
-                ((RegisterActivity)getActivity()).switchFragment(com.tbea.tb.tbeawaterelectrician.fragment.RegisterPhoneFragment.this,activity.mRealNameVerifyFragment,"");
+                ((RegisterActivity)getActivity()).switchFragment(RegisterPhoneFragment.this,activity.mRealNameVerifyFragment,"");
             }
         });
 
