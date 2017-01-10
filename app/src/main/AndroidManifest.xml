@@ -28,12 +28,15 @@
         android:screenOrientation="portrait" />
         <activity android:name=".activity.my.OrderListActivity"
             android:screenOrientation="portrait" />
-
+        <activity android:name=".activity.my.MyInformationActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.nearby.FranchiserViewActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.my.SetionActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.my.AccountSafeActivity"
             android:screenOrientation="portrait" />
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->

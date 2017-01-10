@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:textColor="@color/black"
-                android:text="成都以隆商贸有限公司"
+                android:text="特变科技公司"
                 android:drawableRight="@drawable/icon_arrow_right"
                 android:drawablePadding="10dp"
                 android:textSize="14sp"/>

@@ -12,6 +12,7 @@
         android:layout_marginTop="15dp">
 
         <TextView
+            android:id="@+id/set_my_info"
             android:text="个人信息"
             style="@style/setion_text"/>
         <View
@@ -32,6 +33,7 @@
         <View
             style="@style/horizontal_view"/>
         <TextView
+            android:id="@+id/set_my_account_safe"
             android:text="账户安全"
             style="@style/setion_text"/>
     </LinearLayout>

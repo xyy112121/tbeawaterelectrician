@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color">
+    <include layout="@layout/activity_page_top"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/my_select_btn"
+        android:paddingRight="10dp" >
+
+        <TextView
+            style="@style/my_text_style"
+            android:layout_height="wrap_content"
+            android:text="头像"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:layout_toLeftOf="@+id/info_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/icon_arrow_right"/>
+
+        <com.tbea.tb.tbeawaterelectrician.component.CircleImageView
+            android:id="@id/info_head"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:src="@drawable/icon_head"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    <View style="@style/horizontal_view"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/my_select_btn"
+        android:paddingRight="10dp" >
+
+        <TextView
+            style="@style/my_text_style"
+            android:layout_height="wrap_content"
+            android:text="性别" />
+
+        <TextView
+            style="@style/my_right_text_style"
+            android:text="男"
+            />
+    </RelativeLayout>
+    <View style="@style/horizontal_view"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/my_select_btn"
+        android:paddingRight="10dp" >
+
+        <TextView
+            style="@style/my_text_style"
+            android:layout_height="wrap_content"
+            android:text="生日" />
+
+        <TextView
+            style="@style/my_right_text_style"
+            android:text="1993-11-11"
+            />
+    </RelativeLayout>
+    <View style="@style/horizontal_view"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/my_select_btn"
+        android:paddingRight="10dp" >
+
+        <TextView
+            style="@style/my_text_style"
+            android:layout_height="wrap_content"
+            android:text="电子邮件" />
+
+        <TextView
+            style="@style/my_right_text_style"
+            android:text="27277@qq.com"
+            />
+    </RelativeLayout>
+    <View style="@style/horizontal_view"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/my_select_btn"
+        android:paddingRight="10dp" >
+
+        <TextView
+            style="@style/my_text_style"
+            android:layout_height="wrap_content"
+            android:text="收货地址管理" />
+
+        <TextView
+            style="@style/my_right_text_style"
+            android:text="添加/修改"
+             />
+    </RelativeLayout>
+    <View style="@style/horizontal_view"/>
+
+</LinearLayout>

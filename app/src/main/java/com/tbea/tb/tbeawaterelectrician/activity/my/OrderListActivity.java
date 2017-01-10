@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by abc on 16/12/24.
+ * Created by abc on 16/12/24.订单列表
  */
 
 public class OrderListActivity extends TopActivity {
@@ -53,6 +53,7 @@ public class OrderListActivity extends TopActivity {
         super.onCreate(savedInstanceState);
         try{
             setContentView(R.layout.activity_order_list);
+            initTopbar("我的订单");
             res = getResources();
 
             initView();

@@ -51,7 +51,6 @@
         android:ellipsize="end"
         android:maxEms="4"
         android:singleLine="true"
-        android:text="昆明 "
         android:textColor="#fff"
         android:textSize="18sp"
         android:visibility="gone" />

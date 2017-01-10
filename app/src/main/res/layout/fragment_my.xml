@@ -84,15 +84,8 @@
 
                 <TextView
                     android:id="@+id/tv_wallet_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:drawableEnd="@drawable/icon_arrow_right"
-                    android:drawablePadding="10dp"
-                    android:text="1455.0"
-                    android:textColor="#6B6B6B"
-                    android:textSize="16sp" />
+                    style="@style/my_right_text_style"
+                    android:text="1455.0" />
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/my_orader"
@@ -110,16 +103,9 @@
                     android:text="我的订单" />
 
                 <TextView
-                    android:id="@+id/tv_medical_records_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:drawableEnd="@drawable/icon_arrow_right"
-                    android:drawablePadding="10dp"
-                    android:text="查看全部订单"
-                    android:textColor="#6B6B6B"
-                    android:textSize="16sp" />
+                    android:id="@+id/tv_order_size"
+                    style="@style/my_right_text_style"
+                    android:text="查看全部订单" />
             </RelativeLayout>
             <View style="@style/horizontal_view" />
             <RelativeLayout
@@ -139,15 +125,9 @@
 
                 <TextView
                     android:id="@+id/tv_message_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:drawableEnd="@drawable/icon_arrow_right"
-                    android:drawablePadding="10dp"
+                    style="@style/my_right_text_style"
                     android:text="5条未读"
-                    android:textColor="#6B6B6B"
-                    android:textSize="16sp" />
+                   />
             </RelativeLayout>
             <View style="@style/horizontal_view" />
             <RelativeLayout
@@ -167,15 +147,9 @@
 
                 <TextView
                     android:id="@+id/tv_collect_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:drawableEnd="@drawable/icon_arrow_right"
-                    android:drawablePadding="10dp"
+                    style="@style/my_right_text_style"
                     android:text="0"
-                    android:textColor="#6B6B6B"
-                    android:textSize="16sp" />
+                    />
             </RelativeLayout>
 
             <RelativeLayout
@@ -195,16 +169,7 @@
                     android:text="客服中心" />
 
                 <TextView
-                    android:id="@+id/tv_service_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:drawableEnd="@drawable/icon_arrow_right"
-                    android:drawablePadding="10dp"
-                    android:text=""
-                    android:textColor="#6B6B6B"
-                    android:textSize="16sp" />
+                    style="@style/my_right_text_style"/>
             </RelativeLayout>
             <View style="@style/horizontal_view" />
             <RelativeLayout
@@ -223,16 +188,7 @@
                     android:text="关于优商" />
 
                 <TextView
-                    android:id="@+id/tv_about_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:drawableEnd="@drawable/icon_arrow_right"
-                    android:drawablePadding="10dp"
-                    android:text=""
-                    android:textColor="#6B6B6B"
-                    android:textSize="16sp" />
+                    style="@style/my_right_text_style" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
