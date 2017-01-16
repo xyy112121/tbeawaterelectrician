@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+	android:gravity="center"
+    android:orientation="horizontal" >
+
+    <ProgressBar
+        android:indeterminateDrawable="@drawable/tip_drawable_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tip_wait_dialog_text"
+        android:layout_marginLeft="10dp"
+        android:textColor="#0079FF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="正在加载,请稍等..."
+        />
+
+</LinearLayout>
