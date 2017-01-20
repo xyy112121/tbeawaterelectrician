@@ -24,14 +24,14 @@ import java.util.List;
  */
 
 public class OrderListActivity extends TopActivity {
-    //顶部三个LinearLayout
+    //顶部5个LinearLayout
     private LinearLayout mTab01;
     private LinearLayout mTab02;
     private LinearLayout mTab03;
     private LinearLayout mTab04;
     private LinearLayout mTab05;
 
-    //顶部的三个TextView
+    //顶部的5个TextView
     private TextView id_tab01_info;
     private TextView id_tab02_info;
     private TextView id_tab03_info;

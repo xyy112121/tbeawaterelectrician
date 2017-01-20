@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 
 import com.tbea.tb.tbeawaterelectrician.entity.UserInfo2;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class MyApplication extends Application  {
 	public void onCreate() {
 		super.onCreate();
 		instance=this;
+		ZXingLibrary.initDisplayOpinion(this);
 //		ImageLoaderUtil.initImageLoader(this);
 //		//百度定位
 //		mLocationClient = new LocationClient(getApplicationContext());

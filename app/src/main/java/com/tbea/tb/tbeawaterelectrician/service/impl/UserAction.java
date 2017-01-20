@@ -1,5 +1,10 @@
 package com.tbea.tb.tbeawaterelectrician.service.impl;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+import com.tbea.tb.tbeawaterelectrician.entity.UserInfo2;
 import com.tbea.tb.tbeawaterelectrician.http.MD5Util;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 
@@ -27,7 +32,7 @@ public class UserAction extends BaseAction {
         pairs.add(new BasicNameValuePair("mobilenumber", phone));
         pairs.add(new BasicNameValuePair("userpas", MD5Util.getMD5String(pwd)));
         String result = sendRequest("TBEAENG001001004000",pairs);
-        rspInfo = gson.fromJson(result,RspInfo.class);
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<UserInfo2>>(){}.getType());
         return  rspInfo;
 
     }

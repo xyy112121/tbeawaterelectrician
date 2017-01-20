@@ -32,9 +32,27 @@
             android:text="物流提示信息在这里显示"
             android:textColor="@color/red"
             android:textSize="14sp"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/scancode_prompt"/>
     </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:layout_marginTop="10dp">
 
+        <com.tbea.tb.tbeawaterelectrician.component.UnderLineLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/underline_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:line_margin_side="30dp"
+            app:line_dynamic_dimen="8dp"
+            android:orientation="vertical"
+            android:background="@android:color/white">
+
+        </com.tbea.tb.tbeawaterelectrician.component.UnderLineLinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

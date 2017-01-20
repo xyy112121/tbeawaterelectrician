@@ -1,18 +1,16 @@
 package com.tbea.tb.tbeawaterelectrician.http;
 
-public class RspInfo {
-	public Object data;
+import com.tbea.tb.tbeawaterelectrician.entity.UserInfo2;
+
+import java.util.Map;
+
+public class RspInfo<T> {
+	public Map<String,T> data;
 	public String msg;
 	public boolean success;
 
-//	public boolean isSuccess(){
-//		boolean re=true;
-//		if(RspCode != null){
-//			re=RspCode.equals("RC00000");
-//		}else if(Success!=null && Success.trim().length()>0){
-//			re= Boolean.parseBoolean(Success);
-//		}
-//		return re;
-//	}
+public T getDateObj(String key){
+	return data.get(key);
+}
 
 }

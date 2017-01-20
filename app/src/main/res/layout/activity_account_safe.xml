@@ -33,9 +33,11 @@
         android:paddingRight="10dp" >
 
         <TextView
+            android:id="@+id/account_safe_phone_edit"
             style="@style/my_text_style"
             android:layout_height="wrap_content"
-            android:text="绑定手机号" />
+            android:text="绑定手机号"
+            android:onClick="clickHandler" />
 
         <TextView
             style="@style/my_right_text_style"

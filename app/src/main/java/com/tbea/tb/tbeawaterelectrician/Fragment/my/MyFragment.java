@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.MyInformationActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.OrderListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.SetionActivity;
 
@@ -39,6 +40,13 @@ public class MyFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), SetionActivity.class));
+            }
+        });
+
+        view.findViewById(R.id.fragment_my_edit_info).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), MyInformationActivity.class));
             }
         });
     }

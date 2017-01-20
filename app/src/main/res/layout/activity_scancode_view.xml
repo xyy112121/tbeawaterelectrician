@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+    <include layout="@layout/activity_page_top"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:id="@+id/expert_list_item_photo"
+                        android:layout_width="80dp"
+                        android:layout_height="90dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/icon_testpic3"
+                        android:scaleType="fitXY"/>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="0.7"
+                    android:gravity="center_vertical"
+                     >
+
+                    <TextView
+                        android:id="@+id/expert_list_item_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="特变电工节能环保双绝缘阻燃固定布线用无护套电线  BVVB-2*4"
+                        android:textColor="@color/text_gray"
+                        android:textSize="18sp"
+                        android:maxLines="3"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:maxLines="2"
+                        android:text="￥99.00"
+                        android:textColor="@color/red"
+                        android:textSize="14sp"
+                        android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#DBD6D6"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+        <LinearLayout
+          style="@style/scancode_score_view_layout">
+            <TextView
+                android:text="扫码时间："
+               style="@style/scancode_score_view_text1"/>
+
+            <TextView
+                style="@style/scancode_score_view_text2"
+                android:text="2016-08-23 11:23:43"
+               />
+        </LinearLayout>
+        <LinearLayout
+            style="@style/scancode_score_view_layout">
+            <TextView
+                android:text="扫码地点："
+                style="@style/scancode_score_view_text1"/>
+
+            <TextView
+                style="@style/scancode_score_view_text2"
+                android:text="四川省德阳市亏呀区"/>
+        </LinearLayout>
+        <LinearLayout
+            style="@style/scancode_score_view_layout">
+            <TextView
+                android:text="商品所属经销商："
+                style="@style/scancode_score_view_text1"/>
+
+            <TextView
+                style="@style/scancode_score_view_text2"
+                android:text="四川省德阳市伟杰商贸有限公司"/>
+        </LinearLayout>
+        <LinearLayout
+            style="@style/scancode_score_view_layout">
+            <TextView
+                android:text="产品名称："
+                style="@style/scancode_score_view_text1"/>
+
+            <TextView
+                style="@style/scancode_score_view_text2"
+                android:text="特变电工节能环保双绝缘阻燃固定布线用无护套电线"
+                android:maxLines="1"/>
+        </LinearLayout>
+        <LinearLayout
+            style="@style/scancode_score_view_layout">
+            <TextView
+                android:text="产品类型："
+                style="@style/scancode_score_view_text1"/>
+
+            <TextView
+                style="@style/scancode_score_view_text2"
+                android:text="600227 IEC 01(BV) -450/750V 红"/>
+        </LinearLayout>
+        <LinearLayout
+            style="@style/scancode_score_view_layout">
+            <TextView
+                android:text="生产日期："
+                style="@style/scancode_score_view_text1"/>
+
+            <TextView
+                style="@style/scancode_score_view_text2"
+                android:text="2016-08-10"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,11 +1,10 @@
 package com.tbea.tb.tbeawaterelectrician.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,6 +13,8 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.scanCode.LogisticsTailAfterActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.scanCode.ScanCodeActivity;
 import com.tbea.tb.tbeawaterelectrician.component.MainNavigateTabBar;
 import com.tbea.tb.tbeawaterelectrician.fragment.HomeFragment;
 import com.tbea.tb.tbeawaterelectrician.fragment.my.MyFragment;
@@ -30,13 +31,13 @@ public class MainActivity extends TopActivity {
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    private GoogleApiClient client;
+//    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        PermissionGen.needPermission(MainActivity.this, 100, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        PermissionGen.needPermission(MainActivity.this, 100, Manifest.permission.CAMERA);
         mNavigateTabBar = (MainNavigateTabBar) findViewById(R.id.mainTabBar);
 
         mNavigateTabBar.onRestoreInstanceState(savedInstanceState);
@@ -48,11 +49,21 @@ public class MainActivity extends TopActivity {
         mNavigateTabBar.addTab(MyFragment.class, new MainNavigateTabBar.TabParam(R.drawable.icon_my, R.drawable.icon_my_select, "我"));
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+//        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        listener();
+    }
+
+    private void listener(){
+        findViewById(R.id.tab_post_icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ScanCodeActivity.class));
+            }
+        });
     }
 
     @PermissionFail(requestCode = 100)
-    public void doFailSomething() {
+    private void doFailSomething() {
             boolean isTip = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             if (isTip) {
                 Toast.makeText(MainActivity.this, "你需要允许访问权限，才可正常使用该功能！", Toast.LENGTH_SHORT).show();
@@ -98,8 +109,8 @@ public class MainActivity extends TopActivity {
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+//        client.connect();
+//        AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
     @Override
@@ -108,7 +119,7 @@ public class MainActivity extends TopActivity {
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
+//        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+//        client.disconnect();
     }
 }

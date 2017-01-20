@@ -63,7 +63,6 @@ public class CustomDialog extends Dialog {
 			break;
 		case R.layout.tip_delete_dialog:
 			tipText = (TextView) findViewById(R.id.tip_message);
-			tvTitle = (TextView)findViewById(R.id.tip_title);
 			break;
 		}
 	}

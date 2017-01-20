@@ -6,7 +6,7 @@
     <!-- 按下时的背景 -->
     <item android:state_pressed="true" >
         <shape>
-            <solid android:color="#15588E" />
+            <solid android:color="#0893D1" />
 
             <corners android:radius="3dp" />
         </shape>
@@ -14,7 +14,7 @@
     <!-- 默认 -->
     <item >
         <shape >
-            <solid android:color="#1B82D2" />
+            <solid android:color="#00A0E9" />
 
             <corners android:radius="3dp" />
         </shape>
