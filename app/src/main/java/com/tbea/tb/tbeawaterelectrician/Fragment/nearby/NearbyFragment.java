@@ -1,9 +1,10 @@
 package com.tbea.tb.tbeawaterelectrician.fragment.nearby;
 
-import android.content.res.Resources;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.CityListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 
 import java.util.ArrayList;
@@ -43,33 +45,19 @@ public class NearbyFragment extends android.app.Fragment {
     private ViewPager mViewPager;
     private FragmentAdapter mAdapter;
     private List<Fragment> fragments = new ArrayList<Fragment>();
-    private Resources res;
+    public static String mCityname = "德阳市";
+    public static  String mCityid = null;
+    private final int CITY_RESULT = 1001;
+    private View mView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = (View)inflater.inflate(R.layout.fragment_nearby,null);
-        res = getResources();
-
-        initView(view);
-
-        mViewPager = (ViewPager) view.findViewById(R.id.id_viewpager);
-
-        //初始化Adapter
-        mAdapter = new FragmentAdapter(((MainActivity)getActivity()).getSupportFragmentManager(), fragments);
-
-        mViewPager.setAdapter(mAdapter);
-        mViewPager.addOnPageChangeListener(new TabOnPageChangeListener());
-
-        initTabLine(view);
-        return view;
+        mView = (View)inflater.inflate(R.layout.fragment_nearby,null);
+        initView(mView);
+        return mView;
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        ((MainActivity)getActivity()).setTopShow();
-        super.onHiddenChanged(hidden);
-    }
 
     /**
      * 根据屏幕的宽度，初始化引导线的宽度
@@ -106,24 +94,66 @@ public class NearbyFragment extends android.app.Fragment {
 
         fragments.add(new NearbyFranchiserFagment());
         fragments.add(new NearbyShopFragment());
-        fragments.add(new NearbyPurchaseFragment());
+        fragments.add(new NearbyCommodithFragment());
 
+        mViewPager = (ViewPager) view.findViewById(R.id.id_viewpager);
+        //初始化Adapter
+        mAdapter = new FragmentAdapter(((MainActivity)getActivity()).getSupportFragmentManager(), fragments);
+//        mAdapter = new FragmentAdapter(((MainActivity)getActivity()).getSupportFragmentManager(),mViewPager, fragments);
+
+        mViewPager.setAdapter(mAdapter);
+        mViewPager.addOnPageChangeListener(new TabOnPageChangeListener());
+
+        initTabLine(view);
+
+        view.findViewById(R.id.mian_city_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CityListActivity.class);
+                NearbyFragment.this.startActivityForResult(intent,CITY_RESULT);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == CITY_RESULT && resultCode == getActivity().RESULT_OK){
+            mCityid  = data.getStringExtra("cityId");
+            mCityname = data.getStringExtra("cityName");
+            ((TextView)mView.findViewById(R.id.mian_city_text)).setText(mCityname);
+            if(mViewPager.getCurrentItem() == 0){
+                //附近经销商
+                NearbyFranchiserFagment franchiserFagment = (NearbyFranchiserFagment) fragments.get(0);
+                franchiserFagment.refreshDate();
+            }
+            if(mViewPager.getCurrentItem() == 1){
+                //附近经销商
+                NearbyShopFragment franchiserFagment = (NearbyShopFragment) fragments.get(1);
+                franchiserFagment.refreshDate();
+            }
+            if(mViewPager.getCurrentItem() == 2){
+                //附近经销商
+                NearbyCommodithFragment franchiserFagment = (NearbyCommodithFragment) fragments.get(2);
+                franchiserFagment.refreshDate();
+            }
+        }
     }
 
     /**
      * 重置颜色
      */
     private void resetTextView() {
-        id_tab01_info.setTextColor(res.getColor(R.color.pea_green));
-        id_tab02_info.setTextColor(res.getColor(R.color.pea_green));
-        id_tab03_info.setTextColor(res.getColor(R.color.pea_green));
+        id_tab01_info.setTextColor(ContextCompat.getColor(getActivity(),R.color.pea_green));
+        id_tab02_info.setTextColor(ContextCompat.getColor(getActivity(),R.color.pea_green));
+        id_tab03_info.setTextColor(ContextCompat.getColor(getActivity(),R.color.pea_green));
     }
 
     /**
      * 功能：点击主页TAB事件
      */
     public class TabOnClickListener implements View.OnClickListener {
-        private int index = 0;
+        private int index;
 
         public TabOnClickListener(int i) {
             index = i;
@@ -147,6 +177,10 @@ public class NearbyFragment extends android.app.Fragment {
 
         //当前页面被滑动时调用
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//            fragments.get(currentPageIndex).onPause(); // 调用切换前Fargment的onPause()
+            if(fragments.get(position).isAdded()){
+                fragments.get(position).onResume(); // 调用切换后Fargment的onResume()
+            }
             LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mTabLine.getLayoutParams();
             //返回组件距离左侧组件的距离
             lp.leftMargin = (int) ((positionOffset + position) * screenWidth / 3);
@@ -159,13 +193,13 @@ public class NearbyFragment extends android.app.Fragment {
             resetTextView();
             switch (position) {
                 case 0:
-                    id_tab01_info.setTextColor(res.getColor(R.color.white));
+                    id_tab01_info.setTextColor(ContextCompat.getColor(getActivity(),R.color.white));
                     break;
                 case 1:
-                    id_tab02_info.setTextColor(res.getColor(R.color.white));
+                    id_tab02_info.setTextColor(ContextCompat.getColor(getActivity(),R.color.white));
                     break;
                 case 2:
-                    id_tab03_info.setTextColor(res.getColor(R.color.white));
+                    id_tab03_info.setTextColor(ContextCompat.getColor(getActivity(),R.color.white));
                     break;
             }
         }

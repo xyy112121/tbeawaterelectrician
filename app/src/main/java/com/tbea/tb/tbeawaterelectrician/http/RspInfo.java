@@ -5,12 +5,19 @@ import com.tbea.tb.tbeawaterelectrician.entity.UserInfo2;
 import java.util.Map;
 
 public class RspInfo<T> {
-	public Map<String,T> data;
-	public String msg;
-	public boolean success;
+	private Map<String,T> data;
+	private String msg;
+	private boolean success;
 
 public T getDateObj(String key){
 	return data.get(key);
 }
 
+	public String getMsg() {
+		return msg;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
 }

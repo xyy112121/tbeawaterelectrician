@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:background="@color/white">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/franchiser_search_condition_layout"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="horizontal"
-        android:background="@color/white">
+        android:layout_height="35dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/franchiser_search_condition1_layout"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            >
+            android:layout_height="35dp"
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/franchiser_search_condition1"
@@ -23,7 +25,10 @@
                 android:layout_centerInParent="true"
                 android:text="全部类型"
                 android:textColor="#000000"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:maxEms="5"/>
 
             <ImageView
                 android:id="@+id/franchiser_search_condition1_iamge"
@@ -44,8 +49,8 @@
         <RelativeLayout
             android:id="@+id/franchiser_search_condition2_layout"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1" >
+            android:layout_height="35dp"
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/franchiser_search_condition2"
@@ -54,7 +59,10 @@
                 android:layout_centerInParent="true"
                 android:text="全部区域"
                 android:textColor="#000000"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:maxEms="5"/>
 
             <ImageView
                 android:id="@+id/franchiser_search_condition2_image"
@@ -73,38 +81,44 @@
             android:background="#BEBEBE" />
 
         <RelativeLayout
-        android:id="@+id/franchiser_search_condition3_layout"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_weight="1" >
+            android:id="@+id/franchiser_search_condition3_layout"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/franchiser_search_condition3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="认证状态"
-            android:textColor="#000000"
-            android:textSize="14sp" />
+            <TextView
+                android:id="@+id/franchiser_search_condition3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="认证状态"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:maxEms="5"/>
 
-        <ImageView
-            android:id="@+id/franchiser_search_condition3_iamge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_margin="7dp"
-            android:background="@drawable/icon_arrow_down" />
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/franchiser_search_condition3_iamge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_margin="7dp"
+                android:background="@drawable/icon_arrow_down" />
+        </RelativeLayout>
+
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:background="#BEBEBE" />
+
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="0.5" >
+            android:layout_height="35dp"
+            android:layout_weight="0.5">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -112,6 +126,7 @@
                 android:background="@drawable/icon_map_list" />
         </RelativeLayout>
     </LinearLayout>
+
     <View
         android:id="@+id/franchiser_search_condition_view"
         android:layout_width="match_parent"
@@ -123,29 +138,19 @@
         android:layout_height="match_parent">
 
 
-
-        <ListView
-            android:id="@+id/franchiser_select_list"
+        <cn.bingoogolapple.refreshlayout.BGARefreshLayout
+            android:id="@+id/rl_recyclerview_refresh"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:scrollbars="none"
-            >
-        </ListView>
+            android:layout_height="match_parent">
 
-        <View
-            android:id="@+id/franchiser_select_list_search_conditions_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#e08B8989"
-            android:visibility="gone" />
-        <FrameLayout
-            android:id="@+id/franchiser_select_list_search_conditions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            >
-        </FrameLayout>
+            <ListView
+                android:id="@+id/franchiser_select_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:scrollbars="none"></ListView>
+        </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
     </RelativeLayout>
 
 </LinearLayout>

@@ -1,43 +1,309 @@
 package com.tbea.tb.tbeawaterelectrician.fragment.nearby;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.nearby.FranchiserViewActivity;
+import com.tbea.tb.tbeawaterelectrician.component.CustomPopWindow;
+import com.tbea.tb.tbeawaterelectrician.entity.Condition;
+import com.tbea.tb.tbeawaterelectrician.entity.NearbyCompany;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
+import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
+import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
  * Created by cy on 2016/12/19.附近商家
  */
 
-public class NearbyShopFragment extends LazyFragment {
-    private View view;
+public class NearbyShopFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
+    private View mView;
     // 标志位，标志已经初始化完成。
     private boolean isPrepared;
+    private boolean isVisible;
     private ListView mListView;
     private MyAdapter mAdapter;
+    private String mCompanyTypeId = "-10000";//公司类型
+    private String mCertifiedStatusId = "-10000";//认证类型
+    private String mLocationId = "-10000";//区域类型
+    private  int mPage = 1;
+    private int mPagesiz =10 ;
+    private BGARefreshLayout mRefreshLayout;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_nearby_franchiser_layout, container, false);
+        mView = inflater.inflate(R.layout.fragment_nearby_franchiser_layout, container, false);
         initUI();//实例化控件
-        isPrepared = true;
-        lazyLoad();//加载数据
+//        isPrepared = true;
+        mRefreshLayout.beginRefreshing();
+        listener();
+        return mView;
+    }
 
-        return view;
+    private void listener(){
+        mView.findViewById(R.id.franchiser_search_condition1_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getConditionDate(view,"TBEAENG003001001000");
+            }
+        });
+
+        mView.findViewById(R.id.franchiser_search_condition3_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getConditionDate(view,"TBEAENG003001003000");
+            }
+        });
+
+        mView.findViewById(R.id.franchiser_search_condition2_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getLocationList(view);
+            }
+        });
+    }
+
+    /**
+     * 刷新数据
+     */
+    public void refreshDate(){
+        mPage = 1;
+        mAdapter.removeAll();
+        mRefreshLayout.beginRefreshing();
+    }
+
+    /**
+     * 获取数据
+     */
+    public void getCompanyList(){
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                mRefreshLayout.endLoadingMore();
+                mRefreshLayout.endRefreshing();
+                switch (msg.what){
+                    case ThreadState.SUCCESS:
+                        RspInfo re = (RspInfo)msg.obj;
+                        if(re.isSuccess()){
+                            List<Map<String,String>> list =  (List<Map<String,String>>) re.getDateObj("companylist");
+                            List<NearbyCompany> companyList = new ArrayList<>();
+                            if(list != null){
+                                for (int i = 0;i< list.size();i++){
+                                    NearbyCompany obj = new NearbyCompany();
+                                    obj.setId(list.get(i).get("id"));
+                                    obj.setPicture(list.get(i).get("picture"));
+                                    obj.setName(list.get(i).get("name"));
+                                    obj.setDistance(list.get(i).get("distance"));
+                                    obj.setLatitude(list.get(i).get("latitude"));
+                                    obj.setAddress(list.get(i).get("address"));
+                                    obj.setCompanytypeid(list.get(i).get("companytypeid"));
+                                    obj.setWithcompanyidentified(list.get(i).get("withcompanyidentified"));
+                                    obj.setWithcompanylisence(list.get(i).get("withcompanylisence"));
+                                    obj.setWithguaranteemoney(list.get(i).get("withguaranteemoney"));
+                                    obj.setWithguaranteemoney(list.get(i).get("withidentified"));
+                                    companyList.add(obj);
+                                }
+//                                mAdapter.addAll(companyList);
+                            }else {
+                                if(mPage >1){//防止分页的时候没有加载数据，但是页数已经增加，导致下一次查询不正确
+                                    mPage--;
+                                }
+                            }
+                        }else {
+                            UtilAssistants.showToast(re.getMsg());
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo  re = userAction.getShopList(mCompanyTypeId,mLocationId,mCertifiedStatusId,NearbyFragment.mCityname,NearbyFragment.mCityid,mPage++,mPagesiz);
+                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 获取区域列表
+     */
+    public  void getLocationList(final  View view){
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case ThreadState.SUCCESS:
+                        RspInfo re = (RspInfo)msg.obj;
+                        if(re.isSuccess()){
+                            List<Condition> list = (List<Condition>)re.getDateObj("locationlist");
+                            if(list != null){
+                                showDialog(view,list,"");
+                            }
+                        }else {
+                            UtilAssistants.showToast("操作失败！");
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo  re = userAction.getLocationList(NearbyFragment.mCityname);
+                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 获取查询条件列表
+     * @param view
+     * @param methodName
+     */
+    public  void getConditionDate(final  View view,final String methodName){
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case ThreadState.SUCCESS:
+                        RspInfo re = (RspInfo)msg.obj;
+                        if(re.isSuccess()){
+                            List<Condition> list;
+                            if("TBEAENG003001003000".equals(methodName)){
+                                list = (List<Condition>)re.getDateObj("certifiedstatuslist");
+                            }else {
+                                list = ( List<Condition>)re.getDateObj("companytypelist");
+                            }
+                            if(list != null){
+                                showDialog(view,list,methodName);
+                            }
+                        }else {
+                            UtilAssistants.showToast("操作失败！");
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo  re = userAction.getFranchiserType(methodName);
+                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 选择相册Dialog
+     */
+    protected void showDialog(View view, List<Condition> data, final String methodName) {
+        final CustomPopWindow popWindow = new CustomPopWindow(getActivity(),
+                R.id.body_bg_view, true, R.style.PopWindowAnimationFade,
+                RelativeLayout.LayoutParams.MATCH_PARENT,R.layout.pop_window_scrollview_layout);
+        popWindow.addScrollViewForGroup1(data, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popWindow.dismiss();
+                if(methodName.equals("TBEAENG003001001000")){//公司类型
+                    mCompanyTypeId = popWindow.mSelectedId;
+                    if(popWindow.mSelectedId.equals("")){
+                        mCompanyTypeId = "-10000";
+                    }
+
+                    ((TextView)mView.findViewById(R.id.franchiser_search_condition1)).setText(popWindow.mSelectedName);
+                }else if(methodName.equals("TBEAENG003001003000")){//认证状态
+                    mCertifiedStatusId = popWindow.mSelectedId;
+                    ((TextView)mView.findViewById(R.id.franchiser_search_condition3)).setText(popWindow.mSelectedName);
+                }else {
+                    mLocationId = popWindow.mSelectedId;
+                    ((TextView)mView.findViewById(R.id.franchiser_search_condition2)).setText(popWindow.mSelectedName);
+                }
+                mPage = 1;
+                mAdapter.removeAll();
+                mRefreshLayout.beginRefreshing();
+                getCompanyList();
+            }
+        });
+        popWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
     /**
      * 实例化组件
      */
     private void initUI() {
-        mListView = (ListView)view.findViewById(R.id.franchiser_select_list);
+        mListView = (ListView)mView.findViewById(R.id.franchiser_select_list);
         mAdapter = new MyAdapter(getActivity());
         mListView.setAdapter(mAdapter);
+        mRefreshLayout = (BGARefreshLayout)mView.findViewById(R.id.rl_recyclerview_refresh);
+        mRefreshLayout.setDelegate(this);
+        mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getActivity(), true));
+    }
+
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+       //下拉刷新
+        mPage = 1;
+        mAdapter.removeAll();
+        getCompanyList();
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        //上拉加载更多
+        getCompanyList();
+        return true;
     }
 
     private class MyAdapter extends BaseAdapter {
@@ -95,13 +361,17 @@ public class NearbyShopFragment extends LazyFragment {
 
     }
 
+
     /**
-     * 实现懒加载,当屏幕显示这个界面的时候才会触发次方法
+     * 在这里实现Fragment数据的缓加载.
      */
     @Override
-    protected void lazyLoad() {
-        if (isPrepared && isVisible) {
-
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (getUserVisibleHint()) {
+            isVisible = true;
+        } else {
+            isVisible = false;
         }
     }
 }

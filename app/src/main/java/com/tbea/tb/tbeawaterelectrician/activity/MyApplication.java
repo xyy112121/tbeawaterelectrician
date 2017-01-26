@@ -1,12 +1,32 @@
 package com.tbea.tb.tbeawaterelectrician.activity;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Environment;
 
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.tbea.tb.tbeawaterelectrician.entity.UserInfo2;
+import com.tbea.tb.tbeawaterelectrician.util.Constants;
+import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
+import java.io.File;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +34,6 @@ import java.util.List;
 public class MyApplication extends Application  {
 	public static final String SP_NAME="LXC_UPUP";
 	public static final int PAGE_SIZE=10;
-	
 
 	private static final String SERVICE_PATH="http://www.u-shang.net/enginterface/index.php";
 	private static final String IMG_SERVICE_PATH="http://www.u-shang.net/";
@@ -22,6 +41,7 @@ public class MyApplication extends Application  {
 	
 	public static MyApplication instance;
 	private List<SoftReference<Activity>> activitys=new ArrayList<SoftReference<Activity>>();
+	private boolean mOnline = false;
 
 
 //	private LocationClient mLocationClient;
@@ -30,6 +50,7 @@ public class MyApplication extends Application  {
 		super.onCreate();
 		instance=this;
 		ZXingLibrary.initDisplayOpinion(this);
+		initUniversalImageLoader();
 //		ImageLoaderUtil.initImageLoader(this);
 //		//百度定位
 //		mLocationClient = new LocationClient(getApplicationContext());
@@ -75,11 +96,7 @@ public class MyApplication extends Application  {
 
 
 	public String getUserId(){
-		if(cuUserInfo==null){
-			return "";
-		}else{
-			return cuUserInfo.id;
-		}
+		return ShareConfig.getConfigString(instance, Constants.USERID,"");
 	}
 
 
@@ -199,4 +216,36 @@ public class MyApplication extends Application  {
 //		this.areaId= spf.getString("areaId",null);
 //		this.areaName= spf.getString("areaName",null);
 //	}
+
+	private void initUniversalImageLoader() {
+		DisplayImageOptions options = new DisplayImageOptions.Builder()
+				.showImageOnLoading(new ColorDrawable(Color.parseColor("#f0f0f0")))
+				.resetViewBeforeLoading(true)
+				.cacheInMemory(true)
+				.cacheOnDisk(true)
+				.considerExifParams(true)
+				.imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
+				.bitmapConfig(Bitmap.Config.RGB_565)
+				.build();
+
+		int memClass = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE))
+				.getMemoryClass();
+		int memCacheSize = 1024 * 1024 * memClass / 8;
+
+		File cacheDir = new File(Environment.getExternalStorageDirectory().getPath() + "/jiecao/cache");
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+				.threadPoolSize(3)
+				.threadPriority(Thread.NORM_PRIORITY - 2)
+				.denyCacheImageMultipleSizesInMemory()
+				.diskCacheFileNameGenerator(new Md5FileNameGenerator())
+				.memoryCache(new UsingFreqLimitedMemoryCache(memCacheSize))
+				.memoryCacheSize(memCacheSize)
+				.diskCacheSize(50 * 1024 * 1024)
+				.tasksProcessingOrder(QueueProcessingType.LIFO)
+				.diskCache(new UnlimitedDiskCache(cacheDir))
+				.imageDownloader(new BaseImageDownloader(this, 5 * 1000, 30 * 1000))
+				.defaultDisplayImageOptions(options)
+				.build();
+		ImageLoader.getInstance().init(config);
+	}
 }

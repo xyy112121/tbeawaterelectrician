@@ -2,6 +2,7 @@ package com.tbea.tb.tbeawaterelectrician.fragment.nearby;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,11 @@ import com.tbea.tb.tbeawaterelectrician.R;
  * Created by cy on 2016/12/19.公司动态
  */
 
-public class CompanyDynamicsFragment extends LazyFragment {
+public class CompanyDynamicsFragment extends Fragment {
     private View view;
     // 标志位，标志已经初始化完成。
     private boolean isPrepared;
+    private boolean isVisible;
     private ListView mListView;
     private MyAdapter mAdapter;
 
@@ -99,10 +101,22 @@ public class CompanyDynamicsFragment extends LazyFragment {
     /**
      * 实现懒加载,当屏幕显示这个界面的时候才会触发次方法
      */
-    @Override
-    protected void lazyLoad() {
+    private void lazyLoad() {
         if (isPrepared && isVisible) {
+//            mRefreshLayout.beginRefreshing();
+        }
+    }
 
+    /**
+     * 在这里实现Fragment数据的缓加载.
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (getUserVisibleHint()) {
+            isVisible = true;
+        } else {
+            isVisible = false;
         }
     }
 }

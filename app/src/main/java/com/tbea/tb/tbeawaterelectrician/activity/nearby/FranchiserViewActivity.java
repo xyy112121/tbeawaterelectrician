@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.fragment.nearby.CompanyDynamicsFragment;
-import com.tbea.tb.tbeawaterelectrician.fragment.nearby.NearbyPurchaseFragment;
+import com.tbea.tb.tbeawaterelectrician.fragment.nearby.NearbyCommodithFragment;
 
 /**
  * Created by cy on 2016/12/26.经销商
@@ -18,7 +18,7 @@ import com.tbea.tb.tbeawaterelectrician.fragment.nearby.NearbyPurchaseFragment;
 
 public class FranchiserViewActivity extends TopActivity {
     private Fragment mCurrentFragment;
-    private NearbyPurchaseFragment mNearbyPurchaseFragment;
+    private NearbyCommodithFragment mNearbyPurchaseFragment;
     private CompanyDynamicsFragment mCompanyDynamicsFragment;
 
 
@@ -29,7 +29,7 @@ public class FranchiserViewActivity extends TopActivity {
         initTopbar("经销商信息");
         listener();
         if(mNearbyPurchaseFragment == null){
-            mNearbyPurchaseFragment = new NearbyPurchaseFragment();
+            mNearbyPurchaseFragment = new NearbyCommodithFragment();
         }
         switchFragment(mCurrentFragment,mNearbyPurchaseFragment,"");
         mCurrentFragment = mNearbyPurchaseFragment;
@@ -43,7 +43,7 @@ public class FranchiserViewActivity extends TopActivity {
                 findViewById(R.id.franchiser_goods_search_condition_layout).setVisibility(View.VISIBLE);
                 setCompaySearchTextColor(R.id.fragment_view_all_goods_size,R.id.fragment_view_all_goods_tv);
                 if(mNearbyPurchaseFragment == null){
-                    mNearbyPurchaseFragment = new NearbyPurchaseFragment();
+                    mNearbyPurchaseFragment = new NearbyCommodithFragment();
                 }
                 switchFragment(mCurrentFragment,mNearbyPurchaseFragment,"");
                 mCurrentFragment = mNearbyPurchaseFragment;

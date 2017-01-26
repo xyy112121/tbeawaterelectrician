@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
+import com.tbea.tb.tbeawaterelectrician.entity.Register;
 import com.tbea.tb.tbeawaterelectrician.fragment.account.RealNameVerifyFragment;
 import com.tbea.tb.tbeawaterelectrician.fragment.account.RegisterPhoneFragment;
 import com.tbea.tb.tbeawaterelectrician.R;
@@ -21,11 +22,13 @@ public class RegisterActivity extends  TopActivity implements View.OnClickListen
     private Fragment mRegisterPhoneFragement;//手机号注册
     public Fragment mRealNameVerifyFragment;//实名注册
     private Fragment mCurrentFragement;
+    public Register mObj;//注册实体
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        mObj = new Register();
         mRegisterPhoneFragement = new RegisterPhoneFragment();
         initTopbar("注册");
         initView();

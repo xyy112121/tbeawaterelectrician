@@ -3,7 +3,7 @@
   
     <!-- 定义从上向下动画进入动画 -->  
     <translate  
-        android:duration="500"  
+        android:duration="300"
         android:fromYDelta="200%"
         android:toYDelta="0"
          />  

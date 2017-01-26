@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">优商</string>
+    <string name="app_name">水电工</string>
     <string name="register">注册</string>
     <string name="title_register_phone">&#xe643; 注册手机号</string>
     <string name="real_name_authentication">&#xe626; 实名认证</string>
@@ -7,4 +7,8 @@
     <string name="cancel">&#xe613;</string>
     <string name="confirm">确定</string>
     <string name="camera_cancel">取消</string>
+    <string name="help">帮助</string>
+    <string name="string_help_text">当前操作缺少必要权限。\n请点击“设置”-“权限”打开所需权限。\n最后点击两次后退按钮，即可返回.</string>
+    <string name="quit">退出</string>
+    <string name="settings">设置</string>
 </resources>

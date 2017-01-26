@@ -1,135 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="horizontal"
-        android:background="@color/bg_color">
-
-        <RelativeLayout
-            android:id="@+id/take_selelct_list_region_layout"
-            android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@color/bg_color"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/mian_top"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_weight="1"
-            >
+            android:layout_alignParentTop="true"
+            android:background="@color/blue3"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/take_selelct_list_region_search"
+            <LinearLayout
+                android:id="@+id/mian_city_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/blue3"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/mian_city_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="全部"
+                    android:textColor="@color/white" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/icon_inverted_triangle" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/expert_search_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="全部类型"
-                android:textColor="#000000"
-                android:textSize="15sp" />
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/home_page_search_selector"
+                android:drawableLeft="@drawable/icon_search"
+                android:drawablePadding="5dp"
+                android:hint="搜索商品或店铺"
+                android:imeOptions="actionSearch"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="#fff"
+                android:textColorHint="#fff"
+                android:textSize="12sp" />
 
             <ImageView
-                android:id="@+id/take_selelct_list_region_iamge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_margin="7dp"
-                android:background="@drawable/icon_arrow_down" />
-        </RelativeLayout>
+                android:layout_gravity="center|left"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/icon_message" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@color/bg_color"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/take_search_condition1_layout"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/take_search_condition1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="全部类型"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:maxEms="5"/>
+
+                <ImageView
+                    android:id="@+id/take_search_condition1_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="7dp"
+                    android:background="@drawable/icon_arrow_down" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="#BEBEBE" />
+
+            <RelativeLayout
+                android:id="@+id/take_search_condition2_layout"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/take_search_condition2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="全部区域"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:maxEms="5"/>
+
+                <ImageView
+                    android:id="@+id/take_search_condition2_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="7dp"
+                    android:background="@drawable/icon_arrow_down" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="#BEBEBE" />
+
+            <RelativeLayout
+                android:id="@+id/take_search_condition3_layout"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/take_search_condition3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="全部时间"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:maxEms="5"/>
+
+                <ImageView
+                    android:id="@+id/take_search_condition3_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="7dp"
+                    android:background="@drawable/icon_arrow_down" />
+            </RelativeLayout>
+        </LinearLayout>
 
         <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:background="#BEBEBE" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#C4C4C4" />
 
         <RelativeLayout
-            android:id="@+id/take_selelct_list_section_layout"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1" >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/take_selelct_list_section_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="全部区域"
-                android:textColor="#000000"
-                android:textSize="15sp" />
 
-            <ImageView
-                android:id="@+id/take_selelct_list_section_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_margin="7dp"
-                android:background="@drawable/icon_arrow_down" />
+            <cn.bingoogolapple.refreshlayout.BGARefreshLayout
+                android:id="@+id/rl_recyclerview_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ListView
+                    android:id="@+id/take_select_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:scrollbars="none" />
+            </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
+
         </RelativeLayout>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:background="#BEBEBE" />
-
-        <RelativeLayout
-            android:id="@+id/take_selelct_list_sort_layout"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1" >
-
-            <TextView
-                android:id="@+id/take_selelct_list_sort_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="全部时间"
-                android:textColor="#000000"
-                android:textSize="15sp" />
-
-            <ImageView
-                android:id="@+id/take_selelct_list_sort_iamge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_margin="7dp"
-                android:background="@drawable/icon_arrow_down" />
-        </RelativeLayout>
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#C4C4C4" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-
-    <ListView
-        android:id="@+id/take_select_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:scrollbars="none"
-        >
-    </ListView>
 
     <View
-        android:id="@+id/take_select_list_search_conditions_view"
+        android:id="@+id/body_bg_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e08B8989"
+        android:background="#6000"
         android:visibility="gone" />
-    <FrameLayout
-        android:id="@+id/take_select_list_search_conditions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        >
-    </FrameLayout>
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

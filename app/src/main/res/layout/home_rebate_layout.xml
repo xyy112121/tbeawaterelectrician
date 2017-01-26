@@ -1,32 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical">
-    <ImageView
+    >
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_testpic2"/>
-    <TextView
+
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+           android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_marginLeft="5dp">
+            <com.tbea.tb.tbeawaterelectrician.component.CircleImageView
+                android:id="@+id/home_rebate_picture"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/icon_testpic2"
+                app:border_color="#FFF"
+                app:border_width="1dp" />
+            <TextView
+                android:id="@+id/home_rebate_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red"
+                android:text="陈师傅"
+                android:layout_marginLeft="5dp"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/home_rebate_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="138****7878   扫码返利累积金额"
+                android:textColor="@color/text_gray"
+                android:layout_marginLeft="5dp"
+                android:textSize="12sp"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/home_rebate_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:text="50dddddd"
+            android:layout_marginLeft="2dp"
+            android:textSize="12sp"
+           android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="5dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/home_rebate_layout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/red"
-        android:text="陈师傅"
-        android:layout_marginLeft="2dp"
-        android:textSize="12sp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="138****7878   扫码返利累积金额"
-        android:textColor="@color/gray"
-        android:layout_marginLeft="2dp"
-        android:textSize="12sp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/red"
-        android:text="￥3328"
-        android:layout_marginLeft="2dp"
-        android:textSize="12sp"/>
+        android:visibility="gone"
+        android:layout_marginTop="5dp"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_marginLeft="5dp">
+            <com.tbea.tb.tbeawaterelectrician.component.CircleImageView
+                android:id="@+id/home_rebate_picture1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/icon_testpic2"
+                app:border_color="#FFF"
+                app:border_width="1dp" />
+            <TextView
+                android:id="@+id/home_rebate_name1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red"
+                android:text="陈师傅"
+                android:layout_marginLeft="5dp"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/home_rebate_message1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="138****7878   扫码返利累积金额"
+                android:textColor="@color/text_gray"
+                android:layout_marginLeft="5dp"
+                android:textSize="12sp"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/home_rebate_money1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:text="50dddddd"
+            android:layout_marginLeft="2dp"
+            android:textSize="12sp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="5dp"/>
+    </RelativeLayout>
 
 </LinearLayout>

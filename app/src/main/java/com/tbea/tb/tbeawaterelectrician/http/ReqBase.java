@@ -8,7 +8,6 @@ import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.params.HttpClientParams;
@@ -34,7 +33,7 @@ public class ReqBase {
 		this.params=params;
 	}
 	
-	public void req() throws ClientProtocolException, IOException, JSONException {
+	public void req() throws  IOException, JSONException {
 		String url= MyApplication.instance.getServicePath();
 		HttpPost request=new HttpPost(url);
 		Header[] headers=reqHead.getHeaders();
@@ -47,21 +46,23 @@ public class ReqBase {
 				Log.d(TAG, header.getName()+":"+value);
 			}
 		}
-		Log.d(TAG, "Requery Params:");
-		for(NameValuePair param:params){
-			String value=param.getValue();
-			if(value==null){
-				Log.d(TAG, param.getName()+":NULL");
-			}else{
-				Log.d(TAG, param.getName()+":"+value);
+		if(params != null){
+			for(NameValuePair param:params){
+				String value=param.getValue();
+				if(value==null){
+					Log.d(TAG, param.getName()+":NULL");
+				}else{
+					Log.d(TAG, param.getName()+":"+value);
+				}
 			}
-		}		
+		}
+
 		request.setHeaders(headers);
 		UrlEncodedFormEntity entity=new UrlEncodedFormEntity(params, HTTP.UTF_8);
 		request.setEntity(entity);
 		DefaultHttpClient client=new DefaultHttpClient();
         HttpParams params = client.getParams();
-        params = client.getParams();    
+        params = client.getParams();
         HttpConnectionParams.setConnectionTimeout(params, 20*1000);
         HttpConnectionParams.setSoTimeout(params, 20*1000);
 		HttpConnectionParams.setSocketBufferSize(params, 8192);

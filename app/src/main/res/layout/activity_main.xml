@@ -4,64 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:id="@+id/mian_top"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="horizontal"
-        android:layout_alignParentTop="true"
-        android:background="@color/blue3">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/blue3"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:padding="5dp"
-            android:focusable="true"
-            android:focusableInTouchMode="true" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="德阳"
-                android:textColor="@color/white"
-                android:layout_marginLeft="5dp"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_inverted_triangle"
-                android:layout_marginLeft="5dp"/>
-        </LinearLayout>
-        <EditText
-            android:id="@+id/expert_search_text"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="10dp"
-            android:imeOptions="actionSearch"
-            android:singleLine="true"
-            android:drawableLeft="@drawable/icon_search"
-            android:drawablePadding="5dp"
-            android:background="@drawable/home_page_search_selector"
-            android:hint="搜索商品或店铺"
-            android:textColor="#fff"
-            android:textColorHint="#fff"
-            android:textSize="12sp"
-            android:padding="5dp"
-            />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_message"
-            android:layout_gravity="center|left"
-            android:layout_marginRight="10dp"/>
-
-
-    </LinearLayout>
-
 
     <com.tbea.tb.tbeawaterelectrician.component.MainNavigateTabBar
         android:id="@+id/mainTabBar"
@@ -79,7 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/mainTabBar"
-        android:layout_below="@id/mian_top"
         android:layout_marginBottom="0dp"
         android:paddingBottom="0dp"/>
 

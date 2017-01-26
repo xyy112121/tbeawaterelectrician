@@ -46,7 +46,7 @@
                     android:background="#9E9E9E" />
 
                 <EditText
-                    android:id="@+id/lagin_phone"
+                    android:id="@+id/regist_phone"
                     android:layout_weight="0.8"
                     android:hint="手机号"
                     android:inputType="phone"
@@ -54,8 +54,8 @@
                     />
 
 
-
                 <Button
+                    android:id="@+id/regist_sendcode"
                     android:layout_width="90dp"
                     android:layout_height="30dp"
                     android:layout_alignParentBottom="true"
@@ -109,6 +109,7 @@
                 android:orientation="horizontal"
                 android:layout_marginLeft="8dp">
                 <TextView
+
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/black"

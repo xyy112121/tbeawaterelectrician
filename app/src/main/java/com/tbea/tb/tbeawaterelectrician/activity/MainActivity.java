@@ -3,7 +3,10 @@ package com.tbea.tb.tbeawaterelectrician.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.Toast;
@@ -13,6 +16,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.account.RegisterActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.scanCode.LogisticsTailAfterActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.scanCode.ScanCodeActivity;
 import com.tbea.tb.tbeawaterelectrician.component.MainNavigateTabBar;
@@ -20,6 +24,9 @@ import com.tbea.tb.tbeawaterelectrician.fragment.HomeFragment;
 import com.tbea.tb.tbeawaterelectrician.fragment.my.MyFragment;
 import com.tbea.tb.tbeawaterelectrician.fragment.nearby.NearbyFragment;
 import com.tbea.tb.tbeawaterelectrician.fragment.thenLive.TakeFragment;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
+import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
+import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 
 import kr.co.namee.permissiongen.PermissionFail;
 import kr.co.namee.permissiongen.PermissionGen;
@@ -31,13 +38,16 @@ public class MainActivity extends TopActivity {
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-//    private GoogleApiClient client;
+    private String[] mPermissions = new String[]{};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        PermissionGen.needPermission(MainActivity.this, 100, Manifest.permission.CAMERA);
+        if(Build.VERSION.SDK_INT >= 23){
+            mPermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO,Manifest.permission.CAMERA,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.CALL_PHONE};
+            PermissionGen.needPermission(MainActivity.this,100,mPermissions);
+        }
         mNavigateTabBar = (MainNavigateTabBar) findViewById(R.id.mainTabBar);
 
         mNavigateTabBar.onRestoreInstanceState(savedInstanceState);
@@ -64,27 +74,23 @@ public class MainActivity extends TopActivity {
 
     @PermissionFail(requestCode = 100)
     private void doFailSomething() {
-            boolean isTip = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if (isTip) {
-                Toast.makeText(MainActivity.this, "你需要允许访问权限，才可正常使用该功能！", Toast.LENGTH_SHORT).show();
+        for (int i = 0; i < mPermissions.length; i++) {
+            boolean isTip = ActivityCompat.shouldShowRequestPermissionRationale(this, mPermissions[i]);
+            if(isTip){
+                Toast.makeText(MainActivity.this,"你需要允许访问权限，才可正常使用该功能！",Toast.LENGTH_SHORT).show();
                 finish();
-            } else {
+                break;
+            }else {
                 showMissingPermissionDialog();
+                break;
             }
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mNavigateTabBar.onSaveInstanceState(outState);
-    }
-
-    public void setTopGone() {
-        findViewById(R.id.mian_top).setVisibility(View.GONE);
-    }
-
-    public void setTopShow() {
-        findViewById(R.id.mian_top).setVisibility(View.VISIBLE);
     }
 
     /**
@@ -122,4 +128,6 @@ public class MainActivity extends TopActivity {
 //        AppIndex.AppIndexApi.end(client, getIndexApiAction());
 //        client.disconnect();
     }
+
+
 }

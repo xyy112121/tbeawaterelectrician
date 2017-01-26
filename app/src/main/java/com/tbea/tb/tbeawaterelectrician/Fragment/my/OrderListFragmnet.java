@@ -2,6 +2,7 @@ package com.tbea.tb.tbeawaterelectrician.fragment.my;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,20 +10,19 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-
-import com.tbea.tb.tbeawaterelectrician.fragment.nearby.LazyFragment;
 import com.tbea.tb.tbeawaterelectrician.R;
 
 /**
  * Created by abc on 16/12/24.
  */
 
-public class OrderListFragmnet extends LazyFragment {
+public class OrderListFragmnet extends Fragment {
     private View view;
     // 标志位，标志已经初始化完成。
     private boolean isPrepared;
     private ListView mListView;
     private MyAdapter mAdapter;
+    private boolean isVisible;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_order_list, container, false);
@@ -114,10 +114,21 @@ public class OrderListFragmnet extends LazyFragment {
     /**
      * 实现懒加载,当屏幕显示这个界面的时候才会触发次方法
      */
-    @Override
-    protected void lazyLoad() {
+    private void lazyLoad() {
         if (isPrepared && isVisible) {
+        }
+    }
 
+    /**
+     * 在这里实现Fragment数据的缓加载.
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (getUserVisibleHint()) {
+            isVisible = true;
+        } else {
+            isVisible = false;
         }
     }
 }
