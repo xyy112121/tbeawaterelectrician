@@ -4,23 +4,36 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.LocationManager;
 import android.os.Environment;
+import android.provider.Settings;
+import android.util.Log;
+import android.view.View;
 
+import com.baidu.location.Address;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.SDKInitializer;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
-import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.UserInfo2;
 import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
@@ -31,7 +44,7 @@ import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyApplication extends Application  {
+public class MyApplication extends Application implements BDLocationListener {
 	public static final String SP_NAME="LXC_UPUP";
 	public static final int PAGE_SIZE=10;
 
@@ -44,26 +57,30 @@ public class MyApplication extends Application  {
 	private boolean mOnline = false;
 
 
-//	private LocationClient mLocationClient;
+	private LocationClient mLocationClient;
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		instance=this;
 		ZXingLibrary.initDisplayOpinion(this);
 		initUniversalImageLoader();
-//		ImageLoaderUtil.initImageLoader(this);
-//		//百度定位
-//		mLocationClient = new LocationClient(getApplicationContext());
-//		mLocationClient.registerLocationListener( this );
-//		LocationClientOption option=new LocationClientOption();
-//		option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
-//		option.setScanSpan(60 * 1000);
-//		mLocationClient.setLocOption(option);
-//		mLocationClient.start();
-//		mLocationClient.requestLocation();
-//		SDKInitializer.initialize(getApplicationContext());
+		//百度定位
+		mLocationClient = new LocationClient(getApplicationContext());
+		mLocationClient.registerLocationListener(this);
+		LocationClientOption option=new LocationClientOption();
+		option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
+		option.setIsNeedAddress(true);
+		option.setOpenGps(true);// 打开gps
+		option.setAddrType("all");// 返回的定位结果包含地址信息
+		option.setCoorType("bd09ll"); // 设置坐标类型
+		option.setScanSpan(60 * 1000);
+		mLocationClient.setLocOption(option);
+		mLocationClient.start();
+		mLocationClient.requestLocation();
+		SDKInitializer.initialize(getApplicationContext());
 		//加载保存的位置信息
-//		loadLoaclInfo();
+		loadLoaclInfo();
 	}
 	
 	public int getActivityCount(){
@@ -101,44 +118,15 @@ public class MyApplication extends Application  {
 
 
 	public String getLongitude(){
-		return longitude;
+		return longitude!=null?longitude:"31.132588";
 	}
 
 	public String getLatitude(){
-		return latitude;
+		return latitude!=null?latitude:"104.363965";
 	}
 
-	private String longitude="104.363965";
-	private String latitude="31.132588";
-//	@Override
-//	public void onReceiveLocation(BDLocation location) {
-//		Log.d("lxclxc", "更新位置信息");
-//		if (location == null) return ;
-//		latitude= String.format("%.3f",location.getLatitude());
-//		longitude= String.format("%.3f",location.getLongitude());
-//	}
-
-
-	private UserInfo2 cuUserInfo;
-	public void saveLoginInfo(String userName, String password){
-		SharedPreferences spf=getSharedPreferences(MyApplication.SP_NAME, MODE_PRIVATE);
-		SharedPreferences.Editor edit=spf.edit();
-		edit.putString("loginUsername", userName);
-		edit.putString("loginPassword", password);
-		edit.commit();
-	}
-
-	public void setUserInfo(UserInfo2 info){
-		cuUserInfo=info;
-	}
-
-	public UserInfo2 getUserInfo(){
-		return cuUserInfo;
-	}
-
-	public boolean isLogin(){
-		return cuUserInfo!=null;
-	}
+	private String longitude;
+	private String latitude;
 
 //	public void logout(Activity activity){
 //		SharedPreferences spf=getSharedPreferences(AppApp.SP_NAME, MODE_PRIVATE);
@@ -161,61 +149,59 @@ public class MyApplication extends Application  {
 //	}
 
 
-	private String provinceId;
-	public String getProvinceId(){
-		return provinceId!=null?provinceId:"";
-	}
-	private String provinceName;
-	public String getProvinceName(){
-		return provinceName!=null?provinceName:"";
-	}
-	private String cityId;
-	public String getCityId(){
-		return cityId!=null?cityId:"";
-	}
-	private String cityName;
-	public String getCityName(){
-		return cityName!=null?cityName:"重庆";
-	}
-	private String areaId;
-	public String getAreaId(){
-		return areaId!=null?areaId:"";
+	private String address;
+	public String getAddrsss(){
+		return address!=null?address.substring(2,address.length()):"四川省德阳市旌阳区东海路东段2号";
 	}
 
-	private String areaName;
-	public String getAreaName(){
-		return areaName!=null?areaName:"";
+
+	public void setLocalInfo(String addrsss,String latitude,String longitude ){
+		this.address=addrsss;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		ShareConfig.setConfig(MyApplication.instance,"addess",addrsss);
+		ShareConfig.setConfig(MyApplication.instance,"latitude",latitude);
+		ShareConfig.setConfig(MyApplication.instance,"longitude",longitude);
 	}
 
-	public void setLocalInfo(String provinceId, String provinceName, String cityId, String cityName, String areaId, String areaName){
-		this.provinceId=provinceId;
-		this.provinceName=provinceName;
-		this.cityId=cityId;
-		this.cityName=cityName;
-		this.areaId=areaId;
-		this.areaName=areaName;
-		SharedPreferences spf=getSharedPreferences(MyApplication.SP_NAME, MODE_PRIVATE);
-		SharedPreferences.Editor edit=spf.edit();
-		edit.putString("provinceId", provinceId);
-		edit.putString("provinceName", provinceName);
-
-		edit.putString("cityId", cityId);
-		edit.putString("cityName", cityName);
-
-		edit.putString("areaId", areaId);
-		edit.putString("areaName", areaName);
-		edit.commit();
+	private void loadLoaclInfo(){
+		this.address= ShareConfig.getConfigString(MyApplication.instance,"addess",null);
+		this.latitude = ShareConfig.getConfigString(MyApplication.instance,"latitude",null);
+		this.longitude = ShareConfig.getConfigString(MyApplication.instance,"longitude",null);
 	}
 
-//	private void loadLoaclInfo(){
-//		SharedPreferences spf=getSharedPreferences(AppApp.SP_NAME, MODE_PRIVATE);
-//		this.provinceId= spf.getString("provinceId",null);
-//		this.provinceName= spf.getString("provinceName",null);
-//		this.cityId= spf.getString("cityId",null);
-//		this.cityName= spf.getString("cityName",null);
-//		this.areaId= spf.getString("areaId",null);
-//		this.areaName= spf.getString("areaName",null);
-//	}
+	//判断是否开启了Gps
+	public void isGps(){
+		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		//判断GPS是否正常启动
+		if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			//返回开启GPS导航设置界面
+			showMissingPermissionDialog();
+			return;
+		}
+	}
+
+	// 显示缺失权限提示
+	public void showMissingPermissionDialog() {
+		final CustomDialog dialog = new CustomDialog(MyApplication.instance,R.style.MyDialog, R.layout.tip_delete_dialog);
+		dialog.setTitle(getResources().getString(R.string.help));
+		dialog.setText(getResources().getString(R.string.string_gps_help_text));
+		dialog.setConfirmBtnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		}, getResources().getString(R.string.quit));
+		dialog.setCancelBtnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+				Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				MyApplication.instance.startActivity(intent);
+			}
+		},getResources().getString(R.string.settings));
+		dialog.show();
+	}
 
 	private void initUniversalImageLoader() {
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -248,4 +234,31 @@ public class MyApplication extends Application  {
 				.build();
 		ImageLoader.getInstance().init(config);
 	}
+
+	@Override
+	public void onReceiveLocation(BDLocation location) {
+		if (location == null) return ;
+		setLocalInfo(location.getAddress().address,String.format("%.3f",location.getLatitude()),String.format("%.3f",location.getLongitude()));
+	}
+
+	/**
+	 * 获取应用版本号
+	 * @return 版本号
+	 */
+	public static int getVersionCode() {
+		int code = 1;
+		if(instance == null) {
+			return code;
+		}
+		try {
+			PackageInfo packageInfo = instance.getPackageManager().getPackageInfo(
+					"com.tbea.tb.tbeawaterelectrician", 0);
+			code = packageInfo.versionCode;
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		return code;
+	}
+
 }

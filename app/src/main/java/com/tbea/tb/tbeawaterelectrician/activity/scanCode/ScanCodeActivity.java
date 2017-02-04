@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -14,15 +16,28 @@ import android.widget.Toast;
 
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
+import com.tbea.tb.tbeawaterelectrician.entity.NearbyCompany;
+import com.tbea.tb.tbeawaterelectrician.fragment.nearby.NearbyFragment;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
+import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
+import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 import com.uuzuche.lib_zxing.activity.CaptureFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cy on 2017/1/16.扫码界面
  */
 
 public class ScanCodeActivity extends TopActivity {
-    private boolean  mFlag = false;
+    private boolean  mFlag = false;//控制是否打开闪关灯
+    private String mScanCodeType = "suyuan";
     private final  int REQUEST_IMAGE = 100;
 
     @Override
@@ -58,7 +73,11 @@ public class ScanCodeActivity extends TopActivity {
         ((CheckBox)findViewById(R.id.scan_code_type)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
+                if(b){
+                    mScanCodeType = "suyuan";
+                }else {
+                    mScanCodeType = "fanli";
+                }
             }
         });
 
@@ -73,10 +92,13 @@ public class ScanCodeActivity extends TopActivity {
         findViewById(R.id.scan_code_album).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("image/*");
-                startActivityForResult(intent, REQUEST_IMAGE);
+                Intent localIntent2 = new Intent();
+                localIntent2.addCategory(Intent.CATEGORY_OPENABLE);
+                localIntent2.setType("image/*");
+                localIntent2.putExtra("return-data", true);
+                localIntent2
+                        .setAction("android.intent.action.GET_CONTENT");
+                startActivityForResult(localIntent2, REQUEST_IMAGE);
             }
         });
 
@@ -95,6 +117,13 @@ public class ScanCodeActivity extends TopActivity {
                 }
             }
         });
+
+        findViewById(R.id.scan_code_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -102,14 +131,14 @@ public class ScanCodeActivity extends TopActivity {
         if (requestCode == REQUEST_IMAGE) {
             if (data != null) {
                 Uri uri = data.getData();
-                ContentResolver cr = getContentResolver();
+//                ContentResolver cr = getContentResolver();
                 try {
-                    Bitmap mBitmap = MediaStore.Images.Media.getBitmap(cr, uri);//显得到bitmap图片
+//                    Bitmap mBitmap = MediaStore.Images.Media.getBitmap(cr, uri);//显得到bitmap图片
 
-                    CodeUtils.analyzeBitmap(uri.getPath(), new CodeUtils.AnalyzeCallback() {
+                    CodeUtils.analyzeBitmap(UtilAssistants.getPath(ScanCodeActivity.this,uri), new CodeUtils.AnalyzeCallback() {
                         @Override
                         public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
-                            Toast.makeText(ScanCodeActivity.this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                            provingScanCode(result);//二维码有效性检验
                         }
 
                         @Override
@@ -118,9 +147,9 @@ public class ScanCodeActivity extends TopActivity {
                         }
                     });
 
-                    if (mBitmap != null) {
-                        mBitmap.recycle();
-                    }
+//                    if (mBitmap != null) {
+//                        mBitmap.recycle();
+//                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -134,25 +163,61 @@ public class ScanCodeActivity extends TopActivity {
      */
     CodeUtils.AnalyzeCallback analyzeCallback = new CodeUtils.AnalyzeCallback() {
         @Override
-        public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
-            Intent resultIntent = new Intent();
-            Bundle bundle = new Bundle();
-            bundle.putInt(CodeUtils.RESULT_TYPE, CodeUtils.RESULT_SUCCESS);
-            bundle.putString(CodeUtils.RESULT_STRING, result);
-            resultIntent.putExtras(bundle);
-           setResult(RESULT_OK, resultIntent);
-           finish();
+        public void onAnalyzeSuccess(Bitmap mBitmap, final String result) {
+               provingScanCode(result);//二维码有效性检验
         }
 
         @Override
         public void onAnalyzeFailed() {
-            Intent resultIntent = new Intent();
-            Bundle bundle = new Bundle();
-            bundle.putInt(CodeUtils.RESULT_TYPE, CodeUtils.RESULT_FAILED);
-            bundle.putString(CodeUtils.RESULT_STRING, "");
-            resultIntent.putExtras(bundle);
-            setResult(RESULT_OK, resultIntent);
-            finish();
+            Toast.makeText(ScanCodeActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
         }
     };
+
+    public  void provingScanCode(final String result){
+        final CustomDialog dialog = new CustomDialog(ScanCodeActivity.this,R.style.MyDialog,R.layout.tip_wait_dialog);
+        dialog.setText("请等待...");
+        dialog.show();
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                dialog.dismiss();
+                switch (msg.what) {
+                    case ThreadState.SUCCESS:
+                        RspInfo1 re = (RspInfo1) msg.obj;
+                        if (re.isSuccess()) {
+                            Intent intent = new Intent();
+                            if(mScanCodeType.equals("suyuan")){
+                                intent.setClass(ScanCodeActivity.this,SuYuanViewActivity.class);
+                            }else {
+                                intent.setClass(ScanCodeActivity.this,ScanCodeViewActivity.class);
+                                intent.putExtra("type","net");
+                            }
+                            intent.putExtra("scanCode",result);
+                            startActivity(intent);
+
+                        } else {
+                            UtilAssistants.showToast(re.getMsg());
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo1 re = userAction.provingScanCode(result,mScanCodeType);
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+    }
 }

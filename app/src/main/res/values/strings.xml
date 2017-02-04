@@ -8,6 +8,7 @@
     <string name="confirm">确定</string>
     <string name="camera_cancel">取消</string>
     <string name="help">帮助</string>
+    <string name="string_gps_help_text">请点击“设置”开启GPS设置。\n最后点击后退按钮，即可返回.</string>
     <string name="string_help_text">当前操作缺少必要权限。\n请点击“设置”-“权限”打开所需权限。\n最后点击两次后退按钮，即可返回.</string>
     <string name="quit">退出</string>
     <string name="settings">设置</string>

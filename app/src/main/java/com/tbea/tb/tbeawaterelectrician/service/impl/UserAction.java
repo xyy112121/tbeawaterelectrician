@@ -5,6 +5,7 @@ import com.tbea.tb.tbeawaterelectrician.entity.Commodith;
 import com.tbea.tb.tbeawaterelectrician.entity.Condition;
 import com.tbea.tb.tbeawaterelectrician.entity.NearbyCompany;
 import com.tbea.tb.tbeawaterelectrician.entity.Register;
+import com.tbea.tb.tbeawaterelectrician.entity.SuYuan;
 import com.tbea.tb.tbeawaterelectrician.entity.Take;
 import com.tbea.tb.tbeawaterelectrician.entity.UserInfo2;
 import com.tbea.tb.tbeawaterelectrician.http.MD5Util;
@@ -220,6 +221,56 @@ public class UserAction extends BaseAction {
         pairs.add(new BasicNameValuePair("cityname", cityName));
         String result = sendRequest("TBEAENG002001002000",pairs);
         rspInfo = gson.fromJson(result,new TypeToken<RspInfo<List<Condition>>>(){}.getType());
+        return  rspInfo;
+    }
+
+    /**
+     *
+     二维码有效性检验：
+     当扫描完成后需要先将此二维码发过去验证此二维码是否有效，
+     如果 有效即跳转到对应的页面上
+     * @param scanCode 扫码后获得的码
+     * @param scanCodeType 当前类型  fanli: 返利; suyuan: 溯源
+     */
+    public  RspInfo1 provingScanCode(String scanCode,String scanCodeType) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("scancode", scanCode));
+        pairs.add(new BasicNameValuePair("scancodetypeid", scanCodeType));
+        String result = sendRequest("TBEAENG006000001000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *
+     溯源详情接口
+     * @param scanCode 扫码获取到的码
+     * @param address 扫码地点详情
+     */
+    public  RspInfo1 getSuYuan(String scanCode,String address) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("scancode", scanCode));
+        pairs.add(new BasicNameValuePair("address", address));
+        String result = sendRequest("TBEAENG006001001000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *
+     返利详情接口
+     * @param scanCode 扫码获取到的码
+     * @param address 扫码地点详情
+     */
+    public  RspInfo1 getFanLi(String scanCode,String address) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("scancode", scanCode));
+        pairs.add(new BasicNameValuePair("address", address));
+        String result = sendRequest("TBEAENG006001002000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
         return  rspInfo;
     }
 
