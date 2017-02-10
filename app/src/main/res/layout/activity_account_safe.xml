@@ -17,12 +17,12 @@
            android:text="当前账户安全等级:"
            />
        <TextView
+           android:id="@+id/account_grade"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:textColor="@color/red"
            android:textSize="14sp"
            android:layout_marginLeft="8dp"
-           android:text="低"
            />
    </LinearLayout>
     <View style="@style/horizontal_view"/>
@@ -40,8 +40,8 @@
             android:onClick="clickHandler" />
 
         <TextView
+            android:id="@+id/account_old_phone"
             style="@style/my_right_text_style"
-            android:text="159****5542"
             />
     </RelativeLayout>
     <View style="@style/horizontal_view"/>
@@ -52,6 +52,7 @@
         android:paddingRight="10dp" >
 
         <TextView
+            android:id="@+id/account_safe_pwd_edit"
             style="@style/my_text_style"
             android:layout_height="wrap_content"
             android:text="登录密码" />

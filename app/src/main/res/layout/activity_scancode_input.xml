@@ -15,10 +15,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="请输入条形码的16位数字"
+            android:text="请输入产品编码的16位数字"
             android:textSize="16sp"
             android:textColor="#848484"/>
         <EditText
+            android:id="@+id/scan_code_input_text"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/scancode_input_ed"
@@ -26,6 +27,7 @@
             android:textColor="#848484"
            />
         <Button
+            android:id="@+id/scan_code_input_comfire"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@color/head_color"

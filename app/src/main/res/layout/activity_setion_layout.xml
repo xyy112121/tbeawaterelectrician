@@ -18,18 +18,8 @@
         <View
             style="@style/horizontal_view"/>
         <TextView
-            android:text="消息提醒设置"
-            style="@style/setion_text"/>
-        <View
-            style="@style/horizontal_view"/>
-        <TextView
             android:text="缓存处理"
             style="@style/setion_text"/>
-        <View
-            style="@style/horizontal_view"/>
-        <TextView
-        android:text="图片质量"
-        style="@style/setion_text"/>
         <View
             style="@style/horizontal_view"/>
         <TextView

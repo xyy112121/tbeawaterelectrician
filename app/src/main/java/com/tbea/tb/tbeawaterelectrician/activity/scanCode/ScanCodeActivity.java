@@ -37,7 +37,7 @@ import java.util.Map;
 
 public class ScanCodeActivity extends TopActivity {
     private boolean  mFlag = false;//控制是否打开闪关灯
-    private String mScanCodeType = "suyuan";
+    private String mScanCodeType = "fanli";
     private final  int REQUEST_IMAGE = 100;
 
     @Override
@@ -65,6 +65,7 @@ public class ScanCodeActivity extends TopActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ScanCodeActivity.this,CodeInputActivity.class);
+                intent.putExtra("scanCodeType",mScanCodeType);
                 startActivity(intent);
 
             }
@@ -74,9 +75,9 @@ public class ScanCodeActivity extends TopActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-                    mScanCodeType = "suyuan";
-                }else {
                     mScanCodeType = "fanli";
+                }else {
+                    mScanCodeType = "suyuan";
                 }
             }
         });

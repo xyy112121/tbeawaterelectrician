@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
+    android:background="@color/white"
     android:orientation="vertical" 
     android:clipToPadding="true"
     android:fitsSystemWindows="true">
@@ -23,13 +23,19 @@
             android:gravity="center"
             android:orientation="horizontal"
             android:layout_marginLeft="15dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="商品"
+                android:textColor="@color/text_gtay2"
+                android:layout_marginLeft="5dp"/>
 
             <EditText
             android:id="@+id/expert_search_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@null"
             android:imeOptions="actionSearch"
@@ -42,7 +48,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/expert_search_btn"
+            android:id="@+id/search_history_cancel"
             android:layout_width="70dp"
             android:layout_height="match_parent"
             android:layout_marginRight="5dp"
@@ -65,34 +71,68 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:layout_marginLeft="15dp"/>
-        <TextView
+        <HorizontalScrollView
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="家"/>
+           >
+            <LinearLayout
+                android:id="@+id/scancode_history_heat_speech_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"></LinearLayout>
+        </HorizontalScrollView>
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/gray"/>
+    <TextView
+        android:id="@+id/search_history_text"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:textColor="@color/text_gtay2"
+        android:text="历史记录"
+        android:layout_marginLeft="10dp"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="5dp"
+       />
+    <View
+        android:id="@+id/search_history_text_view"
+        style="@style/horizontal_view"
+        android:layout_marginBottom="5dp"/>
+
     <ListView
-           android:id="@+id/expert_select_search_history_list"
+           android:id="@+id/search_history_list"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:layout_marginLeft="10dp"
-           android:layout_marginRight="10dp"
            android:divider="#DDDDDD"
            android:dividerHeight="1dp"
             />
 
-    <View  style="@style/horizontal_view"/>
+    <View
+        android:id="@+id/search_history_view"
+        style="@style/horizontal_view"/>
      <TextView 
-         android:id="@+id/expert_select_search_history_del"
-         android:layout_width="match_parent"
+         android:id="@+id/search_history_del"
+         android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:text="清除历史记录"
+         android:text="清除历史搜索"
          android:gravity="center"
          android:paddingTop="5dp"
          android:paddingBottom="5dp"
-         android:textColor="#036AE1"/>
+         android:textColor="@color/text_gtay2"
+         android:drawableLeft="@drawable/icon_code_history_delect"
+         android:drawablePadding="5dp"
+         android:background="@drawable/history_del_bg"
+         android:layout_gravity="center"
+         android:paddingLeft="20dp"
+         android:paddingRight="20dp"
+         android:layout_marginTop="10dp"
+         />
      
 
 </LinearLayout>

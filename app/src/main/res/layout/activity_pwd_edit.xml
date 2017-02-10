@@ -19,11 +19,13 @@
                 />
 
             <EditText
+                android:id="@+id/pwd_edit_old"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="0.74"
                 android:hint="请输入当前登录密码"
                 android:imeOptions="actionNext"
-                style="@style/edit_style"/>
+                style="@style/edit_style"
+                android:inputType="numberPassword"/>
         </LinearLayout>
         <View
             style="@style/horizontal_view"/>
@@ -35,11 +37,13 @@
                 />
 
             <EditText
+                android:id="@+id/pwd_edit_new"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="0.74"
                 android:hint="请设置新密码"
                 android:imeOptions="actionNext"
-                style="@style/edit_style"/>
+                style="@style/edit_style"
+                android:inputType="numberPassword"/>
         </LinearLayout>
         <View
             style="@style/horizontal_view"/>
@@ -51,19 +55,20 @@
                 />
 
             <EditText
-                android:id="@+id/regist_identifying_code"
+                android:id="@+id/pwd_edit_confirm"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="0.74"
-                android:hint="请设置新密码"
-                android:imeOptions="actionNext"
-                style="@style/edit_style"/>
+                android:hint="请设置确认密码"
+                android:imeOptions="actionDone"
+                style="@style/edit_style"
+                android:inputType="numberPassword"/>
         </LinearLayout>
         <View
             style="@style/horizontal_view"/>
         </LinearLayout>
 
     <Button
-        android:id="@+id/myphone_edit_next"
+        android:id="@+id/pwd_edit_finish"
         style="@style/style_next_btn"
         android:text="完成"
         />

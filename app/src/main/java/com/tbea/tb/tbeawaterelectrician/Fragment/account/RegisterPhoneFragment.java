@@ -74,7 +74,7 @@ public class RegisterPhoneFragment extends Fragment {
             public void onClick(View v) {
                 final  String mobile = ((EditText)view.findViewById(R.id.regist_phone)).getText()+"";
                 if(isMobileNO(mobile) == false){
-                    showToast("请输入正确的手机号码");
+                    showToast("请输入正确的手机号码！");
                     return;
                 }
                 mc = new MyCount(60000, 1000);//倒计时60秒

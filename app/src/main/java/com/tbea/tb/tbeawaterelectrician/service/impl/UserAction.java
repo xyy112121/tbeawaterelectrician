@@ -1,12 +1,16 @@
 package com.tbea.tb.tbeawaterelectrician.service.impl;
 
 import com.google.gson.reflect.TypeToken;
+import com.tbea.tb.tbeawaterelectrician.entity.Collect;
 import com.tbea.tb.tbeawaterelectrician.entity.Commodith;
+import com.tbea.tb.tbeawaterelectrician.entity.Company;
 import com.tbea.tb.tbeawaterelectrician.entity.Condition;
+import com.tbea.tb.tbeawaterelectrician.entity.MessageCategory;
 import com.tbea.tb.tbeawaterelectrician.entity.NearbyCompany;
 import com.tbea.tb.tbeawaterelectrician.entity.Register;
 import com.tbea.tb.tbeawaterelectrician.entity.SuYuan;
 import com.tbea.tb.tbeawaterelectrician.entity.Take;
+import com.tbea.tb.tbeawaterelectrician.entity.UserInfo;
 import com.tbea.tb.tbeawaterelectrician.entity.UserInfo2;
 import com.tbea.tb.tbeawaterelectrician.http.MD5Util;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
@@ -64,16 +68,11 @@ public class UserAction extends BaseAction {
         RspInfo1 rspInfo;
         Map<String,String> paramsIn=new HashMap<>();
         Map<String,String> fileIn=new HashMap<>();
-//        paramsIn.put("mobile",register.getMobile());
-//        paramsIn.put("password",MD5Util.getMD5String(register.getPassword()));
-//        paramsIn.put("verifycode",register.getVerifycode());
-//        paramsIn.put("realname",register.getRealname());
-//        paramsIn.put("personid",register.getPersonid());
-         paramsIn.put("mobile","123456");
-         paramsIn.put("password",MD5Util.getMD5String("123456"));
-         paramsIn.put("verifycode","123456");
-         paramsIn.put("realname","测试");
-        paramsIn.put("personid","53019");
+        paramsIn.put("mobile",register.getMobile());
+        paramsIn.put("password",MD5Util.getMD5String(register.getPassword()));
+        paramsIn.put("verifycode",register.getVerifycode());
+        paramsIn.put("realname",register.getRealname());
+        paramsIn.put("personid",register.getPersonid());
         fileIn.put("personidcard1",register.getPersonidcard1());
         fileIn.put("personidcard2",register.getPersonidcard2());
         fileIn.put("personidcardwithperson",register.getPersonidcardwithperson());
@@ -206,10 +205,12 @@ public class UserAction extends BaseAction {
     /**
      * 获取用户信息
      */
-    public String getUserInfo() throws Exception{
+    public RspInfo1 getUserInfo() throws Exception{
+        RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         String result = sendRequest("TBEAENG005001001000",pairs);
-        return result;
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
     }
 
     /**
@@ -270,6 +271,292 @@ public class UserAction extends BaseAction {
         pairs.add(new BasicNameValuePair("scancode", scanCode));
         pairs.add(new BasicNameValuePair("address", address));
         String result = sendRequest("TBEAENG006001002000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *
+     我的钱包收入列表接口
+     */
+    public  RspInfo1 getWalletRevenueList(int page,int pageSize) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
+        pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
+        String result = sendRequest("TBEAENG005001007000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *
+     我的钱包支出列表接口
+     */
+    public  RspInfo1 getWalletPayList(int page,int pageSize) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
+        pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
+        String result = sendRequest("TBEAENG005001008000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *
+     提现金额
+     */
+        public  RspInfo1 getCanexChangeMoney () throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG005001009000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     * 生成二维码
+     */
+    public  RspInfo1 createCode (String money) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("money", money));
+        String result = sendRequest("TBEAENG005001010000", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     * 提现成功界面获取方法
+     */
+    public  RspInfo1 getCanexChangeMoneySuccess (String takemoneycode ) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("takemoneycode", takemoneycode));
+        String result = sendRequest("TBEAENG005001110000", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     * 获取搜索热词接口
+     */
+    public  RspInfo1 getHeatSpeech (String searchtype ) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("searchtype", searchtype));
+        String result = sendRequest("TBEAENG002001003000", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     * 获取输入搜索关键词接口
+     */
+    public  RspInfo getSearchList (String searchtype,String keyword ) throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("searchtype", searchtype));
+        pairs.add(new BasicNameValuePair("keyword", keyword));
+        String result = sendRequest("TBEAENG002001004000", pairs);
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<Object>>(){}.getType());
+        return  rspInfo;
+    }
+
+    /**
+     * 获取收藏列表
+     */
+    public  RspInfo getCollectList (int page,int pageSize ) throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
+        pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
+        String result = sendRequest("TBEAENG005001012000", pairs);
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<List<Collect>>>(){}.getType());
+        return  rspInfo;
+    }
+
+    /**
+     * 取消收藏的商品
+     */
+    public RspInfo1  cancelCollect(String  saveids) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("saveids", saveids));
+        String result = sendRequest("TBEAENG005001012001", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *获取消息列表
+     */
+    public  RspInfo getMessageList () throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG005001013000", pairs);
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<List<MessageCategory>>>(){}.getType());
+        return  rspInfo;
+    }
+
+    /**
+     *获取客服中心
+     */
+    public  RspInfo getServiceCenterInfo() throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG005001014000", pairs);
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<List<MessageCategory>>>(){}.getType());
+        return  rspInfo;
+    }
+
+    /**
+     *修改基本信息
+     * @param sex 修改性别 先生传male  女士传Female
+     * @param email 邮件
+     * @param birthday 生日 日
+     * @param birthmonth 生日 月
+     * @return
+     * @throws Exception
+     */
+    public RspInfo1  updateInfo(String  sex,String email,String birthday,String birthmonth) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("sex", sex));
+        pairs.add(new BasicNameValuePair("email", email));
+        pairs.add(new BasicNameValuePair("birthday", birthday));
+        pairs.add(new BasicNameValuePair("birthmonth", birthmonth));
+        String result = sendRequest("TBEAENG005001002001", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     * 获取个人信息
+     */
+    public RspInfo getUser()throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG005001002000", pairs);
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<UserInfo>>(){}.getType());
+        return  rspInfo;
+    }
+
+    /**
+     *获取安全级别及原绑定手机号
+     */
+    public RspInfo1 getPhoneInfo()throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG005001015000", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**TBEAENG005001005001
+     *更改手机号验证老手机号
+     * @param mobile 老的手机号码
+     * @param verifycode 验证码
+     */
+    public RspInfo1 updateOldPhone(String mobile,String verifycode)throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("mobile", mobile));
+        pairs.add(new BasicNameValuePair("verifycode", verifycode));
+        String result = sendRequest("TBEAENG005001005000", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+   /**
+    *更改手机号验证新手机号
+    * @param mobile 新的手机号码
+    * @param verifycode 验证码
+    */
+    public RspInfo1 updateNewPhone(String mobile,String verifycode)throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("newmobile", mobile));
+        pairs.add(new BasicNameValuePair("verifycode", verifycode));
+        String result = sendRequest("TBEAENG005001005001", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *
+     修改密码
+     * @param olduserpas 老密码
+     * @param newuserpas 新密码
+     */
+    public RspInfo1 updateNewPwd(String olduserpas,String newuserpas)throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("olduserpas", MD5Util.getMD5String(olduserpas)));
+        pairs.add(new BasicNameValuePair("newuserpas", MD5Util.getMD5String(newuserpas)));
+        String result = sendRequest("TBEAENG001001007000", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     * 获取省列表
+     */
+    public RspInfo getProvinceList() throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG002001002001", pairs);
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<List<Condition>>>(){}.getType());
+        return  rspInfo;
+    }
+
+    /**
+     * 获取市列表
+     */
+    public RspInfo getCityList2(String provinceid) throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("provinceid", provinceid));
+        String result = sendRequest("TBEAENG002001002000", pairs);
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<List<Condition>>>(){}.getType());
+        return  rspInfo;
+    }
+
+    /**
+     * 获取收货地址列表
+     */
+    public RspInfo getAddrList() throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG005001003000", pairs);
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<List<Condition>>>(){}.getType());
+        return  rspInfo;
+    }
+
+    /**
+     * 添加收货地址
+     *contactperson，（收货人）
+     contactmobile，  （电话）
+     provinceid，（选择的省份ID）
+     cityid，  （选择的城市ID）
+     zoneid，  （选择的区域id）
+     adddress，  (
+     详细地址)
+     isdefault  （是否设置成默认   0 表示非默认  1表示默认）
+     * */
+    public RspInfo1 addAddrss(String contactperson,String contactmobile,String provinceid,String cityid,String zoneid
+            ,String adddress,String isdefault) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("contactperson", contactperson));
+        pairs.add(new BasicNameValuePair("contactmobile", contactmobile));
+        pairs.add(new BasicNameValuePair("provinceid", provinceid));
+        pairs.add(new BasicNameValuePair("cityid", cityid));
+        pairs.add(new BasicNameValuePair("zoneid", zoneid));
+        pairs.add(new BasicNameValuePair("adddress", adddress));
+        pairs.add(new BasicNameValuePair("isdefault", isdefault));
+        String result = sendRequest("TBEAENG005001004000", pairs);
         rspInfo = gson.fromJson(result,RspInfo1.class);
         return  rspInfo;
     }

@@ -67,5 +67,8 @@ dependencies {
     compile files('libs/baidumapapi_search_v4_2_0.jar')
     compile files('libs/baidumapapi_util_v4_2_0.jar')
     compile files('libs/locSDK_6.13.jar')
+    compile 'cn.qqtheme.framework:WheelPicker:1.1.2'
+    compile 'cn.qqtheme.framework:FilePicker:1.1.2'
+    compile 'com.alibaba:fastjson:1.1.46.android'
 }
 

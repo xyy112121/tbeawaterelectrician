@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color">
+    <include layout="@layout/activity_page_top"/>
+
+    <TextView
+        android:id="@+id/addr_city_select_province"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:hint="选择省份"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/city_select_ed_bg"
+        android:paddingLeft="5dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/text_gtay2"/>
+
+    <TextView
+        android:id="@+id/addr_city_select_city"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:hint="选择市"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/city_select_ed_bg"
+        android:paddingLeft="5dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/text_gtay2"/>
+
+    <TextView
+        android:id="@+id/addr_city_select_location"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:hint="选择区域"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/city_select_ed_bg"
+        android:paddingLeft="5dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/text_gtay2"/>
+
+
+</LinearLayout>

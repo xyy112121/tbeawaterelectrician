@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
+import com.tbea.tb.tbeawaterelectrician.activity.nearby.DistributorViewAcitivty;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.FranchiserViewActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomPopWindow;
 import com.tbea.tb.tbeawaterelectrician.entity.Condition;
@@ -84,7 +85,16 @@ public class NearbyFranchiserFagment extends Fragment implements BGARefreshLayou
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(new Intent(getActivity(), FranchiserViewActivity.class));
+                NearbyCompany obj = (NearbyCompany)mAdapter.getItem(i);
+                if("firstleveldistributor".equals(obj.getCompanytypeid())){
+                    //总经销商
+                    startActivity(new Intent(getActivity(), FranchiserViewActivity.class));
+                }else{
+                    //经销商
+                    Intent intent = new Intent(getActivity(), DistributorViewAcitivty.class);
+                    intent.putExtra("id",obj.getId());
+                    startActivity(intent);
+                }
             }
         });
 
@@ -354,7 +364,7 @@ public class NearbyFranchiserFagment extends Fragment implements BGARefreshLayou
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return mList.get(position);
         }
 
         @Override
@@ -391,7 +401,6 @@ public class NearbyFranchiserFagment extends Fragment implements BGARefreshLayou
             if(obj.getWithidentified().equals("1")){
                 (view.findViewById(R.id.nearby_company_item_withidentified)).setVisibility(View.VISIBLE);
             }
-
             return view;
         }
 
@@ -402,19 +411,15 @@ public class NearbyFranchiserFagment extends Fragment implements BGARefreshLayou
                 notifyDataSetChanged();
             }
         }
-
         public void addAll(List<NearbyCompany> list) {
             mList.addAll(list);
             notifyDataSetChanged();
         }
 
-
         public void removeAll() {
             mList.clear();
             notifyDataSetChanged();
         }
-
-
     }
 
 //    /**

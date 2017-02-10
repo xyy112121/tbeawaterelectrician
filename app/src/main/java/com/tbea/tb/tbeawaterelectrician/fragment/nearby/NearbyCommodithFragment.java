@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
+import com.tbea.tb.tbeawaterelectrician.activity.nearby.CommodithViewActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.FranchiserViewActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomPopWindow;
 import com.tbea.tb.tbeawaterelectrician.entity.Commodith;
@@ -345,7 +346,7 @@ public class NearbyCommodithFragment extends Fragment implements BGARefreshLayou
                     .getSystemService(context.LAYOUT_INFLATER_SERVICE);
             FrameLayout view = (FrameLayout) layoutInflater.inflate(
                     R.layout.fragment_nearby_purchase_item_layout, null);
-            Commodith obj = mList.get(position);
+            final Commodith obj = mList.get(position);
             ImageView imageView = (ImageView)view.findViewById(R.id.nearby_commdith_item_picture);
             if(!obj.getPicture().equals("")){
                 ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+obj.getPicture(),imageView);
@@ -354,6 +355,14 @@ public class NearbyCommodithFragment extends Fragment implements BGARefreshLayou
             ((TextView)view.findViewById(R.id.nearby_commdith_item_specification)).setText(obj.getSpecification());
             ((TextView)view.findViewById(R.id.nearby_commdith_item_distance)).setText(obj.getDistance());
             ((TextView)view.findViewById(R.id.nearby_commdith_item_price)).setText("￥："+obj.getPrice());
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, CommodithViewActivity.class);
+                    intent.putExtra("id",obj.getId());
+                    startActivity(intent);
+                }
+            });
             return view;
         }
 

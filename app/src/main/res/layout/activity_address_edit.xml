@@ -62,6 +62,7 @@
         <View
             style="@style/horizontal_view"/>
         <LinearLayout
+            android:id="@+id/addr_edit_provincial_city_layout"
             style="@style/edit_style_layout">
             <TextView
                 style="@style/edit_left_style_tv"
@@ -70,7 +71,7 @@
                 />
 
             <TextView
-                android:id="@+id/regist_identifying_code"
+                android:id="@+id/addr_edit_provincial_city"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="0.74"
                 android:imeOptions="actionNext"
@@ -80,7 +81,8 @@
                 android:layout_marginRight="8dp"
                 android:drawablePadding="5dp"
                 android:hint="请选择"
-                android:gravity="right|center"/>
+                android:gravity="right|center"
+                android:textColor="@color/text_gtay2"/>
         </LinearLayout>
         <View
             style="@style/horizontal_view"/>
@@ -98,7 +100,6 @@
                 android:imeOptions="actionNext"
                 style="@style/edit_style"
                 android:textSize="16sp"
-                android:drawableRight="@drawable/icon_arrow_right"
                 android:layout_marginRight="8dp"
                 android:maxLines="4"/>
         </LinearLayout>

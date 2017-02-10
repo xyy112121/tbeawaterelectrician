@@ -13,7 +13,7 @@ import com.tbea.tb.tbeawaterelectrician.fragment.nearby.CompanyDynamicsFragment;
 import com.tbea.tb.tbeawaterelectrician.fragment.nearby.NearbyCommodithFragment;
 
 /**
- * Created by cy on 2016/12/26.经销商
+ * Created by cy on 2016/12/26.总经销商
  */
 
 public class FranchiserViewActivity extends TopActivity {

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+    <include layout="@layout/activity_page_top"/>
+
+    <LinearLayout style="@style/edit_style_layout"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            style="@style/edit_left_style_tv"
+            android:text="电子邮箱" />
+
+        <EditText
+            android:id="@+id/email_edit_code"
+            style="@style/edit_style"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="0.74"
+            android:hint="请输入电子邮件"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/email_edit_finish"
+        style="@style/style_next_btn"
+        android:text="完成" />
+
+</LinearLayout>

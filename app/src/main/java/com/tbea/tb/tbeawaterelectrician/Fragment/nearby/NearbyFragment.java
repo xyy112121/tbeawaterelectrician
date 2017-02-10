@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.CityListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +104,6 @@ public class NearbyFragment extends android.app.Fragment {
 
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener(new TabOnPageChangeListener());
-
         initTabLine(view);
 
         view.findViewById(R.id.mian_city_layout).setOnClickListener(new View.OnClickListener() {
@@ -111,6 +111,14 @@ public class NearbyFragment extends android.app.Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), CityListActivity.class);
                 NearbyFragment.this.startActivityForResult(intent,CITY_RESULT);
+            }
+        });
+
+        view.findViewById(R.id.open_my_message).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MessageListActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -128,12 +136,12 @@ public class NearbyFragment extends android.app.Fragment {
                 franchiserFagment.refreshDate();
             }
             if(mViewPager.getCurrentItem() == 1){
-                //附近经销商
+                //附近商家
                 NearbyShopFragment franchiserFagment = (NearbyShopFragment) fragments.get(1);
                 franchiserFagment.refreshDate();
             }
             if(mViewPager.getCurrentItem() == 2){
-                //附近经销商
+                //附近采购
                 NearbyCommodithFragment franchiserFagment = (NearbyCommodithFragment) fragments.get(2);
                 franchiserFagment.refreshDate();
             }

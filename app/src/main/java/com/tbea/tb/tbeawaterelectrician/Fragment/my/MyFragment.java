@@ -9,14 +9,25 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
+import com.tbea.tb.tbeawaterelectrician.activity.my.AboutActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.CollectListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MyInformationActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.OrderListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.ServiceCenterActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.SetionActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.WalletListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.WalletWithdrawCashViewActivity;
 import com.tbea.tb.tbeawaterelectrician.entity.NearbyCompany;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
@@ -30,43 +41,39 @@ import java.util.Map;
  */
 
 public class MyFragment extends Fragment {
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = (View)inflater.inflate(R.layout.fragment_my,null);
-//        getDate();
+        getDate(view);
         listener(view);
         return  view;
     }
 
-    public void getDate(){
+    public void getDate(final View view){
         final Handler handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what){
                     case ThreadState.SUCCESS:
-                        RspInfo re = (RspInfo)msg.obj;
+                        RspInfo1 re = (RspInfo1)msg.obj;
                         if(re.isSuccess()){
-                            List<Map<String,String>> list =  (List<Map<String,String>>) re.getDateObj("companylist");
-                            List<NearbyCompany> companyList = new ArrayList<>();
-                            if(list != null){
-                                for (int i = 0;i< list.size();i++){
-                                    NearbyCompany obj = new NearbyCompany();
-                                    obj.setId(list.get(i).get("id"));
-                                    obj.setPicture(list.get(i).get("picture"));
-                                    obj.setName(list.get(i).get("name"));
-                                    obj.setDistance(list.get(i).get("distance"));
-                                    obj.setLatitude(list.get(i).get("latitude"));
-                                    obj.setAddress(list.get(i).get("address"));
-                                    obj.setCompanytypeid(list.get(i).get("companytypeid"));
-                                    obj.setWithcompanyidentified(list.get(i).get("withcompanyidentified"));
-                                    obj.setWithcompanylisence(list.get(i).get("withcompanylisence"));
-                                    obj.setWithguaranteemoney(list.get(i).get("withguaranteemoney"));
-                                    obj.setWithguaranteemoney(list.get(i).get("withidentified"));
-                                    companyList.add(obj);
-                                }
-                            }else {
-                            }
+                            Map<String, Object> data = (Map<String, Object>) re.getData();
+                            Map<String, String> personInfo = (Map<String, String>) data.get("personinfo");
+                            Map<String, Object> serviceInfo = (Map<String, Object>) data.get("serviceinfo");
+                            ((TextView)view.findViewById(R.id.user_name)).setText(personInfo.get("name"));
+                            ((TextView)view.findViewById(R.id.user_mobile)).setText(personInfo.get("mobile"));
+                            String url = MyApplication.instance.getImgPath()+data.get("picture");
+                            ImageView imageView = (ImageView)view.findViewById(R.id.user_picture);
+                            ImageLoader.getInstance().displayImage(url,imageView);
+                            ((TextView)view.findViewById(R.id.user_wallet_size)).setText(serviceInfo.get("userscore")+"");
+                            double message_size = (double)serviceInfo.get("newmessagenumber");
+                            double savedatanumber = (double)serviceInfo.get("savedatanumber");
+                            int m = (int)message_size;
+                            int n = (int)savedatanumber;
+                            ((TextView)view.findViewById(R.id.tv_message_size)).setText(m+"条未读消息");
+                            ((TextView)view.findViewById(R.id.tv_collect_size)).setText(n+"");
                         }else {
                             UtilAssistants.showToast(re.getMsg());
                         }
@@ -84,7 +91,7 @@ public class MyFragment extends Fragment {
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    String  re = userAction.getUserInfo();
+                    RspInfo1 re = userAction.getUserInfo();
                     handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
@@ -112,6 +119,48 @@ public class MyFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), MyInformationActivity.class));
+            }
+        });
+
+        view.findViewById(R.id.my_wallet).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), WalletListActivity.class);
+//                Intent intent = new Intent(getActivity(), WalletWithdrawCashViewActivity.class);
+                String size = ((TextView)view.findViewById(R.id.user_wallet_size)).getText()+"";
+                intent.putExtra("size",size);
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.my_collect).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CollectListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.my_message).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MessageListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.my_service).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ServiceCenterActivity.class);
+                startActivity(intent);
+            }
+        });
+        view.findViewById(R.id.my_about).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AboutActivity.class);
+                startActivity(intent);
             }
         });
     }

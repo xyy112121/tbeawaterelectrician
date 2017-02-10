@@ -10,7 +10,7 @@ public class Company {
     private String companyname;
     private String distance;
     private String commoditydesc;
-    private String Price;
+    private String price;
 
     public String getCompanyname() {
         return companyname;
@@ -53,10 +53,10 @@ public class Company {
     }
 
     public String getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(String price) {
-        Price = price;
+        this.price = price;
     }
 }

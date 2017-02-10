@@ -2,10 +2,12 @@ package com.tbea.tb.tbeawaterelectrician.fragment.nearby;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +15,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
+import com.tbea.tb.tbeawaterelectrician.activity.nearby.DistributorViewAcitivty;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.FranchiserViewActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomPopWindow;
 import com.tbea.tb.tbeawaterelectrician.entity.Condition;
@@ -62,6 +68,21 @@ public class NearbyShopFragment extends Fragment implements BGARefreshLayout.BGA
     }
 
     private void listener(){
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                NearbyCompany obj = (NearbyCompany)mAdapter.getItem(i);
+                if("firstleveldistributor".equals(obj.getCompanytypeid())){
+                    //总经销商
+                    startActivity(new Intent(getActivity(), FranchiserViewActivity.class));
+                }else{
+                    //经销商
+                    Intent intent = new Intent(getActivity(), DistributorViewAcitivty.class);
+                    intent.putExtra("id",obj.getId());
+                    startActivity(intent);
+                }
+            }
+        });
         mView.findViewById(R.id.franchiser_search_condition1_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,7 +145,7 @@ public class NearbyShopFragment extends Fragment implements BGARefreshLayout.BGA
                                     obj.setWithguaranteemoney(list.get(i).get("withidentified"));
                                     companyList.add(obj);
                                 }
-//                                mAdapter.addAll(companyList);
+                                mAdapter.addAll(companyList);
                             }else {
                                 if(mPage >1){//防止分页的时候没有加载数据，但是页数已经增加，导致下一次查询不正确
                                     mPage--;
@@ -311,6 +332,7 @@ public class NearbyShopFragment extends Fragment implements BGARefreshLayout.BGA
          * android 上下文环境
          */
         private Context context;
+        private List<NearbyCompany> mList = new ArrayList<>();
 
         /**
          * 构造函数
@@ -324,12 +346,12 @@ public class NearbyShopFragment extends Fragment implements BGARefreshLayout.BGA
 
         @Override
         public int getCount() {
-            return 14;
+            return mList.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return mList.get(position);
         }
 
         @Override
@@ -343,22 +365,49 @@ public class NearbyShopFragment extends Fragment implements BGARefreshLayout.BGA
                     .getSystemService(context.LAYOUT_INFLATER_SERVICE);
             FrameLayout view = (FrameLayout) layoutInflater.inflate(
                     R.layout.fragment_nearby_franchiser_item_layout, null);
-
+            NearbyCompany obj = mList.get(position);
+            ImageView imageView = (ImageView) view.findViewById(R.id.nearby_company_item_picture);
+            if (!obj.getPicture().equals("")) {
+                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + obj.getPicture(), imageView);
+            }
+            TextView nameView = (TextView) view.findViewById(R.id.nearby_company_item_name);
+            nameView.setText(obj.getName());
+            ((TextView) view.findViewById(R.id.nearby_company_item_distance)).setText(obj.getDistance());
+            ((TextView) view.findViewById(R.id.nearby_company_item_addr)).setText(obj.getAddress());
+            if (obj.getWithcompanyidentified().equals("1")) {
+                Drawable nav_up = ContextCompat.getDrawable(context, R.drawable.icon_attestations);
+                nav_up.setBounds(0, 0, nav_up.getMinimumWidth(), nav_up.getMinimumHeight());
+                nameView.setCompoundDrawables(null, null, nav_up, null);
+            }
+            if(obj.getWithidentified() != null && obj.getWithcompanylisence().equals("1")){
+                (view.findViewById(R.id.nearby_company_item_withcompanylisence)).setVisibility(View.VISIBLE);
+            }
+            if(obj.getWithidentified() != null && obj.getWithguaranteemoney().equals("1")){
+                (view.findViewById(R.id.nearby_company_item_withguaranteemoney)).setVisibility(View.VISIBLE);
+            }
+            if(obj.getWithidentified() != null && obj.getWithidentified().equals("1")){
+                (view.findViewById(R.id.nearby_company_item_withidentified)).setVisibility(View.VISIBLE);
+            }
             return view;
         }
 
 
         public void remove(int index) {
             if (index > 0) {
+                mList.remove(index);
                 notifyDataSetChanged();
             }
         }
 
-        public void removeAll() {
+        public void addAll(List<NearbyCompany> list) {
+            mList.addAll(list);
             notifyDataSetChanged();
         }
 
-
+        public void removeAll() {
+            mList.clear();
+            notifyDataSetChanged();
+        }
     }
 
 

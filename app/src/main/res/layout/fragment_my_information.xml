@@ -36,6 +36,7 @@
     </RelativeLayout>
     <View style="@style/horizontal_view"/>
     <RelativeLayout
+        android:id="@+id/info_sex_layout"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@drawable/my_select_btn"
@@ -47,12 +48,13 @@
             android:text="性别" />
 
         <TextView
+            android:id="@+id/info_sex"
             style="@style/my_right_text_style"
-            android:text="男"
             />
     </RelativeLayout>
     <View style="@style/horizontal_view"/>
     <RelativeLayout
+        android:id="@+id/info_birthday_layout"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@drawable/my_select_btn"
@@ -64,12 +66,13 @@
             android:text="生日" />
 
         <TextView
+            android:id="@+id/info_birthday"
             style="@style/my_right_text_style"
-            android:text="1993-11-11"
             />
     </RelativeLayout>
     <View style="@style/horizontal_view"/>
     <RelativeLayout
+        android:id="@+id/info_email_layout"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@drawable/my_select_btn"
@@ -81,12 +84,13 @@
             android:text="电子邮件" />
 
         <TextView
+            android:id="@+id/info_email"
             style="@style/my_right_text_style"
-            android:text="27277@qq.com"
             />
     </RelativeLayout>
     <View style="@style/horizontal_view"/>
     <RelativeLayout
+        android:id="@+id/info_addr_layout"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@drawable/my_select_btn"

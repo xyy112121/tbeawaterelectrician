@@ -23,6 +23,8 @@ import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.CityListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
+import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.thenLive.TakeViewActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomPopWindow;
 import com.tbea.tb.tbeawaterelectrician.entity.Condition;
 import com.tbea.tb.tbeawaterelectrician.entity.Take;
@@ -105,6 +107,14 @@ public class TakeFragment extends Fragment implements BGARefreshLayout.BGARefres
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), CityListActivity.class);
                 TakeFragment.this.startActivityForResult(intent, CITY_RESULT);
+            }
+        });
+
+        mView.findViewById(R.id.open_my_message).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MessageListActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -344,7 +354,7 @@ public class TakeFragment extends Fragment implements BGARefreshLayout.BGARefres
                     .getSystemService(context.LAYOUT_INFLATER_SERVICE);
             FrameLayout view = (FrameLayout) layoutInflater.inflate(
                     R.layout.fragment_take_item_layout, null);
-            Take obj = mList.get(position);
+            final Take obj = mList.get(position);
             ImageView imageView = (ImageView) view.findViewById(R.id.take_item_picture);
             if (!obj.getPicture().equals(""))
                 ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + obj.getPicture(), imageView);
@@ -359,6 +369,15 @@ public class TakeFragment extends Fragment implements BGARefreshLayout.BGARefres
             if (obj.getPublisherwhetheridentify().equals("1")) {
                 view.findViewById(R.id.take_item_publisherwhetheridentify).setVisibility(View.VISIBLE);
             }
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, TakeViewActivity.class);
+                    intent.putExtra("id",obj.getId());
+                    startActivity(intent);
+                }
+            });
             return view;
         }
 

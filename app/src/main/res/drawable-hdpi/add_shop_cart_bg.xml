@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+  <!-- 按下时的背景 -->
+  <item  android:state_checked="true" >
+    <shape>
+      <stroke android:width="2px" android:color="#E5E8E8"/>
+
+      <corners android:radius="5dp" />
+      <gradient android:startColor="#00A0E9"
+          android:endColor="#00A0E9"/>
+    </shape>
+  </item>
+
+  <item android:state_enabled="false" >
+    <shape>
+      <stroke android:width="2px" android:color="#F2F0F0"/>
+
+      <corners android:radius="5dp" />
+    </shape>
+  </item>
+  <!-- 默认 -->
+  <item  android:state_checked="false">
+    <shape >
+      <stroke android:width="2px" android:color="@color/text_gray"/>
+
+      <corners android:radius="5dp" />
+    </shape>
+  </item>
+
+</selector>

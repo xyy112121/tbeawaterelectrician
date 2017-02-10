@@ -39,7 +39,7 @@
                 android:src="@drawable/icon_inverted_triangle" />
         </LinearLayout>
 
-        <EditText
+        <TextView
             android:id="@+id/expert_search_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,12 +53,13 @@
             android:hint="搜索商品或店铺"
             android:imeOptions="actionSearch"
             android:padding="5dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="#fff"
             android:textColorHint="#fff"
             android:textSize="12sp" />
 
         <ImageView
+            android:id="@+id/open_my_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|left"

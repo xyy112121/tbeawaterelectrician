@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -20,12 +22,16 @@ import com.google.gson.internal.LinkedTreeMap;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
+import com.tbea.tb.tbeawaterelectrician.activity.my.BindingNewPhoneFinishActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.UserInfo2;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
+import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.util.Iterator;
 
@@ -48,13 +54,14 @@ public class LoginActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         if(Build.VERSION.SDK_INT >= 23){
-            mPermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.READ_EXTERNAL_STORAGE};
+            mPermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CALL_PHONE};
             PermissionGen.needPermission(LoginActivity.this,100,mPermissions);
         }
         listener();
         if (ShareConfig.getConfigBoolean(LoginActivity.this,Constants.ONLINE,false) == true){
             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 
@@ -113,38 +120,72 @@ public class LoginActivity extends Activity{
             public void onClick(View view) {
                 String phone = ((EditText)findViewById(R.id.login_phone)).getText()+"";
                 String pwd = ((EditText)findViewById(R.id.login_pwd)).getText()+"";
-                UserAction action = new UserAction();
-                try {
-                    RspInfo rspInfo = action.login(phone,pwd);
-                    if(rspInfo.isSuccess()){//成功
-                        UserInfo2 userInfo2 = (UserInfo2) rspInfo.getDateObj("userinfo");
-//                        MyApplication.instance.setUserInfo(userInfo2);
-                        ShareConfig.setConfig(LoginActivity.this, Constants.ONLINE,true);
-                        ShareConfig.setConfig(LoginActivity.this,Constants.USERID,userInfo2.getId());
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                        startActivity(intent);
-                    }else{
-                        showToast(rspInfo.getMsg());
-                    }
-                }catch (Exception e){
-                    showToast("登录失败,请重试...");
-
-                }
-//                action.mobileNumber = ((EditText)findViewById(R.id.login_phone)).getText()+"";
-//                action.userPas = ((EditText)findViewById(R.id.login_pwd)).getText()+"";
-//                action.execute();
-
-
-//
+                login(phone,pwd);
             }
         });
     }
 
-//    private void successProcess(String rspContext){
-////        JsonObject jobj=new JsonParser().parse(rspContext).getAsJsonObject();
-//        Gson gson = new Gson();
-//        UserInfo2 userInfo = gson.fromJson(jobj.get("UserInfo"), UserInfo2.class);
-//    }
+    public  void login(final String mobile, final String pwd){
+        if(isMobileNO(mobile) == false){
+            UtilAssistants.showToast("请输入正确的手机号码！");
+            return;
+        }
+        final CustomDialog dialog = new CustomDialog(LoginActivity.this,R.style.MyDialog,R.layout.tip_wait_dialog);
+        dialog.setText("请等待");
+        dialog.show();
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                dialog.dismiss();
+                switch (msg.what){
+                    case ThreadState.SUCCESS:
+                        RspInfo re = (RspInfo)msg.obj;
+                        if(re.isSuccess()){
+                            UserInfo2 userInfo2 = (UserInfo2) re.getDateObj("userinfo");
+//                        MyApplication.instance.setUserInfo(userInfo2);
+                            ShareConfig.setConfig(LoginActivity.this, Constants.ONLINE,true);
+                            ShareConfig.setConfig(LoginActivity.this,Constants.USERID,userInfo2.getId());
+                            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                            startActivity(intent);
+                        }else {
+                            UtilAssistants.showToast(re.getMsg());
+                        }
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo re = userAction.login(mobile,pwd);
+                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 验证手机格式 false不正确
+     */
+    public  boolean isMobileNO(String mobiles) {
+    /*
+    移动：134、135、136、137、138、139、150、151、157(TD)、158、159、187、188
+    联通：130、131、132、152、155、156、185、186
+    电信：133、153、180、189、（1349卫通）
+    总结起来就是第一位必定为1，第二位必定为3或5或8，其他位置的可以为0-9
+    */
+        String telRegex = "[1][358]\\d{9}";//"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
+        if (mobiles.equals("")) return false;
+        else return mobiles.matches(telRegex);
+    }
 
     private void showToast(String text){
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();

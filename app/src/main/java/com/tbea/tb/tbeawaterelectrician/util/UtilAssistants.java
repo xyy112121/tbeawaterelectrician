@@ -21,6 +21,9 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 
+import cn.qqtheme.framework.util.ConvertUtils;
+import cn.qqtheme.framework.util.LogUtils;
+
 /**
  * Created by cy on 2017/1/22.
  */
@@ -219,5 +222,16 @@ public  class UtilAssistants {
     public static int px2dip(Context context, float pxValue){
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int)(pxValue / scale + 0.5f);
+    }
+
+   // 操作安装包中的“assets”目录下的文件
+    public static String readText(Context context, String assetPath) {
+        LogUtils.debug("read assets file as text: " + assetPath);
+        try {
+            return ConvertUtils.toString(context.getAssets().open(assetPath));
+        } catch (Exception e) {
+            LogUtils.error(e);
+            return "";
+        }
     }
 }

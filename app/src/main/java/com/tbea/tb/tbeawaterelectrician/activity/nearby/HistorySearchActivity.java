@@ -3,6 +3,8 @@ package com.tbea.tb.tbeawaterelectrician.activity.nearby;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,31 +13,41 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
+import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
+import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
- *商品历史记录
+ *搜索历史记录
  */
-public class ShopHistorySearchActivity extends TopActivity{
-	EditText searchTV;
-	ListView mListView;
-	MyAdapter mAdapter;
+public class HistorySearchActivity extends TopActivity{
+	private EditText searchTV;
+	private ListView mListView;
+	private MyAdapter mAdapter;
+	private String mSearchtype;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_shop_history_search);
 		searchTV = (EditText)findViewById(R.id.expert_search_text);
-		mListView = (ListView)findViewById(R.id.expert_select_search_history_list);
+		mListView = (ListView)findViewById(R.id.search_history_list);
+
 		String searchValue = getIntent().getStringExtra("searchValue");
 		searchTV.setText(searchValue);
 		mAdapter = new MyAdapter();
@@ -45,8 +57,6 @@ public class ShopHistorySearchActivity extends TopActivity{
         if(!"".equals(history)){
         	// 用逗号分割内容返回数组
             String[] history_arr = history.split(",");
-            
-         
             List<String> list = new ArrayList<>();
             if(history_arr.length >= 1){
             	// 保留前50条数据
@@ -59,7 +69,8 @@ public class ShopHistorySearchActivity extends TopActivity{
                 	 Collections.addAll(list, history_arr);
         		}
             }else{
-            	findViewById(R.id.expert_select_search_history_del).setVisibility(View.GONE);
+            	findViewById(R.id.search_history_del).setVisibility(View.GONE);
+				findViewById(R.id.search_history_view).setVisibility(View.GONE);
             }
             // 设置适配器
             mListView.setAdapter(mAdapter);
@@ -67,22 +78,78 @@ public class ShopHistorySearchActivity extends TopActivity{
             	 mAdapter.addAll(list);
             }
         }else{
-        	findViewById(R.id.expert_select_search_history_del).setVisibility(View.GONE);
+			findViewById(R.id.search_history_del).setVisibility(View.GONE);
+			findViewById(R.id.search_history_view).setVisibility(View.GONE);
         }
         listener();
+		getHeatSpeechDate();
 	}
-	
+
+	/**
+	 * 获取热搜热词
+	 */
+	public  void getHeatSpeechDate(){
+		final CustomDialog dialog = new CustomDialog(HistorySearchActivity.this,R.style.MyDialog,R.layout.tip_wait_dialog);
+		dialog.setText("加载中...");
+		dialog.show();
+
+		final Handler handler = new Handler(){
+			@Override
+			public void handleMessage(Message msg) {
+				dialog.dismiss();
+				switch (msg.what){
+					case ThreadState.SUCCESS:
+						RspInfo1 re = (RspInfo1)msg.obj;
+						if(re.isSuccess()){
+							Map<String, Object> data1 = (Map<String, Object>) re.getData();
+							List<Map<String, Object>> data = (List<Map<String, Object>> ) data1.get("hotwordlist");
+							if(data != null){
+								for (int i = 0;i< data.size();i++){
+									String name = data.get(i).get("name")+"";
+									final  FrameLayout layout = (FrameLayout)getLayoutInflater().inflate(R.layout.history_heat_speech_item,null);
+									((TextView)layout.findViewById(R.id.text)).setText(name);
+									layout.setOnClickListener(new View.OnClickListener() {
+										@Override
+										public void onClick(View view) {
+											String name = ((TextView)layout.findViewById(R.id.text)).getText()+"";
+											search(name);
+										}
+									});
+									((LinearLayout)findViewById(R.id.scancode_history_heat_speech_layout)).addView(layout);
+								}
+							}
+						}else {
+							UtilAssistants.showToast(re.getMsg());
+						}
+
+						break;
+					case ThreadState.ERROR:
+						UtilAssistants.showToast("操作失败！");
+						break;
+				}
+			}
+		};
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					UserAction userAction = new UserAction();
+					RspInfo1 re = userAction.getHeatSpeech(mSearchtype);
+					handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+				} catch (Exception e) {
+					handler.sendEmptyMessage(ThreadState.ERROR);
+				}
+			}
+		}).start();
+
+	}
 	public void listener(){
-		findViewById(R.id.expert_search_btn).setOnClickListener(
+		findViewById(R.id.search_history_cancel).setOnClickListener(
 				new View.OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
-						String text = searchTV.getText().toString();
-						save(text);
-						Intent intent = new Intent();
-						intent.putExtra("searchValue", text);
-						setResult(RESULT_OK, intent);
 						finish();
 					}
 				});
@@ -94,20 +161,22 @@ public class ShopHistorySearchActivity extends TopActivity{
 										  KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 					String text = searchTV.getText().toString();
-					save(text);
-					Intent intent = new Intent();
-					intent.putExtra("searchValue", text);
-					setResult(RESULT_OK, intent);
-					finish();
+					if(!"".equals(text) && text.length() >= 2){
+						save(text);
+						search(text);
+					}else {
+						UtilAssistants.showToast("搜索内容至少需要两个字符！");
+					}
 				}
 				return false;
 			}
 		});
 		
-		findViewById(R.id.expert_select_search_history_del).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.search_history_del).setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				findViewById(R.id.search_history_view).setVisibility(View.GONE);
 				 SharedPreferences mysp = getSharedPreferences("expert_search_history", 0);
 			     SharedPreferences.Editor myeditor = mysp.edit();
 			     myeditor.putString("expert", "").commit();
@@ -121,20 +190,15 @@ public class ShopHistorySearchActivity extends TopActivity{
 			public void onItemClick(AdapterView<?> parent, View view,
 									int position, long id) {
 				save(mAdapter.list.get(position));
-				Intent intent = new Intent();
-				intent.putExtra("searchValue", mAdapter.list.get(position));
-				setResult(RESULT_OK, intent);
-				finish();
+				search(mAdapter.list.get(position));
 			}
 		});
-		
-		findViewById(R.id.top_left).setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
+	}
+
+	public void search(String keyword){
+		Intent intent = new Intent(HistorySearchActivity.this,HistorySearchListActivity.class);
+		intent.putExtra("keyword",keyword);
+		startActivity(intent);
 	}
 	
 	public class MyAdapter extends BaseAdapter {
@@ -209,7 +273,7 @@ public class ShopHistorySearchActivity extends TopActivity{
 
     public void save(String text) {
     	if(!"".equals(text)){
-    		findViewById(R.id.expert_select_search_history_del).setVisibility(View.VISIBLE);
+    		findViewById(R.id.search_history_del).setVisibility(View.VISIBLE);
             // 获取搜索框信息
             SharedPreferences mysp = getSharedPreferences("expert_search_history", 0);
             String old_text = mysp.getString("expert", "");

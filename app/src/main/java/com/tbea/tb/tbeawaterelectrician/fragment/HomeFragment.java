@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -23,15 +22,14 @@ import android.widget.Toast;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.CityListActivity;
-import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
+import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.nearby.HistorySearchActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CircleImageView;
 import com.tbea.tb.tbeawaterelectrician.entity.Company;
 import com.tbea.tb.tbeawaterelectrician.entity.HomeDateSon;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
-import com.tbea.tb.tbeawaterelectrician.util.EventCity;
-import com.tbea.tb.tbeawaterelectrician.util.EventFlag;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.xyzlf.vertical.autoscroll.VerticalScrollAdapter;
 import com.xyzlf.vertical.autoscroll.VerticalScrollView;
@@ -39,16 +37,12 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
-import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
 
 /**
  * Created by cy on 2016/12/16.首页
@@ -112,6 +106,22 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), CityListActivity.class);
                 HomeFragment.this.startActivityForResult(intent, CITY_RESULT);
+            }
+        });
+
+        view.findViewById(R.id.expert_search_text).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), HistorySearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.open_my_message).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MessageListActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -251,7 +261,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                 obj.setCompanyname(companylist.get(i).get("companyname"));
                 obj.setDistance(companylist.get(i).get("distance"));
                 obj.setCommoditydesc(companylist.get(i).get("commoditydesc"));
-                obj.setPrice(companylist.get(i).get("Price"));
+                obj.setPrice(companylist.get(i).get("price"));
                 companyList2.add(obj);
             }
             mAdapter.addAll(companyList2);
