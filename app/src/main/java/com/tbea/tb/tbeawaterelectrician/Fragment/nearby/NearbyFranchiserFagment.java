@@ -22,11 +22,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.DistributorViewAcitivty;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.FranchiserViewActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.nearby.FranchiserViewActivity2;
 import com.tbea.tb.tbeawaterelectrician.component.CustomPopWindow;
 import com.tbea.tb.tbeawaterelectrician.entity.Condition;
 import com.tbea.tb.tbeawaterelectrician.entity.HomeDateSon;
@@ -87,8 +89,13 @@ public class NearbyFranchiserFagment extends Fragment implements BGARefreshLayou
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 NearbyCompany obj = (NearbyCompany)mAdapter.getItem(i);
                 if("firstleveldistributor".equals(obj.getCompanytypeid())){
+                    //经销商
+                    Intent intent = new Intent(getActivity(), FranchiserViewActivity2.class);
+                    Gson gson = new Gson();
+                    String objGson = gson.toJson(obj);
+                    intent.putExtra("obj",objGson);
                     //总经销商
-                    startActivity(new Intent(getActivity(), FranchiserViewActivity.class));
+                    startActivity(intent);
                 }else{
                     //经销商
                     Intent intent = new Intent(getActivity(), DistributorViewAcitivty.class);

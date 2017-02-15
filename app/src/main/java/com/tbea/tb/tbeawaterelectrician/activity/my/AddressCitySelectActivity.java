@@ -2,6 +2,7 @@ package com.tbea.tb.tbeawaterelectrician.activity.my;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -34,6 +35,8 @@ import cn.qqtheme.framework.picker.OptionPicker;
 public class AddressCitySelectActivity extends TopActivity implements View.OnClickListener{
     private Context mContext;
     private List<Condition> mProvinceList = new ArrayList<>();
+    private List<Condition> mCityList = new ArrayList<>();
+    private List<Condition>  mLocationList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,9 +97,11 @@ public class AddressCitySelectActivity extends TopActivity implements View.OnCli
                                 mProvinceList = list;
                             }if("TBEAENG002001002000".equals(methodName)){
                                 list = (List<Condition>) re.getDateObj("citylist");
+                                mCityList = list;
                             }
                             if("TBEAENG003001002000".equals(methodName)){
                                 list = (List<Condition>) re.getDateObj("locationlist");
+                                mLocationList = list;
                             }
                             String[] dates = new String[list.size()];
                             for (int i = 0; i < list.size(); i++) {
@@ -173,5 +178,41 @@ public class AddressCitySelectActivity extends TopActivity implements View.OnCli
         String city = ((TextView) findViewById(R.id.addr_city_select_city)).getText() + "";
         String location = ((TextView) findViewById(R.id.addr_city_select_location)).getText() + "";
 
+        if("".equals(province) || "".equals(city) || "".equals(location)){
+            UtilAssistants.showToast("请选择正确的地址");
+            return;
+        }
+
+        //省
+        String provinceId = "";
+        for (Condition obj:mProvinceList) {
+            if(obj.getName().equals(province)){
+                provinceId = obj.getId();
+            }
+        }
+
+        //市
+        String cityId = "";
+        for (Condition obj:mCityList) {
+            if(obj.getName().equals(province)){
+                cityId = obj.getId();
+            }
+        }
+
+        //区
+        String locationId = "";
+        for (Condition obj:mLocationList) {
+            if(obj.getName().equals(province)){
+                locationId = obj.getId();
+            }
+        }
+
+        Intent intent = new Intent();
+        intent.putExtra("provinceId",provinceId);
+        intent.putExtra("cityId",cityId);
+        intent.putExtra("locationId",locationId);
+        intent.putExtra("text",province + " "+city+" "+location);
+        setResult(RESULT_OK,intent);
+        finish();
     }
 }

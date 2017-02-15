@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <include layout="@layout/fragment_nearby_franchiser_item_layout"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="60dip"
+        android:src="@drawable/icon_advertisement"
+        android:scaleType="fitXY"
+        android:layout_marginTop="10dp"/>
+    <View
+        style="@style/horizontal_view"
+        android:layout_marginTop="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#fff"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/commoditytotlenumber_layout"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/commoditytotlenumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/blue4"
+                />
+
+            <TextView
+                android:id="@+id/commoditytotlenumber_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="全部商品"
+                android:textColor="@color/blue4"
+                />
+        </LinearLayout>
+
+        <View style="@style/vertical_view"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+
+        <LinearLayout
+            android:id="@+id/fragment_my_report"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/porjecttotlenumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/text_gray" />
+
+            <TextView
+                android:id="@+id/porjecttotlenumber_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="工程招标"
+                android:textColor="@color/text_gray"/>
+        </LinearLayout>
+
+        <View style="@style/vertical_view"  android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+
+        <LinearLayout
+            android:id="@+id/ll_myfragment_expert_collect"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/jobtotlenumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/text_gray" />
+
+            <TextView
+                android:id="@+id/jobtotlenumber_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="招聘信息"
+                android:textColor="@color/text_gray" />
+        </LinearLayout>
+        <View style="@style/vertical_view"  android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+
+        <LinearLayout
+            android:id="@+id/newtotlenumber_layout"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/newtotlenumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/text_gray" />
+
+            <TextView
+                android:id="@+id/newtotlenumber_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="公司动态"
+                android:textColor="@color/text_gray" />
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:id="@+id/franchiser_goods_search_condition_view"
+        style="@style/horizontal_view"/>
+</LinearLayout>

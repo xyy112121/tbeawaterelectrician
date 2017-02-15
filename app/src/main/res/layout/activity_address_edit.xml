@@ -18,11 +18,13 @@
                 />
 
             <EditText
+                android:id="@+id/addr_edit_contactperson"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="0.74"
                 android:imeOptions="actionNext"
                 style="@style/edit_style"
                 android:textSize="16sp"
+                android:hint="请输入收件人姓名"
                 />
         </LinearLayout>
         <View
@@ -36,11 +38,13 @@
                 />
 
             <EditText
+                android:id="@+id/addr_edit_contactmobile"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="0.74"
                 android:imeOptions="actionNext"
                 style="@style/edit_style"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:hint="请输入手机号码"/>
         </LinearLayout>
         <View
             style="@style/horizontal_view"/>
@@ -53,11 +57,13 @@
                 />
 
             <EditText
+
                 android:layout_marginLeft="20dp"
                 android:layout_weight="0.74"
                 android:imeOptions="actionNext"
                 style="@style/edit_style"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:hint="请输入邮编"/>
         </LinearLayout>
         <View
             style="@style/horizontal_view"/>
@@ -94,15 +100,43 @@
                 android:text="详细地址"
                 />
 
-            <TextView
+            <EditText
+                android:id="@+id/addr_edit_address"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="0.74"
                 android:imeOptions="actionNext"
                 style="@style/edit_style"
                 android:textSize="16sp"
                 android:layout_marginRight="8dp"
-                android:maxLines="4"/>
+                android:maxLines="4"
+                android:hint="请输入详细地址"/>
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/bg_color"/>
+        <LinearLayout
+            style="@style/edit_style_layout"
+            android:gravity="center"
+            >
+            <CheckBox
+                android:id="@+id/addr_edit_isdefault"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:background="@drawable/addr_is_defult_ck"
+                android:button="@null"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设置为默认收货地址"
+                android:layout_marginLeft="3dp"
+                android:textColor="@color/text_gtay2"/>
+        </LinearLayout>
+
+
+
     </LinearLayout>
 
 

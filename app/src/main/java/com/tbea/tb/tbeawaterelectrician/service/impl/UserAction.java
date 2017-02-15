@@ -1,6 +1,7 @@
 package com.tbea.tb.tbeawaterelectrician.service.impl;
 
 import com.google.gson.reflect.TypeToken;
+import com.tbea.tb.tbeawaterelectrician.entity.Address;
 import com.tbea.tb.tbeawaterelectrician.entity.Collect;
 import com.tbea.tb.tbeawaterelectrician.entity.Commodith;
 import com.tbea.tb.tbeawaterelectrician.entity.Company;
@@ -530,7 +531,7 @@ public class UserAction extends BaseAction {
         RspInfo rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         String result = sendRequest("TBEAENG005001003000", pairs);
-        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<List<Condition>>>(){}.getType());
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<List<Address>>>(){}.getType());
         return  rspInfo;
     }
 
@@ -545,20 +546,69 @@ public class UserAction extends BaseAction {
      详细地址)
      isdefault  （是否设置成默认   0 表示非默认  1表示默认）
      * */
-    public RspInfo1 addAddrss(String contactperson,String contactmobile,String provinceid,String cityid,String zoneid
-            ,String adddress,String isdefault) throws Exception{
+    public RspInfo1 addAddrss(Address obj) throws Exception{
         RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
-        pairs.add(new BasicNameValuePair("contactperson", contactperson));
-        pairs.add(new BasicNameValuePair("contactmobile", contactmobile));
-        pairs.add(new BasicNameValuePair("provinceid", provinceid));
-        pairs.add(new BasicNameValuePair("cityid", cityid));
-        pairs.add(new BasicNameValuePair("zoneid", zoneid));
-        pairs.add(new BasicNameValuePair("adddress", adddress));
-        pairs.add(new BasicNameValuePair("isdefault", isdefault));
+        pairs.add(new BasicNameValuePair("contactperson", obj.getContactperson()));
+        pairs.add(new BasicNameValuePair("contactmobile", obj.getContactmobile()));
+        pairs.add(new BasicNameValuePair("provinceid", obj.getProvinceId()));
+        pairs.add(new BasicNameValuePair("cityid", obj.getCityId()));
+        pairs.add(new BasicNameValuePair("zoneid", obj.getLocationId()));
+        pairs.add(new BasicNameValuePair("adddress", obj.getAddress()));
+        pairs.add(new BasicNameValuePair("isdefault", obj.getIsdefault()));
         String result = sendRequest("TBEAENG005001004000", pairs);
         rspInfo = gson.fromJson(result,RspInfo1.class);
         return  rspInfo;
     }
+
+    public RspInfo1 delectAddr(String id) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("receiveaddrid", id));
+        String result = sendRequest("TBEAENG005001004001", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     * 总经销商中得商品列表
+     companyid(经销商ID)
+     orderitemid(排序类型id，推荐(auto)(默认),价格(price),销量,(salecount))
+     order(排序类型id，desc（默认）,asc)
+     justforpromotion(只显示促销商品 0不显示(默认)，1显示)
+     page
+     pagesize
+     */
+    public RspInfo getCommodithList(String companyid,String orderitemid,String order,String justforpromotionint,int page,int pageSize) throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("companyid", companyid));
+        pairs.add(new BasicNameValuePair("orderitemid", orderitemid));
+        pairs.add(new BasicNameValuePair("order", order));
+        pairs.add(new BasicNameValuePair("justforpromotionint", justforpromotionint));
+        pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
+        pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
+        String result = sendRequest("TBEAENG003001006000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo.class);
+        return  rspInfo;
+    }
+
+    /**
+     * 总经销商中的获取公司动态
+     companyid(经销商ID)
+     page
+     pagesize
+     */
+    public RspInfo getNewList(String companyid,int page,int pageSize) throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("companyid", companyid));
+        pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
+        pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
+        String result = sendRequest("TBEAENG003001007000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo.class);
+        return  rspInfo;
+    }
+
 
 }

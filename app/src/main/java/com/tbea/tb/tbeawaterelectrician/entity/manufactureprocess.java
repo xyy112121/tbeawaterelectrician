@@ -4,7 +4,7 @@ package com.tbea.tb.tbeawaterelectrician.entity;
  * Created by cy on 2017/2/3.
  */
 
-public class ManuFactureProcess {
+public class Manufactureprocess {
     public static final String ID = "_id";
     public static final String Processname = "processname";
     public static final String Department = "department";

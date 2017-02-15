@@ -110,7 +110,7 @@ public class MyInformationActivity extends TopActivity {
         findViewById(R.id.info_addr_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext,AddressEditActivity.class);
+                Intent intent = new Intent(mContext,AddressEditListActivity.class);
                 startActivity(intent);
             }
         });

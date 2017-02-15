@@ -8,10 +8,20 @@
         android:id="@+id/rl_recyclerview_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+    <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
+    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
+        android:id="@+id/rl_recyclerview_refresh2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/listview2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
     </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 
 </LinearLayout>

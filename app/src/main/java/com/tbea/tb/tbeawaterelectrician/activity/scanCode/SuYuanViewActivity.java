@@ -17,7 +17,7 @@ import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
-import com.tbea.tb.tbeawaterelectrician.entity.ManuFactureProcess;
+import com.tbea.tb.tbeawaterelectrician.entity.Manufactureprocess;
 import com.tbea.tb.tbeawaterelectrician.entity.SuYuan;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
@@ -65,7 +65,7 @@ public class SuYuanViewActivity extends TopActivity {
                                 SuYuan suYuan = new SuYuan();
                                 Map<String, String> productinfo = (Map<String, String>) data.get("productinfo");
                                 List<Map<String, String>> manuFactureProcessList = (List<Map<String, String>>) data.get("manufactureprocess");
-                                List<ManuFactureProcess> list = new ArrayList<>();
+                                List<Manufactureprocess> list = new ArrayList<>();
 
                                 if (productinfo != null) {
                                     suYuan.setName(productinfo.get("name"));
@@ -77,7 +77,7 @@ public class SuYuanViewActivity extends TopActivity {
                                 }
                                 if (manuFactureProcessList != null) {
                                     for (int i = 0; i < manuFactureProcessList.size(); i++) {
-                                        ManuFactureProcess manuFactureProcess = new ManuFactureProcess();
+                                        Manufactureprocess manuFactureProcess = new Manufactureprocess();
                                         manuFactureProcess.setProcessname(manuFactureProcessList.get(i).get("processname"));
                                         manuFactureProcess.setDepartment(manuFactureProcessList.get(i).get("department"));
                                         manuFactureProcess.setProcessdate(manuFactureProcessList.get(i).get("processdate"));
@@ -126,7 +126,7 @@ public class SuYuanViewActivity extends TopActivity {
     }
 
     private class MyAdapter extends BaseAdapter {
-        private List<ManuFactureProcess> mList = new ArrayList<>();
+        private List<Manufactureprocess> mList = new ArrayList<>();
         private Context mContext;
 
         public MyAdapter(Context context) {
@@ -158,7 +158,7 @@ public class SuYuanViewActivity extends TopActivity {
             return view1;
         }
 
-        public void addAll(List<ManuFactureProcess> list) {
+        public void addAll(List<Manufactureprocess> list) {
             mList.addAll(list);
             notifyDataSetChanged();
         }
