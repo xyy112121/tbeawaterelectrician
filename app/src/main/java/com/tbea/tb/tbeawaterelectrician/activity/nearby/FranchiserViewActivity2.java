@@ -378,7 +378,7 @@ public class FranchiserViewActivity2 extends TopActivity implements BGARefreshLa
                                         obj.setNewstime(list.get(i).get("newstime"));
                                         companyList.add(obj);
                                     }
-                                    mNewAdapter.addAll(companyList);
+//                                    mNewAdapter.addAll(companyList);
                                 } else {
                                     if (mNewPage> 1) {//防止分页的时候没有加载数据，但是页数已经增加，导致下一次查询不正确
                                         mNewPage--;
