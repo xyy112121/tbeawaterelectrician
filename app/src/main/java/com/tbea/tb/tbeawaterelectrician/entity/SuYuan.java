@@ -13,13 +13,13 @@ public class SuYuan {
     private String deliverdate;
     private String destination;
     private String manufacture;
-    private List<Manufactureprocess> manufactureprocess;
+    private List<ManufactureProcessEntity> manufactureprocess;
 
-    public List<Manufactureprocess> getManufactureprocess() {
+    public List<ManufactureProcessEntity> getManufactureprocess() {
         return manufactureprocess;
     }
 
-    public void setManufactureprocess(List<Manufactureprocess> manufactureprocess) {
+    public void setManufactureprocess(List<ManufactureProcessEntity> manufactureprocess) {
         this.manufactureprocess = manufactureprocess;
     }
 

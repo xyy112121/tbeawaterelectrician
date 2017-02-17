@@ -205,7 +205,9 @@ public class MyApplication extends Application implements BDLocationListener {
 
 	private void initUniversalImageLoader() {
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
-				.showImageOnLoading(new ColorDrawable(Color.parseColor("#f0f0f0")))
+				.showImageOnLoading(R.drawable.icon_defult)
+				.showImageForEmptyUri(R.drawable.icon_defult)//设置图片Uri为空或是错误的时候显示的图片
+				.showImageOnFail(R.drawable.icon_defult)  //设置图片加载/解码过程中错误时候显示的图片
 				.resetViewBeforeLoading(true)
 				.cacheInMemory(true)
 				.cacheOnDisk(true)

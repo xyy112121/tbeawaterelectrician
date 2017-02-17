@@ -18,6 +18,7 @@ import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.CityListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.nearby.HistorySearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +119,14 @@ public class NearbyFragment extends android.app.Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), MessageListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.expert_search_text).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), HistorySearchActivity.class);
                 startActivity(intent);
             }
         });

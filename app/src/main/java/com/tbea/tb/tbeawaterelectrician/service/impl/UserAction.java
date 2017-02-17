@@ -8,6 +8,7 @@ import com.tbea.tb.tbeawaterelectrician.entity.Company;
 import com.tbea.tb.tbeawaterelectrician.entity.Condition;
 import com.tbea.tb.tbeawaterelectrician.entity.MessageCategory;
 import com.tbea.tb.tbeawaterelectrician.entity.NearbyCompany;
+import com.tbea.tb.tbeawaterelectrician.entity.ProductInfo;
 import com.tbea.tb.tbeawaterelectrician.entity.Register;
 import com.tbea.tb.tbeawaterelectrician.entity.SuYuan;
 import com.tbea.tb.tbeawaterelectrician.entity.Take;
@@ -551,16 +552,46 @@ public class UserAction extends BaseAction {
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("contactperson", obj.getContactperson()));
         pairs.add(new BasicNameValuePair("contactmobile", obj.getContactmobile()));
-        pairs.add(new BasicNameValuePair("provinceid", obj.getProvinceId()));
-        pairs.add(new BasicNameValuePair("cityid", obj.getCityId()));
-        pairs.add(new BasicNameValuePair("zoneid", obj.getLocationId()));
-        pairs.add(new BasicNameValuePair("adddress", obj.getAddress()));
+        pairs.add(new BasicNameValuePair("provinceid", obj.getProvinceid()));
+        pairs.add(new BasicNameValuePair("cityid", obj.getCityid()));
+        pairs.add(new BasicNameValuePair("zoneid", obj.getZoneid()));
+        pairs.add(new BasicNameValuePair("address", obj.getAddress()));
         pairs.add(new BasicNameValuePair("isdefault", obj.getIsdefault()));
         String result = sendRequest("TBEAENG005001004000", pairs);
         rspInfo = gson.fromJson(result,RspInfo1.class);
         return  rspInfo;
     }
 
+    /**
+     * 修改收货地址
+     *contactperson，（收货人）
+     contactmobile，  （电话）
+     provinceid，（选择的省份ID）
+     cityid，  （选择的城市ID）
+     zoneid，  （选择的区域id）
+     adddress，  (
+     详细地址)
+     isdefault  （是否设置成默认   0 表示非默认  1表示默认）
+     * */
+    public RspInfo1 editAddrss(Address obj) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("receiveaddrid", obj.getId()));
+        pairs.add(new BasicNameValuePair("contactperson", obj.getContactperson()));
+        pairs.add(new BasicNameValuePair("contactmobile", obj.getContactmobile()));
+        pairs.add(new BasicNameValuePair("provinceid", obj.getProvinceid()));
+        pairs.add(new BasicNameValuePair("cityid", obj.getCityid()));
+        pairs.add(new BasicNameValuePair("zoneid", obj.getZoneid()));
+        pairs.add(new BasicNameValuePair("address", obj.getAddress()));
+        pairs.add(new BasicNameValuePair("isdefault", obj.getIsdefault()));
+        String result = sendRequest("TBEAENG005001004002", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     * 删除收货地址
+     */
     public RspInfo1 delectAddr(String id) throws Exception{
         RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
@@ -610,5 +641,111 @@ public class UserAction extends BaseAction {
         return  rspInfo;
     }
 
+    /**
+     * 获取加入购物车的弹出框里面的信息（加入购物车的时候弹出的选择规格，数目，颜色 等项的接口）
+     */
+    public RspInfo getAddSCInfo(String commodityid) throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("commodityid", commodityid));
+        String result = sendRequest("TBEAENG003001009003",pairs);
+        rspInfo = gson.fromJson(result,RspInfo.class);
+        return  rspInfo;
+    }
+
+    /**
+     添加购物车
+     distributorid 当总经销商进入的时候需要传经销商的ID,即附近经销商的商品进入经销商详细的时候，其它时候传空
+     commodityid  商品ID
+     specificationid  所选规格ID
+     colorid 所选颜色ID
+     number   数目
+     */
+    public RspInfo1 addShopCar(String distributorid ,String commodityid ,String specificationid ,String colorid,String number) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("distributorid", distributorid));
+        pairs.add(new BasicNameValuePair("commodityid", commodityid));
+        pairs.add(new BasicNameValuePair("specificationid", specificationid));
+        pairs.add(new BasicNameValuePair("colorid", colorid));
+        pairs.add(new BasicNameValuePair("number", number));
+        String result = sendRequest("TBEAENG003001010000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     * 获取购物车列表
+     */
+    public RspInfo getShopCarList(int page,int pageSize) throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
+        pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
+        String result = sendRequest("TBEAENG003001012000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo.class);
+        return  rspInfo;
+    }
+
+    /**
+     * 删除购物车里面的商品
+     * @param ids 删除的商品ID集合，用逗号隔开如:1111,2222,3333
+     */
+    public RspInfo1 delectShopCar(String ids) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("orderdetailids", ids));
+        String result = sendRequest("TBEAENG003001013000", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *下单
+     *
+     orderdetailidlist  （选择的产品的son，包括了产品的id和数目(orderdetailid,ordernumber)）
+     receiveaddrid   (收货的地址id)
+     paytypeid   (支付类型id)
+     deliverytypeid
+     (发货类型id)
+     ordernote    （留言）
+     actualneedpaymoney  （实际支付金额）
+     */
+    public RspInfo1 placeOnOrder(String orderdetailidlist,String receiveaddrid,String paytypeid,String deliverytypeid,String ordernote,String actualneedpaymoney ) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("orderdetailidlist", orderdetailidlist));
+        pairs.add(new BasicNameValuePair("receiveaddrid", receiveaddrid));
+        pairs.add(new BasicNameValuePair("paytypeid", paytypeid));
+        pairs.add(new BasicNameValuePair("deliverytypeid", deliverytypeid));
+        pairs.add(new BasicNameValuePair("ordernote", ordernote));
+        pairs.add(new BasicNameValuePair("actualneedpaymoney", actualneedpaymoney));
+        String result = sendRequest("TBEAENG003001016000", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     获取下单信息
+     */
+    public RspInfo getOrderInfo() throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG003001015000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo.class);
+        return  rspInfo;
+    }
+
+    /**
+     * 获取收货地址详细信息
+     */
+    public RspInfo getAddrInfo(String receiveaddrid) throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("receiveaddrid", receiveaddrid  ));
+        String result = sendRequest("TBEAENG005001003002", pairs);
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<Address>>(){}.getType());
+        return  rspInfo;
+    }
 
 }

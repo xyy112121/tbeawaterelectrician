@@ -24,6 +24,7 @@ import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.CityListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.nearby.CommodithViewActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.HistorySearchActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CircleImageView;
 import com.tbea.tb.tbeawaterelectrician.entity.Company;
@@ -337,7 +338,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                     .getSystemService(context.LAYOUT_INFLATER_SERVICE);
             FrameLayout view = (FrameLayout) layoutInflater.inflate(
                     R.layout.home_nearby_shop_layout, null);
-            Company obj = mList.get(position);
+            final Company obj = mList.get(position);
             ((TextView) view.findViewById(R.id.home_neatby_company_companyname)).setText(obj.getCompanyname());
             ((TextView) view.findViewById(R.id.home_neatby_company_distance)).setText(obj.getDistance());
             ((TextView) view.findViewById(R.id.home_neatby_company_commoditydesc)).setText(obj.getCommoditydesc());
@@ -346,6 +347,14 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
             if (!obj.getPicture().equals("")) {
                 ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + obj.getPicture(), imageView);
             }
+             view.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View view) {
+                     Intent intent = new Intent(context, CommodithViewActivity.class);
+                     intent.putExtra("id",obj.getId());
+                     startActivity(intent);
+                 }
+             });
             return view;
         }
 

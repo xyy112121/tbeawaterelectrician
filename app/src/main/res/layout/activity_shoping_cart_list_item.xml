@@ -41,7 +41,7 @@
                 android:orientation="vertical" >
 
                 <ImageView
-                    android:id="@+id/nearby_commdith_item_picture"
+                    android:id="@+id/shop_car_item_picture"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginBottom="5dp"
@@ -61,7 +61,7 @@
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/nearby_commdith_item_name"
+                    android:id="@+id/shop_car_item_commodityname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="铜芯聚焦乙烯绝缘乙烯护套"
@@ -70,7 +70,7 @@
                     android:maxLines="3"/>
 
                 <TextView
-                    android:id="@+id/nearby_commdith_item_specification"
+                    android:id="@+id/shop_car_item_orderspecification_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" >
                     <TextView
-                        android:id="@+id/nearby_commdith_item_price"
+                        android:id="@+id/shop_car_item_orderprice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"

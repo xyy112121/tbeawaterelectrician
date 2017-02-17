@@ -1,17 +1,10 @@
 package com.tbea.tb.tbeawaterelectrician.entity;
 
 /**
- * Created by cy on 2017/2/3.
+ * Created by cy on 2017/2/15.
  */
 
-public class Manufactureprocess {
-    public static final String ID = "_id";
-    public static final String Processname = "processname";
-    public static final String Department = "department";
-    public static final String Processdate = "processdate";
-    public static final String SuYuanId = "suyuanId";
-
-
+public class ManufactureProcessEntity {
     private String processname;
     private String department;
     private String processdate;

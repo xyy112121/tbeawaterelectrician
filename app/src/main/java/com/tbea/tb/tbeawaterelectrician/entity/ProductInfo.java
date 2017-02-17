@@ -5,96 +5,51 @@ package com.tbea.tb.tbeawaterelectrician.entity;
  */
 public class ProductInfo
 {
-	protected String id;
-	protected String name;
+	protected String orderdetailid;
+	protected String commodityid;
+	protected String commodityname;
+	protected String commoditypicture;
+	protected String ordercolorid;
+	protected String ordercolor;
+	protected String orderspecificationid;
+	protected String orderspecification;
+	protected String ordertime;
 	protected boolean isChoosed;
-	private String imageUrl;
 	private String desc;
-	private double price;
-	private int count;
+	private float orderprice;
+	private int ordernumber;
 	private int position;// 绝对位置，只在ListView构造的购物车中，在删除时有效
 
-	public ProductInfo()
-	{
-		super();
+	public String getCommodityid() {
+		return commodityid;
 	}
 
-	public ProductInfo(String id, String name, String imageUrl, String desc, double price, int count)
-	{
-
-		this.id = id;
-		this.name = name;
-		this.imageUrl = imageUrl;
-		this.desc = desc;
-		this.price = price;
-		this.count = count;
-	
+	public void setCommodityid(String commodityid) {
+		this.commodityid = commodityid;
 	}
 
-	public String getImageUrl()
-	{
-		return imageUrl;
+	public String getCommodityname() {
+		return commodityname;
 	}
 
-	public void setImageUrl(String imageUrl)
-	{
-		this.imageUrl = imageUrl;
+	public void setCommodityname(String commodityname) {
+		this.commodityname = commodityname;
 	}
 
-	public String getDesc()
-	{
+	public String getCommoditypicture() {
+		return commoditypicture;
+	}
+
+	public void setCommoditypicture(String commoditypicture) {
+		this.commoditypicture = commoditypicture;
+	}
+
+	public String getDesc() {
 		return desc;
 	}
 
-	public void setDesc(String desc)
-	{
+	public void setDesc(String desc) {
 		this.desc = desc;
-	}
-
-	public int getCount()
-	{
-		return count;
-	}
-
-	public void setCount(int count)
-	{
-		this.count = count;
-	}
-
-	public double getPrice()
-	{
-		return price;
-	}
-
-	public void setPrice(double price)
-	{
-		this.price = price;
-	}
-
-	public int getPosition()
-	{
-		return position;
-	}
-
-	public void setPosition(int position)
-	{
-		this.position = position;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public boolean isChoosed() {
@@ -103,5 +58,77 @@ public class ProductInfo
 
 	public void setChoosed(boolean choosed) {
 		isChoosed = choosed;
+	}
+
+	public String getOrdercolorid() {
+		return ordercolorid;
+	}
+
+	public void setOrdercolorid(String ordercolorid) {
+		this.ordercolorid = ordercolorid;
+	}
+
+	public String getOrdercolor() {
+		return ordercolor;
+	}
+
+	public void setOrdercolor(String ordercolor) {
+		this.ordercolor = ordercolor;
+	}
+
+	public String getOrderdetailid() {
+		return orderdetailid;
+	}
+
+	public void setOrderdetailid(String orderdetailid) {
+		this.orderdetailid = orderdetailid;
+	}
+
+	public float getOrderprice() {
+		return orderprice;
+	}
+
+	public void setOrderprice(float orderprice) {
+		this.orderprice = orderprice;
+	}
+
+	public int getOrdernumber() {
+		return ordernumber;
+	}
+
+	public void setOrdernumber(int ordernumber) {
+		this.ordernumber = ordernumber;
+	}
+
+	public String getOrderspecification() {
+		return orderspecification;
+	}
+
+	public void setOrderspecification(String orderspecification) {
+		this.orderspecification = orderspecification;
+	}
+
+	public String getOrderspecificationid() {
+		return orderspecificationid;
+	}
+
+	public void setOrderspecificationid(String orderspecificationid) {
+		this.orderspecificationid = orderspecificationid;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
+
+	public String getOrdertime() {
+		return ordertime;
+	}
+
+	public void setOrdertime(String ordertime) {
+		this.ordertime = ordertime;
 	}
 }

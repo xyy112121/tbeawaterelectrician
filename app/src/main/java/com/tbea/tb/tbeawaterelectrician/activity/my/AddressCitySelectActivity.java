@@ -13,10 +13,12 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.component.CustomPopWindow;
+import com.tbea.tb.tbeawaterelectrician.entity.Address;
 import com.tbea.tb.tbeawaterelectrician.entity.Condition;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
@@ -48,11 +50,18 @@ public class AddressCitySelectActivity extends TopActivity implements View.OnCli
     }
 
     private void listener() {
+        String province = getIntent().getStringExtra("province");
+        String city = getIntent().getStringExtra("city");
+        String zone = getIntent().getStringExtra("zone");
+        ((TextView) findViewById(R.id.addr_city_select_province)).setText(province);
+        ((TextView) findViewById(R.id.addr_city_select_city)).setText(city);
+        ((TextView) findViewById(R.id.addr_city_select_location)).setText(zone);
+
         findViewById(R.id.addr_city_select_province).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = ((TextView) findViewById(R.id.addr_city_select_province)).getText() + "";
-                getList("TBEAENG002001002001", name,"");
+                String province = ((TextView) findViewById(R.id.addr_city_select_province)).getText() + "";
+                getList("TBEAENG002001002001", province,"");
 
             }
         });
@@ -194,7 +203,7 @@ public class AddressCitySelectActivity extends TopActivity implements View.OnCli
         //市
         String cityId = "";
         for (Condition obj:mCityList) {
-            if(obj.getName().equals(province)){
+            if(obj.getName().equals(city)){
                 cityId = obj.getId();
             }
         }
@@ -202,7 +211,7 @@ public class AddressCitySelectActivity extends TopActivity implements View.OnCli
         //区
         String locationId = "";
         for (Condition obj:mLocationList) {
-            if(obj.getName().equals(province)){
+            if(obj.getName().equals(location)){
                 locationId = obj.getId();
             }
         }

@@ -5,6 +5,7 @@
     android:background="@color/white">
     <include layout="@layout/fragment_nearby_franchiser_item_layout"/>
     <ImageView
+        android:id="@+id/franchiser_view_advertisement"
         android:layout_width="match_parent"
         android:layout_height="60dip"
         android:src="@drawable/icon_advertisement"

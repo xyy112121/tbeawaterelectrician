@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +27,9 @@ import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.DistributorViewAcitivty;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.FranchiserViewActivity;
-import com.tbea.tb.tbeawaterelectrician.activity.nearby.FranchiserViewActivity2;
 import com.tbea.tb.tbeawaterelectrician.component.CustomPopWindow;
 import com.tbea.tb.tbeawaterelectrician.entity.Condition;
-import com.tbea.tb.tbeawaterelectrician.entity.HomeDateSon;
 import com.tbea.tb.tbeawaterelectrician.entity.NearbyCompany;
-import com.tbea.tb.tbeawaterelectrician.fragment.account.RealNameVerifyFragment;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
@@ -90,7 +86,7 @@ public class NearbyFranchiserFagment extends Fragment implements BGARefreshLayou
                 NearbyCompany obj = (NearbyCompany)mAdapter.getItem(i);
                 if("firstleveldistributor".equals(obj.getCompanytypeid())){
                     //经销商
-                    Intent intent = new Intent(getActivity(), FranchiserViewActivity2.class);
+                    Intent intent = new Intent(getActivity(), FranchiserViewActivity.class);
                     Gson gson = new Gson();
                     String objGson = gson.toJson(obj);
                     intent.putExtra("obj",objGson);

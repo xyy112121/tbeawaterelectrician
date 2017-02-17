@@ -111,6 +111,7 @@ public class MyInformationActivity extends TopActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext,AddressEditListActivity.class);
+                intent.putExtra("flag","");
                 startActivity(intent);
             }
         });

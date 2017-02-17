@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
@@ -92,6 +93,25 @@ public class AddressEditListActivity extends TopActivity {
                 return false;
             }
         });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Gson gson = new Gson();
+                Address obj = (Address) mAdapter.getItem(i);
+                String objGson = gson.toJson(obj);
+                Intent intent = new Intent();
+                intent.putExtra("obj",objGson);
+                if("select".equals(getIntent().getStringExtra("flag"))){
+                    setResult(RESULT_OK,intent);
+                    finish();
+                }else {
+                    intent.setClass(mContext,AddressEditActivity.class);
+                    intent.putExtra("flag","edit");
+                    startActivityForResult(intent,100);
+                }
+            }
+        });
     }
 
     private void delect(final String id){
@@ -142,8 +162,6 @@ public class AddressEditListActivity extends TopActivity {
             mAdapter.removeAll();
             getListDate();
         }
-
-
     }
 
     /**

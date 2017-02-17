@@ -10,33 +10,59 @@ public class Address {
     private String contactmobile;
     private String address;
     private String isdefault;
-    private String provinceId;
-    private String cityId;
-    private String locationId;
+    private String provinceid;
+    private String province;
+    private String city;
+    private String cityid;
+    private String zone;
+    private String zoneid;
 
-
-    public String getLocationId() {
-        return locationId;
+    public String getCity() {
+        return city;
     }
 
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public String getProvinceId() {
-        return provinceId;
+    public String getCityid() {
+        return cityid;
     }
 
-    public void setProvinceId(String provinceId) {
-        this.provinceId = provinceId;
+    public void setCityid(String cityid) {
+        this.cityid = cityid;
     }
 
-    public String getCityId() {
-        return cityId;
+    public String getProvince() {
+        return province;
     }
 
-    public void setCityId(String cityId) {
-        this.cityId = cityId;
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getProvinceid() {
+        return provinceid;
+    }
+
+    public void setProvinceid(String provinceid) {
+        this.provinceid = provinceid;
+    }
+
+    public String getZone() {
+        return zone;
+    }
+
+    public void setZone(String zone) {
+        this.zone = zone;
+    }
+
+    public String getZoneid() {
+        return zoneid;
+    }
+
+    public void setZoneid(String zoneid) {
+        this.zoneid = zoneid;
     }
 
     public String getId() {

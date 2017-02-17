@@ -149,7 +149,7 @@
                     android:id="@+id/tv_collect_size_tv"
                     style="@style/my_text_style"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/icon_collect"
+                    android:drawableLeft="@drawable/icon_collect2"
                     android:text="我的收藏" />
 
                 <TextView
@@ -191,7 +191,7 @@
                     style="@style/my_text_style"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/icon_about"
-                    android:text="关于优商" />
+                    android:text="关于集成商" />
 
                 <TextView
                     style="@style/my_right_text_style" />

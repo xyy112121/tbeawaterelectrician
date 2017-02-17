@@ -64,7 +64,7 @@ public class MyFragment extends Fragment {
                             Map<String, Object> serviceInfo = (Map<String, Object>) data.get("serviceinfo");
                             ((TextView)view.findViewById(R.id.user_name)).setText(personInfo.get("name"));
                             ((TextView)view.findViewById(R.id.user_mobile)).setText(personInfo.get("mobile"));
-                            String url = MyApplication.instance.getImgPath()+data.get("picture");
+                            String url = MyApplication.instance.getImgPath()+personInfo.get("picture");
                             ImageView imageView = (ImageView)view.findViewById(R.id.user_picture);
                             ImageLoader.getInstance().displayImage(url,imageView);
                             ((TextView)view.findViewById(R.id.user_wallet_size)).setText(serviceInfo.get("userscore")+"");

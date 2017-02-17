@@ -6,7 +6,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
         android:background="@color/white">
         <LinearLayout
             android:orientation="vertical" android:layout_width="match_parent"
@@ -22,17 +25,19 @@
                     android:layout_width="0dp"
                     android:layout_weight="0.15"
                     android:layout_height="wrap_content"
-                    android:text="名字"
                     android:textColor="@color/text_gtay2"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
                 <TextView
                     android:id="@+id/addr_item_contactmobile"
                     android:layout_width="0dp"
                     android:layout_weight="0.9"
                     android:layout_height="wrap_content"
-                    android:text="名字"
                     android:textColor="@color/text_gtay2"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
 
             </LinearLayout>
             <LinearLayout
@@ -54,10 +59,11 @@
                     android:layout_width="0dp"
                     android:layout_weight="0.9"
                     android:layout_height="wrap_content"
-                    android:text="名字"
                     android:textColor="@color/gray"
                     android:textSize="14sp"
-                    android:layout_marginLeft="8dp"/>
+                    android:layout_marginLeft="8dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
 
             </LinearLayout>
 

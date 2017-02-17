@@ -1,30 +1,25 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.Address;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
-
-import java.util.ArrayList;
-
-import cn.qqtheme.framework.picker.AddressPicker;
 
 /**
  * Created by cy on 2017/1/19.新增收货地址
@@ -40,15 +35,79 @@ public class AddressEditActivity extends TopActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_edit);
         mContext = this;
-        initTopbar("新增收货地址","保存",this);
+        if("edit".equals(getIntent().getStringExtra("flag"))){
+            Gson gson = new Gson();
+            String objGson = getIntent().getStringExtra("obj");
+            mObj = gson.fromJson(objGson,Address.class);
+            initTopbar("修改收货地址","保存",this);
+            getDate(mObj.getId());
+        }else {
+            initTopbar("新增收货地址","保存",this);
+        }
         listener();
     }
+
+    /**
+     * 获取数据
+     */
+    public void getDate(final String id) {
+        final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
+        dialog.setText("加载中...");
+        dialog.show();
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                dialog.dismiss();
+                switch (msg.what) {
+                    case ThreadState.SUCCESS:
+                        RspInfo re = (RspInfo) msg.obj;
+                        if (re.isSuccess()) {
+                            mObj = (Address) re.getDateObj("addressinfo");
+                            ((TextView)findViewById(R.id.addr_edit_contactperson)).setText(mObj.getContactperson());
+                            ((TextView)findViewById(R.id.addr_edit_contactmobile)).setText(mObj.getContactmobile());
+                            ((TextView)findViewById(R.id.addr_edit_address)).setText(mObj.getAddress());
+                            String citys = mObj.getProvince()+mObj.getCity()+mObj.getZone();
+                            ((TextView)findViewById(R.id.addr_edit_provincial_city)).setText(citys);
+                            if(mObj.getIsdefault().equals("1")){
+                                ((CheckBox)findViewById(R.id.addr_edit_isdefault)).setChecked(true);
+                            }
+                        } else {
+                            UtilAssistants.showToast(re.getMsg());
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo re = userAction.getAddrInfo(id);
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+    }
+
 
     private  void listener(){
         findViewById(R.id.addr_edit_provincial_city_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext,AddressCitySelectActivity.class);
+                if("edit".equals(getIntent().getStringExtra("flag"))){
+                    intent.putExtra("province",mObj.getProvince());
+                    intent.putExtra("city",mObj.getCity());
+                    intent.putExtra("zone",mObj.getZone());
+                }
                 startActivityForResult(intent,100);
 
             }
@@ -58,9 +117,9 @@ public class AddressEditActivity extends TopActivity implements View.OnClickList
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK && requestCode == 100 && data != null){
-            mObj.setProvinceId(data.getStringExtra("provinceId"));
-            mObj.setProvinceId(data.getStringExtra("cityId"));
-            mObj.setProvinceId(data.getStringExtra("locationId"));
+            mObj.setProvinceid(data.getStringExtra("provinceId"));
+            mObj.setCityid(data.getStringExtra("cityId"));
+            mObj.setZoneid(data.getStringExtra("locationId"));
             String text = data.getStringExtra("text");
             ((TextView)findViewById(R.id.addr_edit_provincial_city)).setText(text);
 
@@ -125,7 +184,12 @@ public class AddressEditActivity extends TopActivity implements View.OnClickList
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo1 re = userAction.addAddrss(mObj);
+                    RspInfo1 re;
+                    if("edit".equals(getIntent().getStringExtra("flag"))){
+                         re = userAction.editAddrss(mObj);
+                    }else {
+                         re = userAction.addAddrss(mObj);
+                    }
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);

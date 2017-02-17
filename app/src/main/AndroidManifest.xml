@@ -153,7 +153,7 @@
             android:name=".activity.my.AddressEditActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.nearby.ShoppingCartActivity"
+            android:name=".activity.nearby.ShoppingCartListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.thenLive.TakeViewActivity"
@@ -168,17 +168,17 @@
             android:name=".activity.nearby.DistributorViewAcitivty"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.nearby.OrderViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.nearby.PayViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.my.AddressCitySelectActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.my.AddressEditListActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.nearby.FranchiserViewActivity2"
-            android:screenOrientation="portrait" />
-
-
-
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data
