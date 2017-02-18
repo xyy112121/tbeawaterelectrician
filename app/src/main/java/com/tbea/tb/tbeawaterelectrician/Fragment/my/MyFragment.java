@@ -21,6 +21,7 @@ import com.tbea.tb.tbeawaterelectrician.activity.my.CollectListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MyInformationActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.OrderListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.OrderListActivity2;
 import com.tbea.tb.tbeawaterelectrician.activity.my.ServiceCenterActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.SetionActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.WalletListActivity;
@@ -104,7 +105,7 @@ public class MyFragment extends Fragment {
         view.findViewById(R.id.my_orader).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), OrderListActivity.class));
+                startActivity(new Intent(getActivity(), OrderListActivity2.class));
             }
         });
 

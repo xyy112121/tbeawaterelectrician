@@ -63,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_alignBottom="@id/expert_list_item_name"
+                        android:layout_alignBottom="@id/home_neatby_company_companyname"
                         android:layout_marginBottom="2dp"
                         android:text="985m"
                         android:textColor="#A2D0D0"

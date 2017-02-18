@@ -15,6 +15,7 @@ import com.tbea.tb.tbeawaterelectrician.fragment.my.OrderListFragmnet;
 import com.tbea.tb.tbeawaterelectrician.fragment.nearby.FragmentAdapter;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,8 @@ public class OrderListActivity extends TopActivity {
         try{
             setContentView(R.layout.activity_order_list);
             initTopbar("我的订单");
+            UserAction action = new UserAction();
+            action.getOrderState();
             res = getResources();
 
             initView();

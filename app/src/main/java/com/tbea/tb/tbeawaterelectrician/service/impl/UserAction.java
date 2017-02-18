@@ -748,4 +748,29 @@ public class UserAction extends BaseAction {
         return  rspInfo;
     }
 
+    /**
+     获取订单状态
+     */
+    public RspInfo getOrderState() throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG005001018000",pairs);
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<List<Condition>>>(){}.getType());
+        return  rspInfo;
+    }
+
+    /**
+     * 获取我的订单
+     */
+    public RspInfo getOrderList(String orderstatusid,int page,int pageSize) throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("orderstatusid", orderstatusid));
+        pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
+        pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
+        String result = sendRequest("TBEAENG005001017000",pairs);
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<Object>>(){}.getType());
+        return  rspInfo;
+    }
+
 }
