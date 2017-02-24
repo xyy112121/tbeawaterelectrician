@@ -9,6 +9,7 @@ import com.tbea.tb.tbeawaterelectrician.entity.Condition;
 import com.tbea.tb.tbeawaterelectrician.entity.MessageCategory;
 import com.tbea.tb.tbeawaterelectrician.entity.NearbyCompany;
 import com.tbea.tb.tbeawaterelectrician.entity.ProductInfo;
+import com.tbea.tb.tbeawaterelectrician.entity.Receive;
 import com.tbea.tb.tbeawaterelectrician.entity.Register;
 import com.tbea.tb.tbeawaterelectrician.entity.SuYuan;
 import com.tbea.tb.tbeawaterelectrician.entity.Take;
@@ -279,6 +280,57 @@ public class UserAction extends BaseAction {
 
     /**
      *
+     返利确认接口
+     * @param scanCode 扫码获取到的码
+     */
+    public  RspInfo1 fanLiComfirm(String scanCode) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("scancode", scanCode));
+        String result = sendRequest("TBEAENG006001002000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *扫码记录
+     */
+    public  RspInfo1 getScanCodeList(int page,int pageSize) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
+        pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
+        String result = sendRequest("TBEAENG006001003000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *扫码记录删除
+     */
+    public  RspInfo1 delectScanCode(String scancodeid) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("scancodeid", scancodeid));
+        String result = sendRequest("TBEAENG006001004000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *我的钱包删除提取二维码
+     */
+    public  RspInfo1 delectTakeMoneyCodeId(String takemoneycodeid ) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("takemoneycodeid", takemoneycodeid ));
+        String result = sendRequest("TBEAENG005001210000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *
      我的钱包收入列表接口
      */
     public  RspInfo1 getWalletRevenueList(int page,int pageSize) throws Exception{
@@ -286,8 +338,21 @@ public class UserAction extends BaseAction {
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
         pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
-        String result = sendRequest("TBEAENG005001007000",pairs);
+        String result = sendRequest("TBEAENG005001006000",pairs);
         rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     * 获取收支明细列表
+     */
+    public RspInfo getPayRevenue(int page,int pageSize) throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
+        pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
+        String result = sendRequest("TBEAENG005001006001",pairs);
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<List<Receive>>>(){}.getType());
         return  rspInfo;
     }
 

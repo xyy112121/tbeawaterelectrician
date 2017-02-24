@@ -22,6 +22,10 @@ public class CustomDialog extends Dialog {
 	 */
 	private TextView tipText;
 	/**
+	 * 提示文本
+	 */
+	private TextView tipText2;
+	/**
 	 * 标题
 	 */
 	private TextView tvTitle;
@@ -37,7 +41,7 @@ public class CustomDialog extends Dialog {
 		DisplayMetrics metric = new DisplayMetrics();
 		((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(metric);
 		LayoutParams lp = getWindow().getAttributes();
-		lp.width = (int) (metric.widthPixels * 0.9);
+		lp.width = (int) (metric.widthPixels * 0.8);
 		setCanceledOnTouchOutside(false);
 		findView(contentView);
 	}
@@ -63,6 +67,7 @@ public class CustomDialog extends Dialog {
 			break;
 		case R.layout.tip_delete_dialog:
 			tipText = (TextView) findViewById(R.id.tip_message);
+			tipText2 = (TextView) findViewById(R.id.tip_message2);
 			break;
 		}
 	}
@@ -74,6 +79,17 @@ public class CustomDialog extends Dialog {
 	public void setText(String text){
 		if(tipText != null){
 			tipText.setText(text);
+		}
+	}
+
+	/**
+	 * 设置dialog提示文本
+	 * @param text
+	 */
+	public void setText2(String text){
+		tipText2.setVisibility(View.VISIBLE);
+		if(tipText2 != null){
+			tipText2.setText(text);
 		}
 	}
 	

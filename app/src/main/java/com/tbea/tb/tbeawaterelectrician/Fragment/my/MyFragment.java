@@ -14,27 +14,21 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
-import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.my.AboutActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.CollectListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.MyAccusationEditActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MyInformationActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.OrderListActivity;
-import com.tbea.tb.tbeawaterelectrician.activity.my.OrderListActivity2;
 import com.tbea.tb.tbeawaterelectrician.activity.my.ServiceCenterActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.SetionActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.WalletListActivity;
-import com.tbea.tb.tbeawaterelectrician.activity.my.WalletWithdrawCashViewActivity;
-import com.tbea.tb.tbeawaterelectrician.entity.NearbyCompany;
-import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -105,7 +99,7 @@ public class MyFragment extends Fragment {
         view.findViewById(R.id.my_orader).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), OrderListActivity2.class));
+                startActivity(new Intent(getActivity(), OrderListActivity.class));
             }
         });
 
@@ -130,6 +124,15 @@ public class MyFragment extends Fragment {
 //                Intent intent = new Intent(getActivity(), WalletWithdrawCashViewActivity.class);
                 String size = ((TextView)view.findViewById(R.id.user_wallet_size)).getText()+"";
                 intent.putExtra("size",size);
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.my_accusation).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), MyAccusationListActivity.class);
+                Intent intent = new Intent(getActivity(), MyAccusationEditActivity.class);
                 startActivity(intent);
             }
         });

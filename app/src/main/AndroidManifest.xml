@@ -180,8 +180,20 @@
             android:name=".activity.my.AddressEditListActivity"
             android:screenOrientation="portrait" />
         <activity
-        android:name=".activity.my.OrderListActivity2"
-        android:screenOrientation="portrait" />
+            android:name=".activity.my.MyAccusationListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.my.MyAccusationEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.my.MyAccusationSuccessActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.my.MyAccusationViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.my.WalletIncomeAndExpensesActivity"
+            android:screenOrientation="portrait" />
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data

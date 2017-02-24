@@ -145,7 +145,7 @@
     </style>
 
     <style name="edit_left_style_tv">
-        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_width">90dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">@color/text_gtay2</item>
         <item name="android:layout_gravity">center</item>
@@ -164,12 +164,23 @@
 
     <style name="style_next_btn">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_height">35dp</item>
         <item name="android:layout_marginLeft">20dp</item>
         <item name="android:layout_marginRight">20dp</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:layout_marginTop">25dp</item>
         <item name="android:background">@drawable/btn_bg</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="style_next_red_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:background">@drawable/btn_red_bg</item>
         <item name="android:textColor">@color/white</item>
     </style>
     

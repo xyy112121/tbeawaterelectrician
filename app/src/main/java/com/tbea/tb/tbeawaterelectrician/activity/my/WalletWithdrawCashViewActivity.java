@@ -1,10 +1,12 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,14 +31,44 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
     private String mTakeMoneyCode="";
     private Timer timer = new Timer();
     private boolean isStart = false;
+    private Context mContext;
+    private String mId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet_withdraw_cash_view);
-        initTopbar("");
+        mContext = this;
+        ((TextView)findViewById(R.id.top_center)).setText("提现凭证");
+        ((TextView)findViewById(R.id.top_right_text)).setText("删除");
         String money = getIntent().getStringExtra("money");
         getDate(money);
+        (findViewById(R.id.top_right_text)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_delete_dialog);
+                dialog.setText("删除后提现二维码将会失效");
+                dialog.setText2("如需提现请重新生成二维码");
+                dialog.setConfirmBtnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                },"取消");
+                dialog.setCancelBtnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                        if("".equals(mId)){
+                            UtilAssistants.showToast("删除失败！");
+                        }else {
+                            delect(mId);
+                        }
+                    }
+                },"删除");
+                dialog.show();
+            }
+        });
     }
 
     /**
@@ -58,7 +90,8 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
                             Map<String, String> myMoneyInfo = (Map<String, String>) data.get("mymoneyinfo");
                             Map<String, String> distriButorInfo = (Map<String, String>) data.get("distributorinfo");
                             String validexpiredtime ="有效期至:"+myMoneyInfo.get("validexpiredtime");
-                            String status = "状态:"+myMoneyInfo.get("status");
+//                            String status = "状态:"+myMoneyInfo.get("status");
+                            mId = myMoneyInfo.get("id");
                             mTakeMoneyCode = myMoneyInfo.get("takemoneycode");
                             String money = "￥"+myMoneyInfo.get("money");
                             String qrcodepicture = myMoneyInfo.get("qrcodepicture");
@@ -68,7 +101,7 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
                             String mobilenumber = "电话:"+distriButorInfo.get("mobilenumber");
 
                             ((TextView)findViewById(R.id.wallet_withdraw_cash_view_validexpiredtime)).setText(validexpiredtime);
-                            ((TextView)findViewById(R.id.wallet_withdraw_cash_view_status)).setText(status);
+//                            ((TextView)findViewById(R.id.wallet_withdraw_cash_view_status)).setText(status);
                             ((TextView)findViewById(R.id.wallet_withdraw_cash_view_takemoneycode)).setText(mTakeMoneyCode);
                             ImageView imageView  = (ImageView)findViewById(R.id.wallet_withdraw_cash_view_qrcodepicture);
                             ImageLoader.getInstance().displayImage(qrcodepicture,imageView);
@@ -173,6 +206,49 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
                     RspInfo1 re = userAction.getCanexChangeMoneySuccess(mTakeMoneyCode);
                     handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
                 }catch (Exception e){
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 删除数据
+     */
+    public void delect(final String id){
+        final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
+        dialog.setText("请等待...");
+        dialog.show();
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                dialog.dismiss();
+                switch (msg.what){
+                    case ThreadState.SUCCESS:
+                        RspInfo1 re = (RspInfo1)msg.obj;
+                        if(re.isSuccess()){
+                            UtilAssistants.showToast(re.getMsg());
+                            finish();
+                        }else {
+                            UtilAssistants.showToast(re.getMsg());
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo1 re = userAction.delectTakeMoneyCodeId(id);
+                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
                 }
             }

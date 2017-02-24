@@ -31,6 +31,15 @@ public class ScanCode {
     private String commodityname;
     private String commodityspec;
     private String manufacturedate;
+    private String appealreward;
+    private String mobilenumber;
+    private String needappeal;
+    private String userdistributor;
+    private String userdistributorid ;
+    private String commodityid;
+    private String scanrebatestatus;
+
+
 
     public String getCommodityname() {
         return commodityname;
@@ -126,5 +135,61 @@ public class ScanCode {
 
     public void setSpecification(String specification) {
         this.specification = specification;
+    }
+
+    public String getMobilenumber() {
+        return mobilenumber;
+    }
+
+    public void setMobilenumber(String mobilenumber) {
+        this.mobilenumber = mobilenumber;
+    }
+
+    public String getNeedappeal() {
+        return needappeal;
+    }
+
+    public void setNeedappeal(String needappeal) {
+        this.needappeal = needappeal;
+    }
+
+    public String getAppealreward() {
+        return appealreward;
+    }
+
+    public void setAppealreward(String appealreward) {
+        this.appealreward = appealreward;
+    }
+
+    public String getUserdistributor() {
+        return userdistributor;
+    }
+
+    public void setUserdistributor(String userdistributor) {
+        this.userdistributor = userdistributor;
+    }
+
+    public String getUserdistributorid() {
+        return userdistributorid;
+    }
+
+    public void setUserdistributorid(String userdistributorid) {
+        this.userdistributorid = userdistributorid;
+    }
+
+    public String getScanrebatestatus() {
+        return scanrebatestatus;
+    }
+
+    public void setScanrebatestatus(String scanrebatestatus) {
+        this.scanrebatestatus = scanrebatestatus;
+    }
+
+    public String getCommodityid() {
+        return commodityid;
+    }
+
+    public void setCommodityid(String commodityid) {
+        this.commodityid = commodityid;
     }
 }

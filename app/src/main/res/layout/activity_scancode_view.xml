@@ -4,6 +4,14 @@
     android:layout_height="match_parent"
     android:background="#fff">
     <include layout="@layout/activity_page_top"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="90dp"
@@ -44,13 +52,12 @@
                     android:layout_marginLeft="8dp"
                     android:layout_weight="0.7"
                     android:gravity="center_vertical"
-                     >
+                    >
 
                     <TextView
                         android:id="@+id/scan_code_view_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="特变电工节能环保双绝缘阻燃固定布线用无护套电线  BVVB-2*4"
                         android:textColor="@color/text_gray"
                         android:textSize="18sp"
                         android:maxLines="3"/>
@@ -61,103 +68,171 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:maxLines="2"
-                        android:text="￥99.00"
                         android:textColor="@color/red"
                         android:textSize="14sp"
                         android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#DBD6D6"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="10dp">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#DBD6D6"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"/>
         <LinearLayout
-            style="@style/scancode_score_view_layout">
-            <TextView
-                android:text="扫码返利："
-                style="@style/scancode_score_view_text1"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp">
 
-            <TextView
-                android:id="@+id/scan_code_view_rebatemoney"
-                style="@style/scancode_score_view_text2"
-                />
-        </LinearLayout>
-        <LinearLayout
-          style="@style/scancode_score_view_layout">
-            <TextView
-                android:text="扫码时间："
-               style="@style/scancode_score_view_text1"/>
+            <LinearLayout
+                style="@style/scancode_score_view_layout">
+                <TextView
+                    android:text="扫码时间："
+                    style="@style/scancode_score_view_text1"/>
 
-            <TextView
-                android:id="@+id/scan_code_view_scantime"
-                style="@style/scancode_score_view_text2"
+                <TextView
+                    android:id="@+id/scan_code_view_scantime"
+                    style="@style/scancode_score_view_text2"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                style="@style/scancode_score_view_layout">
+                <TextView
+                    android:text="扫码地点："
+                    style="@style/scancode_score_view_text1"/>
+
+                <TextView
+                    android:id="@+id/scan_code_view_scanaddress"
+                    style="@style/scancode_score_view_text2"
+                    />
+            </LinearLayout>
+            <View
+                style="@style/horizontal_view"
+                android:layout_marginBottom="10dp"/>
+            <LinearLayout
+                style="@style/scancode_score_view_layout">
+                <TextView
+                    android:text="商品所属经销商："
+                    style="@style/scancode_score_view_text1"/>
+
+                <TextView
+                    android:id="@+id/scan_code_view_distributor"
+                    style="@style/scancode_score_view_text2"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                style="@style/scancode_score_view_layout">
+                <TextView
+                    android:text="产品名称："
+                    style="@style/scancode_score_view_text1"/>
+
+                <TextView
+                    android:id="@+id/scan_code_view_commodityname"
+                    style="@style/scancode_score_view_text2"
+                    android:maxLines="1"/>
+            </LinearLayout>
+            <LinearLayout
+                style="@style/scancode_score_view_layout">
+                <TextView
+                    android:text="产品类型："
+                    style="@style/scancode_score_view_text1"/>
+
+                <TextView
+                    android:id="@+id/scan_code_view_commodityspec"
+                    style="@style/scancode_score_view_text2"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                style="@style/scancode_score_view_layout">
+                <TextView
+                    android:text="生产日期："
+                    style="@style/scancode_score_view_text1"/>
+
+                <TextView
+                    android:id="@+id/scan_code_view_manufacturedate"
+                    style="@style/scancode_score_view_text2"
+                    />
+            </LinearLayout>
+
+            <View
+                style="@style/horizontal_view"
+                android:layout_marginBottom="10dp"/>
+            <LinearLayout
+                style="@style/scancode_score_view_layout"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:text="本次返利："
+                    style="@style/scancode_score_view_text1"
+                    android:textColor="@color/blue1"/>
+
+                <TextView
+                    android:id="@+id/scan_code_view_rebatemoney"
+                    style="@style/scancode_score_view_text2"
+                    android:textSize="18sp"
+                    android:textColor="@color/red"
+                    android:text="hhh"
+                    />
+            </LinearLayout>
+            <View
+                style="@style/horizontal_view"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+            <Button
+                android:id="@+id/scan_code_comfire"
+                style="@style/style_next_btn"
+                android:text="确认"
                />
-        </LinearLayout>
-        <LinearLayout
-            style="@style/scancode_score_view_layout">
-            <TextView
-                android:text="扫码地点："
-                style="@style/scancode_score_view_text1"/>
-
-            <TextView
-                android:id="@+id/scan_code_view_scanaddress"
-                style="@style/scancode_score_view_text2"
+            <Button
+                android:id="@+id/scan_code_tip"
+                style="@style/style_next_red_btn"
+                android:text="我要举报"
                />
-        </LinearLayout>
-        <LinearLayout
-            style="@style/scancode_score_view_layout">
             <TextView
-                android:text="商品所属经销商："
-                style="@style/scancode_score_view_text1"/>
+                android:id="@+id/scan_code_userdistributor_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="您的上级经销商"
+                android:textColor="@color/text_gtay2"
+                android:textSize="12sp"
+                android:gravity="center_horizontal"/>
+            <TextView
+                android:id="@+id/scan_code_userdistributor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:gravity="center_horizontal"/>
+            <TextView
+                android:id="@+id/scan_code_userdistributor_tv1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="本次扫码无法兑换返利"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:gravity="center_horizontal"/>
 
-            <TextView
-                android:id="@+id/scan_code_view_distributor"
-                style="@style/scancode_score_view_text2"
-               />
         </LinearLayout>
-        <LinearLayout
-            style="@style/scancode_score_view_layout">
-            <TextView
-                android:text="产品名称："
-                style="@style/scancode_score_view_text1"/>
-
-            <TextView
-                android:id="@+id/scan_code_view_commodityname"
-                style="@style/scancode_score_view_text2"
-                android:maxLines="1"/>
-        </LinearLayout>
-        <LinearLayout
-            style="@style/scancode_score_view_layout">
-            <TextView
-                android:text="产品类型："
-                style="@style/scancode_score_view_text1"/>
-
-            <TextView
-                android:id="@+id/scan_code_view_commodityspec"
-                style="@style/scancode_score_view_text2"
-              />
-        </LinearLayout>
-        <LinearLayout
-            style="@style/scancode_score_view_layout">
-            <TextView
-                android:text="生产日期："
-                style="@style/scancode_score_view_text1"/>
-
-            <TextView
-                android:id="@+id/scan_code_view_manufacturedate"
-                style="@style/scancode_score_view_text2"
-                />
-        </LinearLayout>
-
+        <TextView
+            android:id="@+id/scan_code_mobilenumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gtay2"
+            android:textSize="12sp"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="40dp"/>
+        <TextView
+            android:id="@+id/scan_code_appealreward"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gtay2"
+            android:textSize="12sp"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="10dp"/>
     </LinearLayout>
+    </ScrollView>
 </LinearLayout>

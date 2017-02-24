@@ -7,6 +7,8 @@ package com.tbea.tb.tbeawaterelectrician.entity;
 public class Receive {
     private String  id;
     private String event;
+    private String thisvalue;
+    private String currenttotlemoney;
     private String  money;
     private String time;
 
@@ -40,5 +42,21 @@ public class Receive {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getThisvalue() {
+        return thisvalue;
+    }
+
+    public void setThisvalue(String thisvalue) {
+        this.thisvalue = thisvalue;
+    }
+
+    public String getCurrenttotlemoney() {
+        return currenttotlemoney;
+    }
+
+    public void setCurrenttotlemoney(String currenttotlemoney) {
+        this.currenttotlemoney = currenttotlemoney;
     }
 }

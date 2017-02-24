@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color">
+    <include layout="@layout/activity_page_top"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/bg_color">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+                <LinearLayout
+                    style="@style/edit_style_layout">
+                    <TextView
+                        style="@style/edit_left_style_tv"
+                        android:text="举报类型"
+                        />
+
+                    <TextView
+                        android:id="@+id/addr_edit_contactperson"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0.74"
+                        android:imeOptions="actionNext"
+                        style="@style/edit_style"
+                        android:textSize="16sp"
+                        android:hint="请输入举报类型"
+                        />
+                </LinearLayout>
+                <View
+                    style="@style/horizontal_view"/>
+                <LinearLayout
+                    style="@style/edit_style_layout">
+                    <TextView
+                        style="@style/edit_left_style_tv"
+                        android:text="举报时间"
+                        />
+
+                    <TextView
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0.74"
+                        android:imeOptions="actionNext"
+                        style="@style/edit_style"
+                        android:textSize="16sp"
+                        android:hint="请输入举报时间"
+                        />
+                </LinearLayout>
+                <View
+                    style="@style/horizontal_view"/>
+                <LinearLayout
+                    style="@style/edit_style_layout">
+                    <TextView
+                        style="@style/edit_left_style_tv"
+                        android:text="扫码地点"
+                        />
+
+                    <TextView
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0.74"
+                        android:imeOptions="actionNext"
+                        style="@style/edit_style"
+                        android:textSize="16sp"
+                        android:hint="请输入扫码地点"
+                        />
+                </LinearLayout>
+                <View
+                    style="@style/horizontal_view"/>
+                <LinearLayout
+                    style="@style/edit_style_layout">
+                    <TextView
+                        style="@style/edit_left_style_tv"
+                        android:text="所属区域"
+                        />
+
+                    <TextView
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0.74"
+                        android:imeOptions="actionNext"
+                        style="@style/edit_style"
+                        android:textSize="16sp"
+                        android:hint="请输入所属区域"
+                        />
+                </LinearLayout>
+                <View
+                    style="@style/horizontal_view"/>
+                <LinearLayout
+                    style="@style/edit_style_layout">
+                    <TextView
+                        style="@style/edit_left_style_tv"
+                        android:text="上级经销商"
+                        />
+
+                    <TextView
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0.74"
+                        android:imeOptions="actionNext"
+                        style="@style/edit_style"
+                        android:textSize="16sp"
+                        android:hint="请输入上级经销商"
+                        />
+                </LinearLayout>
+                <View
+                    style="@style/horizontal_view"/>
+                <LinearLayout
+                    style="@style/edit_style_layout">
+                    <TextView
+                        style="@style/edit_left_style_tv"
+                        android:text="使用产品"
+                        />
+
+                    <TextView
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0.74"
+                        android:imeOptions="actionNext"
+                        style="@style/edit_style"
+                        android:textSize="16sp"
+                        android:hint="请输入使用产品"
+                        />
+                </LinearLayout>
+                <View
+                    style="@style/horizontal_view"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+               >
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="45dp"
+                    android:textColor="@color/text_gtay2"
+                    android:text="举报内容"
+                    android:paddingLeft="10dp"
+                    android:gravity="center"
+                    android:textSize="16sp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_gray"
+                    android:text="举报内容"
+                    android:paddingLeft="20dp"
+                    android:textSize="16sp"/>
+                <com.tbea.tb.tbeawaterelectrician.component.FlexRadioGroup
+                    android:id="@+id/accusation_view_image_rg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:flexWrap="wrap"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    >
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/icon_defult"
+                        android:scaleType="fitXY"/>
+                </com.tbea.tb.tbeawaterelectrician.component.FlexRadioGroup>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    >
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/text_gtay2"
+                        android:text="系统回复"
+                        android:paddingLeft="10dp"
+                        android:gravity="center"
+                        android:textSize="16sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/text_gray"
+                        android:text="2017-02-09 15:23:31"
+                        android:paddingLeft="10dp"
+                        android:gravity="center"
+                        android:layout_alignParentRight="true"
+                        android:textSize="16sp"/>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_gray"
+                    android:text="内容"
+                    android:paddingLeft="20dp"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="10dp"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</LinearLayout>

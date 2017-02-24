@@ -50,9 +50,9 @@
         android:layout_toLeftOf="@id/top_right_text_image"
         android:ellipsize="end"
         android:maxEms="4"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textColor="#fff"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:visibility="gone" />
 
 </RelativeLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp">
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="好的好很多很多好的好很多很多好的好很多很多好的好很多很多"
+           android:textColor="@color/tab_text_normal"
+           android:ellipsize="end"
+           android:maxEms="12"
+           android:maxLines="1"
+           />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="2017-01.12 15:54:33"
+           android:textColor="@color/text_gray"
+           android:ellipsize="end"
+           android:maxLines="1"
+           android:layout_alignParentRight="true"/>
+
+   </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="好的好很多很多好的好很多很多好的好很多很多好的好很多很多好的好很多很多"
+            android:textColor="@color/text_gray"
+            android:ellipsize="end"
+            android:maxLines="2"
+            />
+    </LinearLayout>
+</FrameLayout>

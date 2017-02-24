@@ -1,21 +1,34 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tbea.tb.tbeawaterelectrician.fragment.my.OrderListFragmnet;
-import com.tbea.tb.tbeawaterelectrician.fragment.nearby.FragmentAdapter;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
+import com.tbea.tb.tbeawaterelectrician.entity.Condition;
+import com.tbea.tb.tbeawaterelectrician.fragment.my.OrderListFragmnet;
+import com.tbea.tb.tbeawaterelectrician.fragment.nearby.FragmentAdapter;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
+import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,51 +38,27 @@ import java.util.List;
  */
 
 public class OrderListActivity extends TopActivity {
-    //顶部5个LinearLayout
-    private LinearLayout mTab01;
-    private LinearLayout mTab02;
-    private LinearLayout mTab03;
-    private LinearLayout mTab04;
-    private LinearLayout mTab05;
-
-    //顶部的5个TextView
-    private TextView id_tab01_info;
-    private TextView id_tab02_info;
-    private TextView id_tab03_info;
-    private TextView id_tab04_info;
-    private TextView id_tab05_info;
-
-    //Tab的那个引导线
-    private ImageView mTabLine;
-    //屏幕的宽度
+    private Context mContext;
+    private List<FrameLayout> mListLayout = new ArrayList<>();
+    private int mIndex = 0;
+    private int mIndex2 = -1;//前一次点击的下标
     private int screenWidth;
+    public String stateId = "";
 
-    private ViewPager mViewPager;
-    private FragmentAdapter mAdapter;
-    private List<Fragment> fragments = new ArrayList<Fragment>();
-    private Resources res;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try{
-            setContentView(R.layout.activity_order_list);
+            setContentView(R.layout.activity_order_list2);
             initTopbar("我的订单");
-            UserAction action = new UserAction();
-            action.getOrderState();
-            res = getResources();
+            mContext = this;
+            //获取屏幕的宽度
+            DisplayMetrics outMetrics = new DisplayMetrics();
+            getWindow().getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
+            screenWidth = outMetrics.widthPixels;
+            getStateDate();
 
-            initView();
-
-            mViewPager = (ViewPager)findViewById(R.id.id_viewpager);
-
-            //初始化Adapter
-            mAdapter = new FragmentAdapter(getSupportFragmentManager(), fragments);
-
-            mViewPager.setAdapter(mAdapter);
-            mViewPager.addOnPageChangeListener(new TabOnPageChangeListener());
-
-            initTabLine();
         }catch (Exception e){
             System.out.print(e);
         }
@@ -77,118 +66,92 @@ public class OrderListActivity extends TopActivity {
     }
 
     /**
-     * 根据屏幕的宽度，初始化引导线的宽度
+     * 获取订单状态
      */
-    private void initTabLine() {
-        mTabLine = (ImageView) findViewById(R.id.id_tab_line);
+    public  void getStateDate(){
+        final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
+        dialog.setText("加载中...");
+        dialog.show();
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                dialog.dismiss();
+                switch (msg.what){
+                    case ThreadState.SUCCESS:
+                        RspInfo re = (RspInfo)msg.obj;
+                        if(re.isSuccess()){
+                            final List<Condition> list = (List<Condition>)re.getDateObj("orderstatuslist");
+                            if(list != null){
+                                LinearLayout parentLayout = (LinearLayout)findViewById(R.id.order_list_state_layout);
+                                for ( int i = 0;i<list.size();i++){
+                                    final  int index = i;
+                                    Condition item = list.get(i);
+                                    final FrameLayout layout = (FrameLayout)getLayoutInflater().inflate(R.layout.activity_order_list_top_item,null);
+                                    TextView t =  (TextView)layout.findViewById(R.id.order_list_top_tv);
+                                    t.setText(item.getName());
+                                    if(i == 0){
+                                        ((TextView)layout.findViewById(R.id.order_list_top_tv)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gtay2));
+                                        layout.findViewById(R.id.order_list_top_line).setVisibility(View.VISIBLE);
+                                        swithFragment();
+                                    }
+                                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(screenWidth/list.size(), LinearLayout.LayoutParams.WRAP_CONTENT);
+                                    layout.setLayoutParams(lp);
+                                    layout.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            stateId = list.get(index).getId();
+                                            mIndex2 = mIndex;
+                                            mIndex = index;
+                                            if(mIndex2 != -1 && mIndex != mIndex2 ){
+                                                ((TextView)view.findViewById(R.id.order_list_top_tv)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gtay2));
+                                                (view.findViewById(R.id.order_list_top_line)).setVisibility(View.VISIBLE);
+                                                setViewColor();
+                                            }
+                                            swithFragment();
+                                        }
+                                    });
+                                    mListLayout.add(layout);
+                                    parentLayout.addView(layout);
+                                }
 
-        //获取屏幕的宽度
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        getWindow().getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
-        screenWidth = outMetrics.widthPixels;
+                            }
+                        }else {
+                            UtilAssistants.showToast("操作失败！");
+                        }
 
-        //获取控件的LayoutParams参数(注意：一定要用父控件的LayoutParams写LinearLayout.LayoutParams)
-        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mTabLine.getLayoutParams();
-        lp.width = screenWidth / 5;//设置该控件的layoutParams参数
-        mTabLine.setLayoutParams(lp);//将修改好的layoutParams设置为该控件的layoutParams
-    }
-
-    /**
-     * 初始化控件，初始化Fragment
-     */
-    private void initView() {
-        id_tab01_info = (TextView) findViewById(R.id.id_tab01_info);
-        id_tab02_info = (TextView) findViewById(R.id.id_tab02_info);
-        id_tab03_info = (TextView) findViewById(R.id.id_tab03_info);
-        id_tab04_info = (TextView) findViewById(R.id.id_tab04_info);
-        id_tab05_info = (TextView) findViewById(R.id.id_tab05_info);
-
-        mTab01 = (LinearLayout) findViewById(R.id.id_tab01);
-        mTab02 = (LinearLayout) findViewById(R.id.id_tab02);
-        mTab03 = (LinearLayout) findViewById(R.id.id_tab03);
-        mTab04 = (LinearLayout) findViewById(R.id.id_tab04);
-        mTab05 = (LinearLayout) findViewById(R.id.id_tab05);
-
-        mTab01.setOnClickListener(new TabOnClickListener(0));
-        mTab02.setOnClickListener(new TabOnClickListener(1));
-        mTab03.setOnClickListener(new TabOnClickListener(2));
-        mTab04.setOnClickListener(new TabOnClickListener(3));
-        mTab05.setOnClickListener(new TabOnClickListener(4));
-
-        fragments.add(new OrderListFragmnet());
-        fragments.add(new OrderListFragmnet());
-        fragments.add(new OrderListFragmnet());
-        fragments.add(new OrderListFragmnet());
-        fragments.add(new OrderListFragmnet());
-    }
-
-    /**
-     * 重置颜色
-     */
-    private void resetTextView() {
-        id_tab01_info.setTextColor(res.getColor(R.color.black));
-        id_tab02_info.setTextColor(res.getColor(R.color.black));
-        id_tab03_info.setTextColor(res.getColor(R.color.black));
-        id_tab04_info.setTextColor(res.getColor(R.color.black));
-        id_tab05_info.setTextColor(res.getColor(R.color.black));
-    }
-
-    /**
-     * 功能：点击主页TAB事件
-     */
-    public class TabOnClickListener implements View.OnClickListener {
-        private int index = 0;
-
-        public TabOnClickListener(int i) {
-            index = i;
-        }
-
-        public void onClick(View v) {
-            mViewPager.setCurrentItem(index);//选择某一页
-        }
-
-    }
-
-    /**
-     * 功能：Fragment页面改变事件
-     */
-    public class TabOnPageChangeListener implements ViewPager.OnPageChangeListener {
-
-        //当滑动状态改变时调用
-        public void onPageScrollStateChanged(int state) {
-
-        }
-
-        //当前页面被滑动时调用
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mTabLine.getLayoutParams();
-            //返回组件距离左侧组件的距离
-            lp.leftMargin = (int) ((positionOffset + position) * screenWidth / 5);
-            mTabLine.setLayoutParams(lp);
-        }
-
-        //当新的页面被选中时调用
-        public void onPageSelected(int position) {
-            //重置所有TextView的字体颜色
-            resetTextView();
-            switch (position) {
-                case 0:
-                    id_tab01_info.setTextColor(res.getColor(R.color.blue4));
-                    break;
-                case 1:
-                    id_tab02_info.setTextColor(res.getColor(R.color.blue4));
-                    break;
-                case 2:
-                    id_tab03_info.setTextColor(res.getColor(R.color.blue4));
-                    break;
-                case 3:
-                    id_tab04_info.setTextColor(res.getColor(R.color.blue4));
-                    break;
-                case 4:
-                    id_tab05_info.setTextColor(res.getColor(R.color.blue4));
-                    break;
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
             }
-        }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo re  = userAction.getOrderState();
+                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+    }
+
+    public void setViewColor(){
+        FrameLayout layout = mListLayout.get(mIndex2);
+        ((TextView)layout.findViewById(R.id.order_list_top_tv)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gray));
+        (layout.findViewById(R.id.order_list_top_line)).setVisibility(View.GONE);
+    }
+
+    private void swithFragment(){
+        OrderListFragmnet f = new OrderListFragmnet();
+        FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+        t.replace(R.id.content_frame,f);
+        t.commit();
     }
 
 }

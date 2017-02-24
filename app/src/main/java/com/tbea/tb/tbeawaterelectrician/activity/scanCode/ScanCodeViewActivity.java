@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +31,8 @@ import java.util.Map;
  */
 
 public class ScanCodeViewActivity extends TopActivity {
+    private ScanCode mObj;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +45,64 @@ public class ScanCodeViewActivity extends TopActivity {
         }else{
             getDate();//网络取数据
         }
+
+        findViewById(R.id.scan_code_comfire).setOnClickListener(new View.OnClickListener() {
+            @Override
+                public void onClick(View view) {
+                if(mObj.getNeedappeal().equals("0")){
+                    comfire();
+                }
+            }
+        });
     }
 
+
+    private void comfire(){
+        final CustomDialog dialog = new CustomDialog(ScanCodeViewActivity.this, R.style.MyDialog, R.layout.tip_wait_dialog);
+        dialog.setText("请等待...");
+        dialog.show();
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                dialog.dismiss();
+                switch (msg.what) {
+                    case ThreadState.SUCCESS:
+                        try {
+                            RspInfo1 re = (RspInfo1) msg.obj;
+                            if (re.isSuccess()) {
+                                UtilAssistants.showToast(re.getMsg());
+                                finish();
+                            } else {
+                                UtilAssistants.showToast(re.getMsg());
+                            }
+                        } catch (Exception e) {
+                            UtilAssistants.showToast("操作失败！");
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    String scanCode = getIntent().getStringExtra("scanCode");
+                    RspInfo1 re = userAction.fanLiComfirm(scanCode);
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+    }
     private void setViewDate(ScanCode obj){
+        mObj = obj;
         ((TextView) findViewById(R.id.scan_code_view_name)).setText(obj.getName());
         ((TextView) findViewById(R.id.scan_code_view_price)).setText("￥"+obj.getPrice());
         ImageView imageView = (ImageView)findViewById(R.id.scan_code_view_picture);
@@ -56,6 +114,24 @@ public class ScanCodeViewActivity extends TopActivity {
         ((TextView) findViewById(R.id.scan_code_view_commodityname)).setText(obj.getCommodityname());
         ((TextView) findViewById(R.id.scan_code_view_commodityspec)).setText(obj.getCommodityspec());
         ((TextView) findViewById(R.id.scan_code_view_manufacturedate)).setText(obj.getManufacturedate());
+        ((TextView) findViewById(R.id.scan_code_mobilenumber)).setText("串货有奖举报电话:"+obj.getMobilenumber());
+
+        ((TextView) findViewById(R.id.scan_code_appealreward)).setText(obj.getAppealreward());
+        if(obj.getNeedappeal().equals("0")){
+            Button comfireBtn = (Button)findViewById(R.id.scan_code_comfire);
+            Button tipBtn = (Button)findViewById(R.id.scan_code_tip);
+            comfireBtn.setEnabled(true);
+            tipBtn.setEnabled(false);
+            findViewById(R.id.scan_code_userdistributor).setVisibility(View.GONE);
+            findViewById(R.id.scan_code_userdistributor_tv).setVisibility(View.GONE);
+            findViewById(R.id.scan_code_userdistributor_tv1).setVisibility(View.GONE);
+        }else {//不符合
+            Button comfireBtn = (Button)findViewById(R.id.scan_code_comfire);
+            Button tipBtn = (Button)findViewById(R.id.scan_code_tip);
+            comfireBtn.setEnabled(false);
+            tipBtn.setEnabled(true);
+            ((TextView) findViewById(R.id.scan_code_userdistributor)).setText(obj.getUserdistributor());
+        }
     }
 
     private void getDate() {
@@ -75,6 +151,19 @@ public class ScanCodeViewActivity extends TopActivity {
                                 ScanCode obj = new ScanCode();
                                 Map<String, String> commodityinfo = (Map<String, String>) data.get("commodityinfo");
                                 Map<String, String> scaninfo = (Map<String, String>) data.get("scaninfo");
+                                Map<String, String> appealinfo = (Map<String, String>) data.get("appealinfo");
+                                Map<String, String> userinfo  = (Map<String, String>) data.get("userinfo");
+
+                                if(userinfo != null){
+                                    obj.setUserdistributor(userinfo.get("userdistributor"));
+                                    obj.setUserdistributorid(userinfo.get("userdistributorid"));
+                                }
+
+                                if (appealinfo != null) {
+                                    obj.setAppealreward(appealinfo.get("appealreward"));
+                                    obj.setMobilenumber(appealinfo.get("mobilenumber"));
+                                    obj.setNeedappeal(appealinfo.get("needappeal"));
+                                }
 
                                 if (commodityinfo != null) {
                                     obj.setId(commodityinfo.get("id"));
@@ -92,7 +181,7 @@ public class ScanCodeViewActivity extends TopActivity {
                                     obj.setCommodityspec(scaninfo.get("commodityspec"));
                                     obj.setManufacturedate(scaninfo.get("manufacturedate"));
                                 }
-                                 ScanCodeSqlManager.insert(obj);
+//                                 ScanCodeSqlManager.insert(obj);
                                 setViewDate(obj);
 
                             } else {
@@ -117,8 +206,7 @@ public class ScanCodeViewActivity extends TopActivity {
                 try {
                     UserAction userAction = new UserAction();
                     String scanCode = getIntent().getStringExtra("scanCode");
-                    RspInfo1
-                            re = userAction.getFanLi(scanCode, MyApplication.instance.getAddrsss());
+                    RspInfo1 re = userAction.getFanLi(scanCode, MyApplication.instance.getAddrsss());
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
@@ -126,4 +214,5 @@ public class ScanCodeViewActivity extends TopActivity {
             }
         }).start();
     }
+
 }
