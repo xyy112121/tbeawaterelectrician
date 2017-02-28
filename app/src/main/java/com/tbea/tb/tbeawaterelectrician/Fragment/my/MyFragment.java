@@ -19,15 +19,22 @@ import com.tbea.tb.tbeawaterelectrician.activity.my.AboutActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.CollectListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MyAccusationEditActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.MyAccusationListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MyInformationActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.OrderListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.ServiceCenterActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.SetionActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.WalletIncomeAndExpensesListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.WalletListActivity;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
+import com.tbea.tb.tbeawaterelectrician.util.EventCity;
+import com.tbea.tb.tbeawaterelectrician.util.EventFlag;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Map;
 
@@ -36,14 +43,16 @@ import java.util.Map;
  */
 
 public class MyFragment extends Fragment {
+    private View mView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = (View)inflater.inflate(R.layout.fragment_my,null);
-        getDate(view);
-        listener(view);
-        return  view;
+        mView = (View)inflater.inflate(R.layout.fragment_my,null);
+        getDate(mView);
+        listener(mView);
+        EventBus.getDefault().register(this);
+        return  mView;
     }
 
     public void getDate(final View view){
@@ -56,19 +65,17 @@ public class MyFragment extends Fragment {
                         if(re.isSuccess()){
                             Map<String, Object> data = (Map<String, Object>) re.getData();
                             Map<String, String> personInfo = (Map<String, String>) data.get("personinfo");
-                            Map<String, Object> serviceInfo = (Map<String, Object>) data.get("serviceinfo");
+                            Map<String, String> serviceInfo = (Map<String, String>) data.get("serviceinfo");
                             ((TextView)view.findViewById(R.id.user_name)).setText(personInfo.get("name"));
                             ((TextView)view.findViewById(R.id.user_mobile)).setText(personInfo.get("mobile"));
                             String url = MyApplication.instance.getImgPath()+personInfo.get("picture");
                             ImageView imageView = (ImageView)view.findViewById(R.id.user_picture);
                             ImageLoader.getInstance().displayImage(url,imageView);
                             ((TextView)view.findViewById(R.id.user_wallet_size)).setText(serviceInfo.get("userscore")+"");
-                            double message_size = (double)serviceInfo.get("newmessagenumber");
-                            double savedatanumber = (double)serviceInfo.get("savedatanumber");
-                            int m = (int)message_size;
-                            int n = (int)savedatanumber;
-                            ((TextView)view.findViewById(R.id.tv_message_size)).setText(m+"条未读消息");
-                            ((TextView)view.findViewById(R.id.tv_collect_size)).setText(n+"");
+                            ((TextView)view.findViewById(R.id.tv_message_size)).setText(serviceInfo.get("newmessagenumber")+"条未读消息");
+                            ((TextView)view.findViewById(R.id.tv_collect_size)).setText(serviceInfo.get("savedatanumber"));
+                            ((TextView)view.findViewById(R.id.tv_accusation_size)).setText(serviceInfo.get("appealnumber"));
+
                         }else {
                             UtilAssistants.showToast(re.getMsg());
                         }
@@ -131,8 +138,8 @@ public class MyFragment extends Fragment {
         view.findViewById(R.id.my_accusation).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), MyAccusationListActivity.class);
-                Intent intent = new Intent(getActivity(), MyAccusationEditActivity.class);
+                Intent intent = new Intent(getActivity(), MyAccusationListActivity.class);
+//                Intent intent = new Intent(getActivity(), MyAccusationEditActivity.class);
                 startActivity(intent);
             }
         });
@@ -167,5 +174,19 @@ public class MyFragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEventMainThread(EventCity event) {
+        if (event == null) return;
+        if(EventFlag.EVENT_MY_HEAD.equals(event.getEventFlag())){
+            getDate(mView);
+        }
     }
 }
