@@ -32,7 +32,8 @@ import java.util.Map;
  */
 
 public class WalletWithdrawCashActivity extends TopActivity {
-    protected String mMoney;
+    protected Double mCanexChangeMoney;
+    private WebView mWebView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,13 +58,7 @@ public class WalletWithdrawCashActivity extends TopActivity {
         findViewById(R.id.wallet_withdraw_cash_all).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if("".equals(mMoney)){
-                    Toast.makeText(WalletWithdrawCashActivity.this,"请填写提现金额！",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Intent intent = new Intent(WalletWithdrawCashActivity.this,WalletWithdrawCashViewActivity.class);
-                intent.putExtra("money",mMoney);
-                startActivity(intent);
+                ((EditText)findViewById(R.id.wallet_withdraw_cash_money)).setText(mCanexChangeMoney+"");
             }
         });
     }
@@ -82,9 +77,9 @@ public class WalletWithdrawCashActivity extends TopActivity {
                             Map<String, Object> data1 = (Map<String, Object>) re.getData();
                             Map<String, Object> data = (Map<String, Object>) data1.get("mymoneyinfo");
                             if(data != null){
-                                mMoney = data.get("currentmoney")+"";
-//                            Double canexChangeMoney = (Double) data.get("canexchangemoney");
-                                String text = "积分金额￥"+mMoney;
+                                String mMoney = data.get("currentmoney")+"";
+                                mCanexChangeMoney = (Double) data.get("canexchangemoney");
+                                String text = "积分金额￥"+mMoney+",当前可提现金额￥"+ mCanexChangeMoney;
                                 ((TextView)findViewById(R.id.wallet_withdraw_cash_info)).setText(text);
                             }
 
@@ -98,23 +93,40 @@ public class WalletWithdrawCashActivity extends TopActivity {
                                 String latitude = recommondDistriButorInfo.get("latitude")+"";
 
                                 String url = MyApplication.instance.getImgPath()+ "enginterface/index.php/Apph5/address?longitude="+longitude+"&latitude="+latitude;
-                                WebView webView = (WebView)findViewById(R.id.wallet_withdraw_cash_webwiew);
-                                WebSettings webSettings = webView.getSettings();
-                                webSettings.setAllowFileAccess(true);
-                                webSettings.setDomStorageEnabled(true);
-                                webSettings.setJavaScriptEnabled(true);
-                                webSettings.setBlockNetworkImage(false);//解决图片加载不出来的问题
-                                webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-                                webSettings.setLoadsImagesAutomatically(true);
-                                webSettings.setDatabaseEnabled(true);
-                                webSettings.setGeolocationEnabled(true);
-                                webSettings.setSupportZoom(true);
-                                webSettings.setBuiltInZoomControls(true);
-                                webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-                                webSettings.setUseWideViewPort(true);// 设置是当前html界面自适应屏幕
-                                webView.setWebViewClient(new MyWebViewClient());
+                                mWebView = (WebView)findViewById(R.id.wallet_withdraw_cash_webwiew);
+                                WebSettings settings = mWebView.getSettings();
+                                //自适应屏幕
+//                                settings.setUseWideViewPort(true);
+//                                settings.setLoadWithOverviewMode(true);
+                                //启用支持javascript
+                                settings.setJavaScriptEnabled(true);
+                                settings.setBlockNetworkImage(false);//解决图片加载不出来的问题
+                                settings.setJavaScriptEnabled(true);
+                                settings.setAllowFileAccess(true);
+                                settings.setDomStorageEnabled(true);//允许DCOM
+
+//                                webSettings.setAllowFileAccess(true);
+//                                webSettings.setDomStorageEnabled(true);
+//                                webSettings.setJavaScriptEnabled(true);
+//                                webSettings.setBlockNetworkImage(false);//解决图片加载不出来的问题
+//                                webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+//                                webSettings.setLoadsImagesAutomatically(true);
+//                                webSettings.setDatabaseEnabled(true);
+//                                webSettings.setGeolocationEnabled(true);
+//                                webSettings.setSupportZoom(true);
+//                                webSettings.setBuiltInZoomControls(true);
+//                                webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+//                                webSettings.setUseWideViewPort(true);// 设置是当前html界面自适应屏幕
+//                                webView.setWebViewClient(new MyWebViewClient());
 //                                webView.loadUrl("http://baidu.com");
-                                webView.loadUrl(url);
+                                mWebView.loadUrl(url);
+                                mWebView.setWebViewClient(new WebViewClient(){
+                                    @Override
+                                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                        view.loadUrl(url);
+                                        return super.shouldOverrideUrlLoading(view, url);
+                                    }
+                                });
 
                             }
                         }else {

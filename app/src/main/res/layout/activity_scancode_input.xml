@@ -25,6 +25,7 @@
             android:background="@drawable/scancode_input_ed"
             android:layout_marginTop="8dp"
             android:textColor="#848484"
+            android:paddingLeft="5dp"
            />
         <Button
             android:id="@+id/scan_code_input_comfire"

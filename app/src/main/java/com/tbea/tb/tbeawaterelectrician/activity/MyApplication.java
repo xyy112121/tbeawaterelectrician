@@ -103,11 +103,23 @@ public class MyApplication extends Application implements BDLocationListener {
 	
 	public void exit(){
 		for(SoftReference<Activity> sa:activitys)if(sa.get()!=null)sa.get().finish();
-		System.exit(0);
+//		System.exit(0);
 	}
 	
 	public void addActivity(Activity activity){
 		activitys.add(new SoftReference<Activity>(activity));
+	}
+
+	/**
+	 * 结束指定的Activity
+	 */
+	public void finishSingleActivity(Activity activity) {
+		if (activity != null) {
+			if (activitys.contains(activity)) {
+				activitys.remove(activity);
+			}
+			activity.finish();
+		}
 	}
 
 

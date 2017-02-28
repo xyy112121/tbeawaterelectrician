@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -165,6 +166,19 @@ public class WalletIncomeAndExpensesActivity extends TopActivity implements BGAR
             View view = (View) layoutInflater.inflate(
                     R.layout.activity_wallet_income_expenses_list_item, null);
             ((TextView)view.findViewById(R.id.wallet_income_expences_event)).setText(mList.get(position).getEvent());
+            if("exchangecommodity".equals(mList.get(position).getEventid()) || "ordercommodity".equals(mList.get(position).getEventid())){
+                ((TextView)view.findViewById(R.id.wallet_income_expences_event)).setTextColor(ContextCompat.getColor(mContext,R.color.black));
+            }else if("takemoney".equals(mList.get(position).getEventid()) || "givemoneyforscore".equals(mList.get(position).getEventid())){
+                ((TextView)view.findViewById(R.id.wallet_income_expences_event)).setTextColor(ContextCompat.getColor(mContext,R.color.head_color));
+            }if("appealaward".equals(mList.get(position).getEventid())){
+                ((TextView)view.findViewById(R.id.wallet_income_expences_event)).setTextColor(ContextCompat.getColor(mContext,R.color.orange));
+            }
+
+            if("+".equals(mList.get(position).getOptype())){
+                ((TextView)view.findViewById(R.id.wallet_income_expences_thisvalue)).setTextColor(ContextCompat.getColor(mContext,R.color.red));
+            }else {
+                ((TextView)view.findViewById(R.id.wallet_income_expences_thisvalue)).setTextColor(ContextCompat.getColor(mContext,R.color.green));
+            }
             ((TextView)view.findViewById(R.id.wallet_income_expences_thisvalue)).setText(mList.get(position).getThisvalue());
             ((TextView)view.findViewById(R.id.wallet_income_expences_time)).setText(mList.get(position).getTime());
             ((TextView)view.findViewById(R.id.wallet_income_expences_currenttotlemoney)).setText("￥"+mList.get(position).getCurrenttotlemoney());

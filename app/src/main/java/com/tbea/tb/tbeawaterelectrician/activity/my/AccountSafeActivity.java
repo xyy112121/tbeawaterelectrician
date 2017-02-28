@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
@@ -31,6 +33,7 @@ public class AccountSafeActivity extends TopActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_safe);
         mContext = this;
+        MyApplication.instance.addActivity((Activity) mContext);
         initTopbar("账户信息");
         getDate();
         listener();

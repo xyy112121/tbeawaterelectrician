@@ -147,6 +147,7 @@ public class LoginActivity extends Activity{
                             ShareConfig.setConfig(LoginActivity.this,Constants.USERID,userInfo2.getId());
                             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                             startActivity(intent);
+                            finish();
                         }else {
                             UtilAssistants.showToast(re.getMsg());
                         }

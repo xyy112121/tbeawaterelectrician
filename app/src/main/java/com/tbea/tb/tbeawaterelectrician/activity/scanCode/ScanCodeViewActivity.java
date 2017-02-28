@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.scanCode;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.MyAccusationEditActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.ScanCode;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
@@ -54,6 +56,16 @@ public class ScanCodeViewActivity extends TopActivity {
                 }
             }
         });
+
+        findViewById(R.id.scan_code_tip).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ScanCodeViewActivity.this, MyAccusationEditActivity.class);
+                intent.putExtra("name",mObj.getCommodityname());
+                intent.putExtra("commodityid",mObj.getId());
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -71,7 +83,6 @@ public class ScanCodeViewActivity extends TopActivity {
                             RspInfo1 re = (RspInfo1) msg.obj;
                             if (re.isSuccess()) {
                                 UtilAssistants.showToast(re.getMsg());
-                                finish();
                             } else {
                                 UtilAssistants.showToast(re.getMsg());
                             }

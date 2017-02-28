@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
@@ -26,6 +27,7 @@ public class PwdEditActivity extends TopActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pwd_edit);
         initTopbar("更改登录密码");
+        MyApplication.instance.addActivity(PwdEditActivity.this);
         listener();
     }
 
@@ -44,7 +46,6 @@ public class PwdEditActivity extends TopActivity {
                     UtilAssistants.showToast("两次密码不一致！");
                     return;
                 }
-
                 updatePwd(oldpwd,newPwd);
             }
         });

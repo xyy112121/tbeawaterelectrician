@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+   android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color">
+<LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color">
@@ -26,7 +30,7 @@
                         />
 
                     <TextView
-                        android:id="@+id/addr_edit_contactperson"
+                        android:id="@+id/accusation_view_appealcategory"
                         android:layout_marginLeft="20dp"
                         android:layout_weight="0.74"
                         android:imeOptions="actionNext"
@@ -45,6 +49,7 @@
                         />
 
                     <TextView
+                        android:id="@+id/accusation_view_appealtime"
                         android:layout_marginLeft="20dp"
                         android:layout_weight="0.74"
                         android:imeOptions="actionNext"
@@ -63,6 +68,7 @@
                         />
 
                     <TextView
+                        android:id="@+id/accusation_view_scanaddress"
                         android:layout_marginLeft="20dp"
                         android:layout_weight="0.74"
                         android:imeOptions="actionNext"
@@ -81,6 +87,7 @@
                         />
 
                     <TextView
+                        android:id="@+id/accusation_view_provincecity"
                         android:layout_marginLeft="20dp"
                         android:layout_weight="0.74"
                         android:imeOptions="actionNext"
@@ -99,6 +106,7 @@
                         />
 
                     <TextView
+                        android:id="@+id/accusation_view_distributor"
                         android:layout_marginLeft="20dp"
                         android:layout_weight="0.74"
                         android:imeOptions="actionNext"
@@ -117,6 +125,7 @@
                         />
 
                     <TextView
+                        android:id="@+id/accusation_view_commodity"
                         android:layout_marginLeft="20dp"
                         android:layout_weight="0.74"
                         android:imeOptions="actionNext"
@@ -145,6 +154,7 @@
                     android:gravity="center"
                     android:textSize="16sp"/>
                 <TextView
+                    android:id="@+id/accusation_view_appealcontent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_gray"
@@ -158,13 +168,7 @@
                     app:flexWrap="wrap"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
-                    >
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:src="@drawable/icon_defult"
-                        android:scaleType="fitXY"/>
-                </com.tbea.tb.tbeawaterelectrician.component.FlexRadioGroup>
+                    />
 
             </LinearLayout>
             <LinearLayout
@@ -186,10 +190,10 @@
                         android:gravity="center"
                         android:textSize="16sp"/>
                     <TextView
+                        android:id="@+id/accusation_view_replytime"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:textColor="@color/text_gray"
-                        android:text="2017-02-09 15:23:31"
                         android:paddingLeft="10dp"
                         android:gravity="center"
                         android:layout_alignParentRight="true"
@@ -198,10 +202,10 @@
                 </RelativeLayout>
 
                 <TextView
+                    android:id="@+id/accusation_view_replycontent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_gray"
-                    android:text="内容"
                     android:paddingLeft="20dp"
                     android:textSize="16sp"
                     android:layout_marginBottom="10dp"/>
@@ -210,7 +214,32 @@
 
         </LinearLayout>
     </ScrollView>
-
-
-
 </LinearLayout>
+    <View
+        android:id="@+id/body_bg_view2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#6000"
+        android:visibility="gone"
+        />
+    <ImageView
+        android:id="@+id/regist_shili_image_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_shili2"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"/>
+    <TextView
+        android:id="@+id/register_shili_image_cancel"
+        android:layout_below="@id/regist_shili_image_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="@string/cancel"
+        android:textSize="20sp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"/>
+</RelativeLayout>

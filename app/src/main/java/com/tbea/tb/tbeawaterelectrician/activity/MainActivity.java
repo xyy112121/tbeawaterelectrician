@@ -40,6 +40,8 @@ public class MainActivity extends TopActivity {
      */
     private String[] mPermissions = new String[]{};
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +63,7 @@ public class MainActivity extends TopActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
 //        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         listener();
+        MyApplication.instance.addActivity(MainActivity.this);
     }
 
     private void listener(){
@@ -71,6 +74,7 @@ public class MainActivity extends TopActivity {
             }
         });
     }
+
 
     @PermissionFail(requestCode = 100)
     private void doFailSomething() {

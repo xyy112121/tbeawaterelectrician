@@ -43,6 +43,12 @@
             android:id="@+id/set_my_account_safe"
             android:text="账户安全"
             style="@style/setion_text"/>
+        <View
+            style="@style/horizontal_view"/>
+        <TextView
+            android:id="@+id/set_my_quit"
+            android:text="退出"
+            style="@style/setion_text"/>
     </LinearLayout>
 
 

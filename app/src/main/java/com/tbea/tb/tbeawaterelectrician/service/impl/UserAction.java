@@ -2,6 +2,7 @@ package com.tbea.tb.tbeawaterelectrician.service.impl;
 
 import com.google.gson.reflect.TypeToken;
 import com.tbea.tb.tbeawaterelectrician.entity.Address;
+import com.tbea.tb.tbeawaterelectrician.entity.Appeal;
 import com.tbea.tb.tbeawaterelectrician.entity.Collect;
 import com.tbea.tb.tbeawaterelectrician.entity.Commodith;
 import com.tbea.tb.tbeawaterelectrician.entity.Company;
@@ -13,6 +14,7 @@ import com.tbea.tb.tbeawaterelectrician.entity.Receive;
 import com.tbea.tb.tbeawaterelectrician.entity.Register;
 import com.tbea.tb.tbeawaterelectrician.entity.SuYuan;
 import com.tbea.tb.tbeawaterelectrician.entity.Take;
+import com.tbea.tb.tbeawaterelectrician.entity.TakeMoney;
 import com.tbea.tb.tbeawaterelectrician.entity.UserInfo;
 import com.tbea.tb.tbeawaterelectrician.entity.UserInfo2;
 import com.tbea.tb.tbeawaterelectrician.http.MD5Util;
@@ -357,6 +359,32 @@ public class UserAction extends BaseAction {
     }
 
     /**
+     * 获取提现成功历史列表接口
+     */
+    public RspInfo getWalletIncomeAndExpensesList(int page,int pageSize) throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
+        pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
+        String result = sendRequest("TBEAENG005001120000",pairs);
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<List<TakeMoney>>>(){}.getType());
+//        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *提现成功历史记录删除
+     */
+    public  RspInfo1 delectTakeMoney(String takemoneyid) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("takemoneyid", takemoneyid ));
+        String result = sendRequest("TBEAENG005001130000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
      *
      我的钱包支出列表接口
      */
@@ -366,6 +394,83 @@ public class UserAction extends BaseAction {
         pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
         pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
         String result = sendRequest("TBEAENG005001008000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *
+     我的举报
+     */
+    public  RspInfo1 getMyAccusationList(int page,int pageSize) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
+        pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
+        String result = sendRequest("TBEAENG005001024000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *
+     获取举报内容
+     */
+    public  RspInfo1 getMyAccusationInfo() throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG005001023002",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *
+     获取举报详细
+     */
+    public  RspInfo1 getAccusationInfo(String appealid) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("appealid", appealid));
+        String result = sendRequest("TBEAENG005001025000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     * 获取举报类型
+     * @return
+     * @throws Exception
+     */
+    public RspInfo getAccusationType() throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG005001023001",pairs);
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<List<Condition>>>(){}.getType());
+        return  rspInfo;
+    }
+
+    /**
+     * 提交举报
+     */
+    public RspInfo1 submitAppeal(Appeal obj,List<String> images) throws  Exception{
+        RspInfo1 rspInfo;
+        Map<String,String> paramsIn=new HashMap<>();
+        Map<String,String> fileIn=new HashMap<>();
+        paramsIn.put("appealcategoryid",obj.getAppealcategoryid());
+        paramsIn.put("appealtime",obj.getAppealtime());
+        paramsIn.put("scanaddress",obj.getScanaddress());
+        paramsIn.put("provinceid",obj.getProvinceid());
+        paramsIn.put("cityid",obj.getCityid());
+        paramsIn.put("distributorid",obj.getDistributorid());
+        paramsIn.put("commodityid",obj.getCommodityid());
+        paramsIn.put("appealcontent",obj.getAppealcontent());
+        if(images.size() > 0){
+            for (int i =0;i<images.size();i++){
+                fileIn.put("picture"+i,images.get(i));
+            }
+        }
+        String result = regist("TBEAENG005001023000",paramsIn,fileIn);
         rspInfo = gson.fromJson(result,RspInfo1.class);
         return  rspInfo;
     }
@@ -835,6 +940,45 @@ public class UserAction extends BaseAction {
         pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
         String result = sendRequest("TBEAENG005001017000",pairs);
         rspInfo = gson.fromJson(result,new TypeToken<RspInfo<Object>>(){}.getType());
+        return  rspInfo;
+    }
+
+    /**
+     * 收藏商品
+     */
+    public RspInfo1 collectCommodity(String commodityid) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("commodityid", commodityid));
+        String result = sendRequest("TBEAENG005001011000", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     * 评价列表
+     */
+    public RspInfo1 getEvaluateList(String commodityid,int page,int pageSize) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("commodityid", commodityid));
+        pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
+        pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
+        String result = sendRequest("TBEAENG003001009004", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     * 更改头像
+     */
+    public RspInfo1 updateHead(String filePath) throws  Exception{
+        RspInfo1 rspInfo;
+        Map<String,String> paramsIn=new HashMap<>();
+        Map<String,String> fileIn=new HashMap<>();
+        fileIn.put("picture1",filePath);
+        String result = regist("TBEAENG005001002002",paramsIn,fileIn);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
         return  rspInfo;
     }
 

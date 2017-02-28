@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.account.LoginActivity;
 import com.tbea.tb.tbeawaterelectrician.util.Constants;
@@ -27,9 +28,13 @@ public class BindingNewPhoneFinishActivity extends TopActivity {
         String title  = getIntent().getStringExtra("title");
         String title2  = getIntent().getStringExtra("title1");
         initTopbar(title);
+        if ("密码修改成功".equals(title)) {
+            findViewById(R.id.top_left).setVisibility(View.GONE);
+        }
         ((TextView)findViewById(R.id.title)).setText(title2);
         mContext = this;
         ShareConfig.setConfig(mContext, Constants.ONLINE,false);
+        MyApplication.instance.exit();
         listener();
     }
 
@@ -39,7 +44,15 @@ public class BindingNewPhoneFinishActivity extends TopActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext,LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(mContext,LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

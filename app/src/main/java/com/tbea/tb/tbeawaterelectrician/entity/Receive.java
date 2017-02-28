@@ -10,6 +10,8 @@ public class Receive {
     private String thisvalue;
     private String currenttotlemoney;
     private String  money;
+    private String eventid;
+    private String optype;
     private String time;
 
     public String getEvent() {
@@ -58,5 +60,21 @@ public class Receive {
 
     public void setCurrenttotlemoney(String currenttotlemoney) {
         this.currenttotlemoney = currenttotlemoney;
+    }
+
+    public String getOptype() {
+        return optype;
+    }
+
+    public void setOptype(String optype) {
+        this.optype = optype;
+    }
+
+    public String getEventid() {
+        return eventid;
+    }
+
+    public void setEventid(String eventid) {
+        this.eventid = eventid;
     }
 }

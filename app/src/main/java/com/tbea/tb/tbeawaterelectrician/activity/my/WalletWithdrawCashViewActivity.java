@@ -155,17 +155,16 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
                    if(re.isSuccess()){
                        timer.cancel();
                        Map<String, Object> data = (Map<String, Object>) re.getData();
-                       Map<String, String> moneyinfo = (Map<String, String>) data.get("moneyinfo");
-                       Map<String, String> distriButorInfo = (Map<String, String>) data.get("distributorinfo");
-                       String money = "￥"+moneyinfo.get("money");
-                       String name = "提现单位:"+distriButorInfo.get("name");
-                       String addr = "地址:"+distriButorInfo.get("addr");
-                       String mobilenumber = "电话:"+distriButorInfo.get("mobilenumber");
+                       Map<String, String> takemoneyinfo = (Map<String, String>) data.get("takemoneyinfo");
+//                       Map<String, String> distriButorInfo = (Map<String, String>) data.get("distributorinfo");
+                       String money = "￥"+takemoneyinfo.get("money");
+                       String name = takemoneyinfo.get("distributorname");
+                       String takemoneytime = takemoneyinfo.get("takemoneytime");
                        Intent intent = new Intent(WalletWithdrawCashViewActivity.this,WalletWithdrawCashSuccessActivity.class);
                        intent.putExtra("money",money);
-                       intent.putExtra("name",name);
-                       intent.putExtra("addr",addr);
-                       intent.putExtra("mobilenumber",mobilenumber);
+                       intent.putExtra("distributorname",name);
+                       intent.putExtra("takemoneytime",takemoneytime);
+                       intent.putExtra("flag","view");
                        startActivity(intent);
                        finish();
                    }else {

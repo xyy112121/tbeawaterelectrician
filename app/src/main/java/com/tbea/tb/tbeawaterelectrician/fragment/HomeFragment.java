@@ -87,18 +87,6 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
         headView = mInflater.inflate(R.layout.fragment_home_list_head, null);
         mListView.addHeaderView(headView);
 
-        Integer[] images = {R.drawable.icon_testpic1, R.drawable.icon_testpic3};
-        Banner banner = (Banner) headView.findViewById(R.id.banner);
-        //设置banner样式
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-        //设置图片集合
-        banner.setImages(images);
-        //设置banner动画效果
-        banner.setBannerAnimation(Transformer.DepthPage);
-        //设置轮播时间
-//        banner.setDelayTime(1500);
-        //设置指示器位置（当banner模式中有指示器时）
-        banner.setIndicatorGravity(BannerConfig.CENTER);
         mAdapter = new CompanyAdapter(getActivity());
         mListView.setAdapter(mAdapter);
 
@@ -186,7 +174,24 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
      */
     public void getAdvertiselist(RspInfo re) {
         List<Map<String, String>> advertiselist = (List<Map<String, String>>) re.getDateObj("advertiselist");
+        String[] images = new String[advertiselist.size()];
         if (advertiselist != null) {
+            for (int i = 0;i<advertiselist.size();i++) {
+                String picture = MyApplication.instance.getImgPath()+advertiselist.get(i).get("picture")+"";
+                images[i] = picture;
+            }
+            Banner banner = (Banner) headView.findViewById(R.id.banner);
+            //设置banner样式
+            banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+            //设置图片集合
+            banner.setImages(images);
+            //设置banner动画效果
+            banner.setBannerAnimation(Transformer.DepthPage);
+            //设置轮播时间
+//        banner.setDelayTime(1500);
+            //设置指示器位置（当banner模式中有指示器时）
+            banner.setIndicatorGravity(BannerConfig.CENTER);
+
 
         }
     }

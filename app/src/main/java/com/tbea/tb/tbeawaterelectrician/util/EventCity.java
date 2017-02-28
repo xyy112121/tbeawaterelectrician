@@ -15,6 +15,11 @@ public class EventCity {
         this.data = data;
     }
 
+    public EventCity(String eventFlag) {
+        this.eventFlag = eventFlag;
+        this.data = data;
+    }
+
     public String getEventFlag() {
         return eventFlag;
     }

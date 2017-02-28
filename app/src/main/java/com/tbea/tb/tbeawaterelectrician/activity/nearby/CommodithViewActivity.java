@@ -3,11 +3,15 @@ package com.tbea.tb.tbeawaterelectrician.activity.nearby;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.IdRes;
+import android.support.v4.content.ContextCompat;
+import android.text.Layout;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -16,7 +20,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -24,9 +32,14 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
+import com.tbea.tb.tbeawaterelectrician.activity.my.CollectListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.WalletListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.WalletWithdrawCashActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.component.FlexRadioGroup;
 import com.tbea.tb.tbeawaterelectrician.entity.Condition;
+import com.tbea.tb.tbeawaterelectrician.entity.Evaluate;
+import com.tbea.tb.tbeawaterelectrician.entity.Receive;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
@@ -37,11 +50,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+
 /**
  * Created by cy on 2017/2/8.
  */
 
-public class CommodithViewActivity extends Activity {
+public class CommodithViewActivity extends Activity implements BGARefreshLayout.BGARefreshLayoutDelegate{
     private Context mContext;
     private  WebView mWebView;
     private String id;
@@ -51,6 +67,11 @@ public class CommodithViewActivity extends Activity {
     private String mSpecificationId;
     private String mColorId ;
     private String mDistributorid;
+    private ListView mListView;
+    private EvaluateAdapter mAdapter;
+    private  int mPage = 1;
+    private int mPagesiz =10 ;
+    private BGARefreshLayout mRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +84,16 @@ public class CommodithViewActivity extends Activity {
 
     public  void initView(){
         mWebView = (WebView)findViewById(R.id.web_view);
+        mListView = (ListView)findViewById(R.id.listview);
+        mAdapter = new EvaluateAdapter(mContext);
+        mListView.setAdapter(mAdapter);
+        mRefreshLayout = (BGARefreshLayout)findViewById(R.id.rl_recyclerview_refresh);
+        mRefreshLayout.setDelegate(this);
+        mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(mContext, true));
+
         id = getIntent().getStringExtra("id");
         String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+id;
+//        String  url = "http://www.u-shang.net/enginterface/index.php/Apph5/address?longitude=113.740202&latitude=34.7791651";
         showWebView(url);
         mColorRG = (FlexRadioGroup)findViewById(R.id.commodith_view_color_rg);
         mSpecificationsRG = (FlexRadioGroup)findViewById(R.id.commodith_view_specifications_rg);
@@ -72,6 +101,7 @@ public class CommodithViewActivity extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         mDistributorid = getIntent().getStringExtra("distributorid");
         mWidth = metrics.density;
+
     }
 
     /**
@@ -79,6 +109,8 @@ public class CommodithViewActivity extends Activity {
      * @param url
      */
     public  void showWebView(String url){
+        mRefreshLayout.setVisibility(View.GONE);
+        mWebView.setVisibility(View.VISIBLE);
         final CustomDialog mDialog= new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
         mDialog.setText("加载中...");
         mDialog.show();
@@ -89,6 +121,9 @@ public class CommodithViewActivity extends Activity {
         //启用支持javascript
         settings.setJavaScriptEnabled(true);
         settings.setBlockNetworkImage(false);//解决图片加载不出来的问题
+        settings.setJavaScriptEnabled(true);
+        settings.setAllowFileAccess(true);
+        settings.setDomStorageEnabled(true);//允许DCOM
 
         mWebView.loadUrl(url);
         mWebView.setWebViewClient(new WebViewClient(){
@@ -153,6 +188,9 @@ public class CommodithViewActivity extends Activity {
                 findViewById(R.id.text3_view).setVisibility(View.VISIBLE);
                 findViewById(R.id.text1_view).setVisibility(View.INVISIBLE);
                 findViewById(R.id.text2_view).setVisibility(View.INVISIBLE);
+                mWebView.setVisibility(View.GONE);
+                mRefreshLayout.setVisibility(View.VISIBLE);
+                mRefreshLayout.beginRefreshing();
             }
         });
 
@@ -160,6 +198,47 @@ public class CommodithViewActivity extends Activity {
             @Override
             public void onClick(View view) {
 
+            }
+        });
+
+        findViewById(R.id.commodith_view_collect).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
+                dialog.setText("加载中");
+                dialog.show();
+                final Handler handler = new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        dialog.dismiss();
+                        switch (msg.what) {
+                            case ThreadState.SUCCESS:
+                                RspInfo1 re = (RspInfo1) msg.obj;
+                                if (re.isSuccess()) {
+                                    UtilAssistants.showToast(re.getMsg());
+                                } else {
+                                    UtilAssistants.showToast(re.getMsg());
+                                }
+                                break;
+                            case ThreadState.ERROR:
+                                UtilAssistants.showToast("操作失败！");
+                                break;
+                        }
+                    }
+                };
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            UserAction userAction = new UserAction();
+                            RspInfo1 re = userAction.collectCommodity(id);
+                            handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                        } catch (Exception e) {
+                            handler.sendEmptyMessage(ThreadState.ERROR);
+                        }
+                    }
+                }).start();
             }
         });
 
@@ -344,6 +423,154 @@ public class CommodithViewActivity extends Activity {
                 }
             }
         });
+    }
+
+    private void showEvaluate(){
+
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                mRefreshLayout.endLoadingMore();
+                mRefreshLayout.endRefreshing();
+                switch (msg.what){
+                    case ThreadState.SUCCESS:
+                        RspInfo1 re = (RspInfo1)msg.obj;
+                        if(re.isSuccess()){
+                            Map<String, Object> data = (Map<String, Object>) re.getData();
+                            List<Map<String,String>> list =  (List<Map<String,String>>) data.get("appraiselist");
+                            List<Evaluate> receiveList = new ArrayList<>();
+                            if(list != null){
+                                for (int i = 0;i< list.size();i++){
+                                    Evaluate obj = new Evaluate();
+                                    obj.setAppraise(list.get(i).get("appraise"));
+                                    obj.setAppraiselevel(list.get(i).get("appraiselevel"));
+                                    obj.setAppraisetime(list.get(i).get("appraisetime"));
+                                    obj.setUserpicture(list.get(i).get("userpicture"));
+                                    obj.setUsername(list.get(i).get("username"));
+                                    obj.setUsermobile(list.get(i).get("usermobile"));
+                                    receiveList.add(obj);
+                                }
+                                mAdapter.addAll(receiveList);
+                            }else {
+                                if(mPage >1){//防止分页的时候没有加载数据，但是页数已经增加，导致下一次查询不正确
+                                    mPage--;
+                                }
+                            }
+                        }else {
+                            UtilAssistants.showToast(re.getMsg());
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo1 re = userAction.getEvaluateList(id,mPage++,mPagesiz);
+                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+
+    }
+
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        mAdapter.removeAll();
+        mPage = 1;
+        showEvaluate();
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        showEvaluate();
+        return true;
+    }
+
+    private class EvaluateAdapter extends BaseAdapter {
+        /**
+         * android 上下文环境
+         */
+        private Context context;
+
+        private List<Evaluate> mList = new ArrayList<>();
+
+        /**
+         * 构造函数
+         *
+         * @param context
+         *            android上下文环境
+         */
+        public EvaluateAdapter(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return mList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            LayoutInflater layoutInflater = (LayoutInflater) context
+                    .getSystemService(context.LAYOUT_INFLATER_SERVICE);
+            View view = (View) layoutInflater.inflate(
+                    R.layout.activity_evaluate_list_item, null);
+
+            LinearLayout layout = (LinearLayout) view.findViewById(R.id.evaluate_item_appraiselevel_layout);
+            int size = Integer.parseInt(mList.get(position).getAppraiselevel());
+            for (int i = 0;i< size;i++ ){
+                ImageView imageView = new ImageView(mContext);
+                imageView.setImageResource(R.drawable.icon_bit);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(5,0,0,0);
+                imageView.setLayoutParams(lp);
+                layout.addView(imageView);
+            }
+            ((TextView)view.findViewById(R.id.evaluate_item_appraise)).setText(mList.get(position).getAppraise());
+            ((TextView)view.findViewById(R.id.evaluate_item_name)).setText(mList.get(position).getUsername());
+            ((TextView)view.findViewById(R.id.evaluate_item_usermobile)).setText(mList.get(position).getUsermobile());
+            ((TextView)view.findViewById(R.id.evaluate_item_appraisetime)).setText(mList.get(position).getAppraisetime());
+            ImageView imageView = (ImageView)view.findViewById(R.id.evaluate_item_picture);
+            ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+mList.get(position).getUserpicture(),imageView);
+            return view;
+        }
+
+        public  void addAll(List<Evaluate> list){
+            mList.addAll(list);
+            notifyDataSetChanged();
+        }
+
+        public void remove(int index) {
+            if (index > 0) {
+                mList.remove(index);
+                notifyDataSetChanged();
+            }
+        }
+
+        public void removeAll() {
+            mList.clear();
+            notifyDataSetChanged();
+        }
     }
 
     /**

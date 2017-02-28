@@ -1,6 +1,7 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +20,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.nearby.CommodithViewActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.Collect;
 import com.tbea.tb.tbeawaterelectrician.entity.Commodith;
@@ -122,6 +124,7 @@ public class CollectListActivity extends TopActivity implements BGARefreshLayout
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
         //下拉刷新
         mAdapter.removeAll();
+        mPage = 1;
         getListDate();
     }
 
@@ -284,6 +287,14 @@ public class CollectListActivity extends TopActivity implements BGARefreshLayout
                 }
             });
             ckList.add(ck);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, CommodithViewActivity.class);
+                    intent.putExtra("id",obj.getId());
+                    startActivity(intent);
+                }
+            });
             return view;
         }
 

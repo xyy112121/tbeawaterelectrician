@@ -1,19 +1,33 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.entity.Appeal;
 import com.tbea.tb.tbeawaterelectrician.entity.Receive;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
+import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
+import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
@@ -37,64 +51,64 @@ public class MyAccusationListActivity extends TopActivity implements BGARefreshL
         initTopbar("我的举报");
         mContext = this;
         initUI();
-//        mRefreshLayout.beginRefreshing();
+        mRefreshLayout.beginRefreshing();
     }
 
     /**
      * 获取数据
      */
     public void getDate(){
-//        final Handler handler = new Handler(){
-//            @Override
-//            public void handleMessage(Message msg) {
-//                mRefreshLayout.endLoadingMore();
-//                mRefreshLayout.endRefreshing();
-//                switch (msg.what){
-//                    case ThreadState.SUCCESS:
-//                        RspInfo1 re = (RspInfo1)msg.obj;
-//                        if(re.isSuccess()){
-//                            Map<String, Object> data = (Map<String, Object>) re.getData();
-//                            List<Map<String,String>> list =  (List<Map<String,String>>) data.get("spentlist");
-//                            List<Receive> receiveList = new ArrayList<>();
-//                            if(list != null){
-//                                for (int i = 0;i< list.size();i++){
-//                                    Receive obj = new Receive();
-//                                    obj.setId(list.get(i).get("id"));
-//                                    obj.setEvent(list.get(i).get("event"));
-//                                    obj.setMoney(list.get(i).get("money"));
-//                                    obj.setTime(list.get(i).get("time"));
-//                                    receiveList.add(obj);
-//                                }
-//                                mAdapter.addAll(receiveList);
-//                            }else {
-//                                if(mPage >1){//防止分页的时候没有加载数据，但是页数已经增加，导致下一次查询不正确
-//                                    mPage--;
-//                                }
-//                            }
-//                        }else {
-//                            UtilAssistants.showToast(re.getMsg());
-//                        }
-//
-//                        break;
-//                    case ThreadState.ERROR:
-//                        UtilAssistants.showToast("操作失败！");
-//                        break;
-//                }
-//            }
-//        };
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    UserAction userAction = new UserAction();
-//                    RspInfo1 re = userAction.getWalletPayList(mPage++,mPagesiz);
-//                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
-//                } catch (Exception e) {
-//                    handler.sendEmptyMessage(ThreadState.ERROR);
-//                }
-//            }
-//        }).start();
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                mRefreshLayout.endLoadingMore();
+                mRefreshLayout.endRefreshing();
+                switch (msg.what){
+                    case ThreadState.SUCCESS:
+                        RspInfo1 re = (RspInfo1)msg.obj;
+                        if(re.isSuccess()){
+                            Map<String, Object> data = (Map<String, Object>) re.getData();
+                            List<Map<String,String>> list =  (List<Map<String,String>>) data.get("appeallist");
+                            List<Appeal> appeallist = new ArrayList<>();
+                            if(list != null){
+                                for (int i = 0;i< list.size();i++){
+                                    Appeal obj = new Appeal();
+                                    obj.setId(list.get(i).get("id"));
+                                    obj.setTitle(list.get(i).get("title"));
+                                    obj.setAppealtime(list.get(i).get("appealtime"));
+                                    obj.setReplycontent(list.get(i).get("replycontent"));
+                                    appeallist.add(obj);
+                                }
+                                mAdapter.addAll(appeallist);
+                            }else {
+                                if(mPage >1){//防止分页的时候没有加载数据，但是页数已经增加，导致下一次查询不正确
+                                    mPage--;
+                                }
+                            }
+                        }else {
+                            UtilAssistants.showToast(re.getMsg());
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo1 re = userAction.getMyAccusationList(mPage++,mPagesiz);
+                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
     }
 
 
@@ -131,7 +145,7 @@ public class MyAccusationListActivity extends TopActivity implements BGARefreshL
          */
         private Context context;
 
-//        private List<Receive> mList = new ArrayList<>();
+        private List<Appeal> mList = new ArrayList<>();
 
         /**
          * 构造函数
@@ -145,7 +159,7 @@ public class MyAccusationListActivity extends TopActivity implements BGARefreshL
 
         @Override
         public int getCount() {
-            return 4;
+            return mList.size();
         }
 
         @Override
@@ -159,31 +173,44 @@ public class MyAccusationListActivity extends TopActivity implements BGARefreshL
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             LayoutInflater layoutInflater = (LayoutInflater) context
                     .getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            View view = (View) layoutInflater.inflate(
+            FrameLayout view = (FrameLayout) layoutInflater.inflate(
                     R.layout.activity_accusation_list_item, null);
-//            ((TextView)view.findViewById(R.id.wallet_list_item_event)).setText(mList.get(position).getEvent());
-//            ((TextView)view.findViewById(R.id.wallet_list_item_time)).setText(mList.get(position).getTime());
-//            ((TextView)view.findViewById(R.id.wallet_list_item_money)).setText(mList.get(position).getMoney());
+            ((TextView)view.findViewById(R.id.accusation_list_title)).setText(mList.get(position).getTitle());
+            ((TextView)view.findViewById(R.id.accusation_list_appealtime)).setText(mList.get(position).getAppealtime());
+            if("".equals(mList.get(position).getReplycontent())){
+                (view.findViewById(R.id.accusation_list_replycontent)).setVisibility(View.GONE);
+            }else {
+                ((TextView)view.findViewById(R.id.accusation_list_replycontent)).setText(mList.get(position).getReplycontent());
+            }
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext,MyAccusationViewActivity.class);
+                    intent.putExtra("id",mList.get(position).getId());
+                    startActivity(intent);
+                }
+            });
             return view;
         }
 
-        public  void addAll(List<Receive> list){
-//            mList.addAll(list);
+        public  void addAll(List<Appeal> list){
+            mList.addAll(list);
             notifyDataSetChanged();
         }
 
         public void remove(int index) {
             if (index > 0) {
-//                mList.remove(index);
+                mList.remove(index);
                 notifyDataSetChanged();
             }
         }
 
         public void removeAll() {
-//            mList.clear();
+            mList.clear();
             notifyDataSetChanged();
         }
     }

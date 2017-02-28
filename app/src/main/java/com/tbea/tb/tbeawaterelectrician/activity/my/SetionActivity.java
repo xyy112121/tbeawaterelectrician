@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,9 +10,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.account.LoginActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
+import com.tbea.tb.tbeawaterelectrician.util.Constants;
+import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
+import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -28,6 +34,7 @@ public class SetionActivity extends TopActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setion_layout);
         mContext = this;
+        MyApplication.instance.addActivity((Activity) mContext);
         initTopbar("设置");
         listener();
         try {
@@ -67,6 +74,33 @@ public class SetionActivity extends TopActivity {
                         String size = getCacheSize(getApplicationContext().getExternalCacheDir());
 
                         ((TextView)findViewById(R.id.cache_size)).setText(size);
+                    }
+                },"确定");
+                dialog.setConfirmBtnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                },"取消");
+                dialog.show();
+            }
+        });
+
+        findViewById(R.id.set_my_quit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_delete_dialog);
+                dialog.setText("您确定要退出么？");
+                dialog.setCancelBtnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                        ShareConfig.setConfig(mContext, Constants.ONLINE,false);
+                        ShareConfig.setConfig(mContext,Constants.USERID,"");
+                        finish();
+                        MyApplication.instance.exit();
+                        startActivity( new Intent(mContext, LoginActivity.class));
+
                     }
                 },"确定");
                 dialog.setConfirmBtnClickListener(new View.OnClickListener() {

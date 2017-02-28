@@ -1,111 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color">
-    <include layout="@layout/activity_page_top"/>
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@drawable/my_select_btn"
-        android:paddingRight="10dp" >
+        android:layout_height="match_parent"
+        android:background="@color/bg_color"
+        android:orientation="vertical">
 
-        <TextView
-            style="@style/my_text_style"
-            android:layout_height="wrap_content"
-            android:text="头像"
-            android:layout_centerVertical="true"/>
+        <include layout="@layout/activity_page_top" />
 
-        <ImageView
-            android:layout_toLeftOf="@+id/info_head"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/icon_arrow_right"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/my_select_btn"
+            android:paddingRight="10dp">
 
-        <com.tbea.tb.tbeawaterelectrician.component.CircleImageView
-            android:id="@id/info_head"
-            android:layout_width="40dip"
-            android:layout_height="40dip"
-            android:src="@drawable/icon_head"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp"
-            android:layout_centerVertical="true"/>
-    </RelativeLayout>
-    <View style="@style/horizontal_view"/>
-    <RelativeLayout
-        android:id="@+id/info_sex_layout"
+            <TextView
+                style="@style/my_text_style"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="头像" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/info_head"
+                android:src="@drawable/icon_arrow_right" />
+
+            <com.tbea.tb.tbeawaterelectrician.component.CircleImageView
+                android:id="@id/info_head"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/icon_head" />
+        </RelativeLayout>
+
+        <View style="@style/horizontal_view" />
+
+        <RelativeLayout
+            android:id="@+id/info_sex_layout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/my_select_btn"
+            android:paddingRight="10dp">
+
+            <TextView
+                style="@style/my_text_style"
+                android:layout_height="wrap_content"
+                android:text="性别" />
+
+            <TextView
+                android:id="@+id/info_sex"
+                style="@style/my_right_text_style" />
+        </RelativeLayout>
+
+        <View style="@style/horizontal_view" />
+
+        <RelativeLayout
+            android:id="@+id/info_birthday_layout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/my_select_btn"
+            android:paddingRight="10dp">
+
+            <TextView
+                style="@style/my_text_style"
+                android:layout_height="wrap_content"
+                android:text="生日" />
+
+            <TextView
+                android:id="@+id/info_birthday"
+                style="@style/my_right_text_style" />
+        </RelativeLayout>
+
+        <View style="@style/horizontal_view" />
+
+        <RelativeLayout
+            android:id="@+id/info_email_layout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/my_select_btn"
+            android:paddingRight="10dp">
+
+            <TextView
+                style="@style/my_text_style"
+                android:layout_height="wrap_content"
+                android:text="电子邮件" />
+
+            <TextView
+                android:id="@+id/info_email"
+                style="@style/my_right_text_style" />
+        </RelativeLayout>
+
+        <View style="@style/horizontal_view" />
+
+        <RelativeLayout
+            android:id="@+id/info_addr_layout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/my_select_btn"
+            android:paddingRight="10dp">
+
+            <TextView
+                style="@style/my_text_style"
+                android:layout_height="wrap_content"
+                android:text="收货地址管理" />
+
+            <TextView
+                style="@style/my_right_text_style"
+                android:text="添加/修改" />
+        </RelativeLayout>
+
+        <View style="@style/horizontal_view" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/body_bg_view"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/my_select_btn"
-        android:paddingRight="10dp" >
-
-        <TextView
-            style="@style/my_text_style"
-            android:layout_height="wrap_content"
-            android:text="性别" />
-
-        <TextView
-            android:id="@+id/info_sex"
-            style="@style/my_right_text_style"
-            />
-    </RelativeLayout>
-    <View style="@style/horizontal_view"/>
-    <RelativeLayout
-        android:id="@+id/info_birthday_layout"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/my_select_btn"
-        android:paddingRight="10dp" >
-
-        <TextView
-            style="@style/my_text_style"
-            android:layout_height="wrap_content"
-            android:text="生日" />
-
-        <TextView
-            android:id="@+id/info_birthday"
-            style="@style/my_right_text_style"
-            />
-    </RelativeLayout>
-    <View style="@style/horizontal_view"/>
-    <RelativeLayout
-        android:id="@+id/info_email_layout"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/my_select_btn"
-        android:paddingRight="10dp" >
-
-        <TextView
-            style="@style/my_text_style"
-            android:layout_height="wrap_content"
-            android:text="电子邮件" />
-
-        <TextView
-            android:id="@+id/info_email"
-            style="@style/my_right_text_style"
-            />
-    </RelativeLayout>
-    <View style="@style/horizontal_view"/>
-    <RelativeLayout
-        android:id="@+id/info_addr_layout"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/my_select_btn"
-        android:paddingRight="10dp" >
-
-        <TextView
-            style="@style/my_text_style"
-            android:layout_height="wrap_content"
-            android:text="收货地址管理" />
-
-        <TextView
-            style="@style/my_right_text_style"
-            android:text="添加/修改"
-             />
-    </RelativeLayout>
-    <View style="@style/horizontal_view"/>
-
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:background="#6000"
+        android:visibility="gone" />
+</RelativeLayout>
