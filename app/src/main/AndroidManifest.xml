@@ -51,7 +51,7 @@
             android:value="2F0QiqoWoGmYOlkhrqBTfGs9sQ9SEwiN" />
 
         <activity
-            android:name=".activity.account.LoginActivity"
+            android:name="com.tbea.tb.tbeawaterelectrician.activity.account.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -61,10 +61,19 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.account.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.account.RegisterSuccessActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.account.AccountAuthenticationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.account.ExampleImageActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.my.OrderListActivity"

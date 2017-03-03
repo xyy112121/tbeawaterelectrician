@@ -845,6 +845,30 @@ public class UserAction extends BaseAction {
     }
 
     /**
+     /**
+     *
+     购买单个商品接口：
+     购买单个商品的时候，先请求下面的接口获取到orderdetailid
+     distributorid 当总经销商进入的时候需要传经销商的ID,即附近经销商的商品进入经销商详细的时候，其它时候传空
+     commodityid  商品ID
+     specificationid  所选规格ID
+     colorid 所选颜色ID
+     number   数目
+     */
+    public RspInfo1 getOrderDetailId(String distributorid ,String commodityid ,String specificationid ,String colorid,String number) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("distributorid", distributorid));
+        pairs.add(new BasicNameValuePair("commodityid", commodityid));
+        pairs.add(new BasicNameValuePair("specificationid", specificationid));
+        pairs.add(new BasicNameValuePair("colorid", colorid));
+        pairs.add(new BasicNameValuePair("number", number));
+        String result = sendRequest("TBEAENG003001011000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
      * 获取购物车列表
      */
     public RspInfo getShopCarList(int page,int pageSize) throws Exception{
@@ -981,5 +1005,37 @@ public class UserAction extends BaseAction {
         rspInfo = gson.fromJson(result,RspInfo1.class);
         return  rspInfo;
     }
+
+    /**
+     * 注册时获取上级经销商列表
+     */
+    public  RspInfo getDistributorList(String provinceId ,String cityId,String locationId) throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("provinceId", provinceId ));
+        pairs.add(new BasicNameValuePair("cityId", cityId ));
+        pairs.add(new BasicNameValuePair("locationId", locationId ));
+        String result = sendRequest("TBEAENG001001002001", pairs);
+        rspInfo = gson.fromJson(result,new TypeToken<RspInfo<List<Condition>>>(){}.getType());
+        return  rspInfo;
+    }
+
+    public RspInfo1 register(String mobile,String password,String verifycode,String provinceid,String cityid,String zoneid,String distributorid) throws  Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("mobile", mobile ));
+        pairs.add(new BasicNameValuePair("password", MD5Util.getMD5String(password) ));
+        pairs.add(new BasicNameValuePair("verifycode", verifycode ));
+        pairs.add(new BasicNameValuePair("provinceid", provinceid ));
+        pairs.add(new BasicNameValuePair("cityid", cityid ));
+        pairs.add(new BasicNameValuePair("zoneid", zoneid ));
+        pairs.add(new BasicNameValuePair("distributorid", distributorid ));
+        String result = sendRequest("TBEAENG001001002000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+
+
 
 }

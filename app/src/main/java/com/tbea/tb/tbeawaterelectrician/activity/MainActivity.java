@@ -5,28 +5,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.tbea.tb.tbeawaterelectrician.R;
-import com.tbea.tb.tbeawaterelectrician.activity.account.RegisterActivity;
-import com.tbea.tb.tbeawaterelectrician.activity.scanCode.LogisticsTailAfterActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.scanCode.ScanCodeActivity;
 import com.tbea.tb.tbeawaterelectrician.component.MainNavigateTabBar;
 import com.tbea.tb.tbeawaterelectrician.fragment.HomeFragment;
 import com.tbea.tb.tbeawaterelectrician.fragment.my.MyFragment;
 import com.tbea.tb.tbeawaterelectrician.fragment.nearby.NearbyFragment;
 import com.tbea.tb.tbeawaterelectrician.fragment.thenLive.TakeFragment;
-import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
-import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
-import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 
 import kr.co.namee.permissiongen.PermissionFail;
 import kr.co.namee.permissiongen.PermissionGen;

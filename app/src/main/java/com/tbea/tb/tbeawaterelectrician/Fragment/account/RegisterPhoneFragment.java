@@ -15,8 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tbea.tb.tbeawaterelectrician.R;
-import com.tbea.tb.tbeawaterelectrician.activity.account.RegisterActivity;
-import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
+import com.tbea.tb.tbeawaterelectrician.activity.account.Register2Activity;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
@@ -58,14 +57,14 @@ public class RegisterPhoneFragment extends Fragment {
 //                    showToast("请输入密码");
 //                    return;
 //                }
-                RegisterActivity activity = ((RegisterActivity)getActivity());
+                Register2Activity activity = ((Register2Activity)getActivity());
                 activity.mObj.setMobile(mobile);
                 activity.mObj.setPassword(pwd);
                 activity.mObj.setVerifycode(code);
                 if(activity.mRealNameVerifyFragment == null){
                     activity.mRealNameVerifyFragment = new RealNameVerifyFragment();
                 }
-                ((RegisterActivity)getActivity()).switchFragment(RegisterPhoneFragment.this,activity.mRealNameVerifyFragment,"");
+                ((Register2Activity)getActivity()).switchFragment(RegisterPhoneFragment.this,activity.mRealNameVerifyFragment,"");
             }
         });
 

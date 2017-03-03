@@ -3,13 +3,10 @@ package com.tbea.tb.tbeawaterelectrician.activity.nearby;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.IdRes;
-import android.support.v4.content.ContextCompat;
-import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +18,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -29,17 +25,14 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
-import com.tbea.tb.tbeawaterelectrician.activity.my.CollectListActivity;
-import com.tbea.tb.tbeawaterelectrician.activity.my.WalletListActivity;
-import com.tbea.tb.tbeawaterelectrician.activity.my.WalletWithdrawCashActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.component.FlexRadioGroup;
 import com.tbea.tb.tbeawaterelectrician.entity.Condition;
 import com.tbea.tb.tbeawaterelectrician.entity.Evaluate;
-import com.tbea.tb.tbeawaterelectrician.entity.Receive;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
@@ -72,6 +65,9 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
     private  int mPage = 1;
     private int mPagesiz =10 ;
     private BGARefreshLayout mRefreshLayout;
+    private List<OrderDetailid> mSelectIds = new ArrayList<>();
+    private String mFlag = "pay";//pay立即购买，add加入购物车
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -242,133 +238,24 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
             }
         });
 
+        //立即购买
+        findViewById(R.id.pay_shop_car_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mFlag = "pay";
+                showShopInfo();
+
+            }
+        });
+
         /**
          * 加入购物车
          */
         findViewById(R.id.add_shop_car_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
-                dialog.setText("加载中");
-                dialog.show();
-                final Handler handler = new Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        dialog.dismiss();
-                        switch (msg.what) {
-                            case ThreadState.SUCCESS:
-                                RspInfo re = (RspInfo) msg.obj;
-                                if (re.isSuccess()) {
-
-                                   Map<String, Object> commodityinfo = (Map<String, Object>) re.getDateObj("commodityinfo");
-                                    List<Map<String, String>> colorlist = (List<Map<String, String>>) re.getDateObj("colorlist");
-                                    List<Map<String, String>> specificationlist = (List<Map<String, String>>) re.getDateObj("specificationlist");
-
-                                    if(commodityinfo != null){
-                                        ImageView imageView = (ImageView)findViewById(R.id.add_shop_car_layout_picture);
-                                        if(!"".equals(commodityinfo.get("picture")))
-                                        ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+commodityinfo.get("picture"),imageView);
-                                        ((TextView)findViewById(R.id.add_shop_car_layout_price)).setText("￥"+commodityinfo.get("price"));
-                                        double stockNumber = (double)commodityinfo.get("stock");
-                                        int stock = (int)stockNumber;
-                                        ((TextView)findViewById(R.id.add_shop_car_layout_stock)).setText("库存"+stock+"件");
-                                    }
-
-                                    if (colorlist != null) {
-                                        mColorRG.removeAllViews();
-                                        List<Condition> colorList = new ArrayList<>();
-                                        for (int i = 0; i < colorlist.size(); i++) {
-                                           Condition condition = new Condition();
-                                            condition.setId(colorlist.get(i).get("id"));
-                                            condition.setName(colorlist.get(i).get("name"));
-                                            colorList.add(condition);
-                                        }
-                                        float margin = UtilAssistants.dp2px(mContext, 85);
-                                        for (int i = 0;i<colorList.size();i++){
-                                            final RadioButton rb = (RadioButton) getLayoutInflater().inflate(R.layout.activity_commodith_view_rb, null);
-                                            rb.setText(colorList.get(i).getName());
-                                            rb.setTag(colorList.get(i).getId());
-                                            FlexboxLayout.LayoutParams lp = new FlexboxLayout.LayoutParams((int) (mWidth - margin) / 4, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                            lp.setMargins(8,8,8,8);
-                                            rb.setLayoutParams(lp);
-                                            mColorRG.addView(rb);
-                                            if(i == 0){
-                                                rb.setChecked(true);
-                                                mColorId = colorList.get(i).getId();
-                                            }
-
-                                            mColorRG.setOnCheckedChangeListener(new FlexRadioGroup.OnCheckedChangeListener() {
-                                                @Override
-                                                public void onCheckedChanged(@IdRes int checkedId) {
-                                                    if(((RadioButton)findViewById(checkedId)).isChecked()){
-                                                        mColorId = rb.getTag()+"";
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    }
-                                    if(specificationlist != null){
-                                        mSpecificationsRG.removeAllViews();
-                                        List<Condition> specificationList = new ArrayList<>();
-                                        for (int i =0; i<specificationlist.size();i++){
-                                            Condition condition = new Condition();
-                                            condition.setId(specificationlist.get(i).get("id"));
-                                            condition.setName(specificationlist.get(i).get("name"));
-                                            specificationList.add(condition);
-                                        }
-                                        float margin = UtilAssistants.dp2px(mContext, 85);
-                                        for (int i = 0;i<specificationList.size();i++){
-                                            final  RadioButton rb = (RadioButton) getLayoutInflater().inflate(R.layout.activity_commodith_view_rb, null);
-                                            rb.setText(specificationList.get(i).getName());
-                                            rb.setTag(specificationList.get(i).getId());
-                                            FlexboxLayout.LayoutParams lp = new FlexboxLayout.LayoutParams((int) (mWidth - margin) / 4, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                            lp.setMargins(8,8,8,8);
-                                            rb.setLayoutParams(lp);
-                                            mSpecificationsRG.addView(rb);
-                                            if(i == 0){
-                                                rb.setChecked(true);
-                                                mSpecificationId = specificationList.get(i).getId();
-                                            }
-                                            mSpecificationsRG.setOnCheckedChangeListener(new FlexRadioGroup.OnCheckedChangeListener() {
-                                                @Override
-                                                public void onCheckedChanged(@IdRes int checkedId) {
-                                                    if(((RadioButton)findViewById(checkedId)).isChecked()){
-                                                        mSpecificationId = rb.getTag()+"";
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    }
-                                    findViewById(R.id.body_bg_view).setVisibility(View.VISIBLE);
-                                    View view1 = (View)findViewById(R.id.add_shop_car_layout);
-                                    view1.setVisibility(View.VISIBLE);
-                                    Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.in_bottomtotop);
-                                    animation.setFillAfter(true);
-                                    view1.setAnimation(animation);
-                                } else {
-                                    UtilAssistants.showToast(re.getMsg());
-                                }
-
-                                break;
-                            case ThreadState.ERROR:
-                                UtilAssistants.showToast("操作失败！");
-                                break;
-                        }
-                    }
-                };
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            UserAction userAction = new UserAction();
-                            RspInfo re = userAction.getAddSCInfo(id);
-                            handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
-                        } catch (Exception e) {
-                            handler.sendEmptyMessage(ThreadState.ERROR);
-                        }
-                    }
-                }).start();
+                mFlag = "add";
+                showShopInfo();
             }
         });
 
@@ -377,7 +264,11 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
             @Override
             public void onClick(View view) {
                 GoneAddShopCarView();
-                addShopCar();//添加购物车
+                if("pay".equals(mFlag)){
+                    pay();//立即购买
+                }else {
+                    addShopCar();//添加购物车
+                }
             }
         });
 
@@ -425,6 +316,132 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         });
     }
 
+    //显示规格
+    private void showShopInfo(){
+        final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
+        dialog.setText("加载中");
+        dialog.show();
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                dialog.dismiss();
+                switch (msg.what) {
+                    case ThreadState.SUCCESS:
+                        RspInfo re = (RspInfo) msg.obj;
+                        if (re.isSuccess()) {
+
+                            Map<String, Object> commodityinfo = (Map<String, Object>) re.getDateObj("commodityinfo");
+                            List<Map<String, String>> colorlist = (List<Map<String, String>>) re.getDateObj("colorlist");
+                            List<Map<String, String>> specificationlist = (List<Map<String, String>>) re.getDateObj("specificationlist");
+
+                            if(commodityinfo != null){
+                                ImageView imageView = (ImageView)findViewById(R.id.add_shop_car_layout_picture);
+                                if(!"".equals(commodityinfo.get("picture")))
+                                    ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+commodityinfo.get("picture"),imageView);
+                                ((TextView)findViewById(R.id.add_shop_car_layout_price)).setText("￥"+commodityinfo.get("price"));
+                                double stockNumber = (double)commodityinfo.get("stock");
+                                int stock = (int)stockNumber;
+                                ((TextView)findViewById(R.id.add_shop_car_layout_stock)).setText("库存"+stock+"件");
+                            }
+
+                            if (colorlist != null) {
+                                mColorRG.removeAllViews();
+                                List<Condition> colorList = new ArrayList<>();
+                                for (int i = 0; i < colorlist.size(); i++) {
+                                    Condition condition = new Condition();
+                                    condition.setId(colorlist.get(i).get("id"));
+                                    condition.setName(colorlist.get(i).get("name"));
+                                    colorList.add(condition);
+                                }
+                                float margin = UtilAssistants.dp2px(mContext, 85);
+                                for (int i = 0;i<colorList.size();i++){
+                                    final RadioButton rb = (RadioButton) getLayoutInflater().inflate(R.layout.activity_commodith_view_rb, null);
+                                    rb.setText(colorList.get(i).getName());
+                                    rb.setTag(colorList.get(i).getId());
+                                    FlexboxLayout.LayoutParams lp = new FlexboxLayout.LayoutParams((int) (mWidth - margin) / 4, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                    lp.setMargins(8,8,8,8);
+                                    rb.setLayoutParams(lp);
+                                    mColorRG.addView(rb);
+                                    if(i == 0){
+                                        rb.setChecked(true);
+                                        mColorId = colorList.get(i).getId();
+                                    }
+
+                                    mColorRG.setOnCheckedChangeListener(new FlexRadioGroup.OnCheckedChangeListener() {
+                                        @Override
+                                        public void onCheckedChanged(@IdRes int checkedId) {
+                                            if(((RadioButton)findViewById(checkedId)).isChecked()){
+                                                mColorId = rb.getTag()+"";
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                            if(specificationlist != null){
+                                mSpecificationsRG.removeAllViews();
+                                List<Condition> specificationList = new ArrayList<>();
+                                for (int i =0; i<specificationlist.size();i++){
+                                    Condition condition = new Condition();
+                                    condition.setId(specificationlist.get(i).get("id"));
+                                    condition.setName(specificationlist.get(i).get("name"));
+                                    specificationList.add(condition);
+                                }
+                                float margin = UtilAssistants.dp2px(mContext, 85);
+                                for (int i = 0;i<specificationList.size();i++){
+                                    final  RadioButton rb = (RadioButton) getLayoutInflater().inflate(R.layout.activity_commodith_view_rb, null);
+                                    rb.setText(specificationList.get(i).getName());
+                                    rb.setTag(specificationList.get(i).getId());
+                                    FlexboxLayout.LayoutParams lp = new FlexboxLayout.LayoutParams((int) (mWidth - margin) / 4, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                    lp.setMargins(8,8,8,8);
+                                    rb.setLayoutParams(lp);
+                                    mSpecificationsRG.addView(rb);
+                                    if(i == 0){
+                                        rb.setChecked(true);
+                                        mSpecificationId = specificationList.get(i).getId();
+                                    }
+                                    mSpecificationsRG.setOnCheckedChangeListener(new FlexRadioGroup.OnCheckedChangeListener() {
+                                        @Override
+                                        public void onCheckedChanged(@IdRes int checkedId) {
+                                            if(((RadioButton)findViewById(checkedId)).isChecked()){
+                                                mSpecificationId = rb.getTag()+"";
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                            findViewById(R.id.body_bg_view).setVisibility(View.VISIBLE);
+                            View view1 = (View)findViewById(R.id.add_shop_car_layout);
+                            view1.setVisibility(View.VISIBLE);
+                            Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.in_bottomtotop);
+                            animation.setFillAfter(true);
+                            view1.setAnimation(animation);
+                        } else {
+                            UtilAssistants.showToast(re.getMsg());
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo re = userAction.getAddSCInfo(id);
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+    }
+
+    //显示评价
     private void showEvaluate(){
 
         final Handler handler = new Handler(){
@@ -618,6 +635,60 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
 
     }
 
+    /**
+     * 购买
+     */
+    public  void pay(){
+        TextView numView = (TextView)findViewById(R.id.tv_num);
+        final String number = numView.getText()+"";
+        final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
+        dialog.setText("请等待");
+        dialog.show();
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                dialog.dismiss();
+                switch (msg.what) {
+                    case ThreadState.SUCCESS:
+                        RspInfo1 re = (RspInfo1) msg.obj;
+                        if (re.isSuccess()) {
+                            Map<String,Object> data = (Map<String,Object>)re.getData();
+                            Map<String,String> orderdetailinfo = (Map<String,String>)data.get("orderdetailinfo");
+                            String  orderdetailid = orderdetailinfo.get("orderdetailid");
+                            OrderDetailid orderDetailid = new OrderDetailid(orderdetailid,number);
+                            mSelectIds.add(orderDetailid);
+                            Gson gson = new Gson();
+                            String objJson = gson.toJson(mSelectIds);
+                            Intent intent = new Intent(mContext,OrderViewActivity.class);
+                            intent.putExtra("orderdetailidlist",objJson);
+                            startActivity(intent);
+                        } else {
+                            UtilAssistants.showToast(re.getMsg());
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo1 re = userAction.getOrderDetailId(mDistributorid,id,mSpecificationId,mColorId,number);
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+
+    }
+
     public void GoneAddShopCarView(){
         findViewById(R.id.body_bg_view).setVisibility(View.GONE);
         View view1 = (View)findViewById(R.id.add_shop_car_layout);
@@ -625,5 +696,36 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.out_toptobottom);
 //        animation.setFillAfter(true);
         view1.setAnimation(animation);
+    }
+
+    /**
+     * 选择的产品
+     */
+    private class OrderDetailid{
+        private String orderdetailid;
+        private String ordernumber;
+
+        public OrderDetailid(String  id,String number){
+            this.orderdetailid = id;
+            this.ordernumber = number;
+        }
+        //        public OrderDetailid(){
+//
+//        }
+        public String getOrderdetailid() {
+            return orderdetailid;
+        }
+
+        public void setOrderdetailid(String orderdetailid) {
+            this.orderdetailid = orderdetailid;
+        }
+
+        public String getOrdernumber() {
+            return ordernumber;
+        }
+
+        public void setOrdernumber(String ordernumber) {
+            this.ordernumber = ordernumber;
+        }
     }
 }
