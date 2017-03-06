@@ -1,10 +1,12 @@
 package com.tbea.tb.tbeawaterelectrician.activity.scanCode;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -67,6 +69,14 @@ public class ScanCodeViewActivity extends TopActivity {
                 startActivity(intent);
             }
         });
+
+        findViewById(R.id.scan_code_mobilenumber).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+mObj.getMobilenumber()));
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -120,7 +130,7 @@ public class ScanCodeViewActivity extends TopActivity {
         ((TextView) findViewById(R.id.scan_code_view_price)).setText("￥"+obj.getPrice());
         ImageView imageView = (ImageView)findViewById(R.id.scan_code_view_picture);
         ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+obj.getPicture(),imageView);
-        ((TextView) findViewById(R.id.scan_code_view_rebatemoney)).setText(obj.getRebatemoney());
+        ((TextView) findViewById(R.id.scan_code_view_rebatemoney)).setText("￥"+obj.getRebatemoney());
         ((TextView) findViewById(R.id.scan_code_view_scantime)).setText(obj.getScantime());
         ((TextView) findViewById(R.id.scan_code_view_scanaddress)).setText(obj.getScanaddress());
         ((TextView) findViewById(R.id.scan_code_view_distributor)).setText(obj.getDistributor());
@@ -138,12 +148,14 @@ public class ScanCodeViewActivity extends TopActivity {
             findViewById(R.id.scan_code_userdistributor).setVisibility(View.GONE);
             findViewById(R.id.scan_code_userdistributor_tv).setVisibility(View.GONE);
             findViewById(R.id.scan_code_userdistributor_tv1).setVisibility(View.GONE);
+            ((TextView) findViewById(R.id.scan_code_view_distributor)).setTextColor(ContextCompat.getColor(ScanCodeViewActivity.this,R.color.black));
         }else {//不符合
             Button comfireBtn = (Button)findViewById(R.id.scan_code_comfire);
             Button tipBtn = (Button)findViewById(R.id.scan_code_tip);
             comfireBtn.setEnabled(false);
             tipBtn.setEnabled(true);
             ((TextView) findViewById(R.id.scan_code_userdistributor)).setText(obj.getUserdistributor());
+            ((TextView) findViewById(R.id.scan_code_view_distributor)).setTextColor(ContextCompat.getColor(ScanCodeViewActivity.this,R.color.red));
         }
     }
 

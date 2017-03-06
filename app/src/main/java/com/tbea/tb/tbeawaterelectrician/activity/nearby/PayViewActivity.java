@@ -32,9 +32,12 @@ public class PayViewActivity extends TopActivity {
         String deliverytype = getIntent().getStringExtra("deliverytype");
         String paytype = getIntent().getStringExtra("paytype");
         String actualneedpaymoney = getIntent().getStringExtra("actualneedpaymoney");
+        String ordercode = getIntent().getStringExtra("ordercode");
+
         ((TextView)findViewById(R.id.pay_success_order_view_money)).setText(actualneedpaymoney);
         ((TextView)findViewById(R.id.pay_success_order_view_paytype)).setText(paytype);
         ((TextView)findViewById(R.id.pay_success_order_view_delivery_type)).setText(deliverytype);
+        ((TextView)findViewById(R.id.pay_seccess_orderId)).setText("订单编号："+ordercode);
 
         findViewById(R.id.go_home).setOnClickListener(new View.OnClickListener() {
             @Override

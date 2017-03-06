@@ -1117,4 +1117,15 @@ public class UserAction extends BaseAction {
         return  rspInfo;
     }
 
+    /**
+     获取下单信息
+     */
+    public RspInfo getAccountAuthentication() throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG005001002004",pairs);
+        rspInfo = gson.fromJson(result,RspInfo.class);
+        return  rspInfo;
+    }
+
 }

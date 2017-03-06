@@ -109,6 +109,7 @@ public class OrderViewActivity extends TopActivity {
                             intent.putExtra("actualneedpaymoney",actualneedpaymoney);
                             intent.putExtra("deliverytype",deliverytype);
                             intent.putExtra("paytype",paytype);
+                            intent.putExtra("ordercode",ordercode);
                             startActivity(intent);
                             finish();
                         } else {

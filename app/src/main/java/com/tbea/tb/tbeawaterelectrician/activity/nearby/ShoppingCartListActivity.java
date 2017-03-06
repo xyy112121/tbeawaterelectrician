@@ -53,6 +53,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart_list);
+        MyApplication.instance.addActivity(this);
         mContext = this;
         initTopbar("购物车", "编辑", this);
         initUI();

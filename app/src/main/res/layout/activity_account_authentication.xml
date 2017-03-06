@@ -124,11 +124,12 @@
 
                         <ImageView
                             android:id="@+id/register_update_image1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
                             android:layout_gravity="center"
                             android:layout_marginLeft="5dp"
-                            android:src="@drawable/icon_upload" />
+                            android:src="@drawable/icon_upload"
+                            android:scaleType="fitXY"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -158,10 +159,11 @@
 
                         <ImageView
                             android:id="@+id/register_update_image2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/icon_upload" />
+                            android:src="@drawable/icon_upload"
+                            android:scaleType="fitXY"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -208,10 +210,12 @@
 
                         <ImageView
                             android:id="@+id/register_update_image3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/icon_upload" />
+                            android:src="@drawable/icon_upload"
+                            android:scaleType="fitXY"
+                            />
                     </LinearLayout>
 
                     <LinearLayout

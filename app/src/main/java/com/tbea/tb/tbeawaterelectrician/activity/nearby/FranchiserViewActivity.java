@@ -83,8 +83,6 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
         listener();
     }
 
-
-
     private void initView(){
         mCommodityListView = (ListView) findViewById(R.id.listview);
         mNewListView = (ListView)findViewById(R.id.listview2);

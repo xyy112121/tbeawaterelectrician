@@ -3,29 +3,23 @@ package com.tbea.tb.tbeawaterelectrician.activity.account;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
-import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.AddressCitySelectActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.Condition;
-import com.tbea.tb.tbeawaterelectrician.fragment.account.RealNameVerifyFragment;
-import com.tbea.tb.tbeawaterelectrician.fragment.account.RegisterPhoneFragment;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
@@ -59,24 +53,24 @@ public class RegisterActivity extends TopActivity {
         getPhoneDate();
         initTopbar("注册");
         mContext = this;
-        button = (Button)findViewById(R.id.regist_sendcode);
+        button = (Button) findViewById(R.id.regist_sendcode);
         listener();
     }
 
-    public void getPhoneDate(){
-        final Handler handler = new Handler(){
+    public void getPhoneDate() {
+        final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                switch (msg.what){
+                switch (msg.what) {
                     case ThreadState.SUCCESS:
-                        RspInfo1 re = (RspInfo1)msg.obj;
-                        if(re.isSuccess()){
+                        RspInfo1 re = (RspInfo1) msg.obj;
+                        if (re.isSuccess()) {
                             Map<String, Object> data = (Map<String, Object>) re.getData();
                             Map<String, String> pageinfo = (Map<String, String>) data.get("pageinfo");
                             mPhone = pageinfo.get("contactmobile");
-                            ((TextView)findViewById(R.id.register_cm_phone)).setText("热线电话: "+mPhone);
+                            ((TextView) findViewById(R.id.register_cm_phone)).setText("热线电话: " + mPhone);
 
-                        }else {
+                        } else {
                             UtilAssistants.showToast(re.getMsg());
                         }
 
@@ -94,7 +88,7 @@ public class RegisterActivity extends TopActivity {
                 try {
                     UserAction userAction = new UserAction();
                     RspInfo1 re = userAction.getPhone();
-                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
                 }
@@ -102,23 +96,31 @@ public class RegisterActivity extends TopActivity {
         }).start();
     }
 
-    private void listener(){
+    private void listener() {
+
+        findViewById(R.id.register_cm_phone).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+ mPhone));
+                startActivity(intent);
+            }
+        });
 
         findViewById(R.id.register_zone).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext,AddressCitySelectActivity.class);
-                startActivityForResult(intent,100);
+                Intent intent = new Intent(mContext, AddressCitySelectActivity.class);
+                startActivityForResult(intent, 100);
             }
         });
 
         findViewById(R.id.register_distributor).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String zone = ((TextView)findViewById(R.id.register_zone)).getText()+"";
-                if(!"".equals(zone)){
+                String zone = ((TextView) findViewById(R.id.register_zone)).getText() + "";
+                if (!"".equals(zone)) {
                     getDistributorList();
-                }else {
+                } else {
                     UtilAssistants.showToast("请选择所在地区");
                 }
             }
@@ -127,17 +129,24 @@ public class RegisterActivity extends TopActivity {
         findViewById(R.id.register_finish).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final  String mobile = ((EditText)findViewById(R.id.register_phone)).getText()+"";
-                final  String code = ((EditText)findViewById(R.id.register_identifying_code)).getText()+"";
-                final  String pwd = ((EditText)findViewById(R.id.register_pwd)).getText()+"";
-                final  String zone = ((TextView)findViewById(R.id.register_zone)).getText()+"";
-                final  String distributor = ((TextView)findViewById(R.id.register_distributor)).getText()+"";
-                if(isMobileNO(mobile) == false){
+                final String mobile = ((EditText) findViewById(R.id.register_phone)).getText() + "";
+                final String code = ((EditText) findViewById(R.id.register_identifying_code)).getText() + "";
+                final String pwd = ((EditText) findViewById(R.id.register_pwd)).getText() + "";
+                final String zone = ((TextView) findViewById(R.id.register_zone)).getText() + "";
+                final String distributor = ((TextView) findViewById(R.id.register_distributor)).getText() + "";
+                String pwd2 = ((TextView)findViewById(R.id.register_pwd2)).getText()+"";
+
+                if (isMobileNO(mobile) == false) {
                     UtilAssistants.showToast("请正确输入手机号码");
                     return;
                 }
-                if(code.equals("") || "".equals(pwd)||"".equals(zone)||"".equals(distributor)){
+                if (code.equals("") || "".equals(pwd) || "".equals(zone) || "".equals(distributor)||"".equals(pwd2)) {
                     UtilAssistants.showToast("请填写全部信息");
+                    return;
+                }
+
+                if(!pwd.equals(pwd2)){
+                    UtilAssistants.showToast("两次密码不一致！");
                     return;
                 }
 
@@ -145,24 +154,24 @@ public class RegisterActivity extends TopActivity {
                 dialog.setText("加载中");
                 dialog.show();
 
-                final Handler handler = new Handler(){
+                final Handler handler = new Handler() {
                     @Override
                     public void handleMessage(Message msg) {
                         dialog.dismiss();
-                        switch (msg.what){
+                        switch (msg.what) {
                             case ThreadState.SUCCESS:
                                 RspInfo1 re = (RspInfo1) msg.obj;
 
-                                if(re.isSuccess()){
-                                    startActivity(new Intent(mContext,RegisterSuccessActivity.class));
+                                if (re.isSuccess()) {
+                                    startActivity(new Intent(mContext, RegisterSuccessActivity.class));
                                     finish();
-                                }else {
+                                } else {
                                     UtilAssistants.showToast(re.getMsg());
                                 }
 
                                 break;
-                            case  ThreadState.ERROR:
-                                UtilAssistants. showToast("注册失败！");
+                            case ThreadState.ERROR:
+                                UtilAssistants.showToast("注册失败！");
                                 break;
                         }
                     }
@@ -172,17 +181,17 @@ public class RegisterActivity extends TopActivity {
                     public void run() {
                         UserAction action = new UserAction();
                         try {
-                            String distributorId ="";
-                            if(mDistributorList != null){
-                                for (Condition item:mDistributorList
+                            String distributorId = "";
+                            if (mDistributorList != null) {
+                                for (Condition item : mDistributorList
                                         ) {
-                                    if(item.getName().equals(distributor)){
+                                    if (item.getName().equals(distributor)) {
                                         distributorId = item.getId();
                                     }
                                 }
                             }
-                            RspInfo1 result = action.register(mobile,pwd,code,mProvinceId,mCityId,mLocationId,distributorId);
-                            handler.obtainMessage(ThreadState.SUCCESS,result).sendToTarget();
+                            RspInfo1 result = action.register(mobile, pwd, code, mProvinceId, mCityId, mLocationId, distributorId);
+                            handler.obtainMessage(ThreadState.SUCCESS, result).sendToTarget();
                         } catch (Exception e) {
                             handler.sendEmptyMessage(ThreadState.ERROR);
                         }
@@ -195,28 +204,28 @@ public class RegisterActivity extends TopActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final  String mobile = ((EditText)findViewById(R.id.register_phone)).getText()+"";
-                if(isMobileNO(mobile) == false){
+                final String mobile = ((EditText) findViewById(R.id.register_phone)).getText() + "";
+                if (isMobileNO(mobile) == false) {
                     UtilAssistants.showToast("请输入正确的手机号码！");
                     return;
                 }
                 mc = new MyCount(60000, 1000);//倒计时60秒
                 mc.start();
 
-                final Handler handler = new Handler(){
+                final Handler handler = new Handler() {
                     @Override
                     public void handleMessage(Message msg) {
-                        switch (msg.what){
+                        switch (msg.what) {
                             case ThreadState.SUCCESS:
                                 RspInfo1 re = (RspInfo1) msg.obj;
-                                if(re.isSuccess() == false){
+                                if (re.isSuccess() == false) {
                                     mc.cancel();
                                     button.setText("获取验证码");
                                 }
                                 UtilAssistants.showToast(re.getMsg());
                                 break;
-                            case  ThreadState.ERROR:
-                               UtilAssistants. showToast("获取验证失败，请重试！");
+                            case ThreadState.ERROR:
+                                UtilAssistants.showToast("获取验证失败，请重试！");
                                 mc.cancel();
                                 button.setText("获取验证码");
                                 break;
@@ -228,8 +237,8 @@ public class RegisterActivity extends TopActivity {
                     public void run() {
                         UserAction action = new UserAction();
                         try {
-                            RspInfo1 result = action.sendCode(mobile,"TBEAENG001001002000");
-                            handler.obtainMessage(ThreadState.SUCCESS,result).sendToTarget();
+                            RspInfo1 result = action.sendCode(mobile, "TBEAENG001001002000");
+                            handler.obtainMessage(ThreadState.SUCCESS, result).sendToTarget();
                         } catch (Exception e) {
                             handler.sendEmptyMessage(ThreadState.ERROR);
                         }
@@ -242,17 +251,17 @@ public class RegisterActivity extends TopActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK && requestCode == 100 && data != null){
+        if (resultCode == RESULT_OK && requestCode == 100 && data != null) {
             String text = data.getStringExtra("text");
-            ((TextView)findViewById(R.id.register_zone)).setText(text);
-            ((TextView)findViewById(R.id.register_distributor)).setText("");
+            ((TextView) findViewById(R.id.register_zone)).setText(text);
+            ((TextView) findViewById(R.id.register_distributor)).setText("");
             mProvinceId = data.getStringExtra("provinceId");
             mCityId = data.getStringExtra("cityId");
             mLocationId = data.getStringExtra("locationId");
         }
     }
 
-    private void  getDistributorList(){
+    private void getDistributorList() {
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("加载中");
         dialog.show();
@@ -264,8 +273,8 @@ public class RegisterActivity extends TopActivity {
                     case ThreadState.SUCCESS:
                         RspInfo re = (RspInfo) msg.obj;
                         if (re.isSuccess()) {
-                           mDistributorList = (List<Condition>) re.getDateObj("distributorlist");
-                            if(mDistributorList != null){
+                            mDistributorList = (List<Condition>) re.getDateObj("distributorlist");
+                            if (mDistributorList != null) {
                                 String[] dates = new String[mDistributorList.size()];
                                 for (int i = 0; i < mDistributorList.size(); i++) {
                                     dates[i] = mDistributorList.get(i).getName();
@@ -276,12 +285,12 @@ public class RegisterActivity extends TopActivity {
                                 mPicker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
                                     @Override
                                     public void onOptionPicked(String option) {
-                                        ((TextView)findViewById(R.id.register_distributor)).setText(option);
+                                        ((TextView) findViewById(R.id.register_distributor)).setText(option);
                                     }
                                 });
                                 mPicker.setAnimationStyle(R.style.PopWindowAnimationFade);
                                 mPicker.show();
-                            }else {
+                            } else {
                                 UtilAssistants.showToast("操作失败！");
                             }
                         } else {
@@ -313,7 +322,7 @@ public class RegisterActivity extends TopActivity {
 
     @Override
     public void onDestroy() {
-        if (mc != null){
+        if (mc != null) {
             mc.cancel();
         }
         super.onDestroy();
@@ -322,7 +331,7 @@ public class RegisterActivity extends TopActivity {
     /**
      * 验证手机格式 false不正确
      */
-    public  boolean isMobileNO(String mobiles) {
+    public boolean isMobileNO(String mobiles) {
         String telRegex = "[1][3584]\\d{9}";//"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
         if (mobiles.equals("")) return false;
         else return mobiles.matches(telRegex);
@@ -341,7 +350,7 @@ public class RegisterActivity extends TopActivity {
 
         @Override
         public void onTick(long millisUntilFinished) {
-            button.setText("重新发送"+millisUntilFinished / 1000+"秒");
+            button.setText("重新发送" + millisUntilFinished / 1000 + "秒");
 
         }
     }

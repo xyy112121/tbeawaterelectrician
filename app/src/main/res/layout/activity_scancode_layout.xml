@@ -23,7 +23,8 @@
             android:layout_height="50dp"
             android:src="@drawable/icon_back1"
             android:layout_marginTop="5dp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="left"
+            android:layout_marginLeft="10dp"/>
         <CheckBox
             android:id="@+id/scan_code_type"
             android:layout_width="280dp"

@@ -65,7 +65,7 @@ public class CityListActivity extends Activity{
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId== EditorInfo.IME_ACTION_SEND )
+                if (actionId== EditorInfo.IME_ACTION_SEARCH )
                 {
                     mCityName = editText.getText()+"";
                     mAdapter.removeAll();

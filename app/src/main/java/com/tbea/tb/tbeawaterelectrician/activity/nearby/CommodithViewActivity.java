@@ -79,6 +79,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyApplication.instance.addActivity(this);
         setContentView(R.layout.activity_commodith_view);
         mContext = this;
         initView();

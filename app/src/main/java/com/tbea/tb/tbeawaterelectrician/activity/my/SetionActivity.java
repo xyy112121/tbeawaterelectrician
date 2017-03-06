@@ -122,9 +122,9 @@ public class SetionActivity extends TopActivity {
         (findViewById(R.id.authentication_tv)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if("notidentify".equals(getIntent().getStringExtra("whetheridentifiedid"))){
-                    startActivityForResult(new Intent(mContext, AccountAuthenticationActivity.class),100);
-                }
+                Intent intent = new Intent(mContext, AccountAuthenticationActivity.class);
+                intent.putExtra("whetheridentifiedid",getIntent().getStringExtra("whetheridentifiedid"));
+                startActivityForResult(intent,100);
             }
         });
     }
