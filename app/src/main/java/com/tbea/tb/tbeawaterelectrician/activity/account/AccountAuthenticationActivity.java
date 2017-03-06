@@ -9,6 +9,8 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
@@ -20,7 +22,12 @@ import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.component.CustomPopWindow;
+import com.tbea.tb.tbeawaterelectrician.entity.Register;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
+import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
+import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.io.File;
@@ -33,9 +40,9 @@ public class AccountAuthenticationActivity extends TopActivity {
     private Uri mUri;
     private static final int RESULT_CAMERA = 0x000001;//相机
     private static final int RESULT_PHOTO = 0x000002;//图片
-    private String personidcard1Path;//身份证正面
-    private String personidcard2Path;//身份证反面
-    private String personidcardwithpersonPath;//手持身份证图片
+    private String personidcard1Path= "";//身份证正面
+    private String personidcard2Path= "";//身份证反面
+    private String personidcardwithpersonPath= "";//手持身份证图片
     private int mFlag;//判断当前选择的图片是什么
     private Context mContext;
 
@@ -91,60 +98,71 @@ public class AccountAuthenticationActivity extends TopActivity {
                 try {
                     final String realname = ((EditText)findViewById(R.id.regist_realname)).getText()+"";
                     final String personid = ((EditText)findViewById(R.id.regist_personid)).getText()+"";
-//                    if(realname.equals("")){
-//                        showToast("请输入真实姓名");
-//                        return;
-//                    }
-////                    if(isIDCard(personid) == false){
-////                        showToast("请输入正确的身份证号");
-////                        return;
-////                    }
-//
-//                    if(personidcard1Path.equals("")){
-//                        showToast("请选择需要上传的身份证正面");
-//                        return;
-//                    }
-//                    if(personidcard2Path.equals("")){
-//                        showToast("请选择需要上传的身份证反面");
-//                        return;
-//                    }
-//                    if(personidcard1Path.equals("")){
-//                        showToast("请选择需要上传的手持身份证照片");
-//                        return;
-//                    }
+                    if(realname.equals("")){
+                        UtilAssistants.showToast("请输入真实姓名");
+                        return;
+                    }
+                    if(isIDCard(personid) == false){
+                        UtilAssistants.showToast("请输入正确的身份证号");
+                        return;
+                    }
 
-//                    final Handler handler = new Handler(){
-//                        @Override
-//                        public void handleMessage(Message msg) {
-//                            switch (msg.what){
-//                                case ThreadState.SUCCESS:
-//                                    RspInfo1 re = (RspInfo1) msg.obj;
-//                                    UtilAssistants.showToast(re.getMsg());
-//                                    break;
-//                                case  ThreadState.ERROR:
-//                                    UtilAssistants.showToast("操作失败，请重试！");
-//                                    break;
-//                            }
-//                        }
-//                    };
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            try {
-//                                Register2Activity activity = (Register2Activity)getActivity();
-//                                activity.mObj.setRealname(realname);
-//                                activity.mObj.setPersonid(personid);
-//                                activity.mObj.setPersonidcard1(personidcard1Path);
-//                                activity.mObj.setPersonidcard2(personidcard2Path);
-//                                activity.mObj.setPersonidcardwithperson(personidcardwithpersonPath);
-//                                UserAction action = new UserAction();
-//                                RspInfo1 result = action.register(activity.mObj);
-//                                handler.obtainMessage(ThreadState.SUCCESS,result).sendToTarget();
-//                            } catch (Exception e) {
-//                                handler.sendEmptyMessage(ThreadState.ERROR);
-//                            }
-//                        }
-//                    }).start();
+                    if("".equals(personidcard1Path)){
+                        UtilAssistants.showToast("请选择需要上传的身份证正面");
+                        return;
+                    }
+                    if("".equals(personidcard2Path)){
+                        UtilAssistants.showToast("请选择需要上传的身份证反面");
+                        return;
+                    }
+                    if("".equals(personidcardwithpersonPath)) {
+                        UtilAssistants.showToast("请选择需要上传的手持身份证照片");
+                        return;
+                    }
+
+                    final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
+                    dialog.setText("请等待...");
+                    dialog.show();
+
+                    final Handler handler = new Handler(){
+                        @Override
+                        public void handleMessage(Message msg) {
+                            dialog.dismiss();
+                            switch (msg.what){
+                                case ThreadState.SUCCESS:
+                                    RspInfo1 re = (RspInfo1) msg.obj;
+                                    UtilAssistants.showToast(re.getMsg());
+                                    if(re.isSuccess()){
+                                        Intent intent = new Intent();
+                                        intent.putExtra("whetheridentifiedid","tidentify");
+                                        setResult(RESULT_OK,intent);
+                                        finish();
+                                    }
+                                    break;
+                                case  ThreadState.ERROR:
+                                    UtilAssistants.showToast("操作失败，请重试！");
+                                    break;
+                            }
+                        }
+                    };
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Register obj = new Register();
+                                obj.setRealname(realname);
+                                obj.setPersonid(personid);
+                                obj.setPersonidcard1(personidcard1Path);
+                                obj.setPersonidcard2(personidcard2Path);
+                                obj.setPersonidcardwithperson(personidcardwithpersonPath);
+                                UserAction action = new UserAction();
+                                RspInfo1 result = action.accountAuthentication(obj);
+                                handler.obtainMessage(ThreadState.SUCCESS,result).sendToTarget();
+                            } catch (Exception e) {
+                                handler.sendEmptyMessage(ThreadState.ERROR);
+                            }
+                        }
+                    }).start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -158,7 +176,7 @@ public class AccountAuthenticationActivity extends TopActivity {
      * 验证身份证号
      */
     public  boolean isIDCard(String personid) {
-        String telRegex = "/^[1-9]\\d{7}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}$|^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X)$/;";//"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
+        String telRegex="(\\d{14}[0-9a-zA-Z])|(\\d{17}[0-9a-zA-Z])";
         if (personid.equals("")) return false;
         else return personid.matches(telRegex);
     }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
@@ -68,6 +70,64 @@ public class TakeFragment extends Fragment implements BGARefreshLayout.BGARefres
         return mView;
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        getMessageNumber();
+    }
+
+    //获取购物车数量
+    private void  getMessageNumber(){
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case ThreadState.SUCCESS:
+                        try {
+                            RspInfo re = (RspInfo) msg.obj;
+                            if (re.isSuccess()) {
+                                Map<String,String > shortcutinfo = (Map<String, String>) re.getDateObj("shortcutinfo");
+                                if(shortcutinfo != null){
+                                    String newmessagenumber = shortcutinfo.get("newmessagenumber");
+                                    ImageView imageView = (ImageView) mView.findViewById(R.id.open_my_message);
+                                    if(newmessagenumber != null && !"".equals(newmessagenumber) && !"0".equals(newmessagenumber)){
+                                        imageView.setImageResource(R.drawable.icon_message_redpoint);
+                                    }else {
+                                        imageView.setImageResource(R.drawable.icon_message_redpoint);
+                                    }
+                                }
+
+                            } else {
+                                UtilAssistants.showToast(re.getMsg());
+                            }
+
+                        }catch (Exception e){
+                            Log.e("","");
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo re = userAction.getMessageNumber();
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+
+    }
+
     public void initUI() {
         mListView = (ListView) mView.findViewById(R.id.take_select_list);
         mAdapter = new MyAdapter(getActivity());
@@ -75,6 +135,7 @@ public class TakeFragment extends Fragment implements BGARefreshLayout.BGARefres
         mRefreshLayout = (BGARefreshLayout) mView.findViewById(R.id.rl_recyclerview_refresh);
         mRefreshLayout.setDelegate(this);
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getActivity(), true));
+        getMessageNumber();
     }
 
 

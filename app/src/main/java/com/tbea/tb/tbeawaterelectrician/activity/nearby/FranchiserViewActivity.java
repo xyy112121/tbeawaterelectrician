@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -67,17 +69,21 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
     private String mOrderitemid = "auto";
     private String mOrder = "desc";
     private String mJustforPromotion = "0";
-    LinearLayout mItemTopView;
+    private  LinearLayout mItemTopView;
+    private LinearLayout layout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_franchiser_view);
         initTopbar("经销商信息");
+        MyApplication.instance.addActivity(this);
         mContext= this;
         initView();
         listener();
     }
+
+
 
     private void initView(){
         mCommodityListView = (ListView) findViewById(R.id.listview);
@@ -107,10 +113,20 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
     }
 
     private LinearLayout initViewInfo(){
-        LinearLayout layout = (LinearLayout)getLayoutInflater().inflate(R.layout.activity_franchiser_view_top,null);
+         layout = (LinearLayout)getLayoutInflater().inflate(R.layout.activity_franchiser_view_top,null);
         Gson gson = new Gson();
         String objJson = getIntent().getStringExtra("obj");
-        NearbyCompany obj = gson.fromJson(objJson,NearbyCompany.class);
+        if(!"".equals(objJson) && null != objJson){
+            NearbyCompany obj = gson.fromJson(objJson,NearbyCompany.class);
+            setCompanyView(obj);
+        }else {
+            mCompanyid = getIntent().getStringExtra("companyId");
+        }
+
+        return layout;
+    }
+
+    private  void setCompanyView(NearbyCompany obj){
         if(obj != null){
             if(!"".equals(obj.getPicture())){
                 String url = MyApplication.instance.getImgPath()+ obj.getPicture();
@@ -138,18 +154,17 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
             ((TextView)layout.findViewById(R.id.nearby_company_item_addr)).setText(obj.getAddress());
             mCompanyid = obj.getId();
         }
-        return layout;
     }
 
     private void listener(){
-        View view = getLayoutInflater().inflate(R.layout.activity_franchiser_view_top_com_item_head,null);
+        final View view = getLayoutInflater().inflate(R.layout.activity_franchiser_view_top_com_item_head,null);
         mCommodityListView.addHeaderView(view);
         view.findViewById(R.id.franchiser_item_head_auto).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                ((TextView)findViewById(R.id.franchiser_item_head_salecount)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gtay2));
-                ((TextView)findViewById(R.id.franchiser_item_head_price)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gtay2));
-                ((TextView)findViewById(R.id.franchiser_item_head_auto)).setTextColor(ContextCompat.getColor(mContext,R.color.black));
+            public void onClick(View v) {
+                ((TextView)view.findViewById(R.id.franchiser_item_head_salecount)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gray));
+                ((TextView)view.findViewById(R.id.franchiser_item_head_price)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gray));
+                ((TextView)view.findViewById(R.id.franchiser_item_head_auto)).setTextColor(ContextCompat.getColor(mContext,R.color.black));
                 // orderitemid(排序类型id，推荐(auto)(默认),价格(price),销量,(salecount))
                 if(mOrderitemid.equals("auto")){
                     if("desc".equals(mOrder)){
@@ -167,10 +182,10 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
 
         view.findViewById(R.id.franchiser_item_head_price).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                ((TextView)findViewById(R.id.franchiser_item_head_salecount)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gtay2));
-                ((TextView)findViewById(R.id.franchiser_item_head_price)).setTextColor(ContextCompat.getColor(mContext,R.color.black));
-                ((TextView)findViewById(R.id.franchiser_item_head_auto)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gtay2));
+            public void onClick(View v) {
+                ((TextView)view.findViewById(R.id.franchiser_item_head_salecount)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gray));
+                ((TextView)view.findViewById(R.id.franchiser_item_head_price)).setTextColor(ContextCompat.getColor(mContext,R.color.black));
+                ((TextView)view.findViewById(R.id.franchiser_item_head_auto)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gray));
                 // orderitemid(排序类型id，推荐(auto)(默认),价格(price),销量,(salecount))
                 if(mOrderitemid.equals("price")){
                     if("desc".equals(mOrder)){
@@ -188,10 +203,10 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
 
         view.findViewById(R.id.franchiser_item_head_salecount).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                ((TextView)findViewById(R.id.franchiser_item_head_salecount)).setTextColor(ContextCompat.getColor(mContext,R.color.black));
-                ((TextView)findViewById(R.id.franchiser_item_head_price)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gtay2));
-                ((TextView)findViewById(R.id.franchiser_item_head_auto)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gtay2));
+            public void onClick(View v) {
+                ((TextView)view.findViewById(R.id.franchiser_item_head_salecount)).setTextColor(ContextCompat.getColor(mContext,R.color.black));
+                ((TextView)view.findViewById(R.id.franchiser_item_head_price)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gray));
+                ((TextView)view.findViewById(R.id.franchiser_item_head_auto)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gray));
                 // orderitemid(排序类型id，推荐(auto)(默认),价格(price),销量,(salecount))
                 if(mOrderitemid.equals("salecount")){
                     if("desc".equals(mOrder)){
@@ -201,6 +216,97 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
                     }
                 }
                 mOrderitemid  = "salecount";
+                mCommodityAdapter.removeAll();
+                mCommodityPage = 1;
+                getCommodityListDate();
+            }
+        });
+
+        ((CheckBox)view.findViewById(R.id.franchiser_item_head_justforPromotion)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    mJustforPromotion = "1";
+                }else {
+                    mJustforPromotion = "0";
+                }
+                mCommodityAdapter.removeAll();
+                mCommodityPage = 1;
+                getCommodityListDate();
+            }
+        });
+
+         findViewById(R.id.franchiser_item_head_auto).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((TextView)findViewById(R.id.franchiser_item_head_salecount)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gray));
+                ((TextView)findViewById(R.id.franchiser_item_head_price)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gray));
+                ((TextView)findViewById(R.id.franchiser_item_head_auto)).setTextColor(ContextCompat.getColor(mContext,R.color.black));
+                // orderitemid(排序类型id，推荐(auto)(默认),价格(price),销量,(salecount))
+                if(mOrderitemid.equals("auto")){
+                    if("desc".equals(mOrder)){
+                        mOrder = "asc";
+                    }else {
+                        mOrder = "desc";
+                    }
+                }
+                mOrderitemid  = "auto";
+                mCommodityAdapter.removeAll();
+                mCommodityPage = 1;
+                getCommodityListDate();
+            }
+        });
+
+        findViewById(R.id.franchiser_item_head_price).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((TextView)findViewById(R.id.franchiser_item_head_salecount)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gray));
+                ((TextView)findViewById(R.id.franchiser_item_head_price)).setTextColor(ContextCompat.getColor(mContext,R.color.black));
+                ((TextView)findViewById(R.id.franchiser_item_head_auto)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gray));
+                // orderitemid(排序类型id，推荐(auto)(默认),价格(price),销量,(salecount))
+                if(mOrderitemid.equals("price")){
+                    if("desc".equals(mOrder)){
+                        mOrder = "asc";
+                    }else {
+                        mOrder = "desc";
+                    }
+                }
+                mOrderitemid  = "price";
+                mCommodityAdapter.removeAll();
+                mCommodityPage = 1;
+                getCommodityListDate();
+            }
+        });
+
+        findViewById(R.id.franchiser_item_head_salecount).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((TextView)findViewById(R.id.franchiser_item_head_salecount)).setTextColor(ContextCompat.getColor(mContext,R.color.black));
+                ((TextView)findViewById(R.id.franchiser_item_head_price)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gray));
+                ((TextView)findViewById(R.id.franchiser_item_head_auto)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gray));
+                // orderitemid(排序类型id，推荐(auto)(默认),价格(price),销量,(salecount))
+                if(mOrderitemid.equals("salecount")){
+                    if("desc".equals(mOrder)){
+                        mOrder = "asc";
+                    }else {
+                        mOrder = "desc";
+                    }
+                }
+                mOrderitemid  = "salecount";
+                mCommodityAdapter.removeAll();
+                mCommodityPage = 1;
+                getCommodityListDate();
+            }
+        });
+
+        ((CheckBox)findViewById(R.id.franchiser_item_head_justforPromotion)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    mJustforPromotion = "1";
+                }else {
+                    mJustforPromotion = "0";
+                }
                 mCommodityAdapter.removeAll();
                 mCommodityPage = 1;
                 getCommodityListDate();
@@ -236,11 +342,17 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
 
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int i1, int i2) {
-                if (firstVisibleItem >= 1) {
-                    mItemTopView.setVisibility(View.VISIBLE);
-                } else {
-                    mItemTopView.setVisibility(View.GONE);
-                }
+//                if (firstVisibleItem >= 1) {
+//                    mItemTopView.setVisibility(View.VISIBLE);
+//                    if("0".equals(mJustforPromotion)){
+//                        ((CheckBox)(findViewById(R.id.franchiser_item_head_justforPromotion))).setChecked(false);
+//                    }else {
+//                        ((CheckBox)(findViewById(R.id.franchiser_item_head_justforPromotion))).setChecked(true);
+//                    }
+//
+//                } else {
+//                    mItemTopView.setVisibility(View.GONE);
+//                }
             }
         });
     }
@@ -282,20 +394,30 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
                             if (re.isSuccess()) {
                                 List<Map<String, String>> list = (List<Map<String, String>>) re.getDateObj("commoditylist");
                                 Map<String, Object> businesstotleinfo = (Map<String, Object>) re.getDateObj("businesstotleinfo");
-                                if(businesstotleinfo != null){
-                                    double commoditytotlenumber = (double)businesstotleinfo.get("commoditytotlenumber");
-                                    double porjecttotlenumber= (double)businesstotleinfo.get("commoditytotlenumber");
-                                    double jobtotlenumber= (double)businesstotleinfo.get("jobtotlenumber");
-                                    double newtotlenumber= (double)businesstotleinfo.get("newtotlenumber");
-                                    int c = (int)commoditytotlenumber;
-                                    int p  = (int)porjecttotlenumber;
-                                    int j = (int)jobtotlenumber;
-                                    int n = (int)newtotlenumber;
+                                Map<String, String> companybaseinfo = (Map<String, String>) re.getDateObj("companybaseinfo");
 
-                                    setViewText(R.id.commoditytotlenumber,c+"");
-                                    setViewText(R.id.porjecttotlenumber,p+"");
-                                    setViewText(R.id.jobtotlenumber,j+"");
-                                    setViewText(R.id.newtotlenumber,n+"");
+                                if(companybaseinfo != null){
+                                    NearbyCompany obj = new NearbyCompany();
+                                    obj.setId(companybaseinfo.get("id"));
+                                    obj.setPicture(companybaseinfo.get("picture"));
+                                    obj.setName(companybaseinfo.get("name"));
+                                    obj.setDistance(companybaseinfo.get("distance"));
+                                    obj.setLatitude(companybaseinfo.get("latitude"));
+                                    obj.setAddress(companybaseinfo.get("address"));
+                                    obj.setCompanytypeid(companybaseinfo.get("companytypeid"));
+                                    obj.setWithcompanyidentified(companybaseinfo.get("withcompanyidentified"));
+                                    obj.setWithcompanylisence(companybaseinfo.get("withcompanylisence"));
+                                    obj.setWithguaranteemoney(companybaseinfo.get("withguaranteemoney"));
+                                    obj.setWithidentified(companybaseinfo.get("withidentified"));
+                                    setCompanyView(obj);
+                                }
+
+
+                                if(businesstotleinfo != null){
+                                    setViewText(R.id.commoditytotlenumber,businesstotleinfo.get("commoditytotlenumber")+"");
+                                    setViewText(R.id.porjecttotlenumber,businesstotleinfo.get("commoditytotlenumber")+"");
+                                    setViewText(R.id.jobtotlenumber,businesstotleinfo.get("jobtotlenumber")+"");
+                                    setViewText(R.id.newtotlenumber,businesstotleinfo.get("newtotlenumber")+"");
                                 }
 
                                 List<Commodith> companyList = new ArrayList<>();
@@ -308,6 +430,8 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
                                         obj.setDistance(list.get(i).get("distance"));
                                         obj.setPrice(list.get(i).get("price"));
                                         obj.setSpecification(list.get(i).get("specification"));
+                                        obj.setCompanyid(list.get(i).get("companyid"));
+                                        obj.setCompanytypeid(list.get(i).get("companytypeid"));
                                         companyList.add(obj);
                                     }
                                     mCommodityAdapter.addAll(companyList);
@@ -363,7 +487,6 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
                                 List<Map<String, String>> list = (List<Map<String, String>>) re.getDateObj("newslist");
                                 Map<String, String>advertise = (Map<String, String>) re.getDateObj("advertise");
                                 ImageView imageView = (ImageView)findViewById(R.id.franchiser_view_advertisement);
-                                String url  = advertise.get("picture");
                                 ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+ advertise.get("picture"),imageView);
 //                                Map<String, Object> businesstotleinfo = (Map<String, Object>) re.getDateObj("businesstotleinfo");
 //                                if(businesstotleinfo != null){
@@ -501,13 +624,15 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
             ((TextView)view.findViewById(R.id.nearby_commdith_item_name)).setText(obj.getName());
             ((TextView)view.findViewById(R.id.nearby_commdith_item_specification)).setText(obj.getSpecification());
             (view.findViewById(R.id.nearby_commdith_item_distance)).setVisibility(View.GONE);
-            ((TextView)view.findViewById(R.id.nearby_commdith_item_price)).setText("￥："+obj.getPrice());
+            ((TextView)view.findViewById(R.id.nearby_commdith_item_price)).setText("￥"+obj.getPrice());
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, CommodithViewActivity.class);
                     intent.putExtra("id",obj.getId());
                     intent.putExtra("distributorid",mCompanyid);
+                    intent.putExtra("companytypeid",obj.getCompanytypeid());
+                    intent.putExtra("companyid",obj.getCompanyid());
                     startActivity(intent);
                 }
             });

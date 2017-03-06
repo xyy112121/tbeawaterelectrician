@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ratingbar="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/activity_page_top"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.20"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/order_evaluate_commdith_edit_picture"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/icon_testpic3"
+                android:scaleType="fitXY"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="0.74"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/order_evaluate_commdith_edit_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="铜芯聚焦乙烯绝缘乙烯护套"
+                android:textColor="@color/text_gtay2"
+                android:textSize="14sp"
+                android:maxLines="3"
+                android:layout_marginTop="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:maxLines="2"
+                android:text="评价+晒单最多可得20积分"
+                android:textColor="@color/text_gtay2"
+                android:textSize="13sp"
+                android:layout_alignParentBottom="true"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+    <View
+        style="@style/horizontal_view"
+        android:layout_height="4dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+        <com.tbea.tb.tbeawaterelectrician.component.StarBar
+            android:id="@+id/order_evaluate_edit_startbar"
+            android:layout_below="@+id/display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            ratingbar:starEmpty="@drawable/icon_checkbox_normal"
+            ratingbar:starFill="@drawable/icon_checkbox_checked"
+            ratingbar:starDistance="5dp"
+            ratingbar:starCount="5"
+            ratingbar:starSize="30dp"
+            android:layout_marginLeft="5dp"/>
+    </LinearLayout>
+    <EditText
+        android:id="@+id/order_evaluate_edit_appraise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_gtay2"
+        android:inputType="textMultiLine"
+        android:gravity="left|top"
+        android:minLines="4"
+        android:background="@drawable/scancode_input_ed"
+        android:layout_margin="10dp"
+        android:padding="5dp"/>
+
+
+</LinearLayout>

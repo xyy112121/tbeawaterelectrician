@@ -44,15 +44,30 @@ import java.util.Map;
 
 public class MyFragment extends Fragment {
     private View mView;
+    private  String  whetheridentifiedid;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = (View)inflater.inflate(R.layout.fragment_my,null);
-        getDate(mView);
-        listener(mView);
         EventBus.getDefault().register(this);
         return  mView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getDate(mView);
+        listener(mView);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden == false){
+            getDate(mView);
+            listener(mView);
+        }
     }
 
     public void getDate(final View view){
@@ -66,6 +81,7 @@ public class MyFragment extends Fragment {
                             Map<String, Object> data = (Map<String, Object>) re.getData();
                             Map<String, String> personInfo = (Map<String, String>) data.get("personinfo");
                             Map<String, String> serviceInfo = (Map<String, String>) data.get("serviceinfo");
+                            whetheridentifiedid = personInfo.get("whetheridentifiedid");
                             ((TextView)view.findViewById(R.id.user_name)).setText(personInfo.get("name"));
                             ((TextView)view.findViewById(R.id.user_mobile)).setText(personInfo.get("mobile"));
                             String url = MyApplication.instance.getImgPath()+personInfo.get("picture");
@@ -113,7 +129,9 @@ public class MyFragment extends Fragment {
         view.findViewById(R.id.image_set).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), SetionActivity.class));
+                Intent intent = new Intent(getActivity(), SetionActivity.class);
+                intent.putExtra("whetheridentifiedid",whetheridentifiedid);
+                startActivity(intent);
             }
         });
 

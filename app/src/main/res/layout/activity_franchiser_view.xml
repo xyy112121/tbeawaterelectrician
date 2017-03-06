@@ -68,10 +68,10 @@
                 android:gravity="center"
                >
                 <CheckBox
+                    android:id="@+id/franchiser_item_head_justforPromotion"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:background="@drawable/nearby_franchiser_view_ck"
-                    android:checked="true"
                     android:button="@null"
                     />
                 <TextView

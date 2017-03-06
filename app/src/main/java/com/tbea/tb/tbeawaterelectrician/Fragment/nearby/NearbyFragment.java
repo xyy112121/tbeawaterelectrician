@@ -2,11 +2,14 @@ package com.tbea.tb.tbeawaterelectrician.fragment.nearby;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +22,14 @@ import com.tbea.tb.tbeawaterelectrician.activity.CityListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.HistorySearchActivity;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
+import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
+import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cy on 2016/12/19.
@@ -58,6 +66,64 @@ public class NearbyFragment extends android.app.Fragment {
         mView = (View)inflater.inflate(R.layout.fragment_nearby,null);
         initView(mView);
         return mView;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        getMessageNumber();
+    }
+
+    //获取购物车数量
+    private void  getMessageNumber(){
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case ThreadState.SUCCESS:
+                        try {
+                            RspInfo re = (RspInfo) msg.obj;
+                            if (re.isSuccess()) {
+                                Map<String,String > shortcutinfo = (Map<String, String>) re.getDateObj("shortcutinfo");
+                                if(shortcutinfo != null){
+                                    String newmessagenumber = shortcutinfo.get("newmessagenumber");
+                                    ImageView imageView = (ImageView) mView.findViewById(R.id.open_my_message);
+                                    if(newmessagenumber != null && !"".equals(newmessagenumber) && !"0".equals(newmessagenumber)){
+                                        imageView.setImageResource(R.drawable.icon_message_redpoint);
+                                    }else {
+                                        imageView.setImageResource(R.drawable.icon_message_redpoint);
+                                    }
+                                }
+
+                            } else {
+                                UtilAssistants.showToast(re.getMsg());
+                            }
+
+                        }catch (Exception e){
+                            Log.e("","");
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo re = userAction.getMessageNumber();
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+
     }
 
 
@@ -130,6 +196,8 @@ public class NearbyFragment extends android.app.Fragment {
                 startActivity(intent);
             }
         });
+
+        getMessageNumber();
     }
 
     @Override

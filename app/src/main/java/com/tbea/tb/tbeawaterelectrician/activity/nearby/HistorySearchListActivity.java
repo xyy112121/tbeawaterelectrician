@@ -1,7 +1,7 @@
 package com.tbea.tb.tbeawaterelectrician.activity.nearby;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,12 +19,7 @@ import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.entity.Commodith;
-import com.tbea.tb.tbeawaterelectrician.entity.NearbyCompany;
-import com.tbea.tb.tbeawaterelectrician.fragment.nearby.NearbyCommodithFragment;
-import com.tbea.tb.tbeawaterelectrician.fragment.nearby.NearbyFragment;
-import com.tbea.tb.tbeawaterelectrician.fragment.nearby.NearbyFranchiserFagment;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
-import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
@@ -37,7 +32,7 @@ import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
- * Created by cy on 2017/2/7.
+ * 商品搜索结果
  */
 
 public class HistorySearchListActivity extends TopActivity implements BGARefreshLayout.BGARefreshLayoutDelegate{
@@ -85,6 +80,8 @@ public class HistorySearchListActivity extends TopActivity implements BGARefresh
                                     obj.setPrice(list.get(i).get("price"));
                                     obj.setDistance(list.get(i).get("distance"));
                                     obj.setSpecification(list.get(i).get("specification"));
+                                    obj.setCompanyid(list.get(i).get("companyid"));
+                                    obj.setCompanytypeid(list.get(i).get("companytypeid"));
                                     companyList.add(obj);
                                 }
                                 mAdapter.addAll(companyList);
@@ -167,7 +164,7 @@ public class HistorySearchListActivity extends TopActivity implements BGARefresh
                     .getSystemService(context.LAYOUT_INFLATER_SERVICE);
             FrameLayout view = (FrameLayout) layoutInflater.inflate(
                     R.layout.fragment_nearby_purchase_item_layout, null);
-            Commodith obj = mList.get(position);
+            final  Commodith obj = mList.get(position);
             ImageView imageView = (ImageView)view.findViewById(R.id.nearby_commdith_item_picture);
             if(!obj.getPicture().equals("")){
                 ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+obj.getPicture(),imageView);
@@ -176,6 +173,16 @@ public class HistorySearchListActivity extends TopActivity implements BGARefresh
             ((TextView)view.findViewById(R.id.nearby_commdith_item_specification)).setText(obj.getSpecification());
             ((TextView)view.findViewById(R.id.nearby_commdith_item_distance)).setText(obj.getDistance());
             ((TextView)view.findViewById(R.id.nearby_commdith_item_price)).setText("￥："+obj.getPrice());
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, CommodithViewActivity.class);
+                    intent.putExtra("id",obj.getId());
+                    intent.putExtra("companytypeid",obj.getCompanytypeid());
+                    intent.putExtra("companyid",obj.getCompanyid());
+                    startActivity(intent);
+                }
+            });
             return view;
         }
 

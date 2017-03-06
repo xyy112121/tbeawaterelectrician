@@ -3,11 +3,13 @@ package com.tbea.tb.tbeawaterelectrician.activity.nearby;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.IdRes;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +31,15 @@ import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
+import com.tbea.tb.tbeawaterelectrician.activity.my.AddressEditListActivity;
+import com.tbea.tb.tbeawaterelectrician.component.BadgeView;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.component.FlexRadioGroup;
+import com.tbea.tb.tbeawaterelectrician.entity.Address;
+import com.tbea.tb.tbeawaterelectrician.entity.Commodith;
 import com.tbea.tb.tbeawaterelectrician.entity.Condition;
 import com.tbea.tb.tbeawaterelectrician.entity.Evaluate;
+import com.tbea.tb.tbeawaterelectrician.entity.NearbyCompany;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
@@ -47,7 +54,7 @@ import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
- * Created by cy on 2017/2/8.
+ * 商品信息
  */
 
 public class CommodithViewActivity extends Activity implements BGARefreshLayout.BGARefreshLayoutDelegate{
@@ -67,7 +74,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
     private BGARefreshLayout mRefreshLayout;
     private List<OrderDetailid> mSelectIds = new ArrayList<>();
     private String mFlag = "pay";//pay立即购买，add加入购物车
-
+    private BadgeView mBadgeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +83,13 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         mContext = this;
         initView();
         listener();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getShopCarNumber();
     }
 
     public  void initView(){
@@ -100,6 +114,42 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
 
     }
 
+    private class MyWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if(url.contains("selectspecification.com")){
+                mFlag = "add";
+                showShopInfo();
+                return true;
+            }
+            if(url.contains("selectaddr.com")){
+                Intent intent = new Intent(mContext,AddressEditListActivity.class);
+                intent.putExtra("flag","select");
+                startActivityForResult(intent,100);
+                return true;
+            }
+
+
+            return true;
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+        }
+
+        @Override
+        public void onReceivedError(WebView view, int errorCode,
+                                    String description, String failingUrl) {
+            super.onReceivedError(view, errorCode, description, failingUrl);
+        }
+    }
+
     /**
      * 修改显示的界面
      * @param url
@@ -122,13 +172,14 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         settings.setDomStorageEnabled(true);//允许DCOM
 
         mWebView.loadUrl(url);
-        mWebView.setWebViewClient(new WebViewClient(){
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return super.shouldOverrideUrlLoading(view, url);
-            }
-        });
+        mWebView.setWebViewClient(new MyWebViewClient());
+//        mWebView.setWebViewClient(new WebViewClient(){
+//            @Override
+//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                view.loadUrl(url);
+//                return super.shouldOverrideUrlLoading(view, url);
+//            }
+//        });
 
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -187,6 +238,28 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                 mWebView.setVisibility(View.GONE);
                 mRefreshLayout.setVisibility(View.VISIBLE);
                 mRefreshLayout.beginRefreshing();
+            }
+        });
+
+        findViewById(R.id.commodith_view_company).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String companyTypeId = getIntent().getStringExtra("companytypeid");
+                String companyId = getIntent().getStringExtra("companyid");
+                if("firstleveldistributor".equals(companyTypeId)){
+                    //经销商
+                    Intent intent = new Intent(mContext, FranchiserViewActivity.class);
+//                    Gson gson = new Gson();
+//                    String objGson = gson.toJson(obj);
+                    intent.putExtra("companyId",companyId);
+                    //总经销商
+                    startActivity(intent);
+                }else if("distributor".equals(companyTypeId)){
+                    //经销商
+                    Intent intent = new Intent(mContext, DistributorViewAcitivty.class);
+                    intent.putExtra("id",companyId);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -314,6 +387,63 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                 }
             }
         });
+    }
+
+    //获取购物车数量
+    private void  getShopCarNumber(){
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case ThreadState.SUCCESS:
+                        try {
+                            RspInfo re = (RspInfo) msg.obj;
+                            if (re.isSuccess()) {
+                                String commoditynumber = (String) re.getDateObj("commoditynumber");
+                                if(commoditynumber != null && !"".equals(commoditynumber) && !"0".equals(commoditynumber)){
+                                    TextView textView = (TextView)findViewById(R.id.commodith_view_SC);
+                                    if(mBadgeView == null){
+                                        mBadgeView = new BadgeView(mContext,textView);
+                                        mBadgeView.setText(commoditynumber);
+                                        mBadgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
+                                        mBadgeView.setBadgeMargin(0, 0); // 水平和竖直方向的间距
+                                        mBadgeView.show();
+                                    }else {
+                                        mBadgeView.setText(commoditynumber);
+                                    }
+
+
+                                }
+
+                            } else {
+                                UtilAssistants.showToast(re.getMsg());
+                            }
+
+                        }catch (Exception e){
+                            Log.e("","");
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo re = userAction.getShopCarNumber();
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+
     }
 
     //显示规格
@@ -513,6 +643,18 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 100 && resultCode == RESULT_OK){
+            String jsonObj = data.getStringExtra("obj");
+            Gson gson = new Gson();
+            Address address = gson.fromJson(jsonObj,Address.class);
+            String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+id+"&&recvaddressid="+address.getId();
+            showWebView(url);
+        }
+    }
+
     private class EvaluateAdapter extends BaseAdapter {
         /**
          * android 上下文环境
@@ -554,15 +696,25 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                     R.layout.activity_evaluate_list_item, null);
 
             LinearLayout layout = (LinearLayout) view.findViewById(R.id.evaluate_item_appraiselevel_layout);
-            int size = Integer.parseInt(mList.get(position).getAppraiselevel());
-            for (int i = 0;i< size;i++ ){
-                ImageView imageView = new ImageView(mContext);
-                imageView.setImageResource(R.drawable.icon_bit);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                lp.setMargins(5,0,0,0);
-                imageView.setLayoutParams(lp);
-                layout.addView(imageView);
+            String level = mList.get(position).getAppraiselevel();
+            if(!"".equals(level)){
+                int size;
+                if(level.contains(".")){
+                    String level1 = level.substring(0,level.indexOf("."));
+                    size = Integer.parseInt(level1);
+                }else {
+                    size = Integer.parseInt(level);
+                }
+                for (int i = 0;i< size;i++ ){
+                    ImageView imageView = new ImageView(mContext);
+                    imageView.setImageResource(R.drawable.icon_bit);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lp.setMargins(5,0,0,0);
+                    imageView.setLayoutParams(lp);
+                    layout.addView(imageView);
+                }
             }
+
             ((TextView)view.findViewById(R.id.evaluate_item_appraise)).setText(mList.get(position).getAppraise());
             ((TextView)view.findViewById(R.id.evaluate_item_name)).setText(mList.get(position).getUsername());
             ((TextView)view.findViewById(R.id.evaluate_item_usermobile)).setText(mList.get(position).getUsermobile());
@@ -605,7 +757,9 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                     case ThreadState.SUCCESS:
                         RspInfo1 re = (RspInfo1) msg.obj;
                         if (re.isSuccess()) {
+                            getShopCarNumber();
                             UtilAssistants.showToast("成功加入购物车！");
+
                         } else {
                             UtilAssistants.showToast(re.getMsg());
                         }

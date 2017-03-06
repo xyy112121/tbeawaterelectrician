@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.AddressEditListActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
@@ -46,6 +47,7 @@ public class OrderViewActivity extends TopActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_view);
+        MyApplication.instance.addActivity(this);
         mContext = this;
         initTopbar("填写订单");
         findViewById(R.id.addr_item_isdefault).setVisibility(View.GONE);
@@ -96,7 +98,17 @@ public class OrderViewActivity extends TopActivity {
                     case ThreadState.SUCCESS:
                         RspInfo1 re = (RspInfo1) msg.obj;
                         if (re.isSuccess()) {
+                            Map<String,Object> date = (Map<String,Object>)re.getData();
+                            Map<String,String> map = (Map<String,String>)date.get("userorderinfo");
+                            String orderid = map.get("orderid");
+                            String ordercode = map.get("ordercode");
+                            String deliverytype = map.get("deliverytype");
+                            String paytype = map.get("paytype");
+                            String actualneedpaymoney = map.get("actualneedpaymoney");
                             Intent intent = new Intent(mContext,PayViewActivity.class);
+                            intent.putExtra("actualneedpaymoney",actualneedpaymoney);
+                            intent.putExtra("deliverytype",deliverytype);
+                            intent.putExtra("paytype",paytype);
                             startActivity(intent);
                             finish();
                         } else {
@@ -166,6 +178,7 @@ public class OrderViewActivity extends TopActivity {
                             }
 
                             List<Map<String, String>> deliverytypelist = (List<Map<String, String>>) re.getDateObj("deliverytypelist");
+                            mTotleMoney = Float.valueOf(re.getDateObj("totlemoney")+"");
                             List<DeliveryType> deliveryTypeList = new ArrayList<>();
                             if (deliverytypelist != null) {
                                 for (int i = 0; i < deliverytypelist.size(); i++) {
@@ -177,7 +190,6 @@ public class OrderViewActivity extends TopActivity {
                                 }
                                 initDeliveryTypeView(deliveryTypeList);
                             }
-                            mTotleMoney = Float.valueOf(re.getDateObj("totlemoney")+"");
                             ((TextView)findViewById(R.id.order_view_totlemoney)).setText("￥"+mTotleMoney);
                             ((TextView)findViewById(R.id.order_view_promotioninfo)).setText(re.getDateObj("promotioninfo")+"");
 
@@ -223,9 +235,9 @@ public class OrderViewActivity extends TopActivity {
         }
         ((RadioButton)rg.getChildAt(0)).setChecked(true);
         mDeliverytypeId = list.get(0).getDeliverytypeid();
-        ((TextView)findViewById(R.id.order_view_deliveryfee)).setText(list.get(0).getDeliveryfee()+"");
+        ((TextView)findViewById(R.id.order_view_deliveryfee)).setText("￥"+list.get(0).getDeliveryfee());
         mActualNeedPayMoney = mTotleMoney +list.get(0).getDeliveryfee();
-        ((TextView)findViewById(R.id.order_view_all_totlemoney)).setText("￥"+mActualNeedPayMoney);
+        ((TextView)findViewById(R.id.order_view_all_totlemoney)).setText("实付款:￥"+mActualNeedPayMoney);
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {

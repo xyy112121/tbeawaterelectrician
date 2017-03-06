@@ -1,6 +1,7 @@
 package com.tbea.tb.tbeawaterelectrician.fragment.my;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,19 +10,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
+import com.tbea.tb.tbeawaterelectrician.activity.my.EvaluateListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.OrderListActivity;
+import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.Order;
 import com.tbea.tb.tbeawaterelectrician.entity.ProductInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
@@ -159,7 +165,8 @@ public class OrderListFragmnet extends Fragment implements BGARefreshLayout.BGAR
 
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
-        return false;
+        getDate();
+        return true;
     }
 
     private class MyAdapter extends BaseAdapter {
@@ -200,7 +207,7 @@ public class OrderListFragmnet extends Fragment implements BGARefreshLayout.BGAR
                     .getSystemService(context.LAYOUT_INFLATER_SERVICE);
             FrameLayout view = (FrameLayout) layoutInflater.inflate(
                     R.layout.fragment_order_list_item, null);
-            Order obj = mList.get(position);
+            final Order obj = mList.get(position);
             ((TextView)view.findViewById(R.id.order_item_ordercompany)).setText(obj.getOrdercompany());
             ((TextView)view.findViewById(R.id.order_item_orderstatus)).setText(obj.getOrderstatus());
             int size = 0;
@@ -222,6 +229,45 @@ public class OrderListFragmnet extends Fragment implements BGARefreshLayout.BGAR
             }
             String price =  "共"+size+"件商品"+" 合计:"+obj.getOrdertotlefee()+"(含运费:"+obj.getDeliveryfee()+")";
            ((TextView)view.findViewById(R.id.order_item_price)).setText(price);
+            Button btn = (Button)view.findViewById(R.id.order_item_btn);
+            Button btn1 = (Button)view.findViewById(R.id.order_item_btn1);
+            if("havepanyed".equals(obj.getOrderstatusid())){//待发货
+                btn.setVisibility(View.GONE);
+                btn1.setText("提醒发货");
+            }else if("havefinished".equals(obj.getOrderstatusid())){//待评价
+                btn.setVisibility(View.VISIBLE);
+                btn.setText("再次购买");
+                btn1.setText("评价晒单");
+            }else if("orderedwithnomoney".equals(obj.getOrderstatusid())){//待付款
+                btn.setVisibility(View.GONE);
+                btn1.setText("去支付");
+            }else {
+                btn.setVisibility(View.VISIBLE);
+                btn.setText("再次购买");
+                btn1.setText("查看物流");
+            }
+
+            btn1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if("havepanyed".equals(obj.getOrderstatusid())){//待发货
+                        remindSendOutCommdith(obj.getOrderid());
+
+                    }else if("havefinished".equals(obj.getOrderstatusid())){//待评价
+                        if(obj.getCommoditylist() != null){
+                            Gson gson = new Gson();
+                            String objGson = gson.toJson(obj.getCommoditylist());
+                            Intent intent = new Intent(context, EvaluateListActivity.class);
+                            intent.putExtra("obj",objGson);
+                            startActivity(intent);
+                        }
+
+                    }else if("orderedwithnomoney".equals(obj.getOrderstatusid())){//待付款
+
+                    }else {//待收货
+                    }
+                }
+            });
             return view;
         }
 
@@ -241,5 +287,49 @@ public class OrderListFragmnet extends Fragment implements BGARefreshLayout.BGAR
             mList.clear();
             notifyDataSetChanged();
         }
+
+        /**
+         * 提醒发货
+         */
+        private void remindSendOutCommdith(final String id){
+            final CustomDialog dialog = new CustomDialog(context,R.style.MyDialog,R.layout.tip_wait_dialog);
+            dialog.setText("请等待...");
+            dialog.show();
+            final Handler handler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                   dialog.dismiss();
+                    switch (msg.what) {
+                        case ThreadState.SUCCESS:
+                            RspInfo1 re = (RspInfo1) msg.obj;
+                            if(re.isSuccess()){
+                                UtilAssistants.showToast("提醒发货成功");
+                            }else {
+                                UtilAssistants.showToast(re.getMsg());
+                            }
+                            break;
+                        case ThreadState.ERROR:
+                            UtilAssistants.showToast("操作失败！");
+                            break;
+                    }
+                }
+            };
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        UserAction userAction = new UserAction();
+                        RspInfo1 re = userAction.remindSendOutCommdith(id);
+                        handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                    } catch (Exception e) {
+                        handler.sendEmptyMessage(ThreadState.ERROR);
+                    }
+                }
+            }).start();
+
+        }
     }
+
+
 }

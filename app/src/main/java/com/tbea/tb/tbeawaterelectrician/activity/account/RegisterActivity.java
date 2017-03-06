@@ -13,10 +13,13 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.AddressCitySelectActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
@@ -31,6 +34,7 @@ import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import cn.qqtheme.framework.picker.OptionPicker;
 
@@ -46,25 +50,59 @@ public class RegisterActivity extends TopActivity {
     private String mLocationId;
     private MyCount mc;
     private Button button;
+    private String mPhone;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_phone);
+        getPhoneDate();
         initTopbar("注册");
         mContext = this;
         button = (Button)findViewById(R.id.regist_sendcode);
         listener();
     }
 
-    private void listener(){
-        findViewById(R.id.register_finish).setOnClickListener(new View.OnClickListener() {
+    public void getPhoneDate(){
+        final Handler handler = new Handler(){
             @Override
-            public void onClick(View view) {
-                startActivity(new Intent(mContext,RegisterSuccessActivity.class));
-                finish();
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case ThreadState.SUCCESS:
+                        RspInfo1 re = (RspInfo1)msg.obj;
+                        if(re.isSuccess()){
+                            Map<String, Object> data = (Map<String, Object>) re.getData();
+                            Map<String, String> pageinfo = (Map<String, String>) data.get("pageinfo");
+                            mPhone = pageinfo.get("contactmobile");
+                            ((TextView)findViewById(R.id.register_cm_phone)).setText("热线电话: "+mPhone);
+
+                        }else {
+                            UtilAssistants.showToast(re.getMsg());
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
             }
-        });
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo1 re = userAction.getPhone();
+                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+    }
+
+    private void listener(){
 
         findViewById(R.id.register_zone).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +154,7 @@ public class RegisterActivity extends TopActivity {
                                 RspInfo1 re = (RspInfo1) msg.obj;
 
                                 if(re.isSuccess()){
-                                    UtilAssistants. showToast("注册成功！");
+                                    startActivity(new Intent(mContext,RegisterSuccessActivity.class));
                                     finish();
                                 }else {
                                     UtilAssistants.showToast(re.getMsg());
@@ -275,7 +313,9 @@ public class RegisterActivity extends TopActivity {
 
     @Override
     public void onDestroy() {
-        mc.cancel();
+        if (mc != null){
+            mc.cancel();
+        }
         super.onDestroy();
     }
 

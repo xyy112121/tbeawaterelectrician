@@ -276,7 +276,8 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
      */
     public void setPayCount(int count, Double price) {
         ((TextView) findViewById(R.id.tv_go_to_pay)).setText("去结算(" + count + ")");
-        ((TextView) findViewById(R.id.tv_total_price)).setText(price+"");
+        String result = String.format("%.2f",price);
+        ((TextView) findViewById(R.id.tv_total_price)).setText(result);
     }
 
     @Override

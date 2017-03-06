@@ -17,6 +17,7 @@
             android:layout_centerVertical="true"
             android:layout_margin="8dp"/>
         <TextView
+            android:id="@+id/city_list_head_addr"
             android:layout_toRightOf="@id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,6 +26,7 @@
             android:textSize="16sp"/>
 
         <Button
+            android:id="@+id/city_list_head_gps"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:paddingLeft="8dp"

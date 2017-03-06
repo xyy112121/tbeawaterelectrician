@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +27,14 @@ import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.CommodithViewActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.HistorySearchActivity;
+import com.tbea.tb.tbeawaterelectrician.component.BadgeView;
 import com.tbea.tb.tbeawaterelectrician.component.CircleImageView;
 import com.tbea.tb.tbeawaterelectrician.entity.Company;
 import com.tbea.tb.tbeawaterelectrician.entity.HomeDateSon;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 import com.xyzlf.vertical.autoscroll.VerticalScrollAdapter;
 import com.xyzlf.vertical.autoscroll.VerticalScrollView;
 import com.youth.banner.Banner;
@@ -62,6 +65,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
     private int mPagesiz = 40;
     private List<List<HomeDateSon.Newmessage2>> mNewmessage2List = new ArrayList<>();//返利列表
     private final int CITY_RESULT = 1000;
+    private BadgeView mBadgeView;
 
     @Nullable
     @Override
@@ -113,6 +117,65 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                 startActivity(intent);
             }
         });
+        getMessageNumber();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        getMessageNumber();
+    }
+
+    //获取购物车数量
+    private void  getMessageNumber(){
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case ThreadState.SUCCESS:
+                        try {
+                            RspInfo re = (RspInfo) msg.obj;
+                            if (re.isSuccess()) {
+                                Map<String,String > shortcutinfo = (Map<String, String>) re.getDateObj("shortcutinfo");
+                                if(shortcutinfo != null){
+                                    String newmessagenumber = shortcutinfo.get("newmessagenumber");
+                                    ImageView imageView = (ImageView) mView.findViewById(R.id.open_my_message);
+                                    if(newmessagenumber != null && !"".equals(newmessagenumber) && !"0".equals(newmessagenumber)){
+                                        imageView.setImageResource(R.drawable.icon_message_redpoint);
+                                  }else {
+                                        imageView.setImageResource(R.drawable.icon_message_redpoint);
+                                    }
+                                }
+
+                            } else {
+                                UtilAssistants.showToast(re.getMsg());
+                            }
+
+                        }catch (Exception e){
+                            Log.e("","");
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo re = userAction.getMessageNumber();
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+
     }
 
     @Override
@@ -216,10 +279,12 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
         if (newMessage2List != null) {
             for (int i = 0; i < newMessage2List.size(); i++) {
                 List<HomeDateSon.Newmessage2> list = new ArrayList<>();
-                if (newMessage2List.size() > 2) {
+                if (newMessage2List.size() >= 2) {
                     for (int j = 0; j < 2; j++) {
-                        HomeDateSon.Newmessage2 obj = getNewMessage2(newMessage2List, i);
-                        list.add(obj);
+                        if(i < newMessage2List.size()){
+                            HomeDateSon.Newmessage2 obj = getNewMessage2(newMessage2List, i);
+                            list.add(obj);
+                        }
                         i++;
                     }
                     i--;
@@ -242,13 +307,17 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
      */
     public HomeDateSon.Newmessage2 getNewMessage2(List<Map<String, String>> newMessage2List, int i) {
         HomeDateSon.Newmessage2 obj = new HomeDateSon().newNewMessage2();
-        obj.setId(newMessage2List.get(i).get("id"));
-        obj.setName(newMessage2List.get(i).get("name"));
-        obj.setUser_id(newMessage2List.get(i).get("user_id"));
-        obj.setMessage(newMessage2List.get(i).get("message"));
-        obj.setPicture(newMessage2List.get(i).get("picture"));
-        obj.setUsername(newMessage2List.get(i).get("username"));
-        obj.setMoney(newMessage2List.get(i).get("money"));
+       try {
+           obj.setId(newMessage2List.get(i).get("id"));
+           obj.setName(newMessage2List.get(i).get("name"));
+           obj.setUser_id(newMessage2List.get(i).get("user_id"));
+           obj.setMessage(newMessage2List.get(i).get("message"));
+           obj.setPicture(newMessage2List.get(i).get("picture"));
+           obj.setUsername(newMessage2List.get(i).get("username"));
+           obj.setMoney(newMessage2List.get(i).get("money")+i);
+       }catch (Exception e){
+           Log.e("","");
+       }
         return obj;
     }
 
@@ -268,6 +337,8 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                 obj.setDistance(companylist.get(i).get("distance"));
                 obj.setCommoditydesc(companylist.get(i).get("commoditydesc"));
                 obj.setPrice(companylist.get(i).get("price"));
+                obj.setCompanyid(companylist.get(i).get("companyid"));
+                obj.setCompanytypeid(companylist.get(i).get("companytypeid"));
                 companyList2.add(obj);
             }
             mAdapter.addAll(companyList2);
@@ -347,7 +418,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
             ((TextView) view.findViewById(R.id.home_neatby_company_companyname)).setText(obj.getCompanyname());
             ((TextView) view.findViewById(R.id.home_neatby_company_distance)).setText(obj.getDistance());
             ((TextView) view.findViewById(R.id.home_neatby_company_commoditydesc)).setText(obj.getCommoditydesc());
-            ((TextView) view.findViewById(R.id.home_neatby_company_price)).setText("￥：" + obj.getPrice());
+            ((TextView) view.findViewById(R.id.home_neatby_company_price)).setText("￥" + obj.getPrice());
             ImageView imageView = (ImageView) view.findViewById(R.id.home_neatby_company_picture);
             if (!obj.getPicture().equals("")) {
                 ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + obj.getPicture(), imageView);
@@ -357,6 +428,8 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                  public void onClick(View view) {
                      Intent intent = new Intent(context, CommodithViewActivity.class);
                      intent.putExtra("id",obj.getId());
+                     intent.putExtra("companytypeid",obj.getCompanytypeid());
+                     intent.putExtra("companyid",obj.getCompanyid());
                      startActivity(intent);
                  }
              });

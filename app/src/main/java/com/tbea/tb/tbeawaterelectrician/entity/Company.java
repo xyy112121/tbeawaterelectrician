@@ -11,6 +11,24 @@ public class Company {
     private String distance;
     private String commoditydesc;
     private String price;
+    private String companyid;
+    private String companytypeid;
+
+    public String getCompanytypeid() {
+        return companytypeid;
+    }
+
+    public void setCompanytypeid(String companytypeid) {
+        this.companytypeid = companytypeid;
+    }
+
+    public String getCompanyid() {
+        return companyid;
+    }
+
+    public void setCompanyid(String companyid) {
+        this.companyid = companyid;
+    }
 
     public String getCompanyname() {
         return companyname;

@@ -17,6 +17,7 @@ import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MyAccusationEditActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.WalletIncomeAndExpensesActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.ScanCode;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
@@ -83,6 +84,7 @@ public class ScanCodeViewActivity extends TopActivity {
                             RspInfo1 re = (RspInfo1) msg.obj;
                             if (re.isSuccess()) {
                                 UtilAssistants.showToast(re.getMsg());
+                                startActivity(new Intent(ScanCodeViewActivity.this,WalletIncomeAndExpensesActivity.class));
                             } else {
                                 UtilAssistants.showToast(re.getMsg());
                             }

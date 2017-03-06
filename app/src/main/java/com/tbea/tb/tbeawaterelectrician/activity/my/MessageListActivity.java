@@ -131,7 +131,7 @@ public class MessageListActivity  extends TopActivity{
 
             if(!"0".equals(obj.getNewcount()) && !"".equals(obj.getNewcount())){
                 BadgeView badgeView = new BadgeView(mContext,imageView);
-                badgeView.setText("2");
+                badgeView.setText(obj.getNewcount());
                 badgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
                 badgeView.setBadgeMargin(0, 0); // 水平和竖直方向的间距
                 badgeView.show();

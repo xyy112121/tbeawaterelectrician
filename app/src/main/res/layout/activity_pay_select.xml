@@ -64,7 +64,7 @@
                         android:textColor="@color/text_gtay2" />
 
                     <TextView
-                        android:id="@+id/wallet_withdraw_cash_view_distributorinfo_time"
+                        android:id="@+id/pay_success_order_view_money"
                         style="@style/edit_style"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="5dp"
@@ -86,7 +86,28 @@
                         android:textColor="@color/text_gtay2" />
 
                     <TextView
-                        android:id="@+id/wallet_withdraw_cash_view_distributorinfo_name"
+                        android:id="@+id/pay_success_order_view_paytype"
+                        style="@style/edit_style"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="0.74"
+                        android:gravity="right|center"
+                        android:imeOptions="actionNext"
+                        android:text="12ddddddddddd"
+                        android:textColor="@color/text_gray"
+                        android:textSize="16sp" />
+                </LinearLayout>
+                <View style="@style/horizontal_view" />
+
+                <LinearLayout style="@style/edit_style_layout">
+
+                    <TextView
+                        style="@style/edit_left_style_tv"
+                        android:text="配送方式"
+                        android:textColor="@color/text_gtay2" />
+
+                    <TextView
+                        android:id="@+id/pay_success_order_view_delivery_type"
                         style="@style/edit_style"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="5dp"

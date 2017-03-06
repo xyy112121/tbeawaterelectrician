@@ -39,7 +39,7 @@ public class HistorySearchActivity extends TopActivity{
 	private EditText searchTV;
 	private ListView mListView;
 	private MyAdapter mAdapter;
-	private String mSearchtype;
+	private String mSearchtype ="1";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

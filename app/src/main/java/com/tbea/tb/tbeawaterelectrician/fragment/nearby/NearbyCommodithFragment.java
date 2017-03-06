@@ -349,7 +349,7 @@ public class NearbyCommodithFragment extends Fragment implements BGARefreshLayou
             ((TextView)view.findViewById(R.id.nearby_commdith_item_name)).setText(obj.getName());
             ((TextView)view.findViewById(R.id.nearby_commdith_item_specification)).setText(obj.getSpecification());
             ((TextView)view.findViewById(R.id.nearby_commdith_item_distance)).setText(obj.getDistance());
-            ((TextView)view.findViewById(R.id.nearby_commdith_item_price)).setText("￥："+obj.getPrice());
+            ((TextView)view.findViewById(R.id.nearby_commdith_item_price)).setText("￥"+obj.getPrice());
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

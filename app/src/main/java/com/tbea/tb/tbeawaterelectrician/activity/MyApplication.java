@@ -65,6 +65,8 @@ public class MyApplication extends Application implements BDLocationListener {
 		instance=this;
 		ZXingLibrary.initDisplayOpinion(this);
 		initUniversalImageLoader();
+		isGps();
+		SDKInitializer.initialize(getApplicationContext());
 		//百度定位
 		mLocationClient = new LocationClient(getApplicationContext());
 		mLocationClient.registerLocationListener(this);
@@ -78,7 +80,7 @@ public class MyApplication extends Application implements BDLocationListener {
 		mLocationClient.setLocOption(option);
 		mLocationClient.start();
 		mLocationClient.requestLocation();
-		SDKInitializer.initialize(getApplicationContext());
+
 		//加载保存的位置信息
 		loadLoaclInfo();
 	}
@@ -140,28 +142,24 @@ public class MyApplication extends Application implements BDLocationListener {
 	private String longitude;
 	private String latitude;
 
-//	public void logout(Activity activity){
-//		SharedPreferences spf=getSharedPreferences(AppApp.SP_NAME, MODE_PRIVATE);
-//		SharedPreferences.Editor edit=spf.edit();
-//		edit.remove("loginUsername");
-//		edit.remove("loginPassword");
-//		//edit.commit();
-//		edit.apply();
-//		AppApp.instance.setUserInfo(null);
-//		//exit();
-//		for(SoftReference<Activity> sa:activitys){
-//			Activity ta=sa.get();
-//			if(ta!=null && ta!=activity){
-//				sa.get().finish();
-//			}
-//		}
-//		activitys.clear();
-//		activity.startActivity(new Intent(activity,ActivityMain.class));
-//		activity.finish();
-//	}
-
 
 	private String address;
+	private String city;
+	private String province;
+	private  String district;
+
+	public String getCity() {
+		return city;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
 	public String getAddrsss(){
 		return address!=null?address.substring(2,address.length()):"四川省德阳市旌阳区东海路东段2号";
 	}
@@ -252,6 +250,9 @@ public class MyApplication extends Application implements BDLocationListener {
 	@Override
 	public void onReceiveLocation(BDLocation location) {
 		if (location == null) return ;
+		city = location.getAddress().city;
+		province = location.getAddress().province;
+		district = location.getAddress().district;
 		setLocalInfo(location.getAddress().address,String.format("%.3f",location.getLatitude()),String.format("%.3f",location.getLongitude()));
 	}
 

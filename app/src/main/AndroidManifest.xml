@@ -46,6 +46,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <!--百度地图-->
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2" >
+                </action>
+            </intent-filter>
+        </service>
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="2F0QiqoWoGmYOlkhrqBTfGs9sQ9SEwiN" />
@@ -172,6 +183,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.my.AboutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.my.EvaluateListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.my.EvaluateEditActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.nearby.DistributorViewAcitivty"

@@ -13,6 +13,7 @@ import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.account.AccountAuthenticationActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.account.LoginActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.util.Constants;
@@ -36,6 +37,11 @@ public class SetionActivity extends TopActivity {
         mContext = this;
         MyApplication.instance.addActivity((Activity) mContext);
         initTopbar("设置");
+        if("notidentify".equals(getIntent().getStringExtra("whetheridentifiedid"))){
+            ((TextView)findViewById(R.id.authentication_tv)).setText("未认证");
+        }else {
+            ((TextView)findViewById(R.id.authentication_tv)).setText("已认证");
+        }
         listener();
         try {
             String size = getCacheSize(getApplicationContext().getExternalCacheDir());
@@ -112,9 +118,28 @@ public class SetionActivity extends TopActivity {
                 dialog.show();
             }
         });
+
+        (findViewById(R.id.authentication_tv)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if("notidentify".equals(getIntent().getStringExtra("whetheridentifiedid"))){
+                    startActivityForResult(new Intent(mContext, AccountAuthenticationActivity.class),100);
+                }
+            }
+        });
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 100 && resultCode == RESULT_OK){
+            if("notidentify".equals(data.getStringExtra("whetheridentifiedid"))){
+                ((TextView)findViewById(R.id.authentication_tv)).setText("未认证");
+            }else {
+                ((TextView)findViewById(R.id.authentication_tv)).setText("已认证");
+            }
+        }
+    }
 
     /**
      * * 清除本应用内部缓存(/data/data/com.xxx.xxx/cache) * *

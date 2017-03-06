@@ -786,7 +786,7 @@ public class UserAction extends BaseAction {
         pairs.add(new BasicNameValuePair("companyid", companyid));
         pairs.add(new BasicNameValuePair("orderitemid", orderitemid));
         pairs.add(new BasicNameValuePair("order", order));
-        pairs.add(new BasicNameValuePair("justforpromotionint", justforpromotionint));
+        pairs.add(new BasicNameValuePair("justforpromotion", justforpromotionint));
         pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
         pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
         String result = sendRequest("TBEAENG003001006000",pairs);
@@ -1035,7 +1035,86 @@ public class UserAction extends BaseAction {
         return  rspInfo;
     }
 
+    /**
+     *注册获取电话号码
+     */
+    public RspInfo1 getPhone() throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG001001002002",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
 
+    /**
+     * 保存评价
+     * @param commodityid 商品ID
+     * @param starlevel 等级
+     * @param appraise 评语
+     * @return
+     * @throws Exception
+     */
+    public RspInfo1  saveEvaluate(String  commodityid,String starlevel,String appraise) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("commodityid", commodityid));
+        pairs.add(new BasicNameValuePair("starlevel", starlevel));
+        pairs.add(new BasicNameValuePair("appraise", appraise));
+        String result = sendRequest("TBEAENG005001099000", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
 
+    /**
+     * 认证
+     */
+    public RspInfo1 accountAuthentication(Register register) throws  Exception{
+        RspInfo1 rspInfo;
+        Map<String,String> paramsIn=new HashMap<>();
+        Map<String,String> fileIn=new HashMap<>();
+        paramsIn.put("realname",register.getRealname());
+        paramsIn.put("personcardid",register.getPersonid());
+        fileIn.put("personidcard1",register.getPersonidcard1());
+        fileIn.put("personidcard2",register.getPersonidcard2());
+        fileIn.put("personidcardwithperson",register.getPersonidcardwithperson());
+        String result = regist("TBEAENG005001002003",paramsIn,fileIn);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
+    /**
+     *购物车数量
+     */
+    public RspInfo getShopCarNumber() throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG003001012001",pairs);
+        rspInfo = gson.fromJson(result,RspInfo.class);
+        return  rspInfo;
+    }
+
+    /**
+     *消息数量
+     */
+    public RspInfo getMessageNumber() throws Exception{
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG002001001001",pairs);
+        rspInfo = gson.fromJson(result,RspInfo.class);
+        return  rspInfo;
+    }
+
+    /**
+     *提醒发货
+     * userorderid 订单Id
+     */
+    public  RspInfo1 remindSendOutCommdith(String userorderid) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("userorderid ", userorderid ));
+        String result = sendRequest("TBEAENG005001098000",pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
 
 }

@@ -13,7 +13,7 @@
         <com.youth.banner.Banner
             android:id="@+id/banner"
             android:layout_width="match_parent"
-            android:layout_height="380px" />
+            android:layout_height="480px" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="附近商家"
+                android:text="热销产品"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 

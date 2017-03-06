@@ -138,22 +138,51 @@
             style="@style/style_next_btn"
             android:text="完成"
             />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp">
+            <CheckBox
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/icon_select_ok"
+                android:checked="true"
+                android:button="@null"
+                />
+            <TextView
+                android:id="@+id/register_argee_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我已阅读并同意优商APP"
+                android:textSize="12dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/text_gray"/>
+            <TextView
+                android:id="@+id/register_argee_tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="《用户使用协议》"
+                android:textSize="12dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/head_color"/>
+        </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:text="文字文字文字文字文字文字文字文字文字文字文字文字"
+            android:text="为了您能正常的使用扫码返利功能，请如实的填写您的个人信息。\n1.请如实选择您常在地区，选择后将直接影响您的返利，注册后不能更改。\n2.请如实选择您所在区域的经销商，如不清楚自己的上级经销商，选择默认，系统将自动分配到当地总经销商"
            />
 
         <TextView
+            android:id="@+id/register_cm_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:text="热线电话：0888-88888"
+            android:layout_marginTop="10dp"
             android:minLines="3"
             />
     </LinearLayout>

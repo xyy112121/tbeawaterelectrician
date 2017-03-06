@@ -95,6 +95,25 @@ public class CityListActivity extends Activity{
             }
         });
 
+        findViewById(R.id.city_list_head_gps).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView addrView = (TextView)findViewById(R.id.city_list_head_addr);
+                addrView.setText(MyApplication.instance.getProvince() + " "+MyApplication.instance.getCity()+" "+MyApplication.instance.getDistrict());
+            }
+        });
+
+        findViewById(R.id.city_list_head_addr).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+//                intent.putExtra("cityId");
+                intent.putExtra("cityName",MyApplication.instance.getCity());
+                setResult(RESULT_OK,intent);
+                finish();
+            }
+        });
+
     }
 
     private void getDate(){
