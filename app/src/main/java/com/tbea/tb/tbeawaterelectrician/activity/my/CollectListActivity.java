@@ -144,6 +144,7 @@ public class CollectListActivity extends TopActivity implements BGARefreshLayout
             findViewById(R.id.wallet_list_layout).setVisibility(View.VISIBLE);
             mFlag = true;
             ((TextView) findViewById(R.id.top_center)).setText("我的收藏");
+            ((TextView) findViewById(R.id.top_right_text)).setText("完成");
         }else {
             for (CheckBox ck:mAdapter.ckList) {
                 ck.setVisibility(View.GONE);
@@ -151,6 +152,7 @@ public class CollectListActivity extends TopActivity implements BGARefreshLayout
             findViewById(R.id.wallet_list_layout).setVisibility(View.GONE);
             mFlag = false;
             ((TextView) findViewById(R.id.top_center)).setText("编辑收藏");
+            ((TextView) findViewById(R.id.top_right_text)).setText("编辑");
         }
     }
 
@@ -271,7 +273,7 @@ public class CollectListActivity extends TopActivity implements BGARefreshLayout
                 ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+obj.getPicture(),imageView);
             }
             ((TextView)view.findViewById(R.id.company_item_name)).setText(obj.getName());
-            ((TextView)view.findViewById(R.id.company_item_money)).setText("￥："+obj.getPrice());
+            ((TextView)view.findViewById(R.id.company_item_money)).setText("￥"+obj.getPrice());
             CheckBox ck = (CheckBox)view.findViewById(R.id.company_item_ck);
             if(mFlag){
                 ck.setVisibility(View.VISIBLE);

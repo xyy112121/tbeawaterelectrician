@@ -130,10 +130,19 @@ public class ServiceCenterActivity extends TopActivity {
 
         @Override
         public View getView(int i, View v, ViewGroup viewGroup) {
-            LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(mContext.LAYOUT_INFLATER_SERVICE);
+            final LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(mContext.LAYOUT_INFLATER_SERVICE);
             View view = (View)inflater.inflate(R.layout.activity_service_center_list_item,null);
             final MessageCategory obj = mList.get(i);
             ((TextView)view.findViewById(R.id.text)).setText(obj.getQuestion());
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext,ServiceCenterViewActivity.class);
+                    intent.putExtra("id",obj.getId());
+                    startActivity(intent);
+
+                }
+            });
             return view;
         }
 

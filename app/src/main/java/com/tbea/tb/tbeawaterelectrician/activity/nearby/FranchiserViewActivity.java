@@ -413,7 +413,7 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
 
                                 if(businesstotleinfo != null){
                                     setViewText(R.id.commoditytotlenumber,businesstotleinfo.get("commoditytotlenumber")+"");
-                                    setViewText(R.id.porjecttotlenumber,businesstotleinfo.get("commoditytotlenumber")+"");
+                                    setViewText(R.id.porjecttotlenumber,businesstotleinfo.get("porjecttotlenumber")+"");
                                     setViewText(R.id.jobtotlenumber,businesstotleinfo.get("jobtotlenumber")+"");
                                     setViewText(R.id.newtotlenumber,businesstotleinfo.get("newtotlenumber")+"");
                                 }

@@ -212,7 +212,7 @@
                     style="@style/my_text_style"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/icon_about"
-                    android:text="关于集成商" />
+                    android:text="关于我们" />
 
                 <TextView
                     style="@style/my_right_text_style" />

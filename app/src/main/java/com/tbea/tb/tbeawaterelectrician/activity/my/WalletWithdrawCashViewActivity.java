@@ -42,7 +42,13 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
         ((TextView)findViewById(R.id.top_center)).setText("提现凭证");
         ((TextView)findViewById(R.id.top_right_text)).setText("删除");
         String money = getIntent().getStringExtra("money");
-        getDate(money);
+        if("".equals(money) || money == null){
+             String id = getIntent().getStringExtra("takemoneycodeid");
+            getDate2(id);
+        }else {
+            getDate(money);
+        }
+
         (findViewById(R.id.top_right_text)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,6 +75,82 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
                 dialog.show();
             }
         });
+
+        findViewById(R.id.top_left).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
+    /**
+     * 根据id获取数据
+     */
+    public void getDate2(final String takemoneycodeid){
+        //TBEAENG005001006002
+        final CustomDialog dialog = new CustomDialog(WalletWithdrawCashViewActivity.this,R.style.MyDialog,R.layout.tip_wait_dialog);
+        dialog.setText("加载中...");
+        dialog.show();
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                dialog.dismiss();
+                switch (msg.what){
+                    case ThreadState.SUCCESS:
+                        RspInfo1 re = (RspInfo1)msg.obj;
+                        if(re.isSuccess()){
+                            Map<String, Object> data = (Map<String, Object>) re.getData();
+                            Map<String, String> myMoneyInfo = (Map<String, String>) data.get("mymoneyinfo");
+                            Map<String, String> distriButorInfo = (Map<String, String>) data.get("distributorinfo");
+                            String validexpiredtime ="有效期至:"+myMoneyInfo.get("validexpiredtime");
+//                            String status = "状态:"+myMoneyInfo.get("status");
+                            mId = myMoneyInfo.get("id");
+                            mTakeMoneyCode = myMoneyInfo.get("takemoneycode");
+                            String money = "￥"+myMoneyInfo.get("money");
+                            String qrcodepicture = myMoneyInfo.get("qrcodepicture");
+                            String note = myMoneyInfo.get("note");
+                            String name = "提现单位:"+distriButorInfo.get("name");
+                            String addr = "地址:"+distriButorInfo.get("addr");
+                            String mobilenumber = "电话:"+distriButorInfo.get("mobilenumber");
+
+                            ((TextView)findViewById(R.id.wallet_withdraw_cash_view_validexpiredtime)).setText(validexpiredtime);
+//                            ((TextView)findViewById(R.id.wallet_withdraw_cash_view_status)).setText(status);
+                            ((TextView)findViewById(R.id.wallet_withdraw_cash_view_takemoneycode)).setText(mTakeMoneyCode);
+                            ImageView imageView  = (ImageView)findViewById(R.id.wallet_withdraw_cash_view_qrcodepicture);
+                            ImageLoader.getInstance().displayImage(qrcodepicture,imageView);
+                            ((TextView)findViewById(R.id.wallet_withdraw_cash_view_money)).setText(money);
+                            ((TextView)findViewById(R.id.wallet_withdraw_cash_view_note)).setText(note);
+                            ((TextView)findViewById(R.id.wallet_withdraw_cash_view_distributorinfo_name)).setText(name);
+                            ((TextView)findViewById(R.id.wallet_withdraw_cash_view_distributorinfo_addr)).setText(addr);
+                            ((TextView)findViewById(R.id.wallet_withdraw_cash_view_distributorinfo_mobilenumber)).setText(mobilenumber);
+                            getCanexChangeMoneySuccess();
+                        }else {
+                            UtilAssistants.showToast(re.getMsg());
+                            finish();
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        finish();
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo1 re = userAction.createCodeById(takemoneycodeid);
+                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
     }
 
     /**

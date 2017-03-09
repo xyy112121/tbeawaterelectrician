@@ -101,6 +101,9 @@
             android:name=".activity.my.SetionActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.my.ServiceCenterViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.my.AccountSafeActivity"
             android:screenOrientation="portrait" />
         <activity

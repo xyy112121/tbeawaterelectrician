@@ -289,7 +289,7 @@ public class UserAction extends BaseAction {
         RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("scancode", scanCode));
-        String result = sendRequest("TBEAENG006001002000",pairs);
+        String result = sendRequest("TBEAENG006001002001",pairs);
         rspInfo = gson.fromJson(result,RspInfo1.class);
         return  rspInfo;
     }
@@ -498,6 +498,19 @@ public class UserAction extends BaseAction {
         rspInfo = gson.fromJson(result,RspInfo1.class);
         return  rspInfo;
     }
+
+    /**
+     * 根据生成二维码
+     */
+    public  RspInfo1 createCodeById (String takemoneycodeid) throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("takemoneycodeid", takemoneycodeid));
+        String result = sendRequest("TBEAENG005001006002", pairs);
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+        return  rspInfo;
+    }
+
 
     /**
      * 提现成功界面获取方法

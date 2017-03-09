@@ -141,7 +141,7 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
         mRefreshLayout = (BGARefreshLayout)findViewById(R.id.rl_recyclerview_refresh);
         mRefreshLayout.setDelegate(this);
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(mContext, true));
-        mRefreshLayout.beginRefreshing();
+
     }
 
     @Override
@@ -156,6 +156,12 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
         getDate();
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mRefreshLayout.beginRefreshing();
     }
 
     private class MyAdapter extends BaseAdapter {
@@ -223,6 +229,16 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
                     },"删除");
                     dialog.show();
                     return  false;
+                }
+            });
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext,WalletWithdrawCashViewActivity.class);
+                    intent.putExtra("money","");
+                    intent.putExtra("takemoneycodeid",mList.get(position).getId());
+                    startActivity(intent);
                 }
             });
             return view;
