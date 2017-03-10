@@ -4,186 +4,198 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical">
+
     <include layout="@layout/activity_page_top" />
-   <!-- <ScrollView
+    <!-- <ScrollView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">-->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">-->
+        android:layout_height="match_parent"
+        android:background="@color/bg_color"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bg_color"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/wallet_withdraw_cash_bg"
             android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/wallet_withdraw_cash_bg"
-                android:orientation="vertical">
+                android:text="提现金额"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="提现金额"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="￥"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/wallet_withdraw_cash_money"
-                        style="@style/edit_style"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/text_gray"
-                        android:hint="提现金额请填写整数"/>
-                </LinearLayout>
-
-                <View
-                    style="@style/horizontal_view"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/wallet_withdraw_cash_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="￥"
-                        android:textColor="@color/text_gray"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/wallet_withdraw_cash_all"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="全部提现"
-                        android:textColor="@color/blue1"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/wallet_withdraw_cash_finsh"
-                style="@style/style_next_btn"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:text="提现"
-                android:layout_marginTop="10dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_gray"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:textSize="12sp"
-                android:text="确认提现后，系统将生成一个提现二维码，请将此二维码给您注册所在区域内的任意授权经销商扫码确认后，您将换取相应的现金。"/>
-            <View style="@style/horizontal_view"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/wallet_withdraw_cash_bg"
-                android:orientation="vertical"
-               >
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_margin="8dp">
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
-                    <TextView
-                        android:id="@+id/wallet_withdraw_cash_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@color/tab_text_normal"
-                        android:layout_marginRight="40dp"/>
-
-                    <TextView
-                        android:id="@+id/wallet_withdraw_cash_select"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="选择"
-                        android:textColor="@color/blue2" />
-
-                </RelativeLayout>
                 <TextView
-                    android:id="@+id/wallet_withdraw_cash_addrs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="￥"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/wallet_withdraw_cash_money"
+                    style="@style/edit_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="提现金额请填写整数"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_gray" />
+            </LinearLayout>
+
+            <View
+                style="@style/horizontal_view"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/wallet_withdraw_cash_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="￥"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/wallet_withdraw_cash_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="全部提现"
+                    android:textColor="@color/blue1"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/wallet_withdraw_cash_finsh"
+            style="@style/style_next_btn"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:text="提现" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:text="确认提现后，系统将生成一个提现二维码，请将此二维码给您注册所在区域内的任意授权经销商扫码确认后，您将换取相应的现金。"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+        <View
+            style="@style/horizontal_view"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/wallet_withdraw_cash_bg"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/wallet_withdraw_cash_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="40dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="@color/text_gray"
-                    android:layout_marginLeft="8dp"
-                    />
-                <RelativeLayout
+                    android:textColor="@color/tab_text_normal" />
+
+                <TextView
+                    android:id="@+id/wallet_withdraw_cash_select"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp">
+                    android:layout_alignParentRight="true"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="选择"
+                    android:textColor="@color/blue2" />
 
-                    <TextView
-                        android:id="@+id/wallet_withdraw_cash_mobilenumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@color/text_gray"
-                        android:layout_marginRight="40dp"/>
+            </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/wallet_withdraw_cash_distance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@color/text_gray"
-                        />
+            <TextView
+                android:id="@+id/wallet_withdraw_cash_addrs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/text_gray" />
 
-                </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:orientation="horizontal">
 
-            </LinearLayout>
-            <WebView
-                android:id="@+id/wallet_withdraw_cash_webwiew"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                <TextView
+                    android:id="@+id/wallet_withdraw_cash_mobilenumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="40dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/text_gray" />
+
+                <TextView
+                    android:id="@+id/wallet_withdraw_cash_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/text_gray" />
+
+            </RelativeLayout>
+
         </LinearLayout>
- <!--   </ScrollView>-->
+
+        <WebView
+            android:id="@+id/wallet_withdraw_cash_webwiew"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/wallet_withdraw_cash_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+    </LinearLayout>
+    <!--   </ScrollView>-->
 </LinearLayout>

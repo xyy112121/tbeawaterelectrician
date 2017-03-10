@@ -24,11 +24,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
-import com.tbea.tb.tbeawaterelectrician.activity.nearby.OrderViewActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.component.CustomPopWindow;
-import com.tbea.tb.tbeawaterelectrician.entity.Address;
-import com.tbea.tb.tbeawaterelectrician.entity.Condition;
 import com.tbea.tb.tbeawaterelectrician.entity.Register;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
@@ -37,8 +34,6 @@ import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**

@@ -1,208 +1,267 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/bg_color">
+    android:background="@color/bg_color"
+    android:orientation="vertical">
 
-    <include layout="@layout/activity_page_top" />
-
-    <include
-        android:id="@+id/addr_edit_layout"
-        layout="@layout/addr_edit_list_item" />
-
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/icon_dive" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/white">
-
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/icon_testpic3" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="8dp"
-            android:src="@drawable/icon_arrow_right" />
-    </RelativeLayout>
-
-    <View style="@style/horizontal_view" />
-
-    <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="40dp"
-        android:background="@color/white"
-    >
-
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="15dp"
-        android:text="配送方式"
-        android:textColor="@color/text_gtay2"
-        android:gravity="center_vertical"
-        />
+        android:background="@color/bg_color"
+        android:orientation="vertical">
 
-    <RadioGroup
-        android:id="@+id/order_view_delivery_type"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="8dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"/>
-</RelativeLayout>
+        <include layout="@layout/activity_page_top" />
 
-    <View style="@style/horizontal_view" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/white"
-        >
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="15dp"
-            android:text="支付方式"
-            android:textColor="@color/text_gtay2"
-            android:gravity="center_vertical"
-            />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg_color"
+                android:orientation="vertical">
 
-        <RadioGroup
-            android:id="@+id/order_view_pay_type"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="8dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            />
-    </RelativeLayout>
-    <View style="@style/horizontal_view" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/white"
-        >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/wallet_withdraw_cash_bg"
+                    android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="15dp"
-            android:text="商品金额"
-            android:textColor="@color/text_gtay2"
-            android:gravity="center_vertical"
-            />
+                    <LinearLayout style="@style/edit_style_layout">
 
-        <TextView
-            android:id="@+id/order_view_totlemoney"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginRight="8dp"
-            android:textColor="@color/red"
-            android:gravity="center_vertical"
-            />
-    </RelativeLayout>
-    <View style="@style/horizontal_view" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/white"
-        >
+                        <TextView
+                            style="@style/edit_left_style_tv"
+                            android:text="订单编号"
+                            android:textColor="@color/text_gtay2" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="15dp"
-            android:text="运费"
-            android:textColor="@color/text_gtay2"
-            android:gravity="center_vertical"
-            />
+                        <TextView
+                            android:id="@+id/order_view_number"
+                            style="@style/edit_style"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="0.74"
+                            android:gravity="left|center"
+                            android:imeOptions="actionNext"
+                            android:text="￥431"
+                            android:textColor="@color/text_gray"
+                            android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/order_view_deliveryfee"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginRight="8dp"
-            android:textColor="@color/red"
-            android:gravity="center_vertical"
-            />
-    </RelativeLayout>
-    <View style="@style/horizontal_view" />
-    <TextView
-        android:id="@+id/order_view_promotioninfo"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentLeft="true"
-        android:paddingLeft="15dp"
-        android:textColor="#FF9006"
-        android:gravity="center_vertical"
-        android:background="@color/white"
-        />
-    <View style="@style/horizontal_view" />
+                        <TextView
+                            android:id="@+id/order_view_state"
+                            style="@style/edit_style"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="0.25"
+                            android:gravity="right|center"
+                            android:imeOptions="actionNext"
+                            android:text="已完成"
+                            android:textColor="@color/text_gray"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
-    <EditText
-        android:id="@+id/order_view_ordernote"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:hint="选填：给商家留言（最多45字）"
-        android:maxEms="45"
-        android:textColorHint="@color/text_gray"
-        android:textColor="@color/text_gtay2"
-        android:paddingLeft="15dp"
-        android:textSize="14sp"
-        android:layout_marginTop="5dp"
-        android:background="@color/white"/>
+                    <View style="@style/horizontal_view" />
 
-</LinearLayout>
+                    <LinearLayout style="@style/edit_style_layout">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/white"
-        android:layout_alignParentBottom="true"
-        >
+                        <TextView
+                            style="@style/edit_left_style_tv"
+                            android:text="下单时间"
+                            android:textColor="@color/text_gtay2" />
 
-        <Button
-            android:id="@+id/order_view_finish"
-            android:background="@drawable/btn_red_bg"
-            android:textColor="@color/white"
-            android:layout_height="match_parent"
-            android:layout_width="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="提交"
+                        <TextView
+                            android:id="@+id/order_view_date"
+                            style="@style/edit_style"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="0.74"
+                            android:gravity="left|center"
+                            android:imeOptions="actionNext"
+                            android:text="12ddddddddddd"
+                            android:textColor="@color/text_gray"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
-            />
-        <TextView
-            android:id="@+id/order_view_all_totlemoney"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/red"
-            android:layout_toLeftOf="@id/order_view_finish"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"/>
-    </RelativeLayout>
-</RelativeLayout>
+                    <View style="@style/horizontal_view" />
+
+                    <LinearLayout style="@style/edit_style_layout">
+
+                        <TextView
+                            android:id="@+id/order_view_delivery_type1"
+                            style="@style/edit_style"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="0.74"
+                            android:drawablePadding="5dp"
+                            android:drawableRight="@drawable/icon_arrow_right"
+                            android:gravity="left|center"
+                            android:imeOptions="actionNext"
+                            android:text="12ddddddddddd"
+                            android:textColor="@color/text_gray"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <View style="@style/horizontal_view" />
+                </LinearLayout>
+
+                <include layout="@layout/addr_edit_list_item" />
+
+                <LinearLayout
+                    android:id="@+id/order_view_shop_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            <LinearLayout style="@style/edit_style_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+                <Button
+                    style="@style/style_next_btn"
+                    android:background="@drawable/order_view_rb_bg"
+                    android:text="联系特变"
+                    android:textColor="@color/text_gray" />
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/wallet_withdraw_cash_bg"
+                    android:orientation="vertical">
+
+                    <LinearLayout style="@style/edit_style_layout">
+
+                        <TextView
+                            style="@style/edit_left_style_tv"
+                            android:text="支付方式"
+                            android:textColor="@color/text_gtay2" />
+
+                        <TextView
+                            android:id="@+id/order_view_pay_type"
+                            style="@style/edit_style"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="0.74"
+                            android:drawablePadding="5dp"
+                            android:drawableRight="@drawable/icon_arrow_right"
+                            android:gravity="right|center"
+                            android:imeOptions="actionNext"
+                            android:text="￥431"
+                            android:textColor="@color/text_gray"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/edit_style_layout">
+
+                        <TextView
+                            style="@style/edit_left_style_tv"
+                            android:text="配送方式"
+                            android:textColor="@color/text_gtay2" />
+
+                        <TextView
+                            android:id="@+id/order_view_delivery_type"
+                            style="@style/edit_style"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="0.74"
+                            android:drawablePadding="5dp"
+                            android:drawableRight="@drawable/icon_arrow_right"
+                            android:gravity="right|center"
+                            android:imeOptions="actionNext"
+                            android:text="12ddddddddddd"
+                            android:textColor="@color/text_gray"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <View style="@style/horizontal_view" />
+
+                    <LinearLayout style="@style/edit_style_layout">
+
+                        <TextView
+                            style="@style/edit_left_style_tv"
+                            android:text="商品金额"
+                            android:textColor="@color/text_gtay2" />
+
+                        <TextView
+                            android:id="@+id/order_view_money"
+                            style="@style/edit_style"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_weight="0.74"
+                            android:gravity="right|center"
+                            android:imeOptions="actionNext"
+                            android:text="￥431"
+                            android:textColor="@color/text_gray"
+                            android:textSize="16sp"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/edit_style_layout">
+
+                        <TextView
+                            style="@style/edit_left_style_tv"
+                            android:text="运费    "
+                            android:textColor="@color/text_gtay2"
+
+                            />
+
+                        <TextView
+                            android:id="@+id/order_view_money2"
+                            style="@style/edit_style"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_weight="0.74"
+                            android:gravity="right|center"
+                            android:imeOptions="actionNext"
+                            android:text="12ddddddddddd"
+                            android:textColor="@color/text_gray"
+                            android:textSize="16sp"
+                            />
+                    </LinearLayout>
+
+                    <View style="@style/horizontal_view" />
+
+                    <LinearLayout
+                        style="@style/edit_style_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="right"
+                       >
+
+                        <TextView
+                            android:id="@+id/order_view_money3_text"
+                            style="@style/edit_left_style_tv"
+                            android:layout_width="wrap_content"
+                            android:text="实付款"
+                            android:textColor="@color/text_gtay2"
+
+                            />
+
+                        <TextView
+                            android:id="@+id/order_view_money3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_toRightOf="@id/order_view_money3_text"
+                            android:gravity="right|center"
+                            android:imeOptions="actionNext"
+                            android:text="￥123.00"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:layout_marginRight="15dp"
+
+                            />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</FrameLayout>

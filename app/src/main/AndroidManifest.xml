@@ -197,6 +197,9 @@
             android:name=".activity.nearby.DistributorViewAcitivty"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.nearby.OrderEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.nearby.OrderViewActivity"
             android:screenOrientation="portrait" />
         <activity

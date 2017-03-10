@@ -175,7 +175,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
                 if(mSelectIds.size() >0){
                     Gson gson = new Gson();
                     String objJson = gson.toJson(mSelectIds);
-                    Intent intent = new Intent(mContext,OrderViewActivity.class);
+                    Intent intent = new Intent(mContext,OrderEditActivity.class);
                     intent.putExtra("orderdetailidlist",objJson);
                     startActivity(intent);
                 }else {

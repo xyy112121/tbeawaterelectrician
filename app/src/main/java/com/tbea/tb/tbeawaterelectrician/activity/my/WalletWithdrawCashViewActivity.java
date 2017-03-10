@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
@@ -42,11 +43,12 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
         ((TextView)findViewById(R.id.top_center)).setText("提现凭证");
         ((TextView)findViewById(R.id.top_right_text)).setText("删除");
         String money = getIntent().getStringExtra("money");
+        String distributorid = getIntent().getStringExtra("distributorid");
         if("".equals(money) || money == null){
              String id = getIntent().getStringExtra("takemoneycodeid");
             getDate2(id);
         }else {
-            getDate(money);
+            getDate(money,distributorid);
         }
 
         (findViewById(R.id.top_right_text)).setOnClickListener(new View.OnClickListener() {
@@ -103,12 +105,12 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
                             Map<String, Object> data = (Map<String, Object>) re.getData();
                             Map<String, String> myMoneyInfo = (Map<String, String>) data.get("mymoneyinfo");
                             Map<String, String> distriButorInfo = (Map<String, String>) data.get("distributorinfo");
-                            String validexpiredtime ="有效期至:"+myMoneyInfo.get("validexpiredtime");
+                            String validexpiredtime ="有效期:"+myMoneyInfo.get("validexpiredtime");
 //                            String status = "状态:"+myMoneyInfo.get("status");
                             mId = myMoneyInfo.get("id");
                             mTakeMoneyCode = myMoneyInfo.get("takemoneycode");
                             String money = "￥"+myMoneyInfo.get("money");
-                            String qrcodepicture = myMoneyInfo.get("qrcodepicture");
+                            String qrcodepicture = MyApplication.instance.getImgPath()+myMoneyInfo.get("qrcodepicture");
                             String note = myMoneyInfo.get("note");
                             String name = "提现单位:"+distriButorInfo.get("name");
                             String addr = "地址:"+distriButorInfo.get("addr");
@@ -156,7 +158,7 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
     /**
      * 获取数据
      */
-    public void getDate(final String money){
+    public void getDate(final String money,final String distributorId){
         final CustomDialog dialog = new CustomDialog(WalletWithdrawCashViewActivity.this,R.style.MyDialog,R.layout.tip_wait_dialog);
         dialog.setText("加载中...");
         dialog.show();
@@ -176,7 +178,7 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
                             mId = myMoneyInfo.get("id");
                             mTakeMoneyCode = myMoneyInfo.get("takemoneycode");
                             String money = "￥"+myMoneyInfo.get("money");
-                            String qrcodepicture = myMoneyInfo.get("qrcodepicture");
+                            String qrcodepicture = MyApplication.instance.getImgPath()+myMoneyInfo.get("qrcodepicture");
                             String note = myMoneyInfo.get("note");
                             String name = "提现单位:"+distriButorInfo.get("name");
                             String addr = "地址:"+distriButorInfo.get("addr");
@@ -212,7 +214,7 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo1 re = userAction.createCode(money);
+                    RspInfo1 re = userAction.createCode(money,distributorId);
                     handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);

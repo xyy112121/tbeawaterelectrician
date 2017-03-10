@@ -23,6 +23,7 @@ import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.my.EvaluateListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.OrderListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.nearby.OrderViewActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.Order;
 import com.tbea.tb.tbeawaterelectrician.entity.ProductInfo;
@@ -268,6 +269,15 @@ public class OrderListFragmnet extends Fragment implements BGARefreshLayout.BGAR
                     }
                 }
             });
+
+//            view.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent intent = new Intent(context, OrderViewActivity.class);
+////                    intent.putExtra("obj",objGson);
+//                    startActivity(intent);
+//                }
+//            });
             return view;
         }
 

@@ -36,10 +36,8 @@ import com.tbea.tb.tbeawaterelectrician.component.BadgeView;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.component.FlexRadioGroup;
 import com.tbea.tb.tbeawaterelectrician.entity.Address;
-import com.tbea.tb.tbeawaterelectrician.entity.Commodith;
 import com.tbea.tb.tbeawaterelectrician.entity.Condition;
 import com.tbea.tb.tbeawaterelectrician.entity.Evaluate;
-import com.tbea.tb.tbeawaterelectrician.entity.NearbyCompany;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
@@ -814,7 +812,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                             mSelectIds.add(orderDetailid);
                             Gson gson = new Gson();
                             String objJson = gson.toJson(mSelectIds);
-                            Intent intent = new Intent(mContext,OrderViewActivity.class);
+                            Intent intent = new Intent(mContext,OrderEditActivity.class);
                             intent.putExtra("orderdetailidlist",objJson);
                             startActivity(intent);
                         } else {

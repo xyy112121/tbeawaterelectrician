@@ -39,6 +39,8 @@ public class SetionActivity extends TopActivity {
         initTopbar("设置");
         if("notidentify".equals(getIntent().getStringExtra("whetheridentifiedid"))){
             ((TextView)findViewById(R.id.authentication_tv)).setText("未认证");
+        }else  if ("identifying".equals(getIntent().getStringExtra("whetheridentifiedid"))){
+            ((TextView)findViewById(R.id.authentication_tv)).setText("认证中");
         }else {
             ((TextView)findViewById(R.id.authentication_tv)).setText("已认证");
         }
@@ -135,7 +137,10 @@ public class SetionActivity extends TopActivity {
         if(requestCode == 100 && resultCode == RESULT_OK){
             if("notidentify".equals(data.getStringExtra("whetheridentifiedid"))){
                 ((TextView)findViewById(R.id.authentication_tv)).setText("未认证");
-            }else {
+            }else if("identifying".equals(data.getStringExtra("whetheridentifiedid"))){
+                ((TextView)findViewById(R.id.authentication_tv)).setText("认证中");
+            }
+            else {
                 ((TextView)findViewById(R.id.authentication_tv)).setText("已认证");
             }
         }

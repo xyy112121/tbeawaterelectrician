@@ -32,8 +32,8 @@ public class AboutActivity extends TopActivity {
         mDialog.show();
         WebSettings settings = mWebView.getSettings();
         //自适应屏幕
-        settings.setUseWideViewPort(true);
-        settings.setLoadWithOverviewMode(true);
+//        settings.setUseWideViewPort(true);
+//        settings.setLoadWithOverviewMode(true);
         //启用支持javascript
         settings.setJavaScriptEnabled(true);
         settings.setBlockNetworkImage(false);//解决图片加载不出来的问题

@@ -65,7 +65,7 @@ public class MyApplication extends Application implements BDLocationListener {
 		instance=this;
 		ZXingLibrary.initDisplayOpinion(this);
 		initUniversalImageLoader();
-		isGps();
+//		isGps();
 		SDKInitializer.initialize(getApplicationContext());
 		//百度定位
 		mLocationClient = new LocationClient(getApplicationContext());
@@ -149,14 +149,23 @@ public class MyApplication extends Application implements BDLocationListener {
 	private  String district;
 
 	public String getCity() {
+		if(city == null){
+			city = "德阳市";
+		}
 		return city;
 	}
 
 	public String getProvince() {
+		if(province == null){
+			province = "四川省";
+		}
 		return province;
 	}
 
 	public String getDistrict() {
+		if(district == null){
+			district = "旌阳区";
+		}
 		return district;
 	}
 
@@ -175,7 +184,7 @@ public class MyApplication extends Application implements BDLocationListener {
 	}
 
 	private void loadLoaclInfo(){
-		this.address= ShareConfig.getConfigString(MyApplication.instance,"addess",null);
+		this.address= ShareConfig.getConfigString(MyApplication.instance,"addess","四川省德阳市旌阳区东海路东段2号");
 		this.latitude = ShareConfig.getConfigString(MyApplication.instance,"latitude",null);
 		this.longitude = ShareConfig.getConfigString(MyApplication.instance,"longitude",null);
 	}
@@ -186,14 +195,14 @@ public class MyApplication extends Application implements BDLocationListener {
 		//判断GPS是否正常启动
 		if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			//返回开启GPS导航设置界面
-			showMissingPermissionDialog();
+			showMissingPermissionDialog(instance);
 			return;
 		}
 	}
 
 	// 显示缺失权限提示
-	public void showMissingPermissionDialog() {
-		final CustomDialog dialog = new CustomDialog(MyApplication.instance,R.style.MyDialog, R.layout.tip_delete_dialog);
+	public void showMissingPermissionDialog(Context  context) {
+		final CustomDialog dialog = new CustomDialog(context,R.style.MyDialog, R.layout.tip_delete_dialog);
 		dialog.setTitle(getResources().getString(R.string.help));
 		dialog.setText(getResources().getString(R.string.string_gps_help_text));
 		dialog.setConfirmBtnClickListener(new View.OnClickListener() {
