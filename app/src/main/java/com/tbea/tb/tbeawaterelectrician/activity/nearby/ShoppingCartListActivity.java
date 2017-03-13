@@ -139,11 +139,32 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
                     mAdapter.selectAll();
+                    ((CheckBox) findViewById(R.id.delect_all_chekbox)).setChecked(true);
                     ((CheckBox) findViewById(R.id.all_chekbox)).setText("全不选");
+                    ((CheckBox) findViewById(R.id.delect_all_chekbox)).setText("全不选");
+                } else {
+                    mAdapter.selectAllNo();
+                    ((CheckBox) findViewById(R.id.delect_all_chekbox)).setChecked(false);
+                    ((CheckBox) findViewById(R.id.all_chekbox)).setText("全选");
+                    ((CheckBox) findViewById(R.id.delect_all_chekbox)).setText("全选");
+                }
+            }
+        });
+
+        ((CheckBox) findViewById(R.id.delect_all_chekbox)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    mAdapter.selectAll();
+                    ((CheckBox) findViewById(R.id.all_chekbox)).setChecked(true);
+                    ((CheckBox) findViewById(R.id.all_chekbox)).setText("全不选");
+                    ((CheckBox) findViewById(R.id.delect_all_chekbox)).setText("全不选");
 
                 } else {
                     mAdapter.selectAllNo();
+                    ((CheckBox) findViewById(R.id.all_chekbox)).setChecked(false);
                     ((CheckBox) findViewById(R.id.all_chekbox)).setText("全选");
+                    ((CheckBox) findViewById(R.id.delect_all_chekbox)).setText("全选");
                 }
             }
         });

@@ -39,7 +39,7 @@ public class EvaluateEditActivity extends TopActivity implements View.OnClickLis
         setContentView(R.layout.activity_evaluate_edit);
         initTopbar("评价","保存",this);
         mContext = this;
-        initUI();
+//        initUI();
     }
 
     private void initUI(){

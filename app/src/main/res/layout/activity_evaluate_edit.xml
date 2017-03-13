@@ -63,14 +63,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="8dp">
         <com.tbea.tb.tbeawaterelectrician.component.StarBar
             android:id="@+id/order_evaluate_edit_startbar"
             android:layout_below="@+id/display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ratingbar:starEmpty="@drawable/icon_checkbox_normal"
-            ratingbar:starFill="@drawable/icon_checkbox_checked"
+            ratingbar:starEmpty="@drawable/icon_checkbox_normal_star"
+            ratingbar:starFill="@drawable/icon_checkbox_checkedl_star"
             ratingbar:starDistance="5dp"
             ratingbar:starCount="5"
             ratingbar:starSize="30dp"
