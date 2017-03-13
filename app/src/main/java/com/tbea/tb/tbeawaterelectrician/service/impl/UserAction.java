@@ -674,6 +674,22 @@ public class UserAction extends BaseAction {
     }
 
     /**
+     * 找回密码：验证验证码的有效性：
+     *
+     * @param mobile     老的手机号码
+     * @param verifycode 验证码
+     */
+    public RspInfo1 validateCode(String mobile, String verifycode) throws Exception {
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("mobile", mobile));
+        pairs.add(new BasicNameValuePair("verifycode", verifycode));
+        String result = sendRequest("TBEAENG001001005000", pairs);
+        rspInfo = gson.fromJson(result, RspInfo1.class);
+        return rspInfo;
+    }
+
+    /**
      * 更改手机号验证新手机号
      *
      * @param mobile     新的手机号码
@@ -701,6 +717,20 @@ public class UserAction extends BaseAction {
         pairs.add(new BasicNameValuePair("olduserpas", MD5Util.getMD5String(olduserpas)));
         pairs.add(new BasicNameValuePair("newuserpas", MD5Util.getMD5String(newuserpas)));
         String result = sendRequest("TBEAENG001001007000", pairs);
+        rspInfo = gson.fromJson(result, RspInfo1.class);
+        return rspInfo;
+    }
+
+    /**
+     * 忘记密码（修改密码）
+     *
+     */
+    public RspInfo1 resetPwd(String mobile, String password) throws Exception {
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("mobile", mobile));
+        pairs.add(new BasicNameValuePair("password", MD5Util.getMD5String(password)));
+        String result = sendRequest("TBEAENG001001006000", pairs);
         rspInfo = gson.fromJson(result, RspInfo1.class);
         return rspInfo;
     }
@@ -1008,6 +1038,19 @@ public class UserAction extends BaseAction {
     }
 
     /**
+     * 获取我的订单
+     */
+    public RspInfo getOrder(String userorderid) throws Exception {
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("userorderid", userorderid));
+        String result = sendRequest("TBEAENG005001019000", pairs);
+        rspInfo = gson.fromJson(result,  new TypeToken<RspInfo<Object>>() {
+        }.getType());
+        return rspInfo;
+    }
+
+    /**
      * 收藏商品
      */
     public RspInfo1 collectCommodity(String commodityid) throws Exception {
@@ -1179,6 +1222,18 @@ public class UserAction extends BaseAction {
         String result = sendRequest("TBEAENG005001009001", pairs);
         rspInfo = gson.fromJson(result, new TypeToken<RspInfo<List<Distributor>>>() {
         }.getType());
+        return rspInfo;
+    }
+
+    /**
+     * 删除订单信息
+     */
+    public RspInfo1 delectOrder(String id) throws Exception {
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("userorderid", id));
+        String result = sendRequest("TBEAENG005001020000", pairs);
+        rspInfo = gson.fromJson(result, RspInfo1.class);
         return rspInfo;
     }
 

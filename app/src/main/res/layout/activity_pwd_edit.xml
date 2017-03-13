@@ -12,10 +12,11 @@
         android:background="@color/white"
         android:layout_marginTop="10dp">
         <LinearLayout
+            android:id="@+id/activity_old_pwd_layout"
             style="@style/edit_style_layout">
             <TextView
                 style="@style/edit_left_style_tv"
-                android:text="老密码   "
+                android:text="当前密码   "
                 />
 
             <EditText
@@ -28,6 +29,7 @@
                 android:inputType="numberPassword"/>
         </LinearLayout>
         <View
+            android:id="@+id/activity_old_pwd_view"
             style="@style/horizontal_view"/>
         <LinearLayout
             style="@style/edit_style_layout">

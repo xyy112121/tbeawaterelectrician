@@ -35,31 +35,28 @@
                         <TextView
                             style="@style/edit_left_style_tv"
                             android:text="订单编号"
-                            android:textColor="@color/text_gtay2" />
+                            android:textColor="@color/text_gtay2"
+                            android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/order_view_number"
+                            android:id="@+id/order_view_code"
                             style="@style/edit_style"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="0.74"
+                            android:layout_marginLeft="5dp"
+                           android:layout_weight="0.6"
                             android:gravity="left|center"
-                            android:imeOptions="actionNext"
                             android:text="￥431"
                             android:textColor="@color/text_gray"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/order_view_state"
                             style="@style/edit_style"
-                            android:layout_marginLeft="5dp"
                             android:layout_marginRight="8dp"
-                            android:layout_weight="0.25"
                             android:gravity="right|center"
-                            android:imeOptions="actionNext"
+                            android:layout_weight="0.4"
                             android:text="已完成"
                             android:textColor="@color/text_gray"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <View style="@style/horizontal_view" />
@@ -69,19 +66,20 @@
                         <TextView
                             style="@style/edit_left_style_tv"
                             android:text="下单时间"
-                            android:textColor="@color/text_gtay2" />
+                            android:textColor="@color/text_gtay2"
+                            android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/order_view_date"
+                            android:id="@+id/order_view_time"
                             style="@style/edit_style"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:layout_marginRight="8dp"
-                            android:layout_weight="0.74"
+                            android:layout_weight="0.6"
                             android:gravity="left|center"
                             android:imeOptions="actionNext"
                             android:text="12ddddddddddd"
                             android:textColor="@color/text_gray"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <View style="@style/horizontal_view" />
@@ -92,15 +90,14 @@
                             android:id="@+id/order_view_delivery_type1"
                             style="@style/edit_style"
                             android:layout_marginLeft="20dp"
-                            android:layout_marginRight="8dp"
+                            android:layout_marginRight="15dp"
                             android:layout_weight="0.74"
                             android:drawablePadding="5dp"
-                            android:drawableRight="@drawable/icon_arrow_right"
                             android:gravity="left|center"
                             android:imeOptions="actionNext"
                             android:text="12ddddddddddd"
                             android:textColor="@color/text_gray"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <View style="@style/horizontal_view" />
@@ -118,10 +115,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp">
                 <Button
+                    android:id="@+id/order_view_phone"
                     style="@style/style_next_btn"
                     android:background="@drawable/order_view_rb_bg"
                     android:text="联系特变"
-                    android:textColor="@color/text_gray" />
+                    android:textColor="@color/text_gray"
+                    android:textSize="14sp"/>
                 </LinearLayout>
 
 
@@ -138,21 +137,21 @@
                         <TextView
                             style="@style/edit_left_style_tv"
                             android:text="支付方式"
-                            android:textColor="@color/text_gtay2" />
+                            android:textColor="@color/text_gtay2"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/order_view_pay_type"
                             style="@style/edit_style"
                             android:layout_marginLeft="20dp"
-                            android:layout_marginRight="8dp"
+                            android:layout_marginRight="15dp"
                             android:layout_weight="0.74"
                             android:drawablePadding="5dp"
-                            android:drawableRight="@drawable/icon_arrow_right"
                             android:gravity="right|center"
                             android:imeOptions="actionNext"
                             android:text="￥431"
                             android:textColor="@color/text_gray"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
 
                     </LinearLayout>
 
@@ -161,21 +160,21 @@
                         <TextView
                             style="@style/edit_left_style_tv"
                             android:text="配送方式"
-                            android:textColor="@color/text_gtay2" />
+                            android:textColor="@color/text_gtay2"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/order_view_delivery_type"
                             style="@style/edit_style"
                             android:layout_marginLeft="20dp"
-                            android:layout_marginRight="8dp"
+                            android:layout_marginRight="15dp"
                             android:layout_weight="0.74"
                             android:drawablePadding="5dp"
-                            android:drawableRight="@drawable/icon_arrow_right"
                             android:gravity="right|center"
                             android:imeOptions="actionNext"
                             android:text="12ddddddddddd"
                             android:textColor="@color/text_gray"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <View style="@style/horizontal_view" />
@@ -185,10 +184,11 @@
                         <TextView
                             style="@style/edit_left_style_tv"
                             android:text="商品金额"
-                            android:textColor="@color/text_gtay2" />
+                            android:textColor="@color/text_gtay2"
+                            android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/order_view_money"
+                            android:id="@+id/order_view_totlemoney"
                             style="@style/edit_style"
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="15dp"
@@ -197,7 +197,7 @@
                             android:imeOptions="actionNext"
                             android:text="￥431"
                             android:textColor="@color/text_gray"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             />
 
                     </LinearLayout>
@@ -208,11 +208,11 @@
                             style="@style/edit_left_style_tv"
                             android:text="运费    "
                             android:textColor="@color/text_gtay2"
-
+                            android:textSize="14sp"
                             />
 
                         <TextView
-                            android:id="@+id/order_view_money2"
+                            android:id="@+id/order_view_deliveryfee"
                             style="@style/edit_style"
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="15dp"
@@ -221,7 +221,7 @@
                             android:imeOptions="actionNext"
                             android:text="12ddddddddddd"
                             android:textColor="@color/text_gray"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             />
                     </LinearLayout>
 
@@ -237,13 +237,13 @@
                             android:id="@+id/order_view_money3_text"
                             style="@style/edit_left_style_tv"
                             android:layout_width="wrap_content"
-                            android:text="实付款"
+                            android:text="实付款:"
                             android:textColor="@color/text_gtay2"
 
                             />
 
                         <TextView
-                            android:id="@+id/order_view_money3"
+                            android:id="@+id/order_view_actualneedpaymoney"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_alignParentRight="true"
@@ -252,14 +252,60 @@
                             android:imeOptions="actionNext"
                             android:text="￥123.00"
                             android:textColor="@color/black"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             android:layout_marginRight="15dp"
 
                             />
                     </LinearLayout>
-
-
                 </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/white"
+                    >
+                    <TextView
+                        android:id="@+id/order_view_delect"
+                        style="@style/edit_left_style_tv"
+                        android:text="删除订单"
+                        android:textColor="@color/text_gtay2"
+                        android:textSize="14sp"
+
+                        />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="right"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="5dp">
+                        <Button
+                            android:id="@+id/order_view_btn"
+                            android:layout_width="90dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:text="再次购买"
+                            android:textColor="@color/gray"
+                            android:background="@drawable/register_get_code_bg"
+                            android:textSize="14sp"
+                            />
+                        <Button
+                            android:id="@+id/order_view_btn1"
+                            android:layout_width="90dp"
+                            android:layout_height="30dp"
+                            android:text="提醒发货"
+                            android:textColor="@color/blue1"
+                            android:background="@drawable/login_register_btn_bg"
+                            android:layout_marginLeft="20dp"
+                            android:textSize="14sp"
+                            android:layout_marginRight="10dp"
+
+                            />
+                    </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

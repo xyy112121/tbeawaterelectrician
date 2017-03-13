@@ -2,6 +2,7 @@ package com.tbea.tb.tbeawaterelectrician.activity.account;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +25,8 @@ import java.util.Map;
 
 public class RegisterSuccessActivity extends TopActivity {
     private Context mContext;
+    private String mPhone;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +47,8 @@ public class RegisterSuccessActivity extends TopActivity {
                         if(re.isSuccess()){
                             Map<String, Object> data = (Map<String, Object>) re.getData();
                             Map<String, String> pageinfo = (Map<String, String>) data.get("pageinfo");
-                            String phone = pageinfo.get("contactmobile");
-                            ((TextView)findViewById(R.id.register_sunccess_cm_phone)).setText("热线电话: "+phone);
+                            mPhone = pageinfo.get("contactmobile");
+                            ((TextView)findViewById(R.id.register_sunccess_cm_phone)).setText("热线电话: "+mPhone);
 
                         }else {
                             UtilAssistants.showToast(re.getMsg());
@@ -85,6 +88,14 @@ public class RegisterSuccessActivity extends TopActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        findViewById(R.id.register_sunccess_cm_phone).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+ mPhone));
+                startActivity(intent);
             }
         });
     }

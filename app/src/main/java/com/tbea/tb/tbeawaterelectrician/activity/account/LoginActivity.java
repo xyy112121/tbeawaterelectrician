@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
+import com.tbea.tb.tbeawaterelectrician.activity.my.EditBindingPhoneActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.UserInfo2;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
@@ -135,12 +136,25 @@ public class LoginActivity extends Activity {
                 login(phone, pwd);
             }
         });
+
+        findViewById(R.id.login_forget_pwd).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, ForgetPwdPhoneActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void login(final String mobile, final String pwd) {
         if (isMobileNO(mobile) == false) {
             UtilAssistants.showToast("请输入正确的手机号码！");
             return;
+        }
+        if ("".equals(pwd)) {
+            UtilAssistants.showToast("请输入密码！");
+            return;
+
         }
         final CustomDialog dialog = new CustomDialog(LoginActivity.this, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待");

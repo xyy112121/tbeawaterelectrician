@@ -102,7 +102,6 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
 
         id = getIntent().getStringExtra("id");
         String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+id;
-//        String  url = "http://www.u-shang.net/enginterface/index.php/Apph5/address?longitude=113.740202&latitude=34.7791651";
         showWebView(url);
         mColorRG = (FlexRadioGroup)findViewById(R.id.commodith_view_color_rg);
         mSpecificationsRG = (FlexRadioGroup)findViewById(R.id.commodith_view_specifications_rg);

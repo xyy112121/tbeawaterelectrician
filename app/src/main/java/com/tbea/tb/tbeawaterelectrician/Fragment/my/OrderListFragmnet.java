@@ -56,8 +56,13 @@ public class OrderListFragmnet extends Fragment implements BGARefreshLayout.BGAR
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_order_list, container, false);
         initUI();//实例化控件
-        mRefreshLayout.beginRefreshing();
         return mView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mRefreshLayout.beginRefreshing();
     }
 
     /**
@@ -270,14 +275,14 @@ public class OrderListFragmnet extends Fragment implements BGARefreshLayout.BGAR
                 }
             });
 
-//            view.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Intent intent = new Intent(context, OrderViewActivity.class);
-////                    intent.putExtra("obj",objGson);
-//                    startActivity(intent);
-//                }
-//            });
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, OrderViewActivity.class);
+                    intent.putExtra("id",obj.getOrderid());
+                    startActivity(intent);
+                }
+            });
             return view;
         }
 

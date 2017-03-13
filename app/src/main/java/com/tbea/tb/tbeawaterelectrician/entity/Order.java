@@ -17,6 +17,8 @@ public class Order  {
     private String promotioninfo;
     private List<ProductInfo> commoditylist;
 
+
+
     public List<ProductInfo> getCommoditylist() {
         return commoditylist;
     }
