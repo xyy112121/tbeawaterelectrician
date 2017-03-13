@@ -110,6 +110,7 @@ public class OrderEditActivity extends TopActivity {
                             intent.putExtra("deliverytype",deliverytype);
                             intent.putExtra("paytype",paytype);
                             intent.putExtra("ordercode",ordercode);
+                            intent.putExtra("orderid",orderid);
                             startActivity(intent);
                             finish();
                         } else {

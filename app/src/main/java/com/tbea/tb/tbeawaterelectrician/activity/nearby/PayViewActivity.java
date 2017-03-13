@@ -32,7 +32,8 @@ public class PayViewActivity extends TopActivity {
         String deliverytype = getIntent().getStringExtra("deliverytype");
         String paytype = getIntent().getStringExtra("paytype");
         String actualneedpaymoney = getIntent().getStringExtra("actualneedpaymoney");
-        String ordercode = getIntent().getStringExtra("ordercode");
+        final String ordercode = getIntent().getStringExtra("ordercode");
+        final String orderid = getIntent().getStringExtra("orderid");
 
         ((TextView)findViewById(R.id.pay_success_order_view_money)).setText("￥"+actualneedpaymoney);
         ((TextView)findViewById(R.id.pay_success_order_view_paytype)).setText(paytype);
@@ -46,6 +47,15 @@ public class PayViewActivity extends TopActivity {
                 startActivity(new Intent(mContext, MainActivity.class));
                 finish();
 
+            }
+        });
+
+        findViewById(R.id.pay_success_order_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, OrderViewActivity.class);
+                intent.putExtra("id",orderid);
+                startActivity(intent);
             }
         });
 

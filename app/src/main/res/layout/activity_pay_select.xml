@@ -124,7 +124,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/wallet_withdraw_cash_view_distributorinfo_finish"
+                android:id="@+id/pay_success_order_view"
                 style="@style/style_next_btn"
                 android:text="查看订单详情" />
 

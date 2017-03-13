@@ -39,9 +39,20 @@ public class PwdEditActivity extends TopActivity {
                 String newPwd = ((TextView)findViewById(R.id.pwd_edit_new)).getText()+"";
                 String confirmPwd = ((TextView)findViewById(R.id.pwd_edit_confirm)).getText()+"";
                 if("".equals(oldpwd)){
-                    UtilAssistants.showToast("老密码不能为空！");
+                    UtilAssistants.showToast("当前密码不能为空！");
                     return;
                 }
+
+                if("".equals(newPwd)){
+                    UtilAssistants.showToast("新密码不能为空！");
+                    return;
+                }
+
+                if(newPwd.length() >= 6 && newPwd.length() <= 10){
+                    UtilAssistants.showToast("密码长度6到10位！");
+                    return;
+                }
+
                 if(!newPwd.equals(confirmPwd)){
                     UtilAssistants.showToast("两次密码不一致！");
                     return;

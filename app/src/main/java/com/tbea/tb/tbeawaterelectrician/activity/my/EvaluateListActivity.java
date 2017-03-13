@@ -47,7 +47,7 @@ public class EvaluateListActivity extends TopActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_list);
-        initTopbar("我的消息");
+        initTopbar("评价中心");
         mContext = this;
         Gson gson = new Gson();
         String objJson = getIntent().getStringExtra("obj");

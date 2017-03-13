@@ -160,7 +160,7 @@ public class HistorySearchActivity extends TopActivity{
 			public boolean onEditorAction(TextView v, int actionId,
 										  KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-					String text = searchTV.getText().toString();
+					String text = searchTV.getText().toString().trim();
 					if(!"".equals(text) && text.length() >= 2){
 						save(text);
 						search(text);

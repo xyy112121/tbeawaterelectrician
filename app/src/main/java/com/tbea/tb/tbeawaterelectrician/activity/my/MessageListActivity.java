@@ -30,36 +30,44 @@ import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+
 /**
  * 我的消息列表
  */
 
-public class MessageListActivity  extends TopActivity{
+public class MessageListActivity  extends TopActivity implements BGARefreshLayout.BGARefreshLayoutDelegate{
     private ListView mListView;
     private MyAdapter mAdapter;
+    private BGARefreshLayout mRefreshLayout;
+    private  int mPage = 1;
+    private int mPagesize =10 ;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_message_list);
+        setContentView(R.layout.activity_history_search_list);
         initTopbar("我的消息");
         mListView = (ListView)findViewById(R.id.listview);
         mAdapter = new MyAdapter(MessageListActivity.this);
         mListView.setAdapter(mAdapter);
-        getListDate();
+
+        mRefreshLayout = (BGARefreshLayout)findViewById(R.id.rl_recyclerview_refresh);
+        mRefreshLayout.setDelegate(this);
+        mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(MessageListActivity.this, true));
+        mRefreshLayout.beginRefreshing();
     }
 
     /**
      * 获取数据
      */
     public void getListDate(){
-        final CustomDialog dialog = new CustomDialog(MessageListActivity.this,R.style.MyDialog,R.layout.tip_wait_dialog);
-        dialog.setText("加载中...");
-        dialog.show();
         final Handler handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
-                dialog.dismiss();
+                mRefreshLayout.endLoadingMore();
+                mRefreshLayout.endRefreshing();
                 switch (msg.what){
                     case ThreadState.SUCCESS:
                         RspInfo re = (RspInfo)msg.obj;
@@ -67,6 +75,11 @@ public class MessageListActivity  extends TopActivity{
                             List<MessageCategory> list = (List<MessageCategory>)re.getDateObj("messagecategorylist");
                             if(list != null){
                                 mAdapter.addAll(list);
+                            }else {
+                                mListView.setSelection(mAdapter.getCount());
+                                if(mPage >1){//防止分页的时候没有加载数据，但是页数已经增加，导致下一次查询不正确
+                                    mPage--;
+                                }
                             }
 
                         }else {
@@ -86,13 +99,28 @@ public class MessageListActivity  extends TopActivity{
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo re = userAction.getMessageList();
+                    RspInfo re = userAction.getMessageList(mPage++,mPagesize);
                     handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
                 }
             }
         }).start();
+    }
+
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        //下拉刷新
+        mAdapter.removeAll();
+        mPage = 1;
+        getListDate();
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        //上拉加载更多
+        getListDate();
+        return true;
     }
 
     private class MyAdapter extends BaseAdapter{
@@ -150,6 +178,11 @@ public class MessageListActivity  extends TopActivity{
 
         public  void addAll(List<MessageCategory> list){
             mList.addAll(list);
+            notifyDataSetChanged();
+        }
+
+        public void removeAll() {
+            mList.clear();
             notifyDataSetChanged();
         }
     }

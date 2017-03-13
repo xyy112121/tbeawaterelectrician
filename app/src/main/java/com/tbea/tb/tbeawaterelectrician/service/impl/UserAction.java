@@ -590,9 +590,11 @@ public class UserAction extends BaseAction {
     /**
      * 获取消息列表
      */
-    public RspInfo getMessageList() throws Exception {
+    public RspInfo getMessageList(int page, int pageSize) throws Exception {
         RspInfo rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
+        pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pageSize)));
         String result = sendRequest("TBEAENG005001013000", pairs);
         rspInfo = gson.fromJson(result, new TypeToken<RspInfo<List<MessageCategory>>>() {
         }.getType());
