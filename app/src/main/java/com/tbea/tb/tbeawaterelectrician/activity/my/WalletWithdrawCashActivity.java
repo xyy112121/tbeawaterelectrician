@@ -56,8 +56,14 @@ public class WalletWithdrawCashActivity extends TopActivity {
             @Override
             public void onClick(View view) {
                 String money = ((EditText) findViewById(R.id.wallet_withdraw_cash_money)).getText() + "";
-                if ("".equals(money)) {
+                if ("".equals(money) || "0".equals(money)) {
                     Toast.makeText(WalletWithdrawCashActivity.this, "请填写提现金额！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                int mo = Integer.parseInt(money);
+                if(mo > mCanexChangeMoney){
+                    UtilAssistants.showToast("不能大于最大提现金额");
                     return;
                 }
                 Intent intent = new Intent(WalletWithdrawCashActivity.this, WalletWithdrawCashViewActivity.class);

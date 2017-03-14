@@ -54,6 +54,7 @@ public class MyAccusationEditActivity extends TopActivity{
     private static final int RESULT_PHOTO = 0x000002;//图片
     private List<String>  appealImages = new ArrayList<>();
     private Appeal mObj = new Appeal();
+    private OptionPicker mPicker;
 
 
     @Override
@@ -64,6 +65,7 @@ public class MyAccusationEditActivity extends TopActivity{
         mContext = this;
         initUI();
         listener();
+        getType();
     }
 
     private void initUI(){
@@ -138,21 +140,26 @@ public class MyAccusationEditActivity extends TopActivity{
                         RspInfo re = (RspInfo) msg.obj;
                         if (re.isSuccess()) {
                             mTypeList = (List<Condition>) re.getDateObj("appealcategorylist");
-                            String[] dates = new String[mTypeList.size()];
-                            for (int i = 0; i < mTypeList.size(); i++) {
-                                dates[i] = mTypeList.get(i).getName();
-                            }
-                            OptionPicker picker = new OptionPicker((Activity) mContext, dates);
-                            picker.setOffset(1);
-                            picker.setTextColor(ContextCompat.getColor(mContext, R.color.black));
-                            picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
-                                @Override
-                                public void onOptionPicked(String option) {
-                                    ((TextView) findViewById(R.id.accusation_edit_type)).setText(option);
+                            if(mTypeList != null){
+                                ((TextView) findViewById(R.id.accusation_edit_type)).setText(mTypeList.get(0).getName());
+                                String[] dates = new String[mTypeList.size()];
+                                for (int i = 0; i < mTypeList.size(); i++) {
+                                    dates[i] = mTypeList.get(i).getName();
                                 }
-                            });
-                            picker.setAnimationStyle(R.style.PopWindowAnimationFade);
-                            picker.show();
+
+                                mPicker = new OptionPicker((Activity) mContext, dates);
+                                mPicker.setOffset(1);
+                                mPicker.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+                                mPicker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+                                    @Override
+                                    public void onOptionPicked(String option) {
+                                        ((TextView) findViewById(R.id.accusation_edit_type)).setText(option);
+                                    }
+                                });
+                                mPicker.setAnimationStyle(R.style.PopWindowAnimationFade);
+//                                picker.show();
+                            }
+
                         } else {
                             UtilAssistants.showToast("操作失败！");
                         }
@@ -193,7 +200,8 @@ public class MyAccusationEditActivity extends TopActivity{
         findViewById(R.id.accusation_edit_type).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getType();
+                mPicker.show();
+//                getType();
             }
         });
 
