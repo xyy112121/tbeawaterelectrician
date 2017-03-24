@@ -37,6 +37,9 @@ import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.UserInfo2;
 import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
+import com.umeng.socialize.Config;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.io.File;
@@ -45,8 +48,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyApplication extends Application implements BDLocationListener {
-	public static final String SP_NAME="LXC_UPUP";
-	public static final int PAGE_SIZE=10;
 
 	private static final String SERVICE_PATH="http://www.u-shang.net/enginterface/index.php";
 	private static final String IMG_SERVICE_PATH="http://www.u-shang.net/";
@@ -63,6 +64,8 @@ public class MyApplication extends Application implements BDLocationListener {
 	public void onCreate() {
 		super.onCreate();
 		instance=this;
+		Config.DEBUG = true;
+		UMShareAPI.get(this);
 		ZXingLibrary.initDisplayOpinion(this);
 		initUniversalImageLoader();
 //		isGps();
@@ -83,6 +86,16 @@ public class MyApplication extends Application implements BDLocationListener {
 
 		//加载保存的位置信息
 		loadLoaclInfo();
+
+	}
+
+	//各个平台的配置，建议放在全局Application或者程序入口
+	{
+//		PlatformConfig.setWeixin("wxdc1e388c3822c80b", "3baf1193c85774b3fd9d18447d76cab0");
+		PlatformConfig.setWeixin("wxf0098beca31d85cc", "4767495ecded06e0fdc6e8b6a289d56f");
+		PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+		PlatformConfig.setSinaWeibo("3525593155","ad55f2a5b4997936296ce052649c406e","http://www.u-shang.net/enginterface/index.php/callback");
+//		PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad","http://sns.whalecloud.com");
 	}
 	
 	public int getActivityCount(){

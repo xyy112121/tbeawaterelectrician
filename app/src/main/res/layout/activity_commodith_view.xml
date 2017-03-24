@@ -98,7 +98,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.3"
-                android:background="#69ADE1"
+                android:background="#feaa26"
                 android:text="加入购物车"
                 android:textColor="@color/white" />
 
@@ -107,7 +107,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
-                android:background="@color/blue1"
+                android:background="#ff0000"
                 android:text="立即购买"
                 android:textColor="@color/white" />
         </LinearLayout>
@@ -281,7 +281,7 @@
             />
         <Button
             android:id="@+id/add_shop_car_layout_finish"
-            style="@style/style_next_btn"
+            style="@style/style_next_red_btn"
             android:text="确认" />
     </LinearLayout>
 

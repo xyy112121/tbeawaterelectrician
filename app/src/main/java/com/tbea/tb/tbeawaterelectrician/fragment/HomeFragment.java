@@ -143,7 +143,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                                     if(newmessagenumber != null && !"".equals(newmessagenumber) && !"0".equals(newmessagenumber)){
                                         imageView.setImageResource(R.drawable.icon_message_redpoint);
                                   }else {
-                                        imageView.setImageResource(R.drawable.icon_message_redpoint);
+                                        imageView.setImageResource(R.drawable.icon_message);
                                     }
                                 }
 
@@ -316,7 +316,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
            obj.setUsername(newMessage2List.get(i).get("username"));
            obj.setMoney(newMessage2List.get(i).get("money")+i);
        }catch (Exception e){
-           Log.e("","");
+           Log.e("HomeFragment",e.getMessage());
        }
         return obj;
     }
@@ -333,9 +333,9 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                 Company obj = new Company();
                 obj.setId(companylist.get(i).get("id"));
                 obj.setPicture(companylist.get(i).get("picture"));
-                obj.setCompanyname(companylist.get(i).get("companyname"));
+                obj.setCompanyname(companylist.get(i).get("name"));
                 obj.setDistance(companylist.get(i).get("distance"));
-                obj.setCommoditydesc(companylist.get(i).get("commoditydesc"));
+                obj.setCommoditydesc(companylist.get(i).get("specification"));
                 obj.setPrice(companylist.get(i).get("price"));
                 obj.setCompanyid(companylist.get(i).get("companyid"));
                 obj.setCompanytypeid(companylist.get(i).get("companytypeid"));

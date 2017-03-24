@@ -24,6 +24,7 @@ import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.my.EvaluateListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.OrderListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.OrderViewActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.nearby.PayViewActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.Order;
 import com.tbea.tb.tbeawaterelectrician.entity.ProductInfo;
@@ -233,7 +234,7 @@ public class OrderListFragmnet extends Fragment implements BGARefreshLayout.BGAR
                     parentsLayout.addView(layout);
                 }
             }
-            String price =  "共"+size+"件商品"+" 合计:"+obj.getOrdertotlefee()+"(含运费:"+obj.getDeliveryfee()+")";
+            String price =  "共"+size+"件商品"+" 合计:￥"+obj.getOrdertotlefee()+"(含运费:￥"+obj.getDeliveryfee()+")";
            ((TextView)view.findViewById(R.id.order_item_price)).setText(price);
             Button btn = (Button)view.findViewById(R.id.order_item_btn);
             Button btn1 = (Button)view.findViewById(R.id.order_item_btn1);
@@ -269,6 +270,9 @@ public class OrderListFragmnet extends Fragment implements BGARefreshLayout.BGAR
                         }
 
                     }else if("orderedwithnomoney".equals(obj.getOrderstatusid())){//待付款
+                        Intent intent = new Intent(context, PayViewActivity.class);
+                        intent.putExtra("ordertotlefee",obj.getOrdertotlefee());
+                        startActivity(intent);
 
                     }else {//待收货
                     }

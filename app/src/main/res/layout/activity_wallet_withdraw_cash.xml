@@ -52,7 +52,8 @@
                     android:hint="提现金额请填写整数"
                     android:maxLines="1"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/text_gray" />
+                    android:textColorHint="@color/text_gray"
+                    android:inputType="number"/>
             </LinearLayout>
 
             <View

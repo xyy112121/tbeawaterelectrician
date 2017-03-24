@@ -25,10 +25,32 @@ android {
     }
 
     buildTypes {
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+            proguardFiles 'proguard-rules.pro'
         }
+
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            proguardFiles 'proguard-rules.pro'
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('key.keystore')
+            storePassword "123456"
+            keyAlias "key alias"
+            keyPassword "123456"
+        }
+
     }
 
     sourceSets {
@@ -71,5 +93,8 @@ dependencies {
     compile 'cn.qqtheme.framework:FilePicker:1.1.2'
     compile 'com.alibaba:fastjson:1.1.46.android'
     compile 'com.google.android:flexbox:0.2.3'
+    compile files('libs/open_sdk_r5781.jar')
+    compile files('libs/umeng_social_net.jar')
+    compile files('libs/umeng_social_tool.jar')
 }
 

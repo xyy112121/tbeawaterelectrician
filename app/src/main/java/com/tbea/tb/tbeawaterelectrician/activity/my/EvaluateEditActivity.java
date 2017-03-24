@@ -39,7 +39,7 @@ public class EvaluateEditActivity extends TopActivity implements View.OnClickLis
         setContentView(R.layout.activity_evaluate_edit);
         initTopbar("评价","保存",this);
         mContext = this;
-//        initUI();
+        initUI();
     }
 
     private void initUI(){
@@ -63,12 +63,13 @@ public class EvaluateEditActivity extends TopActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-        if("".equals(mStarlevel)){
+        final String appraise = ((EditText)findViewById(R.id.order_evaluate_edit_appraise)).getText()+"";
+        if("".equals(mStarlevel) || "".equals(appraise)){
             UtilAssistants.showToast("请评价...");
             return;
         }
 
-        final String appraise = ((EditText)findViewById(R.id.order_evaluate_edit_appraise)).getText()+"";
+
         final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
         dialog.setText("请等待");
         dialog.show();

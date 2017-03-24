@@ -87,6 +87,10 @@ public class OrderEditActivity extends TopActivity {
      * 下单
      */
     public void planOrder() {
+        if("".equals(mReceiveaddrId) || mReceiveaddrId == null){
+            UtilAssistants.showToast("请增加收货地址");
+            return;
+        }
         final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
         dialog.setText("请等待...");
         dialog.show();
@@ -105,7 +109,7 @@ public class OrderEditActivity extends TopActivity {
                             String deliverytype = map.get("deliverytype");
                             String paytype = map.get("paytype");
                             String actualneedpaymoney = map.get("actualneedpaymoney");
-                            Intent intent = new Intent(mContext,PayViewActivity.class);
+                            Intent intent = new Intent(mContext,OrderScuessViewActivity.class);
                             intent.putExtra("actualneedpaymoney",actualneedpaymoney);
                             intent.putExtra("deliverytype",deliverytype);
                             intent.putExtra("paytype",paytype);

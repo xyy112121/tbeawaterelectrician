@@ -1,7 +1,8 @@
-package com.tbea.tb.tbeawaterelectrician.activity.my;
+package com.tbea.tb.tbeawaterelectrician.activity.account;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -14,10 +15,10 @@ import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 
 /**
- * Created by cy on 2017/2/10.
+ * Created by user on 2017/3/22.
  */
 
-public class MessageViewActivity extends TopActivity {
+public class RegisterArgeeActivity extends TopActivity {
     private WebView mWebView;
     private String id;
     private Context mContext;
@@ -27,7 +28,7 @@ public class MessageViewActivity extends TopActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activty_take_view);
         mContext = this;
-        initTopbar("消息详情");
+        initTopbar("用户使用协议");
         id = getIntent().getStringExtra("id");
         mWebView = (WebView)findViewById(R.id.web_view);
         final CustomDialog mDialog= new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
@@ -40,7 +41,7 @@ public class MessageViewActivity extends TopActivity {
         //启用支持javascript
         settings.setJavaScriptEnabled(true);
         settings.setBlockNetworkImage(false);//解决图片加载不出来的问题
-        String url = MyApplication.instance.getImgPath()+"enginterface/index.php/Apph5/messagelist?messagecategoryid"+id;
+        String url = MyApplication.instance.getImgPath()+"enginterface/index.php/Apph5/userregisteragreement";
         mWebView.loadUrl(url);
         mWebView.setWebViewClient(new WebViewClient(){
             @Override

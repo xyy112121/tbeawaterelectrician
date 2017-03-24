@@ -93,7 +93,7 @@ public class TakeFragment extends Fragment implements BGARefreshLayout.BGARefres
                                     if(newmessagenumber != null && !"".equals(newmessagenumber) && !"0".equals(newmessagenumber)){
                                         imageView.setImageResource(R.drawable.icon_message_redpoint);
                                     }else {
-                                        imageView.setImageResource(R.drawable.icon_message_redpoint);
+                                        imageView.setImageResource(R.drawable.icon_message);
                                     }
                                 }
 

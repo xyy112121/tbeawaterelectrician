@@ -126,6 +126,14 @@ public class RegisterActivity extends TopActivity {
             }
         });
 
+        findViewById(R.id.register_argee_tv1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, RegisterArgeeActivity.class));
+
+            }
+        });
+
         findViewById(R.id.register_finish).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

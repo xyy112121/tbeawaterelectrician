@@ -91,7 +91,7 @@ public class NearbyFragment extends android.app.Fragment {
                                     if(newmessagenumber != null && !"".equals(newmessagenumber) && !"0".equals(newmessagenumber)){
                                         imageView.setImageResource(R.drawable.icon_message_redpoint);
                                     }else {
-                                        imageView.setImageResource(R.drawable.icon_message_redpoint);
+                                        imageView.setImageResource(R.drawable.icon_message);
                                     }
                                 }
 

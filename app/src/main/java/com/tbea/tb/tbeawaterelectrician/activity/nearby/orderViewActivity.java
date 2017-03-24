@@ -71,6 +71,7 @@ public class OrderViewActivity extends TopActivity {
             public void onClick(View view) {
                 final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_delete_dialog);
                 dialog.show();
+                dialog.setText("是否删除该订单");
                 dialog.setConfirmBtnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -175,7 +176,7 @@ public class OrderViewActivity extends TopActivity {
                                 }
 
                             }
-                            Map<String, String> orderInfo = (Map<String, String>) re.getDateObj("orderbaseinfo");
+                            final Map<String, String> orderInfo = (Map<String, String>) re.getDateObj("orderbaseinfo");
                             if (orderInfo != null) {
                                 setTextView(R.id.order_view_code, orderInfo.get("ordercode"));
                                 setTextView(R.id.order_view_state, orderInfo.get("orderstatus"));
@@ -222,7 +223,9 @@ public class OrderViewActivity extends TopActivity {
                                             }
 
                                         } else if ("orderedwithnomoney".equals(state)) {//待付款
-
+                                            Intent intent = new Intent(mContext, PayViewActivity.class);
+                                            intent.putExtra("ordertotlefee",orderInfo.get("actualneedpaymoney"));
+                                            startActivity(intent);
                                         } else {//待收货
                                         }
                                     }

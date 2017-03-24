@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.nearby;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +29,13 @@ import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.utils.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -205,6 +213,64 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
 
             }
         });
+
+        //分享
+        findViewById(R.id.delete_tv_share).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mSelectIds.size() >0 && mSelectIds.size() < 2){
+                    String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+mSelectIds.get(0).getOrderdetailid();
+                    UMWeb  web = new UMWeb(url);
+                    web.setTitle("This is web title");
+                    web.setThumb(new UMImage(mContext, R.drawable.icon_about));
+                    web.setDescription("my description");
+
+                    new ShareAction((Activity) mContext)
+                            .withMedia(web)
+                            .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QZONE,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
+                            .setCallback(umShareListener).open();
+
+                }else {
+                    UtilAssistants.showToast("您需要选择一个产品！");
+                }
+
+
+//                new ShareAction((Activity) mContext).withText("hello")
+//                        .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QZONE,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
+//                        .setCallback(umShareListener).open();
+            }
+        });
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //分享开始的回调
+        }
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            UtilAssistants.showToast("分享成功啦");
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            UtilAssistants.showToast("分享失败啦"+t.getMessage());
+            if(t!=null){
+                Log.d("throw","throw:"+t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            UtilAssistants.showToast("分享取消啦");
+        }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+
     }
 
     /**

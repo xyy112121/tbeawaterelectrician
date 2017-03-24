@@ -39,14 +39,18 @@ public class UserAction extends BaseAction {
      * @return
      * @throws Exception
      */
-    public RspInfo login(String phone, String pwd) throws Exception {
-        RspInfo rspInfo;
+    public RspInfo1 login(String phone, String pwd) throws Exception {
+        RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("mobilenumber", phone));
         pairs.add(new BasicNameValuePair("userpas", MD5Util.getMD5String(pwd)));
         String result = sendRequest("TBEAENG001001004000", pairs);
-        rspInfo = gson.fromJson(result, new TypeToken<RspInfo<UserInfo2>>() {
-        }.getType());
+        rspInfo = gson.fromJson(result,RspInfo1.class);
+//        if(re.isSuccess()){
+//
+//        }
+//        rspInfo = gson.fromJson(result, new TypeToken<RspInfo<UserInfo2>>() {
+//        }.getType());
         return rspInfo;
 
     }

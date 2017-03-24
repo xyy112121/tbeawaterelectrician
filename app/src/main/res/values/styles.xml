@@ -197,4 +197,5 @@
         <item name="android:textColor">@color/add_shop_cart_text_color</item>
     </style>
 
+
 </resources>

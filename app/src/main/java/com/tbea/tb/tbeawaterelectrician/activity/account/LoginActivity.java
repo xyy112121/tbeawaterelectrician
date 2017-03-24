@@ -23,11 +23,14 @@ import com.tbea.tb.tbeawaterelectrician.activity.my.EditBindingPhoneActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.UserInfo2;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
+
+import java.util.Map;
 
 import kr.co.namee.permissiongen.PermissionFail;
 import kr.co.namee.permissiongen.PermissionGen;
@@ -165,12 +168,14 @@ public class LoginActivity extends Activity {
                 dialog.dismiss();
                 switch (msg.what) {
                     case ThreadState.SUCCESS:
-                        RspInfo re = (RspInfo) msg.obj;
+                        RspInfo1 re = (RspInfo1) msg.obj;
                         if (re.isSuccess()) {
-                            UserInfo2 userInfo2 = (UserInfo2) re.getDateObj("userinfo");
+//                            UserInfo2 userInfo2 = (UserInfo2) re.getDateObj("userinfo");
+                            Map<String,Object> data = (Map<String,Object>)re.getData();
+                            Map<String,String> userinfo = (Map<String,String>)data.get("userinfo");
 //                        MyApplication.instance.setUserInfo(userInfo2);
                             ShareConfig.setConfig(LoginActivity.this, Constants.ONLINE, true);
-                            ShareConfig.setConfig(LoginActivity.this, Constants.USERID, userInfo2.getId());
+                            ShareConfig.setConfig(LoginActivity.this, Constants.USERID, userinfo.get("id"));
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
@@ -190,7 +195,7 @@ public class LoginActivity extends Activity {
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo re = userAction.login(mobile, pwd);
+                    RspInfo1 re = userAction.login(mobile, pwd);
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);

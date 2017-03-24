@@ -48,6 +48,7 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
     private int mPagesiz =10 ;
     private BGARefreshLayout mRefreshLayout;
     private boolean isFirst = true;
+    private String mCurrentMoney;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,46 +69,58 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
                 mRefreshLayout.endRefreshing();
                 switch (msg.what){
                     case ThreadState.SUCCESS:
-                        RspInfo1 re = (RspInfo1)msg.obj;
-                        if(re.isSuccess()){
-                            if(isFirst == true){
-                                LinearLayout layout = (LinearLayout)getLayoutInflater().inflate(R.layout.activity_wallet_list_head,null);
-                                mListView.addHeaderView(layout);
-                                FrameLayout layout1 = (FrameLayout)getLayoutInflater().inflate(R.layout.activity_wallet_list_item_head,null);
-                                mListView.addHeaderView(layout1);
-                                findViewById(R.id.my_wallet_list_withdraw_cash).setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        startActivity(new Intent(WalletListActivity.this,WalletWithdrawCashActivity.class));
+                        try {
+                            RspInfo1 re = (RspInfo1)msg.obj;
+                            if(re.isSuccess()){
+                                if(isFirst == true){
+                                    LinearLayout layout = (LinearLayout)getLayoutInflater().inflate(R.layout.activity_wallet_list_head,null);
+                                    mListView.addHeaderView(layout);
+                                    FrameLayout layout1 = (FrameLayout)getLayoutInflater().inflate(R.layout.activity_wallet_list_item_head,null);
+                                    mListView.addHeaderView(layout1);
+                                    findViewById(R.id.my_wallet_list_withdraw_cash).setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            if("0".equals(mCurrentMoney)){
+                                                UtilAssistants.showToast("你当前可提现金额为0");
+
+                                            }else {
+                                                startActivity(new Intent(WalletListActivity.this,WalletWithdrawCashActivity.class));
+                                            }
+
+                                        }
+                                    });
+                                }
+                                Map<String, Object> data = (Map<String, Object>) re.getData();
+                                Map<String,String> mymoneyinfo =  (Map<String,String>) data.get("mymoneyinfo");
+                                if(mymoneyinfo != null){
+                                    mCurrentMoney = mymoneyinfo.get("currentmoney");
+                                    ((TextView)findViewById(R.id.my_wallet_list_currentmoney)).setText("￥ "+mymoneyinfo.get("currentmoney"));
+                                }
+                                List<Map<String,String>> list =  (List<Map<String,String>>) data.get("nottakemoneylist");
+                                List<Receive> receiveList = new ArrayList<>();
+                                if(list != null){
+                                    for (int i = 0;i< list.size();i++){
+                                        Receive obj = new Receive();
+                                        obj.setId(list.get(i).get("id"));
+                                        obj.setEvent(list.get(i).get("takemoneycode"));
+                                        obj.setMoney(list.get(i).get("money"));
+                                        obj.setTime(list.get(i).get("validexpiredtime"));
+                                        receiveList.add(obj);
                                     }
-                                });
-                            }
-                            Map<String, Object> data = (Map<String, Object>) re.getData();
-                            Map<String,String> mymoneyinfo =  (Map<String,String>) data.get("mymoneyinfo");
-                            if(mymoneyinfo != null){
-                                ((TextView)findViewById(R.id.my_wallet_list_currentmoney)).setText("￥ "+mymoneyinfo.get("currentmoney"));
-                            }
-                            List<Map<String,String>> list =  (List<Map<String,String>>) data.get("nottakemoneylist");
-                            List<Receive> receiveList = new ArrayList<>();
-                            if(list != null){
-                                for (int i = 0;i< list.size();i++){
-                                    Receive obj = new Receive();
-                                    obj.setId(list.get(i).get("id"));
-                                    obj.setEvent(list.get(i).get("takemoneycode"));
-                                    obj.setMoney(list.get(i).get("money"));
-                                    obj.setTime(list.get(i).get("validexpiredtime"));
-                                    receiveList.add(obj);
+                                    mAdapter.addAll(receiveList);
+                                }else {
+                                    if(mPage >1){//防止分页的时候没有加载数据，但是页数已经增加，导致下一次查询不正确
+                                        mPage--;
+                                    }
                                 }
-                                mAdapter.addAll(receiveList);
+                                isFirst = false;
                             }else {
-                                if(mPage >1){//防止分页的时候没有加载数据，但是页数已经增加，导致下一次查询不正确
-                                    mPage--;
-                                }
+                                UtilAssistants.showToast(re.getMsg());
                             }
+                        }catch (Exception e){
                             isFirst = false;
-                        }else {
-                            UtilAssistants.showToast(re.getMsg());
                         }
+
 
                         break;
                     case ThreadState.ERROR:
