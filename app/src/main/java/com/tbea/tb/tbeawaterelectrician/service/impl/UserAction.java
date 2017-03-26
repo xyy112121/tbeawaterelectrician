@@ -92,16 +92,15 @@ public class UserAction extends BaseAction {
     /**
      * 首页
      */
-    public RspInfo getMianDate(String cityname, String cityid, int page, int pagesize) throws Exception {
-        RspInfo rspInfo;
+    public RspInfo1 getMianDate(String cityname, String cityid, int page, int pagesize) throws Exception {
+        RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("cityname", cityname));
         pairs.add(new BasicNameValuePair("cityid", cityid));
         pairs.add(new BasicNameValuePair("page", String.valueOf(page)));
         pairs.add(new BasicNameValuePair("pagesize", String.valueOf(pagesize)));
         String result = sendRequest("TBEAENG002001001000", pairs);
-        rspInfo = gson.fromJson(result, new TypeToken<RspInfo<Object>>() {
-        }.getType());
+        rspInfo = gson.fromJson(result, RspInfo1.class);
         return rspInfo;
     }
 

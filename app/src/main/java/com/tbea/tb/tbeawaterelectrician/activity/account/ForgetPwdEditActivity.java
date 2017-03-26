@@ -41,6 +41,16 @@ public class ForgetPwdEditActivity extends TopActivity {
             public void onClick(View view) {
                 String newPwd = ((TextView)findViewById(R.id.pwd_edit_new)).getText()+"";
                 String confirmPwd = ((TextView)findViewById(R.id.pwd_edit_confirm)).getText()+"";
+
+                if("".equals(newPwd)){
+                    UtilAssistants.showToast("新密码不能为空！");
+                    return;
+                }
+
+                if(newPwd.length() < 6 && newPwd.length() <= 10){
+                    UtilAssistants.showToast("密码长度6到10位！");
+                    return;
+                }
                 if(!newPwd.equals(confirmPwd)){
                     UtilAssistants.showToast("两次密码不一致！");
                     return;

@@ -137,7 +137,7 @@ public class ScanCodeViewActivity extends TopActivity {
         ((TextView) findViewById(R.id.scan_code_view_commodityname)).setText(obj.getCommodityname());
         ((TextView) findViewById(R.id.scan_code_view_commodityspec)).setText(obj.getCommodityspec());
         ((TextView) findViewById(R.id.scan_code_view_manufacturedate)).setText(obj.getManufacturedate());
-        ((TextView) findViewById(R.id.scan_code_mobilenumber)).setText("串货有奖举报电话:"+obj.getMobilenumber());
+        ((TextView) findViewById(R.id.scan_code_mobilenumber)).setText("窜货有奖举报电话:"+obj.getMobilenumber());
 
         ((TextView) findViewById(R.id.scan_code_appealreward)).setText(obj.getAppealreward());
         if(obj.getNeedappeal().equals("0")){

@@ -22,11 +22,12 @@ import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 import java.util.Map;
 
 /**
- * Created by abc on 16/12/28.账户安全
+ * Created by abc on 16/12/28.帐户安全
  */
 
 public class AccountSafeActivity extends TopActivity {
     private Context mContext;
+    private String mPhone;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class AccountSafeActivity extends TopActivity {
         setContentView(R.layout.activity_account_safe);
         mContext = this;
         MyApplication.instance.addActivity((Activity) mContext);
-        initTopbar("账户信息");
+        initTopbar("帐户信息");
         getDate();
         listener();
     }
@@ -54,7 +55,8 @@ public class AccountSafeActivity extends TopActivity {
                             Map<String, Object> data = (Map<String, Object>) re.getData();
                             Map<String, String> personInfo = (Map<String, String>) data.get("useraccountinfo");
                             ((TextView)findViewById(R.id.account_grade)).setText(personInfo.get("risklevel"));
-                            ((TextView)findViewById(R.id.account_old_phone)).setText(personInfo.get("mobilenumber"));
+                            mPhone = personInfo.get("mobilenumber");
+                            ((TextView)findViewById(R.id.account_old_phone)).setText(mPhone);
                         }else {
                             UtilAssistants.showToast(re.getMsg());
                         }
@@ -85,6 +87,7 @@ public class AccountSafeActivity extends TopActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext,EditBindingPhoneActivity.class);
+                intent.putExtra("phone",mPhone);
                 startActivity(intent);
             }
         });

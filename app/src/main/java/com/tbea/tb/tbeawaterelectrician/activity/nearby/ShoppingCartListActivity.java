@@ -279,28 +279,16 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
     private class OrderDetailid{
         private String orderdetailid;
         private int ordernumber;
+        private String url;
 
-        public OrderDetailid(String  id,int number){
+        public OrderDetailid(String  id,int number,String url){
             this.orderdetailid = id;
             this.ordernumber = number;
+            this.url = url;
         }
-//        public OrderDetailid(){
-//
-//        }
+
         public String getOrderdetailid() {
             return orderdetailid;
-        }
-
-        public void setOrderdetailid(String orderdetailid) {
-            this.orderdetailid = orderdetailid;
-        }
-
-        public int getOrdernumber() {
-            return ordernumber;
-        }
-
-        public void setOrdernumber(int ordernumber) {
-            this.ordernumber = ordernumber;
         }
     }
 
@@ -463,7 +451,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
                     String price = ((TextView) findViewById(R.id.tv_total_price)).getText()+"";
                     Double price2 = Double.valueOf(price);
                     if (((CheckBox) v).isChecked()) {
-                        OrderDetailid orderDetailid = new OrderDetailid(obj.getOrderdetailid(),obj.getOrdernumber());
+                        OrderDetailid orderDetailid = new OrderDetailid(obj.getOrderdetailid(),obj.getOrdernumber(),obj.getCommoditypicture());
                         mSelectIds.add(orderDetailid);
                         price2 = price2 + (obj.getOrdernumber()*obj.getOrderprice());
                     } else {
@@ -530,7 +518,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
                 Double price = 0.0;
                 for (ProductInfo item : mList) {
                     item.setChoosed(true);
-                    OrderDetailid orderDetailid = new OrderDetailid(item.getCommodityid(),item.getOrdernumber());
+                    OrderDetailid orderDetailid = new OrderDetailid(item.getCommodityid(),item.getOrdernumber(),item.getCommoditypicture());
                     mSelectIds.add(orderDetailid);
                     int count = item.getOrdernumber();
                     price = price + (count * item.getOrderprice()

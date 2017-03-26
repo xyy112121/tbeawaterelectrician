@@ -32,6 +32,7 @@ import com.tbea.tb.tbeawaterelectrician.component.CircleImageView;
 import com.tbea.tb.tbeawaterelectrician.entity.Company;
 import com.tbea.tb.tbeawaterelectrician.entity.HomeDateSon;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
@@ -199,7 +200,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                 mRefreshLayout.endRefreshing();
                 switch (msg.what) {
                     case ThreadState.SUCCESS:
-                        RspInfo re = (RspInfo) msg.obj;
+                        RspInfo1 re = (RspInfo1) msg.obj;
                         if (re.isSuccess()) {
                             if (mPage == 2) {
                                 getAdvertiselist(re);//从返回的结果中获取广告数据列表并操作相对应的View
@@ -223,7 +224,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
             public void run() {
                 try {
                     UserAction action = new UserAction();
-                    RspInfo result = action.getMianDate(mCityname, mCityid, mPage++, mPagesiz);
+                    RspInfo1 result = action.getMianDate(mCityname, mCityid, mPage++, mPagesiz);
                     handler.obtainMessage(ThreadState.SUCCESS, result).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
@@ -235,8 +236,10 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
     /**
      * 从返回的结果中获取广告数据列表并操作相对应的View
      */
-    public void getAdvertiselist(RspInfo re) {
-        List<Map<String, String>> advertiselist = (List<Map<String, String>>) re.getDateObj("advertiselist");
+    public void getAdvertiselist(RspInfo1 re) {
+//        List<Map<String, String>> advertiselist = (List<Map<String, String>>) re.getDateObj("advertiselist");
+        Map<String,Object> date = (Map<String,Object>)re.getData();
+        List<Map<String, String>> advertiselist = (List<Map<String, String>>) date.get("advertiselist");
         String[] images = new String[advertiselist.size()];
         if (advertiselist != null) {
             for (int i = 0;i<advertiselist.size();i++) {
@@ -262,8 +265,10 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
     /**
      * 从返回的结果中获取活动通知列表并操作相对应的View
      */
-    public void getNewMessage1List(RspInfo re) {
-        List<Map<String, String>> newMessage1List = (List<Map<String, String>>) re.getDateObj("newmessage1");
+    public void getNewMessage1List(RspInfo1 re) {
+//        List<Map<String, String>> newMessage1List = (List<Map<String, String>>) re.getDateObj("newmessage1");
+        Map<String,Object> date = (Map<String,Object>)re.getData();
+        List<Map<String, String>> newMessage1List = (List<Map<String, String>>) date.get("newmessage1");
         if (newMessage1List != null) {
             String nerMessage1Name = newMessage1List.get(0).get("name");
             ((TextView) headView.findViewById(R.id.home_newmessage1_text)).setText(nerMessage1Name);
@@ -273,9 +278,11 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
     /**
      * 从返回的结果中获取返利列表并操作相对应的View
      */
-    public void getNewMessage2List(RspInfo re) {
+    public void getNewMessage2List(RspInfo1 re) {
         //返利列表
-        List<Map<String, String>> newMessage2List = (List<Map<String, String>>) re.getDateObj("newmessage2");
+//        List<Map<String, String>> newMessage2List = (List<Map<String, String>>) re.getDateObj("newmessage2");
+        Map<String,Object> date = (Map<String,Object>)re.getData();
+        List<Map<String, String>> newMessage2List = (List<Map<String, String>>) date.get("newmessage2");
         if (newMessage2List != null) {
             for (int i = 0; i < newMessage2List.size(); i++) {
                 List<HomeDateSon.Newmessage2> list = new ArrayList<>();
@@ -314,7 +321,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
            obj.setMessage(newMessage2List.get(i).get("message"));
            obj.setPicture(newMessage2List.get(i).get("picture"));
            obj.setUsername(newMessage2List.get(i).get("username"));
-           obj.setMoney(newMessage2List.get(i).get("money")+i);
+           obj.setMoney(newMessage2List.get(i).get("money"));
        }catch (Exception e){
            Log.e("HomeFragment",e.getMessage());
        }
@@ -324,9 +331,11 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
     /**
      * 从返回的结果中获取附近商家列表并操作相对应的View
      */
-    public void getCompanylist(RspInfo re) {
+    public void getCompanylist(RspInfo1 re) {
         //附近商家
-        List<Map<String, String>> companylist = (List<Map<String, String>>) re.getDateObj("companylist");
+//        List<Map<String, String>> companylist = (List<Map<String, String>>) re.getDateObj("companylist");
+        Map<String,Object> date = (Map<String,Object>)re.getData();
+        List<Map<String, String>> companylist = (List<Map<String, String>>) date.get("companylist");
         if (companylist != null) {
             List<Company> companyList2 = new ArrayList<>();
             for (int i = 0; i < companylist.size(); i++) {

@@ -33,7 +33,7 @@ public class ForgetPwdPhoneActivity extends TopActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_binding_phone_edit);
-        initTopbar("更改绑定手机号");
+        initTopbar("更改绑定手机号码");
         button = (Button)findViewById(R.id.send_code);
         mContext = this;
         listener();
@@ -136,6 +136,10 @@ public class ForgetPwdPhoneActivity extends TopActivity {
     public  void validateCode(final String mobile, final String verifycode){
         if(isMobileNO(mobile) == false){
             UtilAssistants.showToast("请输入正确的手机号码！");
+            return;
+        }
+        if("".equals(verifycode)){
+            UtilAssistants.showToast("验证码不能为空！");
             return;
         }
         final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);

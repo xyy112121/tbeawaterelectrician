@@ -64,7 +64,7 @@ public class SuYuanViewActivity extends TopActivity {
                                 Map<String, Object> data = (Map<String, Object>) re.getData();
                                 SuYuan suYuan = new SuYuan();
                                 Map<String, String> productinfo = (Map<String, String>) data.get("productinfo");
-                                List<Map<String, String>> ManufactureProcessEntityList = (List<Map<String, String>>) data.get("ManufactureProcessEntity");
+                                List<Map<String, String>> manufactureProcessEntityList = (List<Map<String, String>>) data.get("manufactureprocess");
                                 List<ManufactureProcessEntity> list = new ArrayList<>();
 
                                 if (productinfo != null) {
@@ -75,12 +75,12 @@ public class SuYuanViewActivity extends TopActivity {
                                     suYuan.setDestination(productinfo.get("destination"));
                                     suYuan.setManufacture(productinfo.get("manufacture"));
                                 }
-                                if (ManufactureProcessEntityList != null) {
-                                    for (int i = 0; i < ManufactureProcessEntityList.size(); i++) {
+                                if (manufactureProcessEntityList != null) {
+                                    for (int i = 0; i < manufactureProcessEntityList.size(); i++) {
                                         ManufactureProcessEntity ManufactureProcessEntity = new ManufactureProcessEntity();
-                                        ManufactureProcessEntity.setProcessname(ManufactureProcessEntityList.get(i).get("processname"));
-                                        ManufactureProcessEntity.setDepartment(ManufactureProcessEntityList.get(i).get("department"));
-                                        ManufactureProcessEntity.setProcessdate(ManufactureProcessEntityList.get(i).get("processdate"));
+                                        ManufactureProcessEntity.setProcessname(manufactureProcessEntityList.get(i).get("processname"));
+                                        ManufactureProcessEntity.setDepartment(manufactureProcessEntityList.get(i).get("department"));
+                                        ManufactureProcessEntity.setProcessdate(manufactureProcessEntityList.get(i).get("processdate"));
                                         list.add(ManufactureProcessEntity);
                                     }
                                 }

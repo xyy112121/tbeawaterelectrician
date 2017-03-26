@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_gray"
-                android:text="特别提示:\n为了您账户安全,扫码返利提现需实名认证；也为了方便您能及时的提取现金，请提前准备好相关的证件进行实名认证"
+                android:text="特别提示:\n为了您帐户安全,扫码返利提现需实名认证；也为了方便您能及时的提取现金，请提前准备好相关的证件进行实名认证"
                 android:layout_marginTop="20dp"
                 />
 

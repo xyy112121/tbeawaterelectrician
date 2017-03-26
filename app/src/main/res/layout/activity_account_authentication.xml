@@ -28,7 +28,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="10dp"
-                    android:text="一张身份证只能绑定一个手机码号，为了您的账户安全，请务必使用本人身份进行实名认证。 请上传原始比例的身份证正反面，请勿裁剪涂改，保证身份信息清晰完整显示，否则无法通过审核。"
+                    android:text="一张身份证只能绑定一个手机码号，为了您的帐户安全，请务必使用本人身份进行实名认证。 请上传原始比例的身份证正反面，请勿裁剪涂改，保证身份信息清晰完整显示，否则无法通过审核。"
                     android:textColor="@color/text_gray"
                     android:layout_marginBottom="20dp"/>
 

@@ -9,11 +9,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
@@ -53,6 +57,48 @@ public class OrderEditActivity extends TopActivity {
         findViewById(R.id.addr_item_isdefault).setVisibility(View.GONE);
         getDate();
         listener();
+        initShop();
+    }
+
+    /**
+     * 商品详情
+     */
+    private void initShop(){
+        String orderdetailidlist = getIntent().getStringExtra("orderdetailidlist");
+        Gson gson = new Gson();
+        List<OrderDetailid> list = gson.fromJson(orderdetailidlist, new TypeToken<List<OrderDetailid>>() {
+        }.getType());
+        LinearLayout parentLayout = (LinearLayout)findViewById(R.id.order_edit_shop_layout);
+        if(list != null && list.size()>0){
+            for (OrderDetailid item:list) {
+                LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_order_edit_shopimage_layout,null);
+                ImageView imageView = (ImageView)layout.findViewById(R.id.order_edit_shop_imageview);
+                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+item.url,imageView);
+                parentLayout.addView(parentLayout);
+            }
+
+
+        }
+
+    }
+
+    /**
+     * 选择的产品
+     */
+    private class OrderDetailid{
+        private String orderdetailid;
+        private int ordernumber;
+        private String url;
+
+        public OrderDetailid(String  id,int number,String url){
+            this.orderdetailid = id;
+            this.ordernumber = number;
+            this.url = url;
+        }
+
+        public String getOrderdetailid() {
+            return orderdetailid;
+        }
     }
 
     private void listener(){

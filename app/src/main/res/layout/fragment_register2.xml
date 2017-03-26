@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/gray"
-                    android:text="一张身份证只能绑定一个手机号,为了你的账号安全,请务必使用本人身份证进行实名认证。请上传原始比例的正反面,请勿裁剪涂改,保证身份信息完整显示,否则不能通过审核。"/>
+                    android:text="一张身份证只能绑定一个手机号,为了你的帐号安全,请务必使用本人身份证进行实名认证。请上传原始比例的正反面,请勿裁剪涂改,保证身份信息完整显示,否则不能通过审核。"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

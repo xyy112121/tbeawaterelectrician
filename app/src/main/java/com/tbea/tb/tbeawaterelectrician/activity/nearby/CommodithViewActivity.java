@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -101,7 +102,9 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(mContext, true));
 
         id = getIntent().getStringExtra("id");
-        String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+id;
+        String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+id
+                + "&&userid="+ MyApplication.instance.getUserId()+"&&longitude="+MyApplication.instance.getLongitude()
+                +"&&latitude="+MyApplication.instance.getLatitude();;
         showWebView(url);
         mColorRG = (FlexRadioGroup)findViewById(R.id.commodith_view_color_rg);
         mSpecificationsRG = (FlexRadioGroup)findViewById(R.id.commodith_view_specifications_rg);
@@ -198,7 +201,9 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                 findViewById(R.id.text1_view).setVisibility(View.VISIBLE);
                 findViewById(R.id.text2_view).setVisibility(View.INVISIBLE);
                 findViewById(R.id.text3_view).setVisibility(View.INVISIBLE);
-                String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+id;
+                String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+id
+                        + "&&userid="+ MyApplication.instance.getUserId()+"&&longitude="+MyApplication.instance.getLongitude()
+                        +"&&latitude="+MyApplication.instance.getLatitude();
                 showWebView(url);
             }
         });
@@ -283,6 +288,9 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                                 RspInfo1 re = (RspInfo1) msg.obj;
                                 if (re.isSuccess()) {
                                     UtilAssistants.showToast(re.getMsg());
+                                    TextView collectView = (TextView) findViewById(R.id.commodith_view_collect);
+                                    Drawable top = getResources().getDrawable(R.drawable.icon_collect_select);
+                                    collectView.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
                                 } else {
                                     UtilAssistants.showToast(re.getMsg());
                                 }
@@ -398,6 +406,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                             RspInfo re = (RspInfo) msg.obj;
                             if (re.isSuccess()) {
                                 String commoditynumber = (String) re.getDateObj("commoditynumber");
+
                                 if(commoditynumber != null && !"".equals(commoditynumber) && !"0".equals(commoditynumber)){
                                     TextView textView = (TextView)findViewById(R.id.commodith_view_SC);
                                     if(mBadgeView == null){
@@ -409,9 +418,17 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                                     }else {
                                         mBadgeView.setText(commoditynumber);
                                     }
-
-
                                 }
+                                String commoditysavestatus = (String) re.getDateObj("commoditysavestatus");
+                                TextView collectView = (TextView) findViewById(R.id.commodith_view_collect);
+                                if("1".equals(commoditysavestatus)){//收藏
+                                    Drawable top = getResources().getDrawable(R.drawable.icon_collect_select);
+                                    collectView.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                                }else {
+                                    Drawable top = getResources().getDrawable(R.drawable.icon_collect);
+                                    collectView.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                                }
+
 
                             } else {
                                 UtilAssistants.showToast(re.getMsg());
@@ -648,7 +665,9 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
             String jsonObj = data.getStringExtra("obj");
             Gson gson = new Gson();
             Address address = gson.fromJson(jsonObj,Address.class);
-            String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+id+"&&recvaddressid="+address.getId();
+            String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+id+"&&recvaddressid="+address.getId()
+                    +"&&userid="+ MyApplication.instance.getUserId()+"&&longitude="+MyApplication.instance.getLongitude()
+                    +"&&latitude="+MyApplication.instance.getLatitude();
             showWebView(url);
         }
     }
@@ -860,24 +879,6 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         public OrderDetailid(String  id,String number){
             this.orderdetailid = id;
             this.ordernumber = number;
-        }
-        //        public OrderDetailid(){
-//
-//        }
-        public String getOrderdetailid() {
-            return orderdetailid;
-        }
-
-        public void setOrderdetailid(String orderdetailid) {
-            this.orderdetailid = orderdetailid;
-        }
-
-        public String getOrdernumber() {
-            return ordernumber;
-        }
-
-        public void setOrdernumber(String ordernumber) {
-            this.ordernumber = ordernumber;
         }
     }
 }

@@ -34,6 +34,8 @@ public class EditBindingPhoneActivity extends TopActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_binding_phone_edit);
         initTopbar("更改绑定手机号");
+        String phone = getIntent().getStringExtra("phone");
+        ((EditText)findViewById(R.id.myphone_edit_old_phone)).setText(phone);
         button = (Button)findViewById(R.id.send_code);
         mContext = this;
         listener();
@@ -131,6 +133,10 @@ public class EditBindingPhoneActivity extends TopActivity {
     public  void updateOldPhone(final String mobile, final String verifycode){
         if(isMobileNO(mobile) == false){
             UtilAssistants.showToast("请输入正确的手机号码！");
+            return;
+        }
+        if("".equals(verifycode)){
+            UtilAssistants.showToast("验证码不能为空！");
             return;
         }
         final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);

@@ -132,6 +132,10 @@ public class BindingNewPhoneActivity extends TopActivity {
             UtilAssistants.showToast("请输入正确的手机号码！");
             return;
         }
+        if("".equals(verifycode)){
+            UtilAssistants.showToast("验证码不能为空！");
+            return;
+        }
         final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
         dialog.setText("请等待");
         dialog.show();

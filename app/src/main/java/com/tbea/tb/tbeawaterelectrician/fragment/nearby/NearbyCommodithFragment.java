@@ -355,6 +355,8 @@ public class NearbyCommodithFragment extends Fragment implements BGARefreshLayou
                 public void onClick(View view) {
                     Intent intent = new Intent(context, CommodithViewActivity.class);
                     intent.putExtra("id",obj.getId());
+                    intent.putExtra("companytypeid",obj.getCompanytypeid());
+                    intent.putExtra("companyid",obj.getCompanyid());
                     startActivity(intent);
                 }
             });

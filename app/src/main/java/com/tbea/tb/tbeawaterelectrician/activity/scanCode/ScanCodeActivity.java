@@ -197,7 +197,22 @@ public class ScanCodeActivity extends TopActivity {
                             startActivity(intent);
 
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            final CustomDialog dialog1 = new CustomDialog(ScanCodeActivity.this,R.style.MyDialog,R.layout.tip_delete_dialog);
+                            dialog1.setText(re.getMsg());
+                            dialog1.setCancelBtnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog1.dismiss();
+                                    finish();
+                                }
+                            },"取消");
+
+                            dialog1.setConfirmBtnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog1.dismiss();
+                                }
+                            },"确定");
                         }
 
                         break;
