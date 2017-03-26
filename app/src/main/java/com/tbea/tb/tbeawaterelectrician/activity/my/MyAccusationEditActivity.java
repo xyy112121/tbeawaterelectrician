@@ -228,6 +228,7 @@ public class MyAccusationEditActivity extends TopActivity{
                 UtilAssistants.showToast("请填写完全举报信息");
                 return;
             }
+
             final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
             dialog.setText("加载中");
             dialog.show();
@@ -267,7 +268,8 @@ public class MyAccusationEditActivity extends TopActivity{
                         mObj.setAppealtime(formatter.format(curDate));
                         mObj.setScanaddress(MyApplication.instance.getAddrsss());
                         UserAction action = new UserAction();
-                        RspInfo1 re = action.submitAppeal(mObj,appealImages);
+                        String scanCode = getIntent().getStringExtra("scancode");
+                        RspInfo1 re = action.submitAppeal(mObj,appealImages,scanCode);
                         handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
                     } catch (Exception e) {
                         handler.sendEmptyMessage(ThreadState.ERROR);

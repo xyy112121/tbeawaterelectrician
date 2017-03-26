@@ -65,7 +65,7 @@ public class DistributorViewAcitivty extends TopActivity{
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             if(url.contains("distributorphone")){
-                String phone = url.substring(url.indexOf("_",url.length()));
+                String phone = url.substring(url.indexOf("_")+1,url.length());
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+ phone));
                 startActivity(intent);
                 return true;

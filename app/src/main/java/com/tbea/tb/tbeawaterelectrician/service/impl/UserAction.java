@@ -466,10 +466,11 @@ public class UserAction extends BaseAction {
     /**
      * 提交举报
      */
-    public RspInfo1 submitAppeal(Appeal obj, List<String> images) throws Exception {
+    public RspInfo1 submitAppeal(Appeal obj, List<String> images,String scancode) throws Exception {
         RspInfo1 rspInfo;
         Map<String, String> paramsIn = new HashMap<>();
         Map<String, String> fileIn = new HashMap<>();
+        paramsIn.put("scancode", scancode);
         paramsIn.put("appealcategoryid", obj.getAppealcategoryid());
         paramsIn.put("appealtime", obj.getAppealtime());
         paramsIn.put("scanaddress", obj.getScanaddress());
@@ -1175,9 +1176,10 @@ public class UserAction extends BaseAction {
     /**
      * 购物车数量
      */
-    public RspInfo getShopCarNumber() throws Exception {
+    public RspInfo getShopCarNumber(String commodityid) throws Exception {
         RspInfo rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("commodityid", commodityid));
         String result = sendRequest("TBEAENG003001012001", pairs);
         rspInfo = gson.fromJson(result, RspInfo.class);
         return rspInfo;

@@ -37,6 +37,7 @@ import java.util.Map;
 
 public class ScanCodeViewActivity extends TopActivity {
     private ScanCode mObj;
+    private String mNeedappeal;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,9 +64,15 @@ public class ScanCodeViewActivity extends TopActivity {
         findViewById(R.id.scan_code_tip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if("2".equals(mNeedappeal)){
+                   UtilAssistants.showToast("您已经举报过了");
+                    return;
+                }
                 Intent intent = new Intent(ScanCodeViewActivity.this, MyAccusationEditActivity.class);
+                String scanCode = getIntent().getStringExtra("scanCode");
                 intent.putExtra("name",mObj.getCommodityname());
                 intent.putExtra("commodityid",mObj.getId());
+                intent.putExtra("scancode",scanCode);
                 startActivity(intent);
             }
         });
@@ -187,6 +194,7 @@ public class ScanCodeViewActivity extends TopActivity {
                                 if (appealinfo != null) {
                                     obj.setAppealreward(appealinfo.get("appealreward"));
                                     obj.setMobilenumber(appealinfo.get("mobilenumber"));
+                                    mNeedappeal = appealinfo.get("needappeal");
                                     obj.setNeedappeal(appealinfo.get("needappeal"));
                                 }
 

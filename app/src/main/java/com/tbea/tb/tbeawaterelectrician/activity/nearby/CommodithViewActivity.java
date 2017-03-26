@@ -451,7 +451,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo re = userAction.getShopCarNumber();
+                    RspInfo re = userAction.getShopCarNumber(id);
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);

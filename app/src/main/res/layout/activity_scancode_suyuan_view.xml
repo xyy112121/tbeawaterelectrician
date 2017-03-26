@@ -31,14 +31,13 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="产品名称："
                 android:textColor="@color/text_gray" />
@@ -46,8 +45,7 @@
             <TextView
                 android:id="@+id/suyuan_view_name"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -58,22 +56,23 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:text="型号规格："
+                android:layout_gravity="center_vertical"
                 android:textColor="@color/text_gray" />
 
             <TextView
                 android:id="@+id/suyuan_view_specifications"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:text=""/>
 
         </LinearLayout>
     </LinearLayout>
