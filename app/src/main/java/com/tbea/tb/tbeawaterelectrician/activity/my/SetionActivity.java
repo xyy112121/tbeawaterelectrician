@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
@@ -19,9 +20,13 @@ import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
+import com.tbea.tb.tbeawaterelectrician.util.cache.DataCleanManager;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.Properties;
+
+import static java.lang.System.getProperties;
 
 /**
  * Created by cy on 2016/12/27.设置界面
@@ -46,7 +51,7 @@ public class SetionActivity extends TopActivity {
         }
         listener();
         try {
-            String size = getCacheSize(getApplicationContext().getExternalCacheDir());
+            String size = DataCleanManager.getTotalCacheSize(MyApplication.instance);
             ((TextView)findViewById(R.id.cache_size)).setText(size);
         }catch (Exception e){
 
@@ -77,11 +82,13 @@ public class SetionActivity extends TopActivity {
                     @Override
                     public void onClick(View view) {
                         dialog.dismiss();
-                        cleanInternalCache(getApplicationContext());
-                        cleanExternalCache(mContext);
-                        String size = getCacheSize(getApplicationContext().getExternalCacheDir());
+//                        cleanInternalCache(getApplicationContext());
+//                        cleanExternalCache(mContext);
+                        DataCleanManager.clearAllCache(MyApplication.instance);
+//                        String size = getCacheSize(getApplicationContext().getExternalCacheDir());
 
-                        ((TextView)findViewById(R.id.cache_size)).setText(size);
+                        ((TextView)findViewById(R.id.cache_size)).setText("0KB");
+                        UtilAssistants.showToast("清除成功！");
                     }
                 },"确定");
                 dialog.setConfirmBtnClickListener(new View.OnClickListener() {
@@ -130,6 +137,10 @@ public class SetionActivity extends TopActivity {
             }
         });
     }
+
+
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

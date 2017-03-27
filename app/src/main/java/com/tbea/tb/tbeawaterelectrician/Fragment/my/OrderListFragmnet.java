@@ -85,7 +85,7 @@ public class OrderListFragmnet extends Fragment implements BGARefreshLayout.BGAR
                                 for (int i = 0; i < list.size(); i++) {
                                     Order order = new Order();
                                     order.setOrderid(list.get(i).get("orderid")+"");
-                                    order.setOrdercompany(list.get(i).get("ordercompany")+"");
+                                    order.setOrdercompany(list.get(i).get("displaytitle")+"");
                                     order.setOrderstatusid(list.get(i).get("orderstatusid")+"");
                                     order.setOrderstatus(list.get(i).get("orderstatus")+"");
                                     order.setOrdercommoditynumber(list.get(i).get("ordercommoditynumber")+"");

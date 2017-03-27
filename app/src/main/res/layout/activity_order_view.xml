@@ -84,7 +84,8 @@
 
                     <View style="@style/horizontal_view" />
 
-                    <LinearLayout style="@style/edit_style_layout">
+                    <LinearLayout style="@style/edit_style_layout"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/order_view_delivery_type1"
@@ -97,10 +98,12 @@
                             android:imeOptions="actionNext"
                             android:text="12ddddddddddd"
                             android:textColor="@color/text_gray"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
-                    <View style="@style/horizontal_view" />
+                    <View style="@style/horizontal_view"
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <include layout="@layout/addr_edit_list_item" />

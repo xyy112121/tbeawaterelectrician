@@ -106,15 +106,18 @@ public class CustomDialog extends Dialog {
 	public void setConfirmBtnIsCloseWindow(android.view.View.OnClickListener listener){
 		try {
 			findViewById(R.id.cancel_btn).setVisibility(View.GONE);
+			findViewById(R.id.confirm_btn).setVisibility(View.GONE);
+			findViewById(R.id.confirm_btn1).setVisibility(View.VISIBLE);
+
 			if(listener == null){
-				findViewById(R.id.confirm_btn).setOnClickListener(new View.OnClickListener() {
+				findViewById(R.id.confirm_btn1).setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						dismiss();
 					}
 				});
 			} else {
-				findViewById(R.id.confirm_btn).setOnClickListener(listener);
+				findViewById(R.id.confirm_btn1).setOnClickListener(listener);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

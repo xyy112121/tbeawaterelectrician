@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -55,21 +56,26 @@ public class WalletWithdrawCashActivity extends TopActivity {
         findViewById(R.id.wallet_withdraw_cash_finsh).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String money = ((EditText) findViewById(R.id.wallet_withdraw_cash_money)).getText() + "";
-                if ("".equals(money) || "0".equals(money)) {
-                    Toast.makeText(WalletWithdrawCashActivity.this, "请填写提现金额！", Toast.LENGTH_SHORT).show();
-                    return;
+                try {
+                    String money = ((EditText) findViewById(R.id.wallet_withdraw_cash_money)).getText() + "";
+                    if ("".equals(money) || "0".equals(money)) {
+                        Toast.makeText(WalletWithdrawCashActivity.this, "请填写提现金额！", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Double mo = Double.parseDouble(money);
+                    if(mo > Double.parseDouble(mCanexChangeMoney)){
+                        UtilAssistants.showToast("不能大于最大提现金额");
+                        return;
+                    }
+                    Intent intent = new Intent(WalletWithdrawCashActivity.this, WalletWithdrawCashViewActivity.class);
+                    intent.putExtra("money", money);
+                    intent.putExtra("distributorid", mdistributorid);
+                    startActivity(intent);
+                }catch (Exception e){
+                    Log.d("","");
                 }
 
-                int mo = Integer.parseInt(money);
-                if(mo > Integer.parseInt(mCanexChangeMoney)){
-                    UtilAssistants.showToast("不能大于最大提现金额");
-                    return;
-                }
-                Intent intent = new Intent(WalletWithdrawCashActivity.this, WalletWithdrawCashViewActivity.class);
-                intent.putExtra("money", money);
-                intent.putExtra("distributorid", mdistributorid);
-                startActivity(intent);
             }
         });
 
@@ -83,7 +89,12 @@ public class WalletWithdrawCashActivity extends TopActivity {
         findViewById(R.id.wallet_withdraw_cash_select).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getList();
+                try {
+                    getList();
+                }catch (Exception e){
+                    Log.d("","");
+                }
+
             }
         });
     }
@@ -107,10 +118,11 @@ public class WalletWithdrawCashActivity extends TopActivity {
                             if (mDistributorList != null) {
                                 String[] dates = new String[mDistributorList.size()];
                                 for (int i = 0; i < mDistributorList.size(); i++) {
-                                    dates[i] = mDistributorList.get(i).getName();
+                                    dates[i] = mDistributorList.get(i).getName()+" "+mDistributorList.get(i).getDistance();
                                 }
                                 OptionPicker mPicker = new OptionPicker((Activity) mContext, dates);
                                 mPicker.setOffset(1);
+                                mPicker.setTextSize(16);
                                 mPicker.setTextColor(ContextCompat.getColor(mContext, R.color.black));
                                 mPicker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
                                     @Override
@@ -200,10 +212,10 @@ public class WalletWithdrawCashActivity extends TopActivity {
                         RspInfo1 re = (RspInfo1) msg.obj;
                         if (re.isSuccess()) {
                             Map<String, Object> data1 = (Map<String, Object>) re.getData();
-                            Map<String, Object> data = (Map<String, Object>) data1.get("mymoneyinfo");
+                            Map<String, String> data = (Map<String, String>) data1.get("mymoneyinfo");
                             if (data != null) {
-                                String mMoney = data.get("currentmoney") + "";
-                                mCanexChangeMoney =  data.get("canexchangemoney")+"";
+                                String mMoney = data.get("currentmoney");
+                                mCanexChangeMoney =  data.get("canexchangemoney");
                                 String text = "积分金额￥" + mMoney + ",当前可提现金额￥" + mCanexChangeMoney;
                                 ((TextView) findViewById(R.id.wallet_withdraw_cash_info)).setText(text);
                             }

@@ -154,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:ellipsize="end"
-                android:maxLines="1"
+                android:maxLines="2"
                 android:textColor="@color/text_gray" />
 
             <RelativeLayout
