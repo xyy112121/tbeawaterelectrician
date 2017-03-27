@@ -39,7 +39,7 @@ import cn.qqtheme.framework.picker.OptionPicker;
  */
 
 public class WalletWithdrawCashActivity extends TopActivity {
-    protected Double mCanexChangeMoney;
+    protected String mCanexChangeMoney;
     private WebView mWebView;
     private List<Distributor> mDistributorList = new ArrayList<>();
     private Context mContext;
@@ -62,7 +62,7 @@ public class WalletWithdrawCashActivity extends TopActivity {
                 }
 
                 int mo = Integer.parseInt(money);
-                if(mo > mCanexChangeMoney){
+                if(mo > Integer.parseInt(mCanexChangeMoney)){
                     UtilAssistants.showToast("不能大于最大提现金额");
                     return;
                 }
@@ -203,7 +203,7 @@ public class WalletWithdrawCashActivity extends TopActivity {
                             Map<String, Object> data = (Map<String, Object>) data1.get("mymoneyinfo");
                             if (data != null) {
                                 String mMoney = data.get("currentmoney") + "";
-                                mCanexChangeMoney = (Double) data.get("canexchangemoney");
+                                mCanexChangeMoney =  data.get("canexchangemoney")+"";
                                 String text = "积分金额￥" + mMoney + ",当前可提现金额￥" + mCanexChangeMoney;
                                 ((TextView) findViewById(R.id.wallet_withdraw_cash_info)).setText(text);
                             }
