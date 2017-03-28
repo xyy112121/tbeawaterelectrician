@@ -48,7 +48,7 @@ public class PwdEditActivity extends TopActivity {
                     return;
                 }
 
-                if(newPwd.length() < 6 && newPwd.length() <= 10){
+                if(newPwd.length() < 6 || newPwd.length() > 10){
                     UtilAssistants.showToast("密码长度6到10位！");
                     return;
                 }

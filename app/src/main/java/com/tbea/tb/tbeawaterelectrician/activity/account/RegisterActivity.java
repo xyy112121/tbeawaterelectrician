@@ -153,6 +153,11 @@ public class RegisterActivity extends TopActivity {
                     return;
                 }
 
+                if(pwd.length() < 6 || pwd.length() > 10){
+                    UtilAssistants.showToast("密码长度6到10位！");
+                    return;
+                }
+
                 if(!pwd.equals(pwd2)){
                     UtilAssistants.showToast("两次密码不一致！");
                     return;

@@ -28,7 +28,7 @@ public class ForgetPwdEditActivity extends TopActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pwd_edit);
-        initTopbar("修改登录密码");
+        initTopbar("重置密码");
         mContext = this;
         findViewById(R.id.activity_old_pwd_layout).setVisibility(View.GONE);
         findViewById(R.id.activity_old_pwd_view).setVisibility(View.GONE);
@@ -47,10 +47,13 @@ public class ForgetPwdEditActivity extends TopActivity {
                     return;
                 }
 
-                if(newPwd.length() < 6 && newPwd.length() <= 10){
+                if(newPwd.length() < 6 || newPwd.length() > 10){
                     UtilAssistants.showToast("密码长度6到10位！");
                     return;
                 }
+
+
+
                 if(!newPwd.equals(confirmPwd)){
                     UtilAssistants.showToast("两次密码不一致！");
                     return;
