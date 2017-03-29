@@ -293,7 +293,7 @@ public class CollectListActivity extends TopActivity implements BGARefreshLayout
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, CommodithViewActivity.class);
-                    intent.putExtra("id",obj.getId());
+                    intent.putExtra("id",obj.getCommodityid());
                     startActivity(intent);
                 }
             });

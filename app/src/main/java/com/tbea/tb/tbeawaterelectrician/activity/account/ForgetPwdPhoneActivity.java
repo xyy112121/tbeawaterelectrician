@@ -33,7 +33,7 @@ public class ForgetPwdPhoneActivity extends TopActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_binding_phone_edit);
-        initTopbar("更改绑定手机号码");
+        initTopbar("找回密码");
         button = (Button)findViewById(R.id.send_code);
         mContext = this;
         listener();
