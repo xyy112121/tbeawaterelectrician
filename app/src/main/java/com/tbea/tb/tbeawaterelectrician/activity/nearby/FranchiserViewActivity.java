@@ -125,7 +125,7 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
         return layout;
     }
 
-    private  void setCompanyView(NearbyCompany obj){
+    private  void setCompanyView(final NearbyCompany obj){
         if(obj != null){
             if(!"".equals(obj.getPicture())){
                 String url = MyApplication.instance.getImgPath()+ obj.getPicture();
@@ -151,6 +151,17 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
             ((TextView)layout.findViewById(R.id.nearby_company_item_name)).setText(obj.getName());
             ((TextView)layout.findViewById(R.id.nearby_company_item_distance)).setText(obj.getDistance());
             ((TextView)layout.findViewById(R.id.nearby_company_item_addr)).setText(obj.getAddress());
+            layout.findViewById(R.id.nearby_company_item_addr).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext,FranchiserAddressActivity.class);
+                    intent.putExtra("latitude",obj.getLatitude());
+                    intent.putExtra("longitude",obj.getLongitude());
+                    intent.putExtra("id",obj.getId());
+                    startActivity(intent);
+
+                }
+            });
             mCompanyid = obj.getId();
         }
     }
@@ -423,6 +434,7 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
                                     obj.setName(companybaseinfo.get("name"));
                                     obj.setDistance(companybaseinfo.get("distance"));
                                     obj.setLatitude(companybaseinfo.get("latitude"));
+                                    obj.setLongitude(companybaseinfo.get("longitude"));
                                     obj.setAddress(companybaseinfo.get("address"));
                                     obj.setCompanytypeid(companybaseinfo.get("companytypeid"));
                                     obj.setWithcompanyidentified(companybaseinfo.get("withcompanyidentified"));

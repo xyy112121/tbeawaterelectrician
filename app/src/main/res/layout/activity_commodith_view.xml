@@ -50,11 +50,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="3dp">
 
                 <TextView
                     android:id="@+id/commodith_view_company"
                     android:layout_width="wrap_content"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:drawablePadding="5dp"
                     android:drawableTop="@drawable/icon_shop"
@@ -70,6 +73,7 @@
                 <TextView
                     android:id="@+id/commodith_view_collect"
                     android:layout_width="wrap_content"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:drawablePadding="5dp"
                     android:drawableTop="@drawable/icon_collect"
@@ -85,6 +89,7 @@
                 <TextView
                     android:id="@+id/commodith_view_SC"
                     android:layout_width="wrap_content"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:drawablePadding="5dp"
                     android:drawableTop="@drawable/icon_shopping_cart"

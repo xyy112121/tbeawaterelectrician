@@ -1059,10 +1059,11 @@ public class UserAction extends BaseAction {
     /**
      * 收藏商品
      */
-    public RspInfo1 collectCommodity(String commodityid) throws Exception {
+    public RspInfo1 collectCommodity(String commodityid,String distributorid) throws Exception {
         RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("commodityid", commodityid));
+        pairs.add(new BasicNameValuePair("distributorid", distributorid));
         String result = sendRequest("TBEAENG005001011000", pairs);
         rspInfo = gson.fromJson(result, RspInfo1.class);
         return rspInfo;

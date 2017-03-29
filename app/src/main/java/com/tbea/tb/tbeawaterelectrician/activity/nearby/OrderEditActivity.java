@@ -74,10 +74,14 @@ public class OrderEditActivity extends TopActivity {
                 LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_order_edit_shopimage_layout,null);
                 ImageView imageView = (ImageView)layout.findViewById(R.id.order_edit_shop_imageview);
                 ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+item.url,imageView);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
                 parentLayout.addView(layout);
             }
-
-
         }
 
     }

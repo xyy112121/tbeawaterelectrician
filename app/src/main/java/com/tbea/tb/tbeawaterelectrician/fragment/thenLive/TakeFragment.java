@@ -70,10 +70,15 @@ public class TakeFragment extends Fragment implements BGARefreshLayout.BGARefres
         return mView;
     }
 
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         getMessageNumber();
+        TextView cityView = (TextView) mView.findViewById(R.id.mian_city_text);
+        if(!"".endsWith(MyApplication.instance.getCity()) && MyApplication.instance.getCity() != null){
+            cityView.setText(MyApplication.instance.getCity());
+        }
     }
 
     //获取购物车数量

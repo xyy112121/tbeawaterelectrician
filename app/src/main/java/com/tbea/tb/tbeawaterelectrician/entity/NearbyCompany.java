@@ -10,12 +10,21 @@ public class NearbyCompany {
     private String name;
     private String distance;
     private String latitude;
+    private String longitude;
     private String address;
     private String companytypeid;
     private String withcompanyidentified;// 加V认证
     private String withcompanylisence;//工商认证
     private String withguaranteemoney;//消保认证
     private String withidentified;//个人认证
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
 
     public String getAddress() {
         return address;

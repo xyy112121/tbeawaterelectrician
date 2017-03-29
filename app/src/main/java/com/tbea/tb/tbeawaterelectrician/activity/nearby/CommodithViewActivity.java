@@ -65,7 +65,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
     private float mWidth;
     private String mSpecificationId;
     private String mColorId ;
-    private String mDistributorid;
+    private String mDistributorid;//经销商id
     private ListView mListView;
     private EvaluateAdapter mAdapter;
     private  int mPage = 1;
@@ -288,9 +288,17 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                                 RspInfo1 re = (RspInfo1) msg.obj;
                                 if (re.isSuccess()) {
                                     UtilAssistants.showToast(re.getMsg());
+                                    Map<String,Object> map = (Map<String,Object>)re.getData();
                                     TextView collectView = (TextView) findViewById(R.id.commodith_view_collect);
-                                    Drawable top = getResources().getDrawable(R.drawable.icon_collect_select);
-                                    collectView.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                                    if("0".equals(map.get("commoditysavestatus"))){
+                                        Drawable top = getResources().getDrawable(R.drawable.icon_collect);
+                                        collectView.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                                    }if("1".equals(map.get("commoditysavestatus"))) {
+                                        Drawable top = getResources().getDrawable(R.drawable.icon_collect_select);
+                                        collectView.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                                    }
+
+
                                 } else {
                                     UtilAssistants.showToast(re.getMsg());
                                 }
@@ -307,7 +315,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                     public void run() {
                         try {
                             UserAction userAction = new UserAction();
-                            RspInfo1 re = userAction.collectCommodity(id);
+                            RspInfo1 re = userAction.collectCommodity(id,mDistributorid);
                             handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                         } catch (Exception e) {
                             handler.sendEmptyMessage(ThreadState.ERROR);

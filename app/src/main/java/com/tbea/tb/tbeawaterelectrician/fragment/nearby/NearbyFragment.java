@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.CityListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.HistorySearchActivity;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
@@ -72,6 +73,10 @@ public class NearbyFragment extends android.app.Fragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         getMessageNumber();
+        TextView cityView = (TextView) mView.findViewById(R.id.mian_city_text);
+        if(!"".endsWith(MyApplication.instance.getCity()) && MyApplication.instance.getCity() != null){
+            cityView.setText(MyApplication.instance.getCity());
+        }
     }
 
     //获取购物车数量
