@@ -141,6 +141,11 @@ public class TakeFragment extends Fragment implements BGARefreshLayout.BGARefres
         mRefreshLayout.setDelegate(this);
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getActivity(), true));
         getMessageNumber();
+
+        TextView cityView = (TextView) mView.findViewById(R.id.mian_city_text);
+        if(!"".endsWith(MyApplication.instance.getCity()) && MyApplication.instance.getCity() != null){
+            cityView.setText(MyApplication.instance.getCity());
+        }
     }
 
 

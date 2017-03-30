@@ -44,6 +44,12 @@ import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -401,6 +407,98 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                 }
             }
         });
+
+        findViewById(R.id.commodith_view_share).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getShareInfo(id);
+            }
+        });
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //分享开始的回调
+        }
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            UtilAssistants.showToast("分享成功啦");
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            UtilAssistants.showToast("分享失败啦"+t.getMessage());
+            if(t!=null){
+                com.umeng.socialize.utils.Log.d("throw","throw:"+t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            UtilAssistants.showToast("分享取消啦");
+        }
+    };
+
+    /**
+     * 分享
+     * @return
+     */
+    private void getShareInfo(final String id){
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if(msg.what == ThreadState.SUCCESS){
+                    RspInfo1 rsp = (RspInfo1) msg.obj;
+                    if(rsp.isSuccess()){
+                        Map<String,Object> map = (Map<String,Object>)rsp.getData();
+                        Map<String,String> list = (Map<String,String>)map.get("shareinfo");
+                        if(list != null){
+                            String description = list.get("description");
+                            String picture = list.get("picture");
+                            String title = list.get("title");
+                            String url = list.get("url");
+
+                            //                    String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+mSelectIds.get(0).getOrderdetailid();
+                            UMWeb web = new UMWeb(url);
+                            web.setTitle(title);
+                            web.setThumb(new UMImage(mContext, MyApplication.instance.getImgPath()+picture));
+                            web.setDescription(description);
+
+                            new ShareAction((Activity) mContext)
+                                    .withMedia(web)
+                                    .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QZONE,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
+                                    .setCallback(umShareListener).open();
+
+                        }
+
+                    }
+
+
+                }else if(msg.what == ThreadState.ERROR){
+                    UtilAssistants.showToast("分享失败，请重试！");
+                }
+
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction action = new UserAction();
+                    RspInfo1 re  = action.getShareInfo("commodity",id);
+                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                }catch (Exception e){
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+
+                }
+
+
+            }
+        }).start();
+
     }
 
     //获取购物车数量
@@ -669,6 +767,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
         if(requestCode == 100 && resultCode == RESULT_OK){
             String jsonObj = data.getStringExtra("obj");
             Gson gson = new Gson();

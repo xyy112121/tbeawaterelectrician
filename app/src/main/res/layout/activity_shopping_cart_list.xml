@@ -138,6 +138,7 @@
                 android:drawablePadding="5dp"
                 android:drawableLeft="@drawable/icon_share"
                 android:layout_marginRight="20dp"
+                android:visibility="gone"
               />
 
             <TextView

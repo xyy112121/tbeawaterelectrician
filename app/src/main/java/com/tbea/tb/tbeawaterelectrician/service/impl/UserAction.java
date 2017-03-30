@@ -1245,4 +1245,17 @@ public class UserAction extends BaseAction {
         return rspInfo;
     }
 
+    /**
+     * 获取分享信息接口
+     */
+    public RspInfo1 getShareInfo(String objecttype,String objectid )throws Exception{
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("objecttype", objecttype));
+        pairs.add(new BasicNameValuePair("objectid", objectid));
+        String result = sendRequest("TBEAENG002002001000", pairs);
+        rspInfo = gson.fromJson(result, RspInfo1.class);
+        return rspInfo;
+    }
+
 }

@@ -219,16 +219,18 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
             @Override
             public void onClick(View v) {
                 if(mSelectIds.size() >0 && mSelectIds.size() < 2){
-                    String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+mSelectIds.get(0).getOrderdetailid();
-                    UMWeb  web = new UMWeb(url);
-                    web.setTitle("This is web title");
-                    web.setThumb(new UMImage(mContext, R.drawable.icon_about));
-                    web.setDescription("my description");
+                    getShareInfo(mSelectIds.get(0).getOrderdetailid());
 
-                    new ShareAction((Activity) mContext)
-                            .withMedia(web)
-                            .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QZONE,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
-                            .setCallback(umShareListener).open();
+//                    String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+mSelectIds.get(0).getOrderdetailid();
+//                    UMWeb  web = new UMWeb(url);
+//                    web.setTitle("This is web title");
+//                    web.setThumb(new UMImage(mContext, R.drawable.icon_about));
+//                    web.setDescription("my description");
+//
+//                    new ShareAction((Activity) mContext)
+//                            .withMedia(web)
+//                            .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QZONE,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
+//                            .setCallback(umShareListener).open();
 
                 }else {
                     UtilAssistants.showToast("您需要选择一个产品！");
@@ -270,6 +272,67 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    /**
+     * 分享
+     * @return
+     */
+    private void getShareInfo(final String id){
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if(msg.what == ThreadState.SUCCESS){
+                    RspInfo1 rsp = (RspInfo1) msg.obj;
+                    if(rsp.isSuccess()){
+                        Map<String,Object> map = (Map<String,Object>)rsp.getData();
+                        Map<String,String> list = (Map<String,String>)map.get("shareinfo");
+                        if(list != null){
+                            String description = list.get("description");
+                            String picture = list.get("picture");
+                            String title = list.get("title");
+                            String url = list.get("url");
+
+                            //                    String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+mSelectIds.get(0).getOrderdetailid();
+                       UMWeb  web = new UMWeb(url);
+                       web.setTitle(title);
+                        web.setThumb(new UMImage(mContext, MyApplication.instance.getImgPath()+picture));
+                       web.setDescription(description);
+
+                    new ShareAction((Activity) mContext)
+                            .withMedia(web)
+                            .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QZONE,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
+                            .setCallback(umShareListener).open();
+
+                        }
+
+                    }
+
+
+                }else if(msg.what == ThreadState.ERROR){
+                    UtilAssistants.showToast("分享失败，请重试！");
+                }
+
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction action = new UserAction();
+                    RspInfo1 re  = action.getShareInfo("commodity",id);
+                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                }catch (Exception e){
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+
+                }
+
+
+            }
+        }).start();
 
     }
 

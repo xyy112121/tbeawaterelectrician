@@ -120,6 +120,10 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
         });
 
         getMessageNumber();
+        TextView cityView = (TextView) mView.findViewById(R.id.mian_city_text);
+        if(!"".endsWith(MyApplication.instance.getCity()) && MyApplication.instance.getCity() != null){
+            cityView.setText(MyApplication.instance.getCity());
+        }
     }
 
 

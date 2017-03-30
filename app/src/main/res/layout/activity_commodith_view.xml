@@ -383,7 +383,18 @@
                     android:visibility="invisible" />
             </RelativeLayout>
 
+
+
+
         </LinearLayout>
+        <ImageView
+            android:id="@+id/commodith_view_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_share"/>
     </RelativeLayout>
 
 
