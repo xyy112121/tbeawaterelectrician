@@ -124,6 +124,9 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
         if(!"".endsWith(MyApplication.instance.getCity()) && MyApplication.instance.getCity() != null){
             cityView.setText(MyApplication.instance.getCity());
         }
+
+        mCityname = MyApplication.instance.getCity();
+
     }
 
 
@@ -135,6 +138,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
         if(!"".endsWith(MyApplication.instance.getCity()) && MyApplication.instance.getCity() != null){
             cityView.setText(MyApplication.instance.getCity());
         }
+        mCityname = MyApplication.instance.getCity();
     }
 
     //获取购物车数量
