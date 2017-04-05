@@ -577,6 +577,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
         }
 
         public void selectAll() {
+            mSelectIds.clear();
             if (mList != null && mList.size() > 0) {
                 Double price = 0.0;
                 for (ProductInfo item : mList) {
