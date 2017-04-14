@@ -219,7 +219,7 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
             ((TextView)view.findViewById(R.id.wallet_item_takemoneycode)).setText(mList.get(position).getEvent());
             ((TextView)view.findViewById(R.id.wallet_item_takemoneycode)).getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             ((TextView)view.findViewById(R.id.wallet_item_validexpiredtime)).setText(mList.get(position).getTime());
-            ((TextView)view.findViewById(R.id.wallet_item_money)).setText("￥"+mList.get(position).getMoney());
+            ((TextView)view.findViewById(R.id.wallet_item_money)).setText(mList.get(position).getMoney());
 
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
