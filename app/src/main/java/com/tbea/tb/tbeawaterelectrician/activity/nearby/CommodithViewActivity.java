@@ -32,6 +32,7 @@ import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
+import com.tbea.tb.tbeawaterelectrician.activity.account.LoginActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.AddressEditListActivity;
 import com.tbea.tb.tbeawaterelectrician.component.BadgeView;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
@@ -42,6 +43,8 @@ import com.tbea.tb.tbeawaterelectrician.entity.Evaluate;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
+import com.tbea.tb.tbeawaterelectrician.util.Constants;
+import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 import com.umeng.socialize.ShareAction;
@@ -356,11 +359,17 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         findViewById(R.id.add_shop_car_layout_finish).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GoneAddShopCarView();
-                if("pay".equals(mFlag)){
-                    pay();//立即购买
-                }else {
-                    addShopCar();//添加购物车
+                if (ShareConfig.getConfigBoolean(CommodithViewActivity.this, Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(CommodithViewActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    GoneAddShopCarView();
+                    if ("pay".equals(mFlag)) {
+                        pay();//立即购买
+                    } else {
+                        addShopCar();//添加购物车
+                    }
                 }
             }
         });
@@ -368,22 +377,40 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         findViewById(R.id.body_bg_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GoneAddShopCarView();
+                if (ShareConfig.getConfigBoolean(CommodithViewActivity.this, Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(CommodithViewActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    GoneAddShopCarView();
+                }
             }
         });
 
         findViewById(R.id.add_shop_car_layout_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GoneAddShopCarView();
+                if (ShareConfig.getConfigBoolean(CommodithViewActivity.this, Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(CommodithViewActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    GoneAddShopCarView();
+                }
             }
         });
 
         findViewById(R.id.commodith_view_SC).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext,ShoppingCartListActivity.class);
-                startActivity(intent);
+                if (ShareConfig.getConfigBoolean(CommodithViewActivity.this, Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(CommodithViewActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(mContext, ShoppingCartListActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -391,19 +418,31 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         findViewById(R.id.tv_add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView numView = (TextView)findViewById(R.id.tv_num);
-                int count = Integer.parseInt(numView.getText()+"");
-                numView.setText(++count+"");
+                if (ShareConfig.getConfigBoolean(CommodithViewActivity.this, Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(CommodithViewActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    TextView numView = (TextView) findViewById(R.id.tv_num);
+                    int count = Integer.parseInt(numView.getText() + "");
+                    numView.setText(++count + "");
+                }
             }
         });
 
         findViewById(R.id.tv_reduce).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView numView = (TextView)findViewById(R.id.tv_num);
-                int count = Integer.parseInt(numView.getText()+"");
-                if(count > 1){
-                    numView.setText(--count+"");
+                if (ShareConfig.getConfigBoolean(CommodithViewActivity.this, Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(CommodithViewActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    TextView numView = (TextView) findViewById(R.id.tv_num);
+                    int count = Integer.parseInt(numView.getText() + "");
+                    if (count > 1) {
+                        numView.setText(--count + "");
+                    }
                 }
             }
         });

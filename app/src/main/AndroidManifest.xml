@@ -121,7 +121,7 @@
             android:value="2F0QiqoWoGmYOlkhrqBTfGs9sQ9SEwiN" />
 
         <activity
-            android:name="com.tbea.tb.tbeawaterelectrician.activity.account.LoginActivity"
+            android:name="com.tbea.tb.tbeawaterelectrician.activity.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -130,7 +130,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.account.LoginActivity"
             android:screenOrientation="portrait"/>
 
         <activity

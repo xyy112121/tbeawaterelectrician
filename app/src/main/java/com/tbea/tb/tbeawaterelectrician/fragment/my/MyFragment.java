@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
+import com.tbea.tb.tbeawaterelectrician.activity.account.LoginActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.AboutActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.CollectListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
@@ -28,8 +30,10 @@ import com.tbea.tb.tbeawaterelectrician.activity.my.WalletIncomeAndExpensesListA
 import com.tbea.tb.tbeawaterelectrician.activity.my.WalletListActivity;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
+import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.EventCity;
 import com.tbea.tb.tbeawaterelectrician.util.EventFlag;
+import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
@@ -49,6 +53,12 @@ public class MyFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+        }
+
         mView = (View)inflater.inflate(R.layout.fragment_my,null);
         EventBus.getDefault().register(this);
         return  mView;
@@ -122,74 +132,128 @@ public class MyFragment extends Fragment {
         view.findViewById(R.id.my_orader).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), OrderListActivity.class));
+                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    startActivity(new Intent(getActivity(), OrderListActivity.class));
+                }
             }
         });
 
         view.findViewById(R.id.image_set).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SetionActivity.class);
-                intent.putExtra("whetheridentifiedid",whetheridentifiedid);
-                startActivity(intent);
+                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getActivity(), SetionActivity.class);
+                    intent.putExtra("whetheridentifiedid", whetheridentifiedid);
+                    startActivity(intent);
+                }
             }
         });
 
         view.findViewById(R.id.fragment_my_edit_info).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), MyInformationActivity.class));
+                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    startActivity(new Intent(getActivity(), MyInformationActivity.class));
+                }
             }
         });
 
         view.findViewById(R.id.my_wallet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), WalletListActivity.class);
+                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getActivity(), WalletListActivity.class);
 //                Intent intent = new Intent(getActivity(), WalletWithdrawCashViewActivity.class);
-                String size = ((TextView)view.findViewById(R.id.user_wallet_size)).getText()+"";
-                intent.putExtra("size",size);
-                startActivity(intent);
+                    String size = ((TextView) view.findViewById(R.id.user_wallet_size)).getText() + "";
+                    intent.putExtra("size", size);
+                    startActivity(intent);
+                }
             }
         });
 
         view.findViewById(R.id.my_accusation).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), MyAccusationListActivity.class);
+                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getActivity(), MyAccusationListActivity.class);
 //                Intent intent = new Intent(getActivity(), MyAccusationEditActivity.class);
-                startActivity(intent);
+                    startActivity(intent);
+                }
             }
         });
 
         view.findViewById(R.id.my_collect).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), CollectListActivity.class);
-                startActivity(intent);
+                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getActivity(), CollectListActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
         view.findViewById(R.id.my_message).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), MessageListActivity.class);
-                startActivity(intent);
+                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getActivity(), MessageListActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
         view.findViewById(R.id.my_service).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ServiceCenterActivity.class);
-                startActivity(intent);
+                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getActivity(), ServiceCenterActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         view.findViewById(R.id.my_about).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AboutActivity.class);
-                startActivity(intent);
+                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getActivity(), AboutActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }

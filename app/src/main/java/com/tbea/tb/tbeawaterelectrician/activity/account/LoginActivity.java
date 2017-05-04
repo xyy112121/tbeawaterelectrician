@@ -59,11 +59,11 @@ public class LoginActivity extends Activity {
             PermissionGen.needPermission(LoginActivity.this, 100, mPermissions);
         }
         listener();
-        if (ShareConfig.getConfigBoolean(LoginActivity.this, Constants.ONLINE, false) == true) {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
+//        if (ShareConfig.getConfigBoolean(LoginActivity.this, Constants.ONLINE, false) == true) {
+//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
     }
 
 

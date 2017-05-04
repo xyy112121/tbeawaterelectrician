@@ -40,20 +40,11 @@ import cn.qqtheme.framework.picker.OptionPicker;
  */
 
 public class WalletWithdrawCashActivity extends TopActivity {
-    /**
-     * 当前可提现金额
-     */
     protected String mCanexChangeMoney;
     private WebView mWebView;
-    /**
-     * 经销商列表
-     */
     private List<Distributor> mDistributorList = new ArrayList<>();
     private Context mContext;
-    /**
-     * 当前选择的经销商id
-     */
-    private String mDistributorid;
+    private String mdistributorid;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,7 +70,7 @@ public class WalletWithdrawCashActivity extends TopActivity {
                     }
                     Intent intent = new Intent(WalletWithdrawCashActivity.this, WalletWithdrawCashViewActivity.class);
                     intent.putExtra("money", money);
-                    intent.putExtra("distributorid", mDistributorid);
+                    intent.putExtra("distributorid", mdistributorid);
                     startActivity(intent);
                 }catch (Exception e){
                     Log.d("","");
@@ -137,9 +128,11 @@ public class WalletWithdrawCashActivity extends TopActivity {
                                     @Override
                                     public void onOptionPicked(String option) {
                                         for (Distributor item : mDistributorList) {
-                                            String text = item.getName()+" "+item.getDistance();//名字和距离
-                                            if (option.equals(text)) {
-                                                mDistributorid = item.getId();
+                                            if (option.equals(item.getName())) {
+                                                mdistributorid = item.getId();
+
+
+
                                                 initDistributorView(item);
                                             }
                                         }
@@ -177,11 +170,6 @@ public class WalletWithdrawCashActivity extends TopActivity {
         }).start();
     }
 
-
-    /**
-     *
-     * 初始化经销商详细
-     */
     private void initDistributorView(Distributor obj) {
         ((TextView) findViewById(R.id.wallet_withdraw_cash_name)).setText(obj.getName());
         ((TextView) findViewById(R.id.wallet_withdraw_cash_addrs)).setText(obj.getAddress());
@@ -231,7 +219,7 @@ public class WalletWithdrawCashActivity extends TopActivity {
                             if (data != null) {
                                 String mMoney = data.get("currentmoney");
                                 mCanexChangeMoney =  data.get("canexchangemoney");
-                                String text = "钱包金额￥" + mMoney + ",当前可提现金额￥" + mCanexChangeMoney;
+                                String text = "积分金额￥" + mMoney + ",当前可提现金额￥" + mCanexChangeMoney;
                                 ((TextView) findViewById(R.id.wallet_withdraw_cash_info)).setText(text);
                             }
 
@@ -245,7 +233,7 @@ public class WalletWithdrawCashActivity extends TopActivity {
                                 obj.setDistance(recommondDistriButorInfo.get("distance") + "");
                                 obj.setLatitude(recommondDistriButorInfo.get("latitude") + "");
                                 obj.setLongitude(recommondDistriButorInfo.get("longitude") + "");
-                                mDistributorid = obj.getId();
+                                mdistributorid = obj.getId();
                                 initDistributorView(obj);
                             }
                         } else {

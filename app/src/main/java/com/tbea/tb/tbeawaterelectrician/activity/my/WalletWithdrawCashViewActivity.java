@@ -173,7 +173,7 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
                             Map<String, Object> data = (Map<String, Object>) re.getData();
                             Map<String, String> myMoneyInfo = (Map<String, String>) data.get("mymoneyinfo");
                             Map<String, String> distriButorInfo = (Map<String, String>) data.get("distributorinfo");
-                            String validexpiredtime ="有效期至:"+myMoneyInfo.get("validexpiredtime");
+                            String validexpiredtime ="有效期:"+myMoneyInfo.get("validexpiredtime");
 //                            String status = "状态:"+myMoneyInfo.get("status");
                             mId = myMoneyInfo.get("id");
                             mTakeMoneyCode = myMoneyInfo.get("takemoneycode");
