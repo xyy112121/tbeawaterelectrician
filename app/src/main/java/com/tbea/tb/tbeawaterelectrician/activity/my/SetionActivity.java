@@ -114,7 +114,7 @@ public class SetionActivity extends TopActivity {
                         ShareConfig.setConfig(mContext,Constants.USERID,"");
                         finish();
                         MyApplication.instance.exit();
-                        startActivity( new Intent(mContext, LoginActivity.class));
+                        startActivity( new Intent(mContext, MainActivity.class));
 
                     }
                 },"确定");

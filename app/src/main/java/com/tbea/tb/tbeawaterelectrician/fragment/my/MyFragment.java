@@ -53,12 +53,6 @@ public class MyFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
-        }
-
         mView = (View)inflater.inflate(R.layout.fragment_my,null);
         EventBus.getDefault().register(this);
         return  mView;
@@ -132,128 +126,81 @@ public class MyFragment extends Fragment {
         view.findViewById(R.id.my_orader).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
-                }
-                else {
-                    startActivity(new Intent(getActivity(), OrderListActivity.class));
-                }
+                startActivity(new Intent(getActivity(), OrderListActivity.class));
+
             }
         });
 
         view.findViewById(R.id.image_set).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
-                }
-                else {
                     Intent intent = new Intent(getActivity(), SetionActivity.class);
                     intent.putExtra("whetheridentifiedid", whetheridentifiedid);
                     startActivity(intent);
-                }
+
             }
         });
 
         view.findViewById(R.id.fragment_my_edit_info).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
-                }
-                else {
                     startActivity(new Intent(getActivity(), MyInformationActivity.class));
-                }
+
             }
         });
 
         view.findViewById(R.id.my_wallet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
-                }
-                else {
+
                     Intent intent = new Intent(getActivity(), WalletListActivity.class);
-//                Intent intent = new Intent(getActivity(), WalletWithdrawCashViewActivity.class);
                     String size = ((TextView) view.findViewById(R.id.user_wallet_size)).getText() + "";
                     intent.putExtra("size", size);
                     startActivity(intent);
-                }
+
             }
         });
 
         view.findViewById(R.id.my_accusation).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
-                }
-                else {
                     Intent intent = new Intent(getActivity(), MyAccusationListActivity.class);
-//                Intent intent = new Intent(getActivity(), MyAccusationEditActivity.class);
                     startActivity(intent);
-                }
+
             }
         });
 
         view.findViewById(R.id.my_collect).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
-                }
-                else {
                     Intent intent = new Intent(getActivity(), CollectListActivity.class);
                     startActivity(intent);
-                }
+
             }
         });
 
         view.findViewById(R.id.my_message).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
-                }
-                else {
                     Intent intent = new Intent(getActivity(), MessageListActivity.class);
                     startActivity(intent);
                 }
-            }
         });
 
         view.findViewById(R.id.my_service).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
-                }
-                else {
                     Intent intent = new Intent(getActivity(), ServiceCenterActivity.class);
                     startActivity(intent);
-                }
+
             }
         });
         view.findViewById(R.id.my_about).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ShareConfig.getConfigBoolean(getActivity(), Constants.ONLINE, false) == false) {
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
-                }
-                else {
                     Intent intent = new Intent(getActivity(), AboutActivity.class);
                     startActivity(intent);
-                }
+                
             }
         });
     }

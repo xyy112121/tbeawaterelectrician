@@ -62,7 +62,7 @@ import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
- * 商品信息
+ * 商品详细信息
  */
 
 public class CommodithViewActivity extends Activity implements BGARefreshLayout.BGARefreshLayoutDelegate{
@@ -275,62 +275,63 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
             }
         });
 
-        findViewById(R.id.add_shop_car_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
-
+       //收藏
         findViewById(R.id.commodith_view_collect).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
-                dialog.setText("加载中");
-                dialog.show();
-                final Handler handler = new Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        dialog.dismiss();
-                        switch (msg.what) {
-                            case ThreadState.SUCCESS:
-                                RspInfo1 re = (RspInfo1) msg.obj;
-                                if (re.isSuccess()) {
-                                    UtilAssistants.showToast(re.getMsg());
-                                    Map<String,Object> map = (Map<String,Object>)re.getData();
-                                    TextView collectView = (TextView) findViewById(R.id.commodith_view_collect);
-                                    if("0".equals(map.get("commoditysavestatus"))){
-                                        Drawable top = getResources().getDrawable(R.drawable.icon_collect);
-                                        collectView.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
-                                    }if("1".equals(map.get("commoditysavestatus"))) {
-                                        Drawable top = getResources().getDrawable(R.drawable.icon_collect_select);
-                                        collectView.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                if (ShareConfig.getConfigBoolean(CommodithViewActivity.this, Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(CommodithViewActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
+                    dialog.setText("加载中");
+                    dialog.show();
+                    final Handler handler = new Handler() {
+                        @Override
+                        public void handleMessage(Message msg) {
+                            dialog.dismiss();
+                            switch (msg.what) {
+                                case ThreadState.SUCCESS:
+                                    RspInfo1 re = (RspInfo1) msg.obj;
+                                    if (re.isSuccess()) {
+                                        UtilAssistants.showToast(re.getMsg());
+                                        Map<String,Object> map = (Map<String,Object>)re.getData();
+                                        TextView collectView = (TextView) findViewById(R.id.commodith_view_collect);
+                                        if("0".equals(map.get("commoditysavestatus"))){
+                                            Drawable top = getResources().getDrawable(R.drawable.icon_collect);
+                                            collectView.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                                        }if("1".equals(map.get("commoditysavestatus"))) {
+                                            Drawable top = getResources().getDrawable(R.drawable.icon_collect_select);
+                                            collectView.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                                        }
+
+
+                                    } else {
+                                        UtilAssistants.showToast(re.getMsg());
                                     }
-
-
-                                } else {
-                                    UtilAssistants.showToast(re.getMsg());
-                                }
-                                break;
-                            case ThreadState.ERROR:
-                                UtilAssistants.showToast("操作失败！");
-                                break;
+                                    break;
+                                case ThreadState.ERROR:
+                                    UtilAssistants.showToast("操作失败！");
+                                    break;
+                            }
                         }
-                    }
-                };
+                    };
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            UserAction userAction = new UserAction();
-                            RspInfo1 re = userAction.collectCommodity(id,mDistributorid);
-                            handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
-                        } catch (Exception e) {
-                            handler.sendEmptyMessage(ThreadState.ERROR);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                UserAction userAction = new UserAction();
+                                RspInfo1 re = userAction.collectCommodity(id,mDistributorid);
+                                handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                            } catch (Exception e) {
+                                handler.sendEmptyMessage(ThreadState.ERROR);
+                            }
                         }
-                    }
-                }).start();
+                    }).start();
+                }
             }
         });
 
@@ -338,8 +339,14 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         findViewById(R.id.pay_shop_car_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mFlag = "pay";
-                showShopInfo();
+                if (ShareConfig.getConfigBoolean(CommodithViewActivity.this, Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(CommodithViewActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    mFlag = "pay";
+                    showShopInfo();
+                }
 
             }
         });
@@ -350,8 +357,15 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         findViewById(R.id.add_shop_car_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mFlag = "add";
-                showShopInfo();
+                if (ShareConfig.getConfigBoolean(CommodithViewActivity.this, Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(CommodithViewActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    mFlag = "add";
+                    showShopInfo();
+                }
+
             }
         });
 

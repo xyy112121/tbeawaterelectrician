@@ -3,6 +3,7 @@ package com.tbea.tb.tbeawaterelectrician.component;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -18,6 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.account.LoginActivity;
+import com.tbea.tb.tbeawaterelectrician.util.Constants;
+import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -177,11 +181,28 @@ public class MainNavigateTabBar extends LinearLayout implements View.OnClickList
         Object object = v.getTag();
         if (object != null && object instanceof ViewHolder) {
             ViewHolder holder = (ViewHolder) v.getTag();
-            showFragment(holder);
-            if (mTabSelectListener != null) {
-                mTabSelectListener.onTabSelected(holder);
+            if("我".equals(holder.tag)){
+                if (ShareConfig.getConfigBoolean(mFragmentActivity, Constants.ONLINE, false) == false) {
+                    Intent intent = new Intent(mFragmentActivity, LoginActivity.class);
+                    mFragmentActivity.startActivity(intent);
+                }else{
+                    showFragment(holder);
+                    if (mTabSelectListener != null) {
+                        mTabSelectListener.onTabSelected(holder);
+                    }
+                }
+            }else {
+                showFragment(holder);
+                if (mTabSelectListener != null) {
+                    mTabSelectListener.onTabSelected(holder);
+                }
             }
+
+
+
         }
+
+
     }
 
     /**
