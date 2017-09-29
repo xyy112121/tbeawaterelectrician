@@ -24,6 +24,8 @@
             android:textSize="18sp"
             android:text="绑定成功"
             android:textColor="@color/black"/>
+        <View
+            style="@style/horizontal_view"/>
 
         <Button
             android:id="@+id/binding_finish_login"

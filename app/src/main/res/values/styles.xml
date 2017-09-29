@@ -161,7 +161,6 @@
         <item name="android:orientation">horizontal</item>
         <item name="android:layout_marginLeft">0dp</item>
     </style>
-
     <style name="style_next_btn">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">35dp</item>
@@ -172,6 +171,7 @@
         <item name="android:background">@drawable/btn_bg</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
 
     <style name="style_next_red_btn">
         <item name="android:layout_width">match_parent</item>

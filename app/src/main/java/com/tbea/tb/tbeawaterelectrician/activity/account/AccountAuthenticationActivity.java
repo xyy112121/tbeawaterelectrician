@@ -37,7 +37,7 @@ import java.io.File;
 import java.util.Map;
 
 /**
- * Created by cy on 2017/3/2.
+ * 认证
  */
 
 public class AccountAuthenticationActivity extends TopActivity {

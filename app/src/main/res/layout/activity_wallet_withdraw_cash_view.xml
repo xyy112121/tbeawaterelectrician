@@ -13,7 +13,19 @@
             android:layout_height="match_parent"
             android:background="@null"
             android:scaleType="center"
-            android:src="@drawable/icon_back2" />
+            android:src="@drawable/icon_back2"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/top_left_tv"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:text="完成"
+            android:textColor="@color/tab_text_normal"
+            android:textSize="14sp"
+           android:layout_centerVertical="true"
+            android:gravity="center"
+            />
 
         <TextView
             android:id="@+id/top_center"
@@ -34,7 +46,6 @@
             android:textColor="@color/tab_text_normal"
             android:textSize="16sp"
             android:layout_alignParentRight="true"
-            android:text="2121"
             />
 
     </RelativeLayout>

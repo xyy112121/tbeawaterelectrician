@@ -27,7 +27,6 @@ import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.CommodithViewActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.HistorySearchActivity;
-import com.tbea.tb.tbeawaterelectrician.component.BadgeView;
 import com.tbea.tb.tbeawaterelectrician.component.CircleImageView;
 import com.tbea.tb.tbeawaterelectrician.entity.Company;
 import com.tbea.tb.tbeawaterelectrician.entity.HomeDateSon;
@@ -66,7 +65,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
     private int mPagesiz = 40;
     private List<List<HomeDateSon.Newmessage2>> mNewmessage2List = new ArrayList<>();//返利列表
     private final int CITY_RESULT = 1000;
-    private BadgeView mBadgeView;
+//    private BadgeView mBadgeView;
 
     @Nullable
     @Override
