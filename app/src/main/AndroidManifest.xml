@@ -229,6 +229,9 @@
             android:name=".activity.my.EmailEditActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.my.NickNameEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.my.PwdEditActivity"
             android:screenOrientation="portrait" />
         <activity

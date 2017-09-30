@@ -10,6 +10,7 @@
         android:layout_marginTop="20dp">
 
         <TextView
+            android:id="@+id/email_edit_code_tv"
             style="@style/edit_left_style_tv"
             android:text="电子邮箱" />
 

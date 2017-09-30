@@ -51,6 +51,7 @@ import cn.qqtheme.framework.picker.OptionPicker;
 public class MyInformationActivity extends TopActivity {
     private Context mContext;
     private final int RESULT_EMAIL = 1000;
+    private final int RESULT_NICKNAME = 1001;
     private static final int RESULT_CAMERA = 0x000001;//相机
     private static final int RESULT_PHOTO = 0x000002;//图片
     private Uri mUri;
@@ -65,14 +66,14 @@ public class MyInformationActivity extends TopActivity {
         getDate();
     }
 
-    public  void listener(){
+    public void listener() {
         /**
          * 性别
          */
         findViewById(R.id.info_sex_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OptionPicker picker = new OptionPicker((Activity)mContext, new String[]{
+                OptionPicker picker = new OptionPicker((Activity) mContext, new String[]{
                         "先生", "女士"
                 });
                 picker.setOffset(1);
@@ -82,11 +83,11 @@ public class MyInformationActivity extends TopActivity {
                     @Override
                     public void onOptionPicked(String option) {
                         String sex = "female";
-                        if("先生".equals(option)){
+                        if ("先生".equals(option)) {
                             sex = "male";
                         }
-                        ((TextView)findViewById(R.id.info_sex)).setText(option);
-                        updateInfo(sex,"","");
+                        ((TextView) findViewById(R.id.info_sex)).setText(option);
+                        updateInfo(sex, "", "");
                     }
                 });
                 picker.setAnimationStyle(R.style.PopWindowAnimationFade);
@@ -100,13 +101,13 @@ public class MyInformationActivity extends TopActivity {
             public void onClick(View view) {
                 DatePicker picker = new DatePicker(MyInformationActivity.this, DatePicker.MONTH_DAY);
                 picker.setTextColor(ContextCompat.getColor(mContext, R.color.black));
-                picker.setLabel("","","");
+                picker.setLabel("", "", "");
 //                picker.setLineColor(ContextCompat.getColor(mContext, R.color.white));
                 picker.setOnDatePickListener(new DatePicker.OnMonthDayPickListener() {
                     @Override
                     public void onDatePicked(String month, String day) {
-                        ((TextView)findViewById(R.id.info_birthday)).setText(month+"月"+day+"日");
-                        updateInfo("",day,month);
+                        ((TextView) findViewById(R.id.info_birthday)).setText(month + "月" + day + "日");
+                        updateInfo("", day, month);
                     }
                 });
                 picker.setAnimationStyle(R.style.PopWindowAnimationFade);
@@ -117,18 +118,29 @@ public class MyInformationActivity extends TopActivity {
         findViewById(R.id.info_email_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = ((TextView)findViewById(R.id.info_email)).getText()+"";
-                Intent intent = new Intent(mContext,EmailEditActivity.class);
-                intent.putExtra("code",email);
-                startActivityForResult(intent,RESULT_EMAIL);
+                String email = ((TextView) findViewById(R.id.info_email)).getText() + "";
+                Intent intent = new Intent(mContext, EmailEditActivity.class);
+                intent.putExtra("code", email);
+                startActivityForResult(intent, RESULT_EMAIL);
             }
         });
+
+        findViewById(R.id.info_nickName_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = ((TextView) findViewById(R.id.info_nickName)).getText() + "";
+                Intent intent = new Intent(mContext, NickNameEditActivity.class);
+                intent.putExtra("code", email);
+                startActivityForResult(intent, RESULT_NICKNAME);
+            }
+        });
+
 
         findViewById(R.id.info_addr_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext,AddressEditListActivity.class);
-                intent.putExtra("flag","");
+                Intent intent = new Intent(mContext, AddressEditListActivity.class);
+                intent.putExtra("flag", "");
                 startActivity(intent);
             }
         });
@@ -145,25 +157,26 @@ public class MyInformationActivity extends TopActivity {
     /**
      * 获取信息
      */
-    public  void getDate(){
-        final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
+    public void getDate() {
+        final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待");
         dialog.show();
-        final Handler handler = new Handler(){
+        final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
-                switch (msg.what){
+                switch (msg.what) {
                     case ThreadState.SUCCESS:
-                        RspInfo re = (RspInfo)msg.obj;
-                        if(re.isSuccess()){
+                        RspInfo re = (RspInfo) msg.obj;
+                        if (re.isSuccess()) {
                             UserInfo obj = (UserInfo) re.getDateObj("personinfo");
-                            CircleImageView imageView = (CircleImageView)findViewById(R.id.info_head);
-                            ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+obj.getPicture(),imageView);
-                            ((TextView)findViewById(R.id.info_birthday)).setText(obj.getBirthday());
-                            ((TextView)findViewById(R.id.info_email)).setText(obj.getMailaddr());
-                            ((TextView)findViewById(R.id.info_sex)).setText(obj.getSex());
-                        }else {
+                            CircleImageView imageView = (CircleImageView) findViewById(R.id.info_head);
+                            ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + obj.getPicture(), imageView);
+                            ((TextView) findViewById(R.id.info_birthday)).setText(obj.getBirthday());
+                            ((TextView) findViewById(R.id.info_email)).setText(obj.getMailaddr());
+                            ((TextView) findViewById(R.id.info_sex)).setText(obj.getSex());
+                            ((TextView) findViewById(R.id.info_nickName)).setText(obj.getNickname());
+                        } else {
                             UtilAssistants.showToast(re.getMsg());
                         }
                         break;
@@ -180,7 +193,7 @@ public class MyInformationActivity extends TopActivity {
                 try {
                     UserAction userAction = new UserAction();
                     RspInfo re = userAction.getUser();
-                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
                 }
@@ -190,24 +203,25 @@ public class MyInformationActivity extends TopActivity {
 
     /**
      * 更改信息
-     * @param sex 性别 先生传male  女士传Female
-     * @param birthday 生日 日
+     *
+     * @param sex        性别 先生传male  女士传Female
+     * @param birthday   生日 日
      * @param birthmonth 生日 月
      */
-    public  void updateInfo(final String sex, final String birthday, final String birthmonth){
-        final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
+    public void updateInfo(final String sex, final String birthday, final String birthmonth) {
+        final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待");
         dialog.show();
-        final Handler handler = new Handler(){
+        final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
-                switch (msg.what){
+                switch (msg.what) {
                     case ThreadState.SUCCESS:
-                        RspInfo1 re = (RspInfo1)msg.obj;
-                        if(re.isSuccess()){
+                        RspInfo1 re = (RspInfo1) msg.obj;
+                        if (re.isSuccess()) {
                             UtilAssistants.showToast("操作成功！");
-                        }else {
+                        } else {
                             UtilAssistants.showToast(re.getMsg());
                         }
                         break;
@@ -223,14 +237,15 @@ public class MyInformationActivity extends TopActivity {
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo1 re = userAction.updateInfo(sex,"",birthday,birthmonth);
-                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                    RspInfo1 re = userAction.updateInfo("", sex, "", birthday, birthmonth);
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
                 }
             }
         }).start();
     }
+
     /**
      * 选择相册Dialog
      */
@@ -275,36 +290,36 @@ public class MyInformationActivity extends TopActivity {
                         mUri);
                 cameraIntent.putExtra("return-data", true);
                 startActivityForResult(cameraIntent, RESULT_CAMERA);
-            } else if("album".equals(mType)){//相册选择图片
+            } else if ("album".equals(mType)) {//相册选择图片
                 Intent localIntent2 = new Intent();
                 localIntent2.setType("image/*");
                 localIntent2.putExtra("return-data", true);
                 localIntent2
                         .setAction("android.intent.action.GET_CONTENT");
-                startActivityForResult(localIntent2,RESULT_PHOTO);
+                startActivityForResult(localIntent2, RESULT_PHOTO);
             }
         }
     }
 
-    public  void updateHead(final String filePath){
+    public void updateHead(final String filePath) {
         try {
-            final  Bitmap bitmap = UtilAssistants.getBitmapFromPath(filePath,new Point(1024,1024));
-            final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
+            final Bitmap bitmap = UtilAssistants.getBitmapFromPath(filePath, new Point(1024, 1024));
+            final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
             dialog.setText("请等待");
             dialog.show();
-            final Handler handler = new Handler(){
+            final Handler handler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     dialog.dismiss();
-                    switch (msg.what){
+                    switch (msg.what) {
                         case ThreadState.SUCCESS:
-                            RspInfo1 re = (RspInfo1)msg.obj;
-                            if(re.isSuccess()){
+                            RspInfo1 re = (RspInfo1) msg.obj;
+                            if (re.isSuccess()) {
                                 UtilAssistants.showToast("操作成功！");
-                                final ImageView imageView = (ImageView)findViewById(R.id.info_head);
+                                final ImageView imageView = (ImageView) findViewById(R.id.info_head);
                                 imageView.setImageBitmap(bitmap);
                                 EventBus.getDefault().post(new EventCity(EventFlag.EVENT_MY_HEAD));
-                            }else {
+                            } else {
                                 UtilAssistants.showToast(re.getMsg());
                             }
                             break;
@@ -321,7 +336,7 @@ public class MyInformationActivity extends TopActivity {
                     try {
                         UserAction userAction = new UserAction();
                         RspInfo1 re = userAction.updateHead(filePath);
-                        handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                        handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                     } catch (Exception e) {
                         handler.sendEmptyMessage(ThreadState.ERROR);
                     }
@@ -334,24 +349,28 @@ public class MyInformationActivity extends TopActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-       if(resultCode == RESULT_OK){
-           switch (requestCode){
-               case RESULT_EMAIL:
-                   String  email = data.getStringExtra("code");
-                   ((TextView)findViewById(R.id.info_email)).setText(email);
-                   break;
-               case RESULT_CAMERA:
-                   String filePath = mUri.getPath();
-                   updateHead(filePath);//显示图片
-                   break;
-               case RESULT_PHOTO:
-                   if(data != null){
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case RESULT_EMAIL:
+                    String email = data.getStringExtra("code");
+                    ((TextView) findViewById(R.id.info_email)).setText(email);
+                    break;
+                case RESULT_NICKNAME:
+                    String nickName = data.getStringExtra("code");
+                    ((TextView) findViewById(R.id.info_nickName)).setText(nickName);
+                    break;
+                case RESULT_CAMERA:
+                    String filePath = mUri.getPath();
+                    updateHead(filePath);//显示图片
+                    break;
+                case RESULT_PHOTO:
+                    if (data != null) {
 //                       filePath = data.getData().getPath();
-                       filePath = UtilAssistants.getPath(mContext,data.getData());
-                       updateHead(filePath);//显示图片
-                   }
-                   break;
-           }
-       }
+                        filePath = UtilAssistants.getPath(mContext, data.getData());
+                        updateHead(filePath);//显示图片
+                    }
+                    break;
+            }
+        }
     }
 }

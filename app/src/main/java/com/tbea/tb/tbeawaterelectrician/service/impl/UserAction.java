@@ -627,9 +627,10 @@ public class UserAction extends BaseAction {
      * @return
      * @throws Exception
      */
-    public RspInfo1 updateInfo(String sex, String email, String birthday, String birthmonth) throws Exception {
+    public RspInfo1 updateInfo(String nickname,String sex, String email, String birthday, String birthmonth) throws Exception {
         RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("nickname", nickname));
         pairs.add(new BasicNameValuePair("sex", sex));
         pairs.add(new BasicNameValuePair("email", email));
         pairs.add(new BasicNameValuePair("birthday", birthday));

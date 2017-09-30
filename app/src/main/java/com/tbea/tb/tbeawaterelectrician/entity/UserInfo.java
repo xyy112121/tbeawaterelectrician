@@ -7,11 +7,21 @@ package com.tbea.tb.tbeawaterelectrician.entity;
 public class UserInfo  {
     private String id;
     private String picture;
+
+    private String nickname;
     private String name;
     private String mobile;
     private String mailaddr;
     private String sex;
     private String birthday;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public String getBirthday() {
         return birthday;

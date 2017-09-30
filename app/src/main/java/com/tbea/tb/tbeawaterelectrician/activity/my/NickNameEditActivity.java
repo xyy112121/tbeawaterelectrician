@@ -12,22 +12,16 @@ import android.widget.TextView;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
-import com.tbea.tb.tbeawaterelectrician.entity.MessageCategory;
-import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
- * Created by cy on 2017/2/8.
+ * Created by programmer on 2017/9/30.
  */
 
-public class EmailEditActivity extends TopActivity {
+public class NickNameEditActivity extends TopActivity {
     private Context mContext;
 
     @Override
@@ -35,7 +29,9 @@ public class EmailEditActivity extends TopActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_edit);
         mContext = this;
-        initTopbar("更改电子邮件");
+        initTopbar("更改昵称");
+        ((TextView) findViewById(R.id.email_edit_code_tv)).setText("昵称");
+        ((TextView) findViewById(R.id.email_edit_code)).setHint("请输入昵称");
         String code = getIntent().getStringExtra("code");
         ((TextView) findViewById(R.id.email_edit_code)).setText(code);
         listener();
@@ -44,28 +40,28 @@ public class EmailEditActivity extends TopActivity {
     /**
      * 事件
      */
-    private void listener(){
+    private void listener() {
         findViewById(R.id.email_edit_finish).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String email = ((TextView)findViewById(R.id.email_edit_code)).getText()+"";
-                if(isEmail(email)){
-                   final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
+                final String nickName = ((TextView) findViewById(R.id.email_edit_code)).getText() + "";
+                if (!"".equals(nickName)) {
+                    final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
                     dialog.setText("请等待");
                     dialog.show();
-                    final Handler handler = new Handler(){
+                    final Handler handler = new Handler() {
                         @Override
                         public void handleMessage(Message msg) {
                             dialog.dismiss();
-                            switch (msg.what){
+                            switch (msg.what) {
                                 case ThreadState.SUCCESS:
-                                    RspInfo1 re = (RspInfo1)msg.obj;
-                                    if(re.isSuccess()){
+                                    RspInfo1 re = (RspInfo1) msg.obj;
+                                    if (re.isSuccess()) {
                                         Intent intent = new Intent();
-                                        intent.putExtra("code",email);
-                                        setResult(RESULT_OK,intent);
-                                       finish();
-                                    }else {
+                                        intent.putExtra("code", nickName);
+                                        setResult(RESULT_OK, intent);
+                                        finish();
+                                    } else {
                                         UtilAssistants.showToast(re.getMsg());
                                     }
 
@@ -82,28 +78,20 @@ public class EmailEditActivity extends TopActivity {
                         public void run() {
                             try {
                                 UserAction userAction = new UserAction();
-                                RspInfo1 re = userAction.updateInfo("","",email,"","");
-                                handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                                RspInfo1 re = userAction.updateInfo(nickName, "", "", "", "");
+                                handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                             } catch (Exception e) {
                                 handler.sendEmptyMessage(ThreadState.ERROR);
                             }
                         }
                     }).start();
-                }else {
-                    UtilAssistants.showToast("请填写正确的邮箱！");
+                } else {
+                    UtilAssistants.showToast("请输入昵称！");
                 }
 
             }
         });
 
-    }
-
-    //判断email格式是否正确
-    public boolean isEmail(String email) {
-        String str = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
-        Pattern p = Pattern.compile(str);
-        Matcher m = p.matcher(email);
-        return m.matches();
     }
 
 }
