@@ -56,6 +56,20 @@ public class UserAction extends BaseAction {
     }
 
     /**
+     * 获取是否有app更新
+     * @return
+     * @throws Exception
+     */
+    public RspInfo1 getUpdate() throws Exception {
+        RspInfo1 model;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("terminaltype", "android"));
+        String result = sendRequest("TBEAENG015001001000", pairs);
+        model = gson.fromJson(result, RspInfo1.class);
+        return model;
+    }
+
+    /**
      * 发送验证码
      * servicecode 判断是哪个接口获取的验证码
      */
