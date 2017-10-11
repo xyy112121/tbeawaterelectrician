@@ -13,7 +13,6 @@ import com.tbea.tb.tbeawaterelectrician.entity.Register;
 import com.tbea.tb.tbeawaterelectrician.entity.Take;
 import com.tbea.tb.tbeawaterelectrician.entity.TakeMoney;
 import com.tbea.tb.tbeawaterelectrician.entity.UserInfo;
-import com.tbea.tb.tbeawaterelectrician.entity.UserInfo2;
 import com.tbea.tb.tbeawaterelectrician.http.MD5Util;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
@@ -45,7 +44,7 @@ public class UserAction extends BaseAction {
         pairs.add(new BasicNameValuePair("mobilenumber", phone));
         pairs.add(new BasicNameValuePair("userpas", MD5Util.getMD5String(pwd)));
         String result = sendRequest("TBEAENG001001004000", pairs);
-        rspInfo = gson.fromJson(result,RspInfo1.class);
+        rspInfo = gson.fromJson(result, RspInfo1.class);
 //        if(re.isSuccess()){
 //
 //        }
@@ -57,6 +56,7 @@ public class UserAction extends BaseAction {
 
     /**
      * 获取是否有app更新
+     *
      * @return
      * @throws Exception
      */
@@ -480,7 +480,7 @@ public class UserAction extends BaseAction {
     /**
      * 提交举报
      */
-    public RspInfo1 submitAppeal(Appeal obj, List<String> images,String scancode) throws Exception {
+    public RspInfo1 submitAppeal(Appeal obj, List<String> images, String scancode) throws Exception {
         RspInfo1 rspInfo;
         Map<String, String> paramsIn = new HashMap<>();
         Map<String, String> fileIn = new HashMap<>();
@@ -517,7 +517,7 @@ public class UserAction extends BaseAction {
     /**
      * 生成二维码
      */
-    public RspInfo1 createCode(String money,String distributorid) throws Exception {
+    public RspInfo1 createCode(String money, String distributorid) throws Exception {
         RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("money", money));
@@ -641,7 +641,7 @@ public class UserAction extends BaseAction {
      * @return
      * @throws Exception
      */
-    public RspInfo1 updateInfo(String nickname,String sex, String email, String birthday, String birthmonth) throws Exception {
+    public RspInfo1 updateInfo(String nickname, String sex, String email, String birthday, String birthmonth) throws Exception {
         RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("nickname", nickname));
@@ -744,7 +744,6 @@ public class UserAction extends BaseAction {
 
     /**
      * 忘记密码（修改密码）
-     *
      */
     public RspInfo1 resetPwd(String mobile, String password) throws Exception {
         RspInfo1 rspInfo;
@@ -1066,7 +1065,7 @@ public class UserAction extends BaseAction {
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("userorderid", userorderid));
         String result = sendRequest("TBEAENG005001019000", pairs);
-        rspInfo = gson.fromJson(result,  new TypeToken<RspInfo<Object>>() {
+        rspInfo = gson.fromJson(result, new TypeToken<RspInfo<Object>>() {
         }.getType());
         return rspInfo;
     }
@@ -1074,7 +1073,7 @@ public class UserAction extends BaseAction {
     /**
      * 收藏商品
      */
-    public RspInfo1 collectCommodity(String commodityid,String distributorid) throws Exception {
+    public RspInfo1 collectCommodity(String commodityid, String distributorid) throws Exception {
         RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("commodityid", commodityid));
@@ -1263,7 +1262,7 @@ public class UserAction extends BaseAction {
     /**
      * 获取分享信息接口
      */
-    public RspInfo1 getShareInfo(String objecttype,String objectid )throws Exception{
+    public RspInfo1 getShareInfo(String objecttype, String objectid) throws Exception {
         RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("objecttype", objecttype));

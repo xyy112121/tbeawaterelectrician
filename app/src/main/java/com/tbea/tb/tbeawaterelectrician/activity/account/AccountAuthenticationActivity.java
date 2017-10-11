@@ -79,13 +79,13 @@ public class AccountAuthenticationActivity extends TopActivity {
                         if (re.isSuccess()) {
                             Map<String, String> useridentifyinfo = (Map<String, String>) re.getDateObj("useridentifyinfo");
                             ((EditText) findViewById(R.id.regist_realname)).setText(useridentifyinfo.get("realname"));
-                          ((EditText) findViewById(R.id.regist_personid)).setText(useridentifyinfo.get("personcardid"));
+                            ((EditText) findViewById(R.id.regist_personid)).setText(useridentifyinfo.get("personcardid"));
                             ImageView imageView1 = (ImageView) findViewById(R.id.register_update_image1);
                             ImageView imageView2 = (ImageView) findViewById(R.id.register_update_image2);
                             ImageView imageView3 = (ImageView) findViewById(R.id.register_update_image3);
-                            ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+useridentifyinfo.get("personidcard1"),imageView1);
-                            ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+useridentifyinfo.get("personidcard2"),imageView2);
-                            ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+useridentifyinfo.get("personidcardwithperson"),imageView3);
+                            ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcard1"), imageView1);
+                            ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcard2"), imageView2);
+                            ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcardwithperson"), imageView3);
 
                         } else {
                             UtilAssistants.showToast(re.getMsg());
@@ -114,7 +114,7 @@ public class AccountAuthenticationActivity extends TopActivity {
     }
 
     public void listener() {
-        if (!"notidentify".equals(whetheridentifiedid)) {
+        if (!"notidentify".equals(whetheridentifiedid) && whetheridentifiedid != null) {
             findViewById(R.id.register_commit_review).setVisibility(View.GONE);
             (findViewById(R.id.regist_realname)).setFocusable(false);
             (findViewById(R.id.regist_personid)).setFocusable(false);
@@ -124,7 +124,7 @@ public class AccountAuthenticationActivity extends TopActivity {
         findViewById(R.id.register_update_image1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ("notidentify".equals(whetheridentifiedid)) {
+                if ("notidentify".equals(whetheridentifiedid) || whetheridentifiedid == null) {
                     mFlag = FlagImage.personidcard1;
                     showDialog(view);
                 }
@@ -134,7 +134,7 @@ public class AccountAuthenticationActivity extends TopActivity {
         findViewById(R.id.register_update_image2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ("notidentify".equals(whetheridentifiedid)) {
+                if ("notidentify".equals(whetheridentifiedid)|| whetheridentifiedid == null) {
                     mFlag = FlagImage.personidcard2;
                     showDialog(view);
                 }
@@ -144,7 +144,7 @@ public class AccountAuthenticationActivity extends TopActivity {
         findViewById(R.id.register_update_image3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ("notidentify".equals(whetheridentifiedid)) {
+                if ("notidentify".equals(whetheridentifiedid)|| whetheridentifiedid == null) {
                     mFlag = FlagImage.personidcardwithperson;
                     showDialog(view);
                 }
