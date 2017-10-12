@@ -24,6 +24,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.CityListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
+import com.tbea.tb.tbeawaterelectrician.activity.city.CityListActivity1;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.CommodithViewActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.HistorySearchActivity;
@@ -97,7 +98,8 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
         view.findViewById(R.id.mian_city_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), CityListActivity.class);
+//                Intent intent = new Intent(getActivity(), CityListActivity.class);
+                Intent intent = new Intent(getActivity(), CityListActivity1.class);
                 HomeFragment.this.startActivityForResult(intent, CITY_RESULT);
             }
         });
