@@ -24,6 +24,7 @@ import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.CityListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
+import com.tbea.tb.tbeawaterelectrician.activity.city.CityListActivity1;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.thenLive.TakeViewActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomPopWindow;
@@ -176,7 +177,7 @@ public class TakeFragment extends Fragment implements BGARefreshLayout.BGARefres
         mView.findViewById(R.id.mian_city_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), CityListActivity.class);
+                Intent intent = new Intent(getActivity(), CityListActivity1.class);
                 TakeFragment.this.startActivityForResult(intent, CITY_RESULT);
             }
         });
