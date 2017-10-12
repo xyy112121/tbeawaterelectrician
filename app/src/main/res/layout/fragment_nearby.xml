@@ -55,7 +55,7 @@
                 android:background="@drawable/home_page_search_selector"
                 android:drawableLeft="@drawable/icon_search"
                 android:drawablePadding="5dp"
-                android:hint="搜索商品或店铺"
+                android:hint="搜索商品"
                 android:imeOptions="actionSearch"
                 android:padding="5dp"
                 android:maxLines="1"

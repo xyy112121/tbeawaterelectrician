@@ -149,6 +149,14 @@ public class MyFragment extends Fragment {
             }
         });
 
+        view.findViewById(R.id.user_picture).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), MyInformationActivity.class));
+
+            }
+        });
+
         view.findViewById(R.id.my_wallet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
