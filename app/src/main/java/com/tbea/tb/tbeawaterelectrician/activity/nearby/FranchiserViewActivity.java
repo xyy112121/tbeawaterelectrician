@@ -89,6 +89,7 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
         mNewListView = (ListView)findViewById(R.id.listview2);
         mNewAdapter  = new MyNewAdapter(mContext);
         mNewListView.setAdapter(mNewAdapter);
+
         mCommodityAdapter = new MyCommodityAdapter(mContext);
         mCommodityListView.setAdapter(mCommodityAdapter);
         LinearLayout layout = initViewInfo();
