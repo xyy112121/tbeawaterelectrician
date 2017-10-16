@@ -147,7 +147,8 @@
                     />
             </LinearLayout>
             <LinearLayout
-                style="@style/scancode_score_view_layout">
+                style="@style/scancode_score_view_layout"
+                android:visibility="gone">
                 <TextView
                     android:text="生产日期："
                     style="@style/scancode_score_view_text1"/>
