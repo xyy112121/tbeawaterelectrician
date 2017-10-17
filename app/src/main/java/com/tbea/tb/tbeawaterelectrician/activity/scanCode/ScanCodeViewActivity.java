@@ -44,19 +44,34 @@ public class ScanCodeViewActivity extends TopActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scancode_view);
         initTopbar("返利详情");
-        if("local".equals(getIntent().getStringExtra("type"))){
+        if ("local".equals(getIntent().getStringExtra("type"))) {
             Gson gson = new Gson();
-            ScanCode obj = gson.fromJson(getIntent().getStringExtra("obj"),ScanCode.class);
+            ScanCode obj = gson.fromJson(getIntent().getStringExtra("obj"), ScanCode.class);
             setViewDate(obj);
-        }else{
+        } else {
             getDate();//网络取数据
         }
 
         findViewById(R.id.scan_code_comfire).setOnClickListener(new View.OnClickListener() {
             @Override
-                public void onClick(View view) {
-                if(mObj.getNeedappeal().equals("0")){
-                    comfire();
+            public void onClick(View view) {
+                if (mObj.getNeedappeal().equals("0")) {
+                    final CustomDialog dialog = new CustomDialog(ScanCodeViewActivity.this, R.style.MyDialog, R.layout.tip_delete_dialog);
+                    dialog.setText("是否确认扫码？");
+                    dialog.setConfirmBtnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    }, "取消");
+                    dialog.setCancelBtnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                            comfire();
+                        }
+                    }, "确定");
+                    dialog.show();
                 }
             }
         });
@@ -64,15 +79,15 @@ public class ScanCodeViewActivity extends TopActivity {
         findViewById(R.id.scan_code_tip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if("2".equals(mNeedappeal)){
-                   UtilAssistants.showToast("您已经举报过了");
+                if ("2".equals(mNeedappeal)) {
+                    UtilAssistants.showToast("您已经举报过了");
                     return;
                 }
                 Intent intent = new Intent(ScanCodeViewActivity.this, MyAccusationEditActivity.class);
                 String scanCode = getIntent().getStringExtra("scanCode");
-                intent.putExtra("name",mObj.getCommodityname());
-                intent.putExtra("commodityid",mObj.getId());
-                intent.putExtra("scancode",scanCode);
+                intent.putExtra("name", mObj.getCommodityname());
+                intent.putExtra("commodityid", mObj.getId());
+                intent.putExtra("scancode", scanCode);
                 startActivity(intent);
             }
         });
@@ -80,89 +95,93 @@ public class ScanCodeViewActivity extends TopActivity {
         findViewById(R.id.scan_code_mobilenumber).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+mObj.getMobilenumber()));
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mObj.getMobilenumber()));
                 startActivity(intent);
             }
         });
     }
 
 
-    private void comfire(){
-        final CustomDialog dialog = new CustomDialog(ScanCodeViewActivity.this, R.style.MyDialog, R.layout.tip_wait_dialog);
-        dialog.setText("请等待...");
-        dialog.show();
-        final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                dialog.dismiss();
-                switch (msg.what) {
-                    case ThreadState.SUCCESS:
-                        try {
-                            RspInfo1 re = (RspInfo1) msg.obj;
-                            if (re.isSuccess()) {
-                                UtilAssistants.showToast(re.getMsg());
-                                startActivity(new Intent(ScanCodeViewActivity.this,WalletIncomeAndExpensesActivity.class));
-                            } else {
-                                UtilAssistants.showToast(re.getMsg());
-                            }
-                        } catch (Exception e) {
-                            UtilAssistants.showToast("操作失败！");
-                        }
+    private void comfire() {
+        startActivity(new Intent(ScanCodeViewActivity.this, WalletIncomeAndExpensesActivity.class));
+        finish();
 
-                        break;
-                    case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
-                        break;
-                }
-            }
-        };
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    UserAction userAction = new UserAction();
-                    String scanCode = getIntent().getStringExtra("scanCode");
-                    RspInfo1 re = userAction.fanLiComfirm(scanCode);
-                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
-                } catch (Exception e) {
-                    handler.sendEmptyMessage(ThreadState.ERROR);
-                }
-            }
-        }).start();
+//        final CustomDialog dialog = new CustomDialog(ScanCodeViewActivity.this, R.style.MyDialog, R.layout.tip_wait_dialog);
+//        dialog.setText("请等待...");
+//        dialog.show();
+//        final Handler handler = new Handler() {
+//            @Override
+//            public void handleMessage(Message msg) {
+//                dialog.dismiss();
+//                switch (msg.what) {
+//                    case ThreadState.SUCCESS:
+//                        try {
+//                            RspInfo1 re = (RspInfo1) msg.obj;
+//                            if (re.isSuccess()) {
+//                                UtilAssistants.showToast(re.getMsg());
+//                                startActivity(new Intent(ScanCodeViewActivity.this, WalletIncomeAndExpensesActivity.class));
+//                            } else {
+//                                UtilAssistants.showToast(re.getMsg());
+//                            }
+//                        } catch (Exception e) {
+//                            UtilAssistants.showToast("操作失败！");
+//                        }
+//
+//                        break;
+//                    case ThreadState.ERROR:
+//                        UtilAssistants.showToast("操作失败！");
+//                        break;
+//                }
+//            }
+//        };
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    UserAction userAction = new UserAction();
+//                    String scanCode = getIntent().getStringExtra("scanCode");
+//                    RspInfo1 re = userAction.fanLiComfirm(scanCode);
+//                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+//                } catch (Exception e) {
+//                    handler.sendEmptyMessage(ThreadState.ERROR);
+//                }
+//            }
+//        }).start();
     }
-    private void setViewDate(ScanCode obj){
+
+    private void setViewDate(ScanCode obj) {
         mObj = obj;
         ((TextView) findViewById(R.id.scan_code_view_name)).setText(obj.getName());
-        ((TextView) findViewById(R.id.scan_code_view_price)).setText("￥"+obj.getPrice());
-        ImageView imageView = (ImageView)findViewById(R.id.scan_code_view_picture);
-        ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+obj.getPicture(),imageView);
-        ((TextView) findViewById(R.id.scan_code_view_rebatemoney)).setText("￥"+obj.getRebatemoney());
+        ((TextView) findViewById(R.id.scan_code_view_price)).setText("￥" + obj.getPrice());
+        ImageView imageView = (ImageView) findViewById(R.id.scan_code_view_picture);
+        ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + obj.getPicture(), imageView);
+        ((TextView) findViewById(R.id.scan_code_view_rebatemoney)).setText("￥" + obj.getRebatemoney());
         ((TextView) findViewById(R.id.scan_code_view_scantime)).setText(obj.getScantime());
         ((TextView) findViewById(R.id.scan_code_view_scanaddress)).setText(obj.getScanaddress());
         ((TextView) findViewById(R.id.scan_code_view_distributor)).setText(obj.getDistributor());
         ((TextView) findViewById(R.id.scan_code_view_commodityname)).setText(obj.getCommodityname());
         ((TextView) findViewById(R.id.scan_code_view_commodityspec)).setText(obj.getCommodityspec());
-//        ((TextView) findViewById(R.id.scan_code_view_manufacturedate)).setText(obj.getManufacturedate());
-        ((TextView) findViewById(R.id.scan_code_mobilenumber)).setText("窜货有奖举报电话:"+obj.getMobilenumber());
+        ((TextView) findViewById(R.id.scan_code_view_manufacturedate)).setText(obj.getManufacturedate());
+        ((TextView) findViewById(R.id.scan_code_mobilenumber)).setText("窜货有奖举报电话:" + obj.getMobilenumber());
 
         ((TextView) findViewById(R.id.scan_code_appealreward)).setText(obj.getAppealreward());
-        if(obj.getNeedappeal().equals("0")){
-            Button comfireBtn = (Button)findViewById(R.id.scan_code_comfire);
-            Button tipBtn = (Button)findViewById(R.id.scan_code_tip);
+        if (obj.getNeedappeal().equals("0")) {
+            Button comfireBtn = (Button) findViewById(R.id.scan_code_comfire);
+            Button tipBtn = (Button) findViewById(R.id.scan_code_tip);
             comfireBtn.setEnabled(true);
             tipBtn.setEnabled(false);
             findViewById(R.id.scan_code_userdistributor).setVisibility(View.GONE);
             findViewById(R.id.scan_code_userdistributor_tv).setVisibility(View.GONE);
             findViewById(R.id.scan_code_userdistributor_tv1).setVisibility(View.GONE);
-            ((TextView) findViewById(R.id.scan_code_view_distributor)).setTextColor(ContextCompat.getColor(ScanCodeViewActivity.this,R.color.black));
-        }else {//不符合
-            Button comfireBtn = (Button)findViewById(R.id.scan_code_comfire);
-            Button tipBtn = (Button)findViewById(R.id.scan_code_tip);
+            ((TextView) findViewById(R.id.scan_code_view_distributor)).setTextColor(ContextCompat.getColor(ScanCodeViewActivity.this, R.color.black));
+        } else {//不符合
+            Button comfireBtn = (Button) findViewById(R.id.scan_code_comfire);
+            Button tipBtn = (Button) findViewById(R.id.scan_code_tip);
             comfireBtn.setEnabled(false);
             tipBtn.setEnabled(true);
             ((TextView) findViewById(R.id.scan_code_userdistributor)).setText(obj.getUserdistributor());
-            ((TextView) findViewById(R.id.scan_code_view_distributor)).setTextColor(ContextCompat.getColor(ScanCodeViewActivity.this,R.color.red));
+            ((TextView) findViewById(R.id.scan_code_view_distributor)).setTextColor(ContextCompat.getColor(ScanCodeViewActivity.this, R.color.red));
         }
     }
 
@@ -184,9 +203,9 @@ public class ScanCodeViewActivity extends TopActivity {
                                 Map<String, String> commodityinfo = (Map<String, String>) data.get("commodityinfo");
                                 Map<String, String> scaninfo = (Map<String, String>) data.get("scaninfo");
                                 Map<String, String> appealinfo = (Map<String, String>) data.get("appealinfo");
-                                Map<String, String> userinfo  = (Map<String, String>) data.get("userinfo");
+                                Map<String, String> userinfo = (Map<String, String>) data.get("userinfo");
 
-                                if(userinfo != null){
+                                if (userinfo != null) {
                                     obj.setUserdistributor(userinfo.get("userdistributor"));
                                     obj.setUserdistributorid(userinfo.get("userdistributorid"));
                                 }

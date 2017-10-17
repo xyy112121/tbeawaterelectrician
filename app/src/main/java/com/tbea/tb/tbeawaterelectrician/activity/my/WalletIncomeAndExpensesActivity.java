@@ -53,6 +53,8 @@ public class WalletIncomeAndExpensesActivity extends TopActivity implements BGAR
         initUI();
     }
 
+
+
     /**
      * 实例化组件
      */
@@ -64,7 +66,25 @@ public class WalletIncomeAndExpensesActivity extends TopActivity implements BGAR
         mRefreshLayout.setDelegate(this);
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(mContext, true));
         mRefreshLayout.beginRefreshing();
+
+        findViewById(R.id.top_left).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext,WalletListActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(mContext,WalletListActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 
     /**
      * 获取数据
