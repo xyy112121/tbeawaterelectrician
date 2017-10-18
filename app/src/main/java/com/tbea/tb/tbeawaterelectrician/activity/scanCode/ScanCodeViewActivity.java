@@ -103,51 +103,50 @@ public class ScanCodeViewActivity extends TopActivity {
 
 
     private void comfire() {
-        startActivity(new Intent(ScanCodeViewActivity.this, WalletIncomeAndExpensesActivity.class));
-        finish();
 
-//        final CustomDialog dialog = new CustomDialog(ScanCodeViewActivity.this, R.style.MyDialog, R.layout.tip_wait_dialog);
-//        dialog.setText("请等待...");
-//        dialog.show();
-//        final Handler handler = new Handler() {
-//            @Override
-//            public void handleMessage(Message msg) {
-//                dialog.dismiss();
-//                switch (msg.what) {
-//                    case ThreadState.SUCCESS:
-//                        try {
-//                            RspInfo1 re = (RspInfo1) msg.obj;
-//                            if (re.isSuccess()) {
-//                                UtilAssistants.showToast(re.getMsg());
-//                                startActivity(new Intent(ScanCodeViewActivity.this, WalletIncomeAndExpensesActivity.class));
-//                            } else {
-//                                UtilAssistants.showToast(re.getMsg());
-//                            }
-//                        } catch (Exception e) {
-//                            UtilAssistants.showToast("操作失败！");
-//                        }
-//
-//                        break;
-//                    case ThreadState.ERROR:
-//                        UtilAssistants.showToast("操作失败！");
-//                        break;
-//                }
-//            }
-//        };
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    UserAction userAction = new UserAction();
-//                    String scanCode = getIntent().getStringExtra("scanCode");
-//                    RspInfo1 re = userAction.fanLiComfirm(scanCode);
-//                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
-//                } catch (Exception e) {
-//                    handler.sendEmptyMessage(ThreadState.ERROR);
-//                }
-//            }
-//        }).start();
+        final CustomDialog dialog = new CustomDialog(ScanCodeViewActivity.this, R.style.MyDialog, R.layout.tip_wait_dialog);
+        dialog.setText("请等待...");
+        dialog.show();
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                dialog.dismiss();
+                switch (msg.what) {
+                    case ThreadState.SUCCESS:
+                        try {
+                            RspInfo1 re = (RspInfo1) msg.obj;
+                            if (re.isSuccess()) {
+                                UtilAssistants.showToast(re.getMsg());
+                                startActivity(new Intent(ScanCodeViewActivity.this, WalletIncomeAndExpensesActivity.class));
+                                finish();
+                            } else {
+                                UtilAssistants.showToast(re.getMsg());
+                            }
+                        } catch (Exception e) {
+                            UtilAssistants.showToast("操作失败！");
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    String scanCode = getIntent().getStringExtra("scanCode");
+                    RspInfo1 re = userAction.fanLiComfirm(scanCode);
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
     }
 
     private void setViewDate(ScanCode obj) {
