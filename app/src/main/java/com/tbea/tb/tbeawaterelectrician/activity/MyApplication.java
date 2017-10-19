@@ -5,19 +5,15 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.LocationManager;
 import android.os.Environment;
 import android.provider.Settings;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.View;
 
-import com.baidu.location.Address;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -34,13 +30,12 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
-import com.tbea.tb.tbeawaterelectrician.entity.UserInfo2;
+import com.tbea.tb.tbeawaterelectrician.lib_zxing.DisplayUtil;
 import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
-import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.io.File;
 import java.lang.ref.SoftReference;
@@ -68,7 +63,6 @@ public class MyApplication extends Application implements BDLocationListener {
         instance = this;
         Config.DEBUG = true;
         UMShareAPI.get(this);
-        ZXingLibrary.initDisplayOpinion(this);
         initUniversalImageLoader();
 //		isGps();
         SDKInitializer.initialize(getApplicationContext());
@@ -89,6 +83,18 @@ public class MyApplication extends Application implements BDLocationListener {
         //加载保存的位置信息
         loadLoaclInfo();
 
+        initDisplayOpinion();
+
+    }
+
+    private void initDisplayOpinion() {
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        DisplayUtil.density = dm.density;
+        DisplayUtil.densityDPI = dm.densityDpi;
+        DisplayUtil.screenWidthPx = dm.widthPixels;
+        DisplayUtil.screenhightPx = dm.heightPixels;
+        DisplayUtil.screenWidthDip = DisplayUtil.px2dip(getApplicationContext(), dm.widthPixels);
+        DisplayUtil.screenHightDip = DisplayUtil.px2dip(getApplicationContext(), dm.heightPixels);
     }
 
     //各个平台的配置，建议放在全局Application或者程序入口

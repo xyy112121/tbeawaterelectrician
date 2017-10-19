@@ -24,6 +24,8 @@ import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.ScanCode;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
+import com.tbea.tb.tbeawaterelectrician.util.Constants;
+import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
@@ -51,6 +53,7 @@ public class ScanCodeViewActivity extends TopActivity {
         } else {
             getDate();//网络取数据
         }
+
 
         findViewById(R.id.scan_code_comfire).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,6 +184,11 @@ public class ScanCodeViewActivity extends TopActivity {
             tipBtn.setEnabled(true);
             ((TextView) findViewById(R.id.scan_code_userdistributor)).setText(obj.getUserdistributor());
             ((TextView) findViewById(R.id.scan_code_view_distributor)).setTextColor(ContextCompat.getColor(ScanCodeViewActivity.this, R.color.red));
+        }
+
+        if (ShareConfig.getConfigBoolean(ScanCodeViewActivity.this, Constants.ONLINE, false) == false) {
+            findViewById(R.id.scan_code_comfire).setEnabled(false);
+            findViewById(R.id.scan_code_tip).setEnabled(false);
         }
     }
 
