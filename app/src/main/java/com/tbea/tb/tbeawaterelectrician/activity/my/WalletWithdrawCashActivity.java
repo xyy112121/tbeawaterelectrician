@@ -140,6 +140,9 @@ public class WalletWithdrawCashActivity extends TopActivity {
                                     dates[i] = mDistributorList.get(i).getName() + " " + mDistributorList.get(i).getDistance();
                                 }
                                 OptionPicker mPicker = new OptionPicker((Activity) mContext, dates);
+                                if (mDistributorList.size() > 1) {
+                                    mPicker.setSelectedIndex(1);
+                                }
                                 mPicker.setOffset(1);
                                 mPicker.setTextSize(16);
                                 mPicker.setTextColor(ContextCompat.getColor(mContext, R.color.black));
@@ -147,7 +150,7 @@ public class WalletWithdrawCashActivity extends TopActivity {
                                     @Override
                                     public void onOptionPicked(String option) {
                                         for (Distributor item : mDistributorList) {
-                                            if (option.equals(item.getName())) {
+                                            if (option.equals(item.getName()+" " +  item.getDistance())) {
                                                 mdistributorid = item.getId();
                                                 initDistributorView(item);
                                             }
