@@ -1,9 +1,5 @@
-package com.tbea.tb.tbeawaterelectrician.activity.nearby;
+package com.tbea.tb.tbeawaterelectrician.activity.publicUse.activity;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,9 +10,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.tbea.tb.tbeawaterelectrician.R;
-import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
-import com.tbea.tb.tbeawaterelectrician.activity.my.AddressEditListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.publicUse.action.PublicAction;
 import com.tbea.tb.tbeawaterelectrician.activity.publicUse.model.NetUrlResponseModel;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
@@ -24,33 +18,24 @@ import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 /**
- * 经销商
+ * webView公用界面（需要先去服务器获取url）
  */
 
-public class DistributorViewAcitivty extends TopActivity {
-    private WebView mWebView;
-    private String id;
-    private Context mContext;
+public class NetWebViewActivity extends TopActivity {
+    WebView mWebView;
 
     CustomDialog mDialog;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activty_take_view);
-        mContext = this;
-        initTopbar("经销商详情");
-        id = getIntent().getStringExtra("id");
-        mWebView = (WebView) findViewById(R.id.web_view);
-        mDialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
+        setContentView(R.layout.activity_plumber_meeting_view_plan);
+        mDialog = new CustomDialog(this, R.style.MyDialog, R.layout.tip_wait_dialog);
         mDialog.setText("加载中...");
         mDialog.show();
+        mWebView = (WebView) findViewById(R.id.web_view);
+        initTopbar(getIntent().getStringExtra("title"));
         getDate();
-
-        //   String url = "http://www.u-shang.net/enginterface/index.php/Apph5/business?companyid="+id
-//        +"&&userid="+ MyApplication.instance.getUserId()+"&&longitude="+MyApplication.instance.getLongitude()
-//                +"&&latitude="+MyApplication.instance.getLatitude();
     }
 
     /**
@@ -64,7 +49,8 @@ public class DistributorViewAcitivty extends TopActivity {
                     case ThreadState.SUCCESS:
                         NetUrlResponseModel re = (NetUrlResponseModel) msg.obj;
                         if (re.isSuccess() && re.data != null) {
-                            String url = re.data.url + "business?companyid=" + id + "&&latitude=" + MyApplication.instance.getLatitude() + "&&longitude=" + MyApplication.instance.getLongitude();
+                            String parameter = getIntent().getStringExtra("parameter");
+                            String url = re.data.url+parameter;
                             showWebView(url);
                         } else {
                             UtilAssistants.showToast(re.getMsg());
@@ -100,9 +86,11 @@ public class DistributorViewAcitivty extends TopActivity {
         //启用支持javascript
         settings.setJavaScriptEnabled(true);
         settings.setBlockNetworkImage(false);//解决图片加载不出来的问题
+        settings.setJavaScriptEnabled(true);
+        settings.setAllowFileAccess(true);
+        settings.setDomStorageEnabled(true);//允许DCOM
 
         mWebView.loadUrl(url);
-        mWebView.setWebViewClient(new MyWebViewClient());
 
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -113,34 +101,7 @@ public class DistributorViewAcitivty extends TopActivity {
                 }
             }
         });
-    }
 
-    private class MyWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (url.contains("distributorphone")) {
-                String phone = url.substring(url.indexOf("_") + 1, url.length());
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
-                startActivity(intent);
-                return true;
-            }
-            return true;
-        }
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
-        }
-
-        @Override
-        public void onReceivedError(WebView view, int errorCode,
-                                    String description, String failingUrl) {
-            super.onReceivedError(view, errorCode, description, failingUrl);
-        }
+        mWebView.setWebViewClient(new WebViewClient());
     }
 }

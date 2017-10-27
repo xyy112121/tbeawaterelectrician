@@ -19,6 +19,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.publicUse.activity.NetWebViewActivity;
 import com.tbea.tb.tbeawaterelectrician.component.BadgeView;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.MessageCategory;
@@ -43,7 +44,7 @@ public class ServiceCenterActivity extends TopActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_center);
         initTopbar("客服中心");
-        mListView = (ListView)findViewById(R.id.listview);
+        mListView = (ListView) findViewById(R.id.listview);
         mAdapter = new MyAdapter(ServiceCenterActivity.this);
         mListView.setAdapter(mAdapter);
         findViewById(R.id.service_center_call_phone).setOnClickListener(new View.OnClickListener() {
@@ -62,24 +63,24 @@ public class ServiceCenterActivity extends TopActivity {
     /**
      * 获取数据
      */
-    public void getListDate(){
-        final CustomDialog dialog = new CustomDialog(ServiceCenterActivity.this,R.style.MyDialog,R.layout.tip_wait_dialog);
+    public void getListDate() {
+        final CustomDialog dialog = new CustomDialog(ServiceCenterActivity.this, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("加载中...");
         dialog.show();
-        final Handler handler = new Handler(){
+        final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
-                switch (msg.what){
+                switch (msg.what) {
                     case ThreadState.SUCCESS:
-                        RspInfo re = (RspInfo)msg.obj;
-                        if(re.isSuccess()){
-                            List<MessageCategory> list = (List<MessageCategory>)re.getDateObj("questionlist");
-                            if(list != null){
+                        RspInfo re = (RspInfo) msg.obj;
+                        if (re.isSuccess()) {
+                            List<MessageCategory> list = (List<MessageCategory>) re.getDateObj("questionlist");
+                            if (list != null) {
                                 mAdapter.addAll(list);
                             }
 
-                        }else {
+                        } else {
                             UtilAssistants.showToast(re.getMsg());
                         }
 
@@ -97,7 +98,7 @@ public class ServiceCenterActivity extends TopActivity {
                 try {
                     UserAction userAction = new UserAction();
                     RspInfo re = userAction.getServiceCenterInfo();
-                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
                 }
@@ -109,7 +110,7 @@ public class ServiceCenterActivity extends TopActivity {
         private Context mContext;
         private List<MessageCategory> mList = new ArrayList<>();
 
-        public MyAdapter(Context context){
+        public MyAdapter(Context context) {
             this.mContext = context;
         }
 
@@ -130,15 +131,17 @@ public class ServiceCenterActivity extends TopActivity {
 
         @Override
         public View getView(int i, View v, ViewGroup viewGroup) {
-            final LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(mContext.LAYOUT_INFLATER_SERVICE);
-            View view = (View)inflater.inflate(R.layout.activity_service_center_list_item,null);
+            final LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(mContext.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.activity_service_center_list_item, null);
             final MessageCategory obj = mList.get(i);
-            ((TextView)view.findViewById(R.id.text)).setText(obj.getQuestion());
+            ((TextView) view.findViewById(R.id.text)).setText(obj.getQuestion());
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(mContext,ServiceCenterViewActivity.class);
-                    intent.putExtra("id",obj.getId());
+                    Intent intent = new Intent(mContext, NetWebViewActivity.class);
+                    intent.putExtra("title", "客服中心");
+                    String par = "userhelp?questionid=" + obj.getId();
+                    intent.putExtra("parameter", par);//URL后缀
                     startActivity(intent);
 
                 }
@@ -146,7 +149,7 @@ public class ServiceCenterActivity extends TopActivity {
             return view;
         }
 
-        public  void addAll(List<MessageCategory> list){
+        public void addAll(List<MessageCategory> list) {
             mList.addAll(list);
             notifyDataSetChanged();
         }

@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -22,6 +23,8 @@ import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.publicUse.action.PublicAction;
+import com.tbea.tb.tbeawaterelectrician.activity.publicUse.model.NetUrlResponseModel;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.Distributor;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
@@ -48,6 +51,8 @@ public class WalletWithdrawCashActivity extends TopActivity {
     private List<Distributor> mDistributorList = new ArrayList<>();
     private Context mContext;
     private String mdistributorid;
+
+    private String mUrl="";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -150,9 +155,10 @@ public class WalletWithdrawCashActivity extends TopActivity {
                                     @Override
                                     public void onOptionPicked(String option) {
                                         for (Distributor item : mDistributorList) {
-                                            if (option.equals(item.getName()+" " +  item.getDistance())) {
+                                            if (option.equals(item.getName() + " " + item.getDistance())) {
                                                 mdistributorid = item.getId();
                                                 initDistributorView(item);
+                                                getUrl(item);
                                             }
                                         }
                                     }
@@ -204,23 +210,82 @@ public class WalletWithdrawCashActivity extends TopActivity {
             imageView.setVisibility(View.GONE);
             mWebView.setVisibility(View.VISIBLE);
         }
-        String url = MyApplication.instance.getImgPath() + "enginterface/index.php/Apph5/address?longitude=" + obj.getLongitude() + "&latitude=" + obj.getLatitude();
+//        String url = MyApplication.instance.getImgPath() + "enginterface/index.php/Apph5/address?longitude=" + obj.getLongitude() + "&latitude=" + obj.getLatitude();
+    }
+
+    /**
+     * 获取url
+     */
+    public void getUrl(final Distributor obj) {
+        if (!"".equals(mUrl)) {
+            //        String url = MyApplication.instance.getImgPath() + "enginterface/index.php/Apph5/address?longitude=" + obj.getLongitude() + "&latitude=" + obj.getLatitude();
+            String url = mUrl + "address?longitude=" + obj.getLongitude() + "&&latitude=" + obj.getLatitude();
+            showWebView(url);
+            return;
+        }
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case ThreadState.SUCCESS:
+                        NetUrlResponseModel re = (NetUrlResponseModel) msg.obj;
+                        if (re.isSuccess() && re.data != null) {
+                            mUrl = re.data.url;
+                            String url = mUrl + "address?longitude=" + obj.getLongitude() + "&&latitude=" + obj.getLatitude();
+                            showWebView(url);
+                        } else {
+                            UtilAssistants.showToast(re.getMsg());
+                        }
+
+                        break;
+                    case ThreadState.ERROR:
+                        UtilAssistants.showToast("操作失败！");
+                        break;
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    PublicAction userAction = new PublicAction();
+                    NetUrlResponseModel re = userAction.getUrl();
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
+    }
+
+    private void showWebView(String url) {
         WebSettings settings = mWebView.getSettings();
+        //自适应屏幕
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
         //启用支持javascript
         settings.setJavaScriptEnabled(true);
         settings.setBlockNetworkImage(false);//解决图片加载不出来的问题
         settings.setJavaScriptEnabled(true);
         settings.setAllowFileAccess(true);
         settings.setDomStorageEnabled(true);//允许DCOM
+
         mWebView.loadUrl(url);
-        mWebView.setWebViewClient(new WebViewClient() {
+
+        mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return super.shouldOverrideUrlLoading(view, url);
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    // 网页加载完成
+//                    mDialog.dismiss();
+                }
             }
         });
+
+        mWebView.setWebViewClient(new WebViewClient());
     }
+
 
     /**
      * 获取数据
@@ -254,6 +319,7 @@ public class WalletWithdrawCashActivity extends TopActivity {
                                 obj.setLongitude(recommondDistriButorInfo.get("longitude") + "");
                                 mdistributorid = obj.getId();
                                 initDistributorView(obj);
+                                getUrl(obj);
                             }
                         } else {
                             UtilAssistants.showToast(re.getMsg());

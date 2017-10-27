@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.AddressCitySelectActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.publicUse.activity.NetWebViewActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.Condition;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
@@ -129,7 +130,10 @@ public class RegisterActivity extends TopActivity {
         findViewById(R.id.register_argee_tv1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mContext, RegisterArgeeActivity.class));
+                Intent intent = new Intent(RegisterActivity.this, NetWebViewActivity.class);
+                intent.putExtra("title","用户注册协议");
+                intent.putExtra("parameter","userregisteragreement");//URL后缀
+                startActivity(intent);
 
             }
         });

@@ -28,6 +28,7 @@ import com.tbea.tb.tbeawaterelectrician.activity.my.ServiceCenterActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.SetionActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.WalletIncomeAndExpensesListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.WalletListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.publicUse.activity.NetWebViewActivity;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.Constants;
@@ -206,8 +207,10 @@ public class MyFragment extends Fragment {
         view.findViewById(R.id.my_about).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    Intent intent = new Intent(getActivity(), AboutActivity.class);
-                    startActivity(intent);
+                Intent intent = new Intent(getActivity(), NetWebViewActivity.class);
+                intent.putExtra("title", "关于我们");
+                intent.putExtra("parameter", "about");//URL后缀
+                startActivity(intent);
                 
             }
         });

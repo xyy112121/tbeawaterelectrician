@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.publicUse.activity.NetWebViewActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.thenLive.TakeViewActivity;
 import com.tbea.tb.tbeawaterelectrician.component.BadgeView;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
@@ -37,23 +38,23 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
  * 我的消息列表
  */
 
-public class MessageListActivity  extends TopActivity implements BGARefreshLayout.BGARefreshLayoutDelegate{
+public class MessageListActivity extends TopActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
     private ListView mListView;
     private MyAdapter mAdapter;
     private BGARefreshLayout mRefreshLayout;
-    private  int mPage = 1;
-    private int mPagesize =10 ;
+    private int mPage = 1;
+    private int mPagesize = 10;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_search_list);
         initTopbar("我的消息");
-        mListView = (ListView)findViewById(R.id.listview);
+        mListView = (ListView) findViewById(R.id.listview);
         mAdapter = new MyAdapter(MessageListActivity.this);
         mListView.setAdapter(mAdapter);
 
-        mRefreshLayout = (BGARefreshLayout)findViewById(R.id.rl_recyclerview_refresh);
+        mRefreshLayout = (BGARefreshLayout) findViewById(R.id.rl_recyclerview_refresh);
         mRefreshLayout.setDelegate(this);
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(MessageListActivity.this, true));
         mRefreshLayout.beginRefreshing();
@@ -62,27 +63,27 @@ public class MessageListActivity  extends TopActivity implements BGARefreshLayou
     /**
      * 获取数据
      */
-    public void getListDate(){
-        final Handler handler = new Handler(){
+    public void getListDate() {
+        final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 mRefreshLayout.endLoadingMore();
                 mRefreshLayout.endRefreshing();
-                switch (msg.what){
+                switch (msg.what) {
                     case ThreadState.SUCCESS:
-                        RspInfo re = (RspInfo)msg.obj;
-                        if(re.isSuccess()){
-                            List<MessageCategory> list = (List<MessageCategory>)re.getDateObj("messagecategorylist");
-                            if(list != null){
+                        RspInfo re = (RspInfo) msg.obj;
+                        if (re.isSuccess()) {
+                            List<MessageCategory> list = (List<MessageCategory>) re.getDateObj("messagecategorylist");
+                            if (list != null) {
                                 mAdapter.addAll(list);
-                            }else {
+                            } else {
                                 mListView.setSelection(mAdapter.getCount());
-                                if(mPage >1){//防止分页的时候没有加载数据，但是页数已经增加，导致下一次查询不正确
+                                if (mPage > 1) {//防止分页的时候没有加载数据，但是页数已经增加，导致下一次查询不正确
                                     mPage--;
                                 }
                             }
 
-                        }else {
+                        } else {
                             UtilAssistants.showToast(re.getMsg());
                         }
 
@@ -99,8 +100,8 @@ public class MessageListActivity  extends TopActivity implements BGARefreshLayou
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo re = userAction.getMessageList(mPage++,mPagesize);
-                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                    RspInfo re = userAction.getMessageList(mPage++, mPagesize);
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
                 }
@@ -123,11 +124,11 @@ public class MessageListActivity  extends TopActivity implements BGARefreshLayou
         return true;
     }
 
-    private class MyAdapter extends BaseAdapter{
+    private class MyAdapter extends BaseAdapter {
         private Context mContext;
         private List<MessageCategory> mList = new ArrayList<>();
 
-        public MyAdapter(Context context){
+        public MyAdapter(Context context) {
             this.mContext = context;
         }
 
@@ -148,17 +149,17 @@ public class MessageListActivity  extends TopActivity implements BGARefreshLayou
 
         @Override
         public View getView(int i, View v, ViewGroup viewGroup) {
-            LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(mContext.LAYOUT_INFLATER_SERVICE);
-            View view = (View)inflater.inflate(R.layout.activity_message_list_item,null);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(mContext.LAYOUT_INFLATER_SERVICE);
+            View view = (View) inflater.inflate(R.layout.activity_message_list_item, null);
             final MessageCategory obj = mList.get(i);
             final ImageView imageView = (ImageView) view.findViewById(R.id.message_item_picture);
-            ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+obj.getPicture(),imageView);
-            ((TextView)view.findViewById(R.id.message_item_title)).setText(obj.getName());
-            ((TextView)view.findViewById(R.id.message_item_time)).setText(obj.getLasttime());
-            ((TextView)view.findViewById(R.id.message_item_content)).setText(obj.getLastmessagetitle());
+            ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + obj.getPicture(), imageView);
+            ((TextView) view.findViewById(R.id.message_item_title)).setText(obj.getName());
+            ((TextView) view.findViewById(R.id.message_item_time)).setText(obj.getLasttime());
+            ((TextView) view.findViewById(R.id.message_item_content)).setText(obj.getLastmessagetitle());
 
-            if(!"0".equals(obj.getNewcount()) && !"".equals(obj.getNewcount())){
-                BadgeView badgeView = new BadgeView(mContext,imageView);
+            if (!"0".equals(obj.getNewcount()) && !"".equals(obj.getNewcount())) {
+                BadgeView badgeView = new BadgeView(mContext, imageView);
                 badgeView.setText(obj.getNewcount());
                 badgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
                 badgeView.setBadgeMargin(0, 0); // 水平和竖直方向的间距
@@ -168,15 +169,21 @@ public class MessageListActivity  extends TopActivity implements BGARefreshLayou
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(mContext, MessageViewActivity.class);
-                    intent.putExtra("id",obj.getId());
+//                    Intent intent = new Intent(mContext, MessageViewActivity.class);
+//                    intent.putExtra("id",obj.getId());
+//                    startActivity(intent);
+
+                    Intent intent = new Intent(mContext, NetWebViewActivity.class);
+                    intent.putExtra("title", "消息详情");
+                    String par = "messagelist?messagecategoryid=" + obj.getId();
+                    intent.putExtra("parameter", par);//URL后缀
                     startActivity(intent);
                 }
             });
             return view;
         }
 
-        public  void addAll(List<MessageCategory> list){
+        public void addAll(List<MessageCategory> list) {
             mList.addAll(list);
             notifyDataSetChanged();
         }
