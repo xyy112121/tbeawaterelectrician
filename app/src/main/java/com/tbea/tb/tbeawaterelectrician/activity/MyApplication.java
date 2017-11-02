@@ -66,20 +66,20 @@ public class MyApplication extends Application implements BDLocationListener {
         UMShareAPI.get(this);
         initUniversalImageLoader();
 //		isGps();
-        SDKInitializer.initialize(getApplicationContext());
-        //百度定位
-        mLocationClient = new LocationClient(getApplicationContext());
-        mLocationClient.registerLocationListener(this);
-        LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
-        option.setIsNeedAddress(true);
-        option.setOpenGps(true);// 打开gps
-        option.setAddrType("all");// 返回的定位结果包含地址信息
-        option.setCoorType("bd09ll"); // 设置坐标类型
-        option.setScanSpan(60 * 1000);
-        mLocationClient.setLocOption(option);
-        mLocationClient.start();
-        mLocationClient.requestLocation();
+//        SDKInitializer.initialize(getApplicationContext());
+//        //百度定位
+//        mLocationClient = new LocationClient(getApplicationContext());
+//        mLocationClient.registerLocationListener(this);
+//        LocationClientOption option = new LocationClientOption();
+//        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
+//        option.setIsNeedAddress(true);
+//        option.setOpenGps(true);// 打开gps
+//        option.setAddrType("all");// 返回的定位结果包含地址信息
+//        option.setCoorType("bd09ll"); // 设置坐标类型
+//        option.setScanSpan(60 * 1000);
+//        mLocationClient.setLocOption(option);
+//        mLocationClient.start();
+//        mLocationClient.requestLocation();
 
         //加载保存的位置信息
         loadLoaclInfo();
