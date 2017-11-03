@@ -40,12 +40,12 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
  * 我的钱包
  */
 
-public class WalletListActivity extends TopActivity implements View.OnClickListener,BGARefreshLayout.BGARefreshLayoutDelegate{
+public class WalletListActivity extends TopActivity implements View.OnClickListener, BGARefreshLayout.BGARefreshLayoutDelegate {
     private Context mContext;
     private ListView mListView;
     private MyAdapter mAdapter;
-    private  int mPage = 1;
-    private int mPagesiz =10 ;
+    private int mPage = 1;
+    private int mPagesiz = 10;
     private BGARefreshLayout mRefreshLayout;
     private boolean isFirst = true;
     private String mCurrentMoney;
@@ -54,52 +54,53 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet_list);
-        initTopbar("我的钱包","收支明细",this);
+        initTopbar("我的钱包", "收支明细", this);
         mContext = this;
         initUI();
     }
+
     /**
      * 获取数据
      */
-    public void getDate(){
-        final Handler handler = new Handler(){
+    public void getDate() {
+        final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 mRefreshLayout.endLoadingMore();
                 mRefreshLayout.endRefreshing();
-                switch (msg.what){
+                switch (msg.what) {
                     case ThreadState.SUCCESS:
                         try {
-                            RspInfo1 re = (RspInfo1)msg.obj;
-                            if(re.isSuccess()){
-                                if(isFirst == true){
-                                    LinearLayout layout = (LinearLayout)getLayoutInflater().inflate(R.layout.activity_wallet_list_head,null);
+                            RspInfo1 re = (RspInfo1) msg.obj;
+                            if (re.isSuccess()) {
+                                if (isFirst == true) {
+                                    LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_wallet_list_head, null);
                                     mListView.addHeaderView(layout);
-                                    FrameLayout layout1 = (FrameLayout)getLayoutInflater().inflate(R.layout.activity_wallet_list_item_head,null);
+                                    FrameLayout layout1 = (FrameLayout) getLayoutInflater().inflate(R.layout.activity_wallet_list_item_head, null);
                                     mListView.addHeaderView(layout1);
                                     findViewById(R.id.my_wallet_list_withdraw_cash).setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            if("0".equals(mCurrentMoney)){
+                                            if ("0".equals(mCurrentMoney) || "0.00".equals(mCurrentMoney)) {
                                                 UtilAssistants.showToast("你当前可提现金额为0");
 
-                                            }else {
-                                                startActivity(new Intent(WalletListActivity.this,WalletWithdrawCashActivity.class));
+                                            } else {
+                                                startActivity(new Intent(WalletListActivity.this, WalletWithdrawCashActivity.class));
                                             }
 
                                         }
                                     });
                                 }
                                 Map<String, Object> data = (Map<String, Object>) re.getData();
-                                Map<String,String> mymoneyinfo =  (Map<String,String>) data.get("mymoneyinfo");
-                                if(mymoneyinfo != null){
+                                Map<String, String> mymoneyinfo = (Map<String, String>) data.get("mymoneyinfo");
+                                if (mymoneyinfo != null) {
                                     mCurrentMoney = mymoneyinfo.get("currentmoney");
-                                    ((TextView)findViewById(R.id.my_wallet_list_currentmoney)).setText("￥ "+mymoneyinfo.get("currentmoney"));
+                                    ((TextView) findViewById(R.id.my_wallet_list_currentmoney)).setText("￥ " + mymoneyinfo.get("currentmoney"));
                                 }
-                                List<Map<String,String>> list =  (List<Map<String,String>>) data.get("nottakemoneylist");
+                                List<Map<String, String>> list = (List<Map<String, String>>) data.get("nottakemoneylist");
                                 List<Receive> receiveList = new ArrayList<>();
-                                if(list != null){
-                                    for (int i = 0;i< list.size();i++){
+                                if (list != null) {
+                                    for (int i = 0; i < list.size(); i++) {
                                         Receive obj = new Receive();
                                         obj.setId(list.get(i).get("id"));
                                         obj.setEvent(list.get(i).get("takemoneycode"));
@@ -108,16 +109,16 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
                                         receiveList.add(obj);
                                     }
                                     mAdapter.addAll(receiveList);
-                                }else {
-                                    if(mPage >1){//防止分页的时候没有加载数据，但是页数已经增加，导致下一次查询不正确
+                                } else {
+                                    if (mPage > 1) {//防止分页的时候没有加载数据，但是页数已经增加，导致下一次查询不正确
                                         mPage--;
                                     }
                                 }
                                 isFirst = false;
-                            }else {
+                            } else {
                                 UtilAssistants.showToast(re.getMsg());
                             }
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             isFirst = false;
                         }
 
@@ -135,8 +136,8 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo1 re = userAction.getWalletRevenueList(mPage++,mPagesiz);
-                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                    RspInfo1 re = userAction.getWalletRevenueList(mPage++, mPagesiz);
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
                 }
@@ -148,10 +149,10 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
      * 实例化组件
      */
     private void initUI() {
-        mListView = (ListView)findViewById(R.id.my_wallet_listview);
+        mListView = (ListView) findViewById(R.id.my_wallet_listview);
         mAdapter = new MyAdapter(mContext);
         mListView.setAdapter(mAdapter);
-        mRefreshLayout = (BGARefreshLayout)findViewById(R.id.rl_recyclerview_refresh);
+        mRefreshLayout = (BGARefreshLayout) findViewById(R.id.rl_recyclerview_refresh);
         mRefreshLayout.setDelegate(this);
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(mContext, true));
 
@@ -188,8 +189,7 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
         /**
          * 构造函数
          *
-         * @param context
-         *            android上下文环境
+         * @param context android上下文环境
          */
         public MyAdapter(Context context) {
             this.context = context;
@@ -216,15 +216,15 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
                     .getSystemService(context.LAYOUT_INFLATER_SERVICE);
             View view = (View) layoutInflater.inflate(
                     R.layout.activity_wallet_list_item, null);
-            ((TextView)view.findViewById(R.id.wallet_item_takemoneycode)).setText(mList.get(position).getEvent());
-            ((TextView)view.findViewById(R.id.wallet_item_takemoneycode)).getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-            ((TextView)view.findViewById(R.id.wallet_item_validexpiredtime)).setText(mList.get(position).getTime());
-            ((TextView)view.findViewById(R.id.wallet_item_money)).setText(mList.get(position).getMoney());
+            ((TextView) view.findViewById(R.id.wallet_item_takemoneycode)).setText(mList.get(position).getEvent());
+            ((TextView) view.findViewById(R.id.wallet_item_takemoneycode)).getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+            ((TextView) view.findViewById(R.id.wallet_item_validexpiredtime)).setText(mList.get(position).getTime());
+            ((TextView) view.findViewById(R.id.wallet_item_money)).setText(mList.get(position).getMoney());
 
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_delete_dialog);
+                    final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_delete_dialog);
                     dialog.setText("删除后提现二维码将会失效");
                     dialog.setText2("如需提现请重新生成二维码");
                     dialog.setConfirmBtnClickListener(new View.OnClickListener() {
@@ -232,32 +232,32 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
                         public void onClick(View view) {
                             dialog.dismiss();
                         }
-                    },"取消");
+                    }, "取消");
                     dialog.setCancelBtnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             dialog.dismiss();
                             delect(mList.get(position).getId());
                         }
-                    },"删除");
+                    }, "删除");
                     dialog.show();
-                    return  false;
+                    return false;
                 }
             });
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(mContext,WalletWithdrawCashViewActivity.class);
-                    intent.putExtra("money","");
-                    intent.putExtra("takemoneycodeid",mList.get(position).getId());
+                    Intent intent = new Intent(mContext, WalletWithdrawCashViewActivity.class);
+                    intent.putExtra("money", "");
+                    intent.putExtra("takemoneycodeid", mList.get(position).getId());
                     startActivity(intent);
                 }
             });
             return view;
         }
 
-        public  void addAll(List<Receive> list){
+        public void addAll(List<Receive> list) {
             mList.addAll(list);
             notifyDataSetChanged();
         }
@@ -278,21 +278,21 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
     /**
      * 删除数据
      */
-    public void delect(final String id){
-        final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
+    public void delect(final String id) {
+        final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待...");
         dialog.show();
-        final Handler handler = new Handler(){
+        final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
-                switch (msg.what){
+                switch (msg.what) {
                     case ThreadState.SUCCESS:
-                        RspInfo1 re = (RspInfo1)msg.obj;
-                        if(re.isSuccess()){
+                        RspInfo1 re = (RspInfo1) msg.obj;
+                        if (re.isSuccess()) {
                             UtilAssistants.showToast(re.getMsg());
                             mRefreshLayout.beginRefreshing();
-                        }else {
+                        } else {
                             UtilAssistants.showToast(re.getMsg());
                         }
 
@@ -310,7 +310,7 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
                 try {
                     UserAction userAction = new UserAction();
                     RspInfo1 re = userAction.delectTakeMoneyCodeId(id);
-                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
                 }
@@ -326,7 +326,7 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        startActivity(new Intent(mContext,WalletIncomeAndExpensesActivity.class));
+        startActivity(new Intent(mContext, WalletIncomeAndExpensesActivity.class));
 
     }
 }

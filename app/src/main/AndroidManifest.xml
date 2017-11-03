@@ -223,6 +223,9 @@
             android:name=".activity.my.MessageListActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.my.MessageTypeListActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.my.ServiceCenterActivity"
             android:screenOrientation="portrait" />
         <activity

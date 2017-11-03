@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -83,9 +84,12 @@ public class AccountAuthenticationActivity extends TopActivity {
                             ImageView imageView1 = (ImageView) findViewById(R.id.register_update_image1);
                             ImageView imageView2 = (ImageView) findViewById(R.id.register_update_image2);
                             ImageView imageView3 = (ImageView) findViewById(R.id.register_update_image3);
-                            ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcard1"), imageView1);
-                            ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcard2"), imageView2);
-                            ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcardwithperson"), imageView3);
+                            if (TextUtils.isEmpty(useridentifyinfo.get("personidcard1")))
+                                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcard1"), imageView1);
+                            if (TextUtils.isEmpty(useridentifyinfo.get("personidcard2")))
+                                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcard2"), imageView2);
+                            if (TextUtils.isEmpty(useridentifyinfo.get("personidcardwithperson")))
+                                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcardwithperson"), imageView3);
 
                         } else {
                             UtilAssistants.showToast(re.getMsg());
@@ -118,8 +122,9 @@ public class AccountAuthenticationActivity extends TopActivity {
             findViewById(R.id.register_commit_review).setVisibility(View.GONE);
             (findViewById(R.id.regist_realname)).setFocusable(false);
             (findViewById(R.id.regist_personid)).setFocusable(false);
-            getDate();
+
         }
+        getDate();
 
         findViewById(R.id.register_update_image1).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +139,7 @@ public class AccountAuthenticationActivity extends TopActivity {
         findViewById(R.id.register_update_image2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ("notidentify".equals(whetheridentifiedid)|| whetheridentifiedid == null) {
+                if ("notidentify".equals(whetheridentifiedid) || whetheridentifiedid == null) {
                     mFlag = FlagImage.personidcard2;
                     showDialog(view);
                 }
@@ -144,7 +149,7 @@ public class AccountAuthenticationActivity extends TopActivity {
         findViewById(R.id.register_update_image3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ("notidentify".equals(whetheridentifiedid)|| whetheridentifiedid == null) {
+                if ("notidentify".equals(whetheridentifiedid) || whetheridentifiedid == null) {
                     mFlag = FlagImage.personidcardwithperson;
                     showDialog(view);
                 }
@@ -201,7 +206,8 @@ public class AccountAuthenticationActivity extends TopActivity {
                                     UtilAssistants.showToast(re.getMsg());
                                     if (re.isSuccess()) {
                                         Intent intent = new Intent();
-                                        intent.putExtra("whetheridentifiedid", "tidentify");
+                                        intent.putExtra("whetheridentifiedid", "notidentify");
+//                                        intent.putExtra("whetheridentifiedid", "tidentify");
                                         setResult(RESULT_OK, intent);
                                         finish();
                                     }

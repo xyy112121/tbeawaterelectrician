@@ -20,6 +20,7 @@ import com.tbea.tb.tbeawaterelectrician.activity.account.LoginActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.AboutActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.CollectListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.MessageTypeListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MyAccusationEditActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MyAccusationListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MyInformationActivity;
@@ -191,7 +192,7 @@ public class MyFragment extends Fragment {
         view.findViewById(R.id.my_message).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    Intent intent = new Intent(getActivity(), MessageListActivity.class);
+                    Intent intent = new Intent(getActivity(), MessageTypeListActivity.class);
                     startActivity(intent);
                 }
         });

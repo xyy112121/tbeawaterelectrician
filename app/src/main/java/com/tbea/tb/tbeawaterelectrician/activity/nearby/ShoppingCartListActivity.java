@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,7 +124,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo re = userAction.getShopCarList( mPage++, mPagesiz);
+                    RspInfo re = userAction.getShopCarList(mPage++, mPagesiz);
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
@@ -180,20 +182,20 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
         findViewById(R.id.delect_tv_delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_delete_dialog);
+                final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_delete_dialog);
                 dialog.setConfirmBtnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         dialog.dismiss();
                     }
-                },"取消");
+                }, "取消");
                 dialog.setCancelBtnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         dialog.dismiss();
                         delect();
                     }
-                },"确定");
+                }, "确定");
                 dialog.show();
             }
         });
@@ -201,13 +203,13 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
         findViewById(R.id.tv_go_to_pay).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mSelectIds.size() >0){
+                if (mSelectIds.size() > 0) {
                     Gson gson = new Gson();
                     String objJson = gson.toJson(mSelectIds);
-                    Intent intent = new Intent(mContext,OrderEditActivity.class);
-                    intent.putExtra("orderdetailidlist",objJson);
+                    Intent intent = new Intent(mContext, OrderEditActivity.class);
+                    intent.putExtra("orderdetailidlist", objJson);
                     startActivity(intent);
-                }else {
+                } else {
                     UtilAssistants.showToast("您至少需要选择一个产品！");
                 }
 
@@ -218,7 +220,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
         findViewById(R.id.delete_tv_share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mSelectIds.size() >0 && mSelectIds.size() < 2){
+                if (mSelectIds.size() > 0 && mSelectIds.size() < 2) {
                     getShareInfo(mSelectIds.get(0).getOrderdetailid());
 
 //                    String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+mSelectIds.get(0).getOrderdetailid();
@@ -232,7 +234,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
 //                            .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QZONE,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
 //                            .setCallback(umShareListener).open();
 
-                }else {
+                } else {
                     UtilAssistants.showToast("您需要选择一个产品！");
                 }
 
@@ -249,6 +251,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
         public void onStart(SHARE_MEDIA platform) {
             //分享开始的回调
         }
+
         @Override
         public void onResult(SHARE_MEDIA platform) {
             UtilAssistants.showToast("分享成功啦");
@@ -256,9 +259,9 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            UtilAssistants.showToast("分享失败啦"+t.getMessage());
-            if(t!=null){
-                Log.d("throw","throw:"+t.getMessage());
+            UtilAssistants.showToast("分享失败啦" + t.getMessage());
+            if (t != null) {
+                Log.d("throw", "throw:" + t.getMessage());
             }
         }
 
@@ -277,41 +280,42 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
 
     /**
      * 分享
+     *
      * @return
      */
-    private void getShareInfo(final String id){
-        final Handler handler = new Handler(){
+    private void getShareInfo(final String id) {
+        final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                if(msg.what == ThreadState.SUCCESS){
+                if (msg.what == ThreadState.SUCCESS) {
                     RspInfo1 rsp = (RspInfo1) msg.obj;
-                    if(rsp.isSuccess()){
-                        Map<String,Object> map = (Map<String,Object>)rsp.getData();
-                        Map<String,String> list = (Map<String,String>)map.get("shareinfo");
-                        if(list != null){
+                    if (rsp.isSuccess()) {
+                        Map<String, Object> map = (Map<String, Object>) rsp.getData();
+                        Map<String, String> list = (Map<String, String>) map.get("shareinfo");
+                        if (list != null) {
                             String description = list.get("description");
                             String picture = list.get("picture");
                             String title = list.get("title");
                             String url = list.get("url");
 
                             //                    String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+mSelectIds.get(0).getOrderdetailid();
-                       UMWeb  web = new UMWeb(url);
-                       web.setTitle(title);
-                        web.setThumb(new UMImage(mContext, MyApplication.instance.getImgPath()+picture));
-                       web.setDescription(description);
+                            UMWeb web = new UMWeb(url);
+                            web.setTitle(title);
+                            web.setThumb(new UMImage(mContext, MyApplication.instance.getImgPath() + picture));
+                            web.setDescription(description);
 
-                    new ShareAction((Activity) mContext)
-                            .withMedia(web)
-                            .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QZONE,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
-                            .setCallback(umShareListener).open();
+                            new ShareAction((Activity) mContext)
+                                    .withMedia(web)
+                                    .setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
+                                    .setCallback(umShareListener).open();
 
                         }
 
                     }
 
 
-                }else if(msg.what == ThreadState.ERROR){
+                } else if (msg.what == ThreadState.ERROR) {
                     UtilAssistants.showToast("分享失败，请重试！");
                 }
 
@@ -323,9 +327,9 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
             public void run() {
                 try {
                     UserAction action = new UserAction();
-                    RspInfo1 re  = action.getShareInfo("commodity",id);
-                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
-                }catch (Exception e){
+                    RspInfo1 re = action.getShareInfo("commodity", id);
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
 
                 }
@@ -339,12 +343,12 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
     /**
      * 选择的产品
      */
-    private class OrderDetailid{
+    private class OrderDetailid {
         private String orderdetailid;
         private int ordernumber;
         private String url;
 
-        public OrderDetailid(String  id,int number,String url){
+        public OrderDetailid(String id, int number, String url) {
             this.orderdetailid = id;
             this.ordernumber = number;
             this.url = url;
@@ -355,8 +359,8 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
         }
     }
 
-    private void delect(){
-        if(mSelectIds.size() < 1){
+    private void delect() {
+        if (mSelectIds.size() < 1) {
             UtilAssistants.showToast("您至少需要选择一个产品！");
             return;
         }
@@ -390,8 +394,8 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
                 try {
                     UserAction userAction = new UserAction();
                     StringBuilder sb = new StringBuilder();
-                    for (OrderDetailid item:mSelectIds) {
-                        if(sb.length() >0){
+                    for (OrderDetailid item : mSelectIds) {
+                        if (sb.length() > 0) {
                             sb.append(",");
                         }
                         sb.append(item.getOrderdetailid());
@@ -415,7 +419,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
      */
     public void setPayCount(int count, Double price) {
         ((TextView) findViewById(R.id.tv_go_to_pay)).setText("去结算(" + count + ")");
-        String result = String.format("%.2f",price);
+        String result = String.format("%.2f", price);
         ((TextView) findViewById(R.id.tv_total_price)).setText(result);
     }
 
@@ -488,7 +492,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
                 cholder.tv_product_name = (TextView) convertView.findViewById(R.id.shop_car_item_commodityname);
                 cholder.tv_product_orderspecification_color = (TextView) convertView.findViewById(R.id.shop_car_item_orderspecification_color);
                 cholder.tv_product_price = (TextView) convertView.findViewById(R.id.shop_car_item_orderprice);
-                cholder.iv_product_picture = (ImageView)convertView.findViewById(R.id.shop_car_item_picture);
+                cholder.iv_product_picture = (ImageView) convertView.findViewById(R.id.shop_car_item_picture);
                 convertView.setTag(cholder);
             } else {
                 // convertView = childrenMap.get(groupPosition);
@@ -497,11 +501,11 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
 
             final ProductInfo obj = mList.get(i);
             cholder.tv_product_name.setText(obj.getCommodityname());
-            cholder.tv_product_orderspecification_color.setText("颜色:"+obj.getOrdercolor()+"  规格:"+obj.getOrderspecification());
-            cholder.tv_product_price.setText("￥ "+obj.getOrderprice());
-            cholder.tv_count.setText(obj.getOrdernumber()+"");
-            if (!"".equals(obj.getCommoditypicture())){
-                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+obj.getCommoditypicture(),cholder.iv_product_picture);
+            cholder.tv_product_orderspecification_color.setText("颜色:" + obj.getOrdercolor() + "  规格:" + obj.getOrderspecification());
+            cholder.tv_product_price.setText("￥ " + obj.getOrderprice());
+            cholder.tv_count.setText(obj.getOrdernumber() + "");
+            if (!"".equals(obj.getCommoditypicture())) {
+                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + obj.getCommoditypicture(), cholder.iv_product_picture);
             }
 
             cholder.cb_check.setChecked(obj.isChoosed());
@@ -511,21 +515,21 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
                     obj.setChoosed(((CheckBox) v).isChecked());
                     cholder.cb_check.setChecked(((CheckBox) v).isChecked());
 
-                    String price = ((TextView) findViewById(R.id.tv_total_price)).getText()+"";
+                    String price = ((TextView) findViewById(R.id.tv_total_price)).getText() + "";
                     Double price2 = Double.valueOf(price);
                     if (((CheckBox) v).isChecked()) {
-                        OrderDetailid orderDetailid = new OrderDetailid(obj.getOrderdetailid(),obj.getOrdernumber(),obj.getCommoditypicture());
+                        OrderDetailid orderDetailid = new OrderDetailid(obj.getOrderdetailid(), obj.getOrdernumber(), obj.getCommoditypicture());
                         mSelectIds.add(orderDetailid);
-                        price2 = price2 + (obj.getOrdernumber()*obj.getOrderprice());
+                        price2 = price2 + (obj.getOrdernumber() * obj.getOrderprice());
                     } else {
-                        for (int i = 0;i<mSelectIds.size();i++){
-                            if(mSelectIds.get(i).getOrderdetailid().equals(obj.getOrderdetailid())){
+                        for (int i = 0; i < mSelectIds.size(); i++) {
+                            if (mSelectIds.get(i).getOrderdetailid().equals(obj.getOrderdetailid())) {
 //                              list.add(i);
                                 mSelectIds.remove(i);
                                 i--;
                             }
                         }
-                        price2 = price2 - (obj.getOrdernumber()*obj.getOrderprice());
+                        price2 = price2 - (obj.getOrdernumber() * obj.getOrderprice());
                     }
 
 //                    for (int i = 0; i < mSelectIds.size(); i++) {
@@ -550,6 +554,28 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
                 }
             });
 
+            cholder.tv_count.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    try {
+                        if (!"".equals(s) && s != null) {
+                            obj.setOrdernumber(Integer.parseInt(s + ""));
+                        }
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
             cholder.iv_decrease.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -582,7 +608,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
                 Double price = 0.0;
                 for (ProductInfo item : mList) {
                     item.setChoosed(true);
-                    OrderDetailid orderDetailid = new OrderDetailid(item.getCommodityid(),item.getOrdernumber(),item.getCommoditypicture());
+                    OrderDetailid orderDetailid = new OrderDetailid(item.getCommodityid(), item.getOrdernumber(), item.getCommoditypicture());
                     mSelectIds.add(orderDetailid);
                     int count = item.getOrdernumber();
                     price = price + (count * item.getOrderprice()
@@ -605,7 +631,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
 
         }
 
-        public void removeAll(){
+        public void removeAll() {
             mSelectIds.clear();
             mList.clear();
             notifyDataSetChanged();

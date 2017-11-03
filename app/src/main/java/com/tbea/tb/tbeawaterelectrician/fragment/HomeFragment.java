@@ -26,6 +26,7 @@ import com.tbea.tb.tbeawaterelectrician.activity.CityListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.city.CityListActivity1;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.MessageTypeListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.CommodithViewActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.HistorySearchActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CircleImageView;
@@ -115,14 +116,14 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
         view.findViewById(R.id.open_my_message).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), MessageListActivity.class);
+                Intent intent = new Intent(getActivity(), MessageTypeListActivity.class);
                 startActivity(intent);
             }
         });
 
         getMessageNumber();
         TextView cityView = (TextView) mView.findViewById(R.id.mian_city_text);
-        if(!"".endsWith(MyApplication.instance.getCity()) && MyApplication.instance.getCity() != null){
+        if (!"".endsWith(MyApplication.instance.getCity()) && MyApplication.instance.getCity() != null) {
             cityView.setText(MyApplication.instance.getCity());
         }
 
@@ -136,14 +137,14 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
         super.onHiddenChanged(hidden);
         getMessageNumber();
         TextView cityView = (TextView) mView.findViewById(R.id.mian_city_text);
-        if(!"".endsWith(MyApplication.instance.getCity()) && MyApplication.instance.getCity() != null){
+        if (!"".endsWith(MyApplication.instance.getCity()) && MyApplication.instance.getCity() != null) {
             cityView.setText(MyApplication.instance.getCity());
         }
         mCityname = MyApplication.instance.getCity();
     }
 
     //获取购物车数量
-    private void  getMessageNumber(){
+    private void getMessageNumber() {
         final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -152,13 +153,13 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                         try {
                             RspInfo re = (RspInfo) msg.obj;
                             if (re.isSuccess()) {
-                                Map<String,String > shortcutinfo = (Map<String, String>) re.getDateObj("shortcutinfo");
-                                if(shortcutinfo != null){
+                                Map<String, String> shortcutinfo = (Map<String, String>) re.getDateObj("shortcutinfo");
+                                if (shortcutinfo != null) {
                                     String newmessagenumber = shortcutinfo.get("newmessagenumber");
                                     ImageView imageView = (ImageView) mView.findViewById(R.id.open_my_message);
-                                    if(newmessagenumber != null && !"".equals(newmessagenumber) && !"0".equals(newmessagenumber)){
+                                    if (newmessagenumber != null && !"".equals(newmessagenumber) && !"0".equals(newmessagenumber)) {
                                         imageView.setImageResource(R.drawable.icon_message_redpoint);
-                                  }else {
+                                    } else {
                                         imageView.setImageResource(R.drawable.icon_message);
                                     }
                                 }
@@ -167,8 +168,8 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                                 UtilAssistants.showToast(re.getMsg());
                             }
 
-                        }catch (Exception e){
-                            Log.e("","");
+                        } catch (Exception e) {
+                            Log.e("", "");
                         }
 
                         break;
@@ -253,12 +254,12 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
      */
     public void getAdvertiselist(RspInfo1 re) {
 //        List<Map<String, String>> advertiselist = (List<Map<String, String>>) re.getDateObj("advertiselist");
-        Map<String,Object> date = (Map<String,Object>)re.getData();
+        Map<String, Object> date = (Map<String, Object>) re.getData();
         List<Map<String, String>> advertiselist = (List<Map<String, String>>) date.get("advertiselist");
         String[] images = new String[advertiselist.size()];
         if (advertiselist != null) {
-            for (int i = 0;i<advertiselist.size();i++) {
-                String picture = MyApplication.instance.getImgPath()+advertiselist.get(i).get("picture")+"";
+            for (int i = 0; i < advertiselist.size(); i++) {
+                String picture = MyApplication.instance.getImgPath() + advertiselist.get(i).get("picture") + "";
                 images[i] = picture;
             }
             Banner banner = (Banner) headView.findViewById(R.id.banner);
@@ -282,12 +283,21 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
      */
     public void getNewMessage1List(RspInfo1 re) {
 //        List<Map<String, String>> newMessage1List = (List<Map<String, String>>) re.getDateObj("newmessage1");
-        Map<String,Object> date = (Map<String,Object>)re.getData();
+        Map<String, Object> date = (Map<String, Object>) re.getData();
         List<Map<String, String>> newMessage1List = (List<Map<String, String>>) date.get("newmessage1");
         if (newMessage1List != null) {
             String nerMessage1Name = newMessage1List.get(0).get("name");
+            String title = newMessage1List.get(0).get("categoryname");
             ((TextView) headView.findViewById(R.id.home_newmessage1_text)).setText(nerMessage1Name);
+            ((TextView) headView.findViewById(R.id.home_newmessage1_title)).setText(title);
         }
+
+        headView.findViewById(R.id.home_newmessage1_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), MessageTypeListActivity.class));
+            }
+        });
     }
 
     /**
@@ -296,14 +306,14 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
     public void getNewMessage2List(RspInfo1 re) {
         //返利列表
 //        List<Map<String, String>> newMessage2List = (List<Map<String, String>>) re.getDateObj("newmessage2");
-        Map<String,Object> date = (Map<String,Object>)re.getData();
+        Map<String, Object> date = (Map<String, Object>) re.getData();
         List<Map<String, String>> newMessage2List = (List<Map<String, String>>) date.get("newmessage2");
         if (newMessage2List != null) {
             for (int i = 0; i < newMessage2List.size(); i++) {
                 List<HomeDateSon.Newmessage2> list = new ArrayList<>();
                 if (newMessage2List.size() >= 2) {
                     for (int j = 0; j < 2; j++) {
-                        if(i < newMessage2List.size()){
+                        if (i < newMessage2List.size()) {
                             HomeDateSon.Newmessage2 obj = getNewMessage2(newMessage2List, i);
                             list.add(obj);
                         }
@@ -329,17 +339,17 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
      */
     public HomeDateSon.Newmessage2 getNewMessage2(List<Map<String, String>> newMessage2List, int i) {
         HomeDateSon.Newmessage2 obj = new HomeDateSon().newNewMessage2();
-       try {
-           obj.setId(newMessage2List.get(i).get("id"));
-           obj.setName(newMessage2List.get(i).get("name"));
-           obj.setUser_id(newMessage2List.get(i).get("user_id"));
-           obj.setMessage(newMessage2List.get(i).get("message"));
-           obj.setPicture(newMessage2List.get(i).get("picture"));
-           obj.setUsername(newMessage2List.get(i).get("username"));
-           obj.setMoney(newMessage2List.get(i).get("money"));
-       }catch (Exception e){
-           Log.e("HomeFragment",e.getMessage());
-       }
+        try {
+            obj.setId(newMessage2List.get(i).get("id"));
+            obj.setName(newMessage2List.get(i).get("name"));
+            obj.setUser_id(newMessage2List.get(i).get("user_id"));
+            obj.setMessage(newMessage2List.get(i).get("message"));
+            obj.setPicture(newMessage2List.get(i).get("picture"));
+            obj.setUsername(newMessage2List.get(i).get("username"));
+            obj.setMoney(newMessage2List.get(i).get("money"));
+        } catch (Exception e) {
+            Log.e("HomeFragment", e.getMessage());
+        }
         return obj;
     }
 
@@ -349,7 +359,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
     public void getCompanylist(RspInfo1 re) {
         //附近商家
 //        List<Map<String, String>> companylist = (List<Map<String, String>>) re.getDateObj("companylist");
-        Map<String,Object> date = (Map<String,Object>)re.getData();
+        Map<String, Object> date = (Map<String, Object>) re.getData();
         List<Map<String, String>> companylist = (List<Map<String, String>>) date.get("companylist");
         if (companylist != null) {
             List<Company> companyList2 = new ArrayList<>();
@@ -447,16 +457,16 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
             if (!obj.getPicture().equals("")) {
                 ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + obj.getPicture(), imageView);
             }
-             view.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View view) {
-                     Intent intent = new Intent(context, CommodithViewActivity.class);
-                     intent.putExtra("id",obj.getId());
-                     intent.putExtra("companytypeid",obj.getCompanytypeid());
-                     intent.putExtra("companyid",obj.getCompanyid());
-                     startActivity(intent);
-                 }
-             });
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, CommodithViewActivity.class);
+                    intent.putExtra("id", obj.getId());
+                    intent.putExtra("companytypeid", obj.getCompanytypeid());
+                    intent.putExtra("companyid", obj.getCompanyid());
+                    startActivity(intent);
+                }
+            });
             return view;
         }
 

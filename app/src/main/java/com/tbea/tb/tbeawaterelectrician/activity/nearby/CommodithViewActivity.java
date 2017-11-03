@@ -147,7 +147,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
 //                            String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid=" + id
 //                                    + "&&userid=" + MyApplication.instance.getUserId() + "&&longitude=" + MyApplication.instance.getLongitude()
 //                                    + "&&latitude=" + MyApplication.instance.getLatitude();
-                            String url = mUrl + "commoditysaleinfo?commodityid" + id + "&&userid=" + MyApplication.instance.getUserId();
+                            String url = mUrl + "commoditysaleinfo?commodityid=" + id + "&&userid=" + MyApplication.instance.getUserId();
                             showWebView(url);
                         } else {
                             UtilAssistants.showToast(re.getMsg());
@@ -263,7 +263,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
 //                        + "&&userid="+ MyApplication.instance.getUserId()+"&&longitude="+MyApplication.instance.getLongitude()
 //                        +"&&latitude="+MyApplication.instance.getLatitude();
                 mDialog.show();
-                String url = mUrl + "commoditysaleinfo?commodityid" + id + "&&userid=" + MyApplication.instance.getUserId();
+                String url = mUrl + "commoditysaleinfo?commodityid=" + id + "&&userid=" + MyApplication.instance.getUserId();
                 showWebView(url);
             }
         });
