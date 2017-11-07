@@ -250,9 +250,6 @@
             android:name=".activity.thenLive.TakeViewActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.my.MessageViewActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.my.AboutActivity"
             android:screenOrientation="portrait" />
         <activity

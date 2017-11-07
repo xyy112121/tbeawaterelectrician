@@ -66,7 +66,7 @@ public class WalletWithdrawCashActivity extends TopActivity {
             public void onClick(View view) {
                 try {
                     final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_delete_dialog);
-                    dialog.setText("您确定要提现么？");
+                    dialog.setText("请您确认？");
                     dialog.setCancelBtnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -88,7 +88,7 @@ public class WalletWithdrawCashActivity extends TopActivity {
                             startActivity(intent);
                             finish();
                         }
-                    }, "确定");
+                    }, "确认");
                     dialog.setConfirmBtnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

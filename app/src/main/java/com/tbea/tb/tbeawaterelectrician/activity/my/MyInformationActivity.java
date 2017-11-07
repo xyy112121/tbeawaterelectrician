@@ -174,6 +174,7 @@ public class MyInformationActivity extends TopActivity {
                             ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + obj.getPicture(), imageView);
                             ((TextView) findViewById(R.id.info_birthday)).setText(obj.getBirthday());
                             ((TextView) findViewById(R.id.info_email)).setText(obj.getMailaddr());
+                            ((TextView) findViewById(R.id.info_companyname)).setText(obj.getCompanyname());
                             ((TextView) findViewById(R.id.info_sex)).setText(obj.getSex());
                             ((TextView) findViewById(R.id.info_nickName)).setText(obj.getNickname());
                         } else {

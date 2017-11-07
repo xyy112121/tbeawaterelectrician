@@ -42,6 +42,7 @@
                 android:layout_marginRight="10dp"
                 android:src="@drawable/icon_head" />
         </RelativeLayout>
+
         <View style="@style/horizontal_view" />
 
         <RelativeLayout
@@ -139,6 +140,24 @@
 
         <View style="@style/horizontal_view" />
 
+        <RelativeLayout
+            android:id="@+id/info_companyname_layout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/my_select_btn"
+            android:paddingRight="10dp">
+
+            <TextView
+                style="@style/my_text_style"
+                android:layout_height="wrap_content"
+                android:text="所属公司" />
+
+            <TextView
+                android:id="@+id/info_companyname"
+                style="@style/my_right_text_style" />
+        </RelativeLayout>
+
+        <View style="@style/horizontal_view" />
     </LinearLayout>
 
     <View

@@ -14,6 +14,7 @@ public class UserInfo  {
     private String mailaddr;
     private String sex;
     private String birthday;
+    private String companyname;
 
     public String getNickname() {
         return nickname;
@@ -77,5 +78,13 @@ public class UserInfo  {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public String getCompanyname() {
+        return companyname;
+    }
+
+    public void setCompanyname(String companyname) {
+        this.companyname = companyname;
     }
 }

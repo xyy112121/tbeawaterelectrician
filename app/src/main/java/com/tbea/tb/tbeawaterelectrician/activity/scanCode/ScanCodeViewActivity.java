@@ -58,23 +58,25 @@ public class ScanCodeViewActivity extends TopActivity {
         findViewById(R.id.scan_code_comfire).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mObj.getNeedappeal().equals("0")) {
-                    final CustomDialog dialog = new CustomDialog(ScanCodeViewActivity.this, R.style.MyDialog, R.layout.tip_delete_dialog);
-                    dialog.setText("是否确认扫码？");
-                    dialog.setConfirmBtnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialog.dismiss();
-                        }
-                    }, "取消");
-                    dialog.setCancelBtnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialog.dismiss();
-                            comfire();
-                        }
-                    }, "确定");
-                    dialog.show();
+                if (mObj != null) {
+                    if (mObj.getNeedappeal().equals("0")) {
+                        final CustomDialog dialog = new CustomDialog(ScanCodeViewActivity.this, R.style.MyDialog, R.layout.tip_delete_dialog);
+                        dialog.setText("请您确认？");
+                        dialog.setConfirmBtnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        }, "取消");
+                        dialog.setCancelBtnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                                comfire();
+                            }
+                        }, "确认");
+                        dialog.show();
+                    }
                 }
             }
         });
@@ -82,16 +84,18 @@ public class ScanCodeViewActivity extends TopActivity {
         findViewById(R.id.scan_code_tip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ("2".equals(mNeedappeal)) {
-                    UtilAssistants.showToast("您已经举报过了");
-                    return;
+                if (mObj != null) {
+                    if ("2".equals(mNeedappeal)) {
+                        UtilAssistants.showToast("您已经举报过了");
+                        return;
+                    }
+                    Intent intent = new Intent(ScanCodeViewActivity.this, MyAccusationEditActivity.class);
+                    String scanCode = getIntent().getStringExtra("scanCode");
+                    intent.putExtra("name", mObj.getCommodityname());
+                    intent.putExtra("commodityid", mObj.getId());
+                    intent.putExtra("scancode", scanCode);
+                    startActivity(intent);
                 }
-                Intent intent = new Intent(ScanCodeViewActivity.this, MyAccusationEditActivity.class);
-                String scanCode = getIntent().getStringExtra("scanCode");
-                intent.putExtra("name", mObj.getCommodityname());
-                intent.putExtra("commodityid", mObj.getId());
-                intent.putExtra("scancode", scanCode);
-                startActivity(intent);
             }
         });
 

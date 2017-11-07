@@ -20,7 +20,7 @@
                 android:layout_height="80dp"
                 android:layout_marginBottom="40dp"
                 android:layout_marginTop="40dp"
-                android:src="@drawable/icon_logo" />
+                android:src="@mipmap/icon_main" />
 
             <LinearLayout
                 android:layout_width="match_parent"
