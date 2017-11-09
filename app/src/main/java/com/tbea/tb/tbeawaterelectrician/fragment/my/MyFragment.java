@@ -14,28 +14,21 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
-import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
-import com.tbea.tb.tbeawaterelectrician.activity.account.LoginActivity;
-import com.tbea.tb.tbeawaterelectrician.activity.my.AboutActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.CollectListActivity;
-import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MessageTypeListActivity;
-import com.tbea.tb.tbeawaterelectrician.activity.my.MyAccusationEditActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MyAccusationListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MyInformationActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.OrderListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.ServiceCenterActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.SetionActivity;
-import com.tbea.tb.tbeawaterelectrician.activity.my.WalletIncomeAndExpensesListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.WalletListActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.meeting.activity.MeetingListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.publicUse.activity.NetWebViewActivity;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
-import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.EventCity;
 import com.tbea.tb.tbeawaterelectrician.util.EventFlag;
-import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
@@ -129,6 +122,14 @@ public class MyFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), OrderListActivity.class));
+
+            }
+        });
+
+        view.findViewById(R.id.my_meeting).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), MeetingListActivity.class));
 
             }
         });

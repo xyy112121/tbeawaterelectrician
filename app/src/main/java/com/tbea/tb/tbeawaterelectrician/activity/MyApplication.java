@@ -45,8 +45,8 @@ import java.util.List;
 public class MyApplication extends Application implements BDLocationListener {
 
     private static final String IMG_SERVICE_PATH = "";
-    private static final String SERVICE_PATH = "http://www.u-shang.net/enginterface/index.php";
-//    private static final String SERVICE_PATH = "http://121.42.193.154:6698/enginterface/index.php";//测试
+//    private static final String SERVICE_PATH = "http://www.u-shang.net/enginterface/index.php";
+    private static final String SERVICE_PATH = "http://121.42.193.154:6698/enginterface/index.php";//测试
 
 
     public static MyApplication instance;
@@ -63,7 +63,6 @@ public class MyApplication extends Application implements BDLocationListener {
         Config.DEBUG = true;
         UMShareAPI.get(this);
         initUniversalImageLoader();
-//		isGps();
         SDKInitializer.initialize(getApplicationContext());
         //百度定位
         mLocationClient = new LocationClient(getApplicationContext());

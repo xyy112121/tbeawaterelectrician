@@ -306,6 +306,7 @@ public class UserAction extends BaseAction {
         pairs.add(new BasicNameValuePair("scancode", scanCode));
         pairs.add(new BasicNameValuePair("address", address));
         String result = sendRequest("TBEAENG006001002000", pairs);
+        System.out.println(result);
         rspInfo = gson.fromJson(result, RspInfo1.class);
         return rspInfo;
     }

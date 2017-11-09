@@ -1,40 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
-    >
+    android:orientation="vertical">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:background="@color/blue1">
+
                 <ImageView
                     android:id="@+id/image_set"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icon_seticon"
                     android:layout_alignParentRight="true"
+                    android:paddingLeft="15dp"
                     android:paddingRight="25dp"
                     android:paddingTop="15dp"
-                    android:paddingLeft="15dp"
-                    />
+                    android:src="@drawable/icon_seticon" />
+
                 <LinearLayout
-                    android:layout_below="@id/image_set"
                     android:id="@+id/fragment_mian_account_layout"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
+                    android:layout_below="@id/image_set"
                     android:background="@color/blue1"
                     android:orientation="horizontal"
-                    android:paddingLeft="20dp"
-                    >
+                    android:paddingLeft="20dp">
+
                     <com.tbea.tb.tbeawaterelectrician.component.CircleImageView
                         android:id="@+id/user_picture"
                         android:layout_width="100dp"
@@ -42,47 +46,48 @@
                         android:src="@drawable/icon_head"
                         app:border_color="#FFF"
                         app:border_width="4dp" />
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center">
+                        android:layout_gravity="center"
+                        android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/user_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#FFF"
-                            android:textSize="14sp"
-                           />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/user_mobile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#FFF"
-                            android:textSize="14sp"
-                            />
+                            android:textSize="14sp" />
+
                         <Button
                             android:id="@+id/fragment_my_edit_info"
                             android:layout_width="wrap_content"
                             android:layout_height="20dp"
-                            android:text="编辑个人信息"
-                            android:textColor="@color/white"
-                            android:background="@drawable/fragmen_my_edit_info"
-                            android:textSize="12sp"
                             android:layout_marginTop="8dp"
+                            android:background="@drawable/fragmen_my_edit_info"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
-                            />
+                            android:text="编辑个人信息"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/my_wallet"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/my_select_btn"
-                android:paddingRight="10dp" >
+                android:paddingRight="10dp">
 
                 <TextView
                     style="@style/my_text_style"
@@ -92,16 +97,37 @@
 
                 <TextView
                     android:id="@+id/user_wallet_size"
-                    style="@style/my_right_text_style"
-                   />
+                    style="@style/my_right_text_style" />
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/my_meeting"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:id="@+id/tv_meeting_size_tv"
+                    style="@style/my_text_style"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/icon_orader"
+                    android:text="我的会议" />
+
+                <TextView
+                    android:id="@+id/tv_meeting_size"
+                    style="@style/my_right_text_style" />
+            </RelativeLayout>
+
+            <View style="@style/horizontal_view" />
+
             <RelativeLayout
                 android:id="@+id/my_orader"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/my_select_btn"
-                android:paddingRight="10dp"
-                android:layout_marginTop="8dp">
+                android:paddingRight="10dp">
 
                 <TextView
                     android:id="@+id/tv_orader_size_tv"
@@ -115,14 +141,15 @@
                     style="@style/my_right_text_style"
                     android:text="查看全部订单" />
             </RelativeLayout>
+
             <View style="@style/horizontal_view" />
+
             <RelativeLayout
                 android:id="@+id/my_message"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/my_select_btn"
-                android:paddingRight="10dp"
-               >
+                android:paddingRight="10dp">
 
                 <TextView
                     android:id="@+id/tv_message_size_tv"
@@ -133,17 +160,17 @@
 
                 <TextView
                     android:id="@+id/tv_message_size"
-                    style="@style/my_right_text_style"
-                   />
+                    style="@style/my_right_text_style" />
             </RelativeLayout>
+
             <View style="@style/horizontal_view" />
+
             <RelativeLayout
                 android:id="@+id/my_collect"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/my_select_btn"
-                android:paddingRight="10dp"
-                >
+                android:paddingRight="10dp">
 
                 <TextView
                     android:id="@+id/tv_collect_size_tv"
@@ -154,17 +181,17 @@
 
                 <TextView
                     android:id="@+id/tv_collect_size"
-                    style="@style/my_right_text_style"
-                    />
+                    style="@style/my_right_text_style" />
             </RelativeLayout>
+
             <View style="@style/horizontal_view" />
+
             <RelativeLayout
                 android:id="@+id/my_accusation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/my_select_btn"
-                android:paddingRight="10dp"
-                >
+                android:paddingRight="10dp">
 
                 <TextView
                     android:id="@+id/tv_accusation_size_tv"
@@ -175,18 +202,16 @@
 
                 <TextView
                     android:id="@+id/tv_accusation_size"
-                    style="@style/my_right_text_style"
-                    />
+                    style="@style/my_right_text_style" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/my_service"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/my_select_btn"
-                android:paddingRight="10dp"
                 android:layout_marginTop="8dp"
-                >
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp">
 
                 <TextView
                     android:id="@+id/tv_service_size_tv"
@@ -195,17 +220,17 @@
                     android:drawableLeft="@drawable/icon_service"
                     android:text="客服中心" />
 
-                <TextView
-                    style="@style/my_right_text_style"/>
+                <TextView style="@style/my_right_text_style" />
             </RelativeLayout>
+
             <View style="@style/horizontal_view" />
+
             <RelativeLayout
                 android:id="@+id/my_about"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/my_select_btn"
-                android:paddingRight="10dp"
-                >
+                android:paddingRight="10dp">
 
                 <TextView
                     android:id="@+id/tv_about_size_tv"
@@ -214,12 +239,10 @@
                     android:drawableLeft="@drawable/icon_about"
                     android:text="关于我们" />
 
-                <TextView
-                    style="@style/my_right_text_style" />
+                <TextView style="@style/my_right_text_style" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
-
 
 
 </LinearLayout>
