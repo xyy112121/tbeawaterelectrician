@@ -12,9 +12,13 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.my.meeting.activity.MeetingSignInResultActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.scanCode.model.ProvingScanCodeResponseModel;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.lib_zxing.activity.CaptureFragment;
@@ -181,15 +185,24 @@ public class ScanCodeActivity extends TopActivity {
                     case ThreadState.SUCCESS:
                         RspInfo1 re = (RspInfo1) msg.obj;
                         if (re.isSuccess()) {
-                            Intent intent = new Intent();
-//                            if (mScanCodeType.equals("suyuan")) {
-//                                intent.setClass(ScanCodeActivity.this, SuYuanViewActivity.class);
-//                            } else {
-//                                intent.setClass(ScanCodeActivity.this, ScanCodeViewActivity.class);
-//                                intent.putExtra("type", "net");
-//                            }
-//                            intent.putExtra("scanCode", result);
-//                            startActivity(intent);
+                            Object date = re.getData();
+                            Gson gson = new GsonBuilder().serializeNulls().create();
+                            String json = gson.toJson(date);
+                            ProvingScanCodeResponseModel model = gson.fromJson(json,ProvingScanCodeResponseModel.class);
+                            if(model.qrtypeinfo != null){
+                                Intent intent = new Intent();
+                                String type = model.qrtypeinfo.qrtype;
+                                if (type.equals("meetingcheckin")) {//会议签到成功页面
+                                    intent.setClass(ScanCodeActivity.this, MeetingSignInResultActivity.class);
+                                } else if (type.equals("scanrebate"))  {//扫码返利信息页面
+                                    intent.setClass(ScanCodeActivity.this, ScanCodeViewActivity.class);
+                                    intent.putExtra("type", "net");
+                                }else if (type.equals("verifytbeaproduct"))  {//扫码溯源页面
+                                    intent.setClass(ScanCodeActivity.this, SuYuanViewActivity.class);
+                                }
+                                intent.putExtra("scanCode", result);
+                                startActivity(intent);
+                            }
 
                         } else {
                             final CustomDialog dialog1 = new CustomDialog(ScanCodeActivity.this, R.style.MyDialog, R.layout.tip_delete_dialog);
@@ -217,7 +230,7 @@ public class ScanCodeActivity extends TopActivity {
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo1 re = userAction.getFanLi(result, MyApplication.instance.getAddrsss());
+                    RspInfo1 re = userAction.provingScanCode(result);
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);

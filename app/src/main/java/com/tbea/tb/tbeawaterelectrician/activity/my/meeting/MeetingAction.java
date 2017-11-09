@@ -1,6 +1,7 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my.meeting;
 
 import com.tbea.tb.tbeawaterelectrician.activity.my.meeting.model.MeeingListResponseMode;
+import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.BaseAction;
 
 import org.apache.http.NameValuePair;
@@ -26,5 +27,22 @@ public class MeetingAction extends BaseAction {
         String result = sendRequest("TBEAENG00500201001", pairs);
         model = gson.fromJson(result, MeeingListResponseMode.class);
         return model;
+    }
+
+
+    /**
+     * 会议签到结果
+     *
+     * @param scanCode 扫码获取到的码
+     * @param address  扫码地点详情
+     */
+    public RspInfo1 getSignInResult(String scanCode, String address) throws Exception {
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("scancode", scanCode));
+        pairs.add(new BasicNameValuePair("address", address));
+        String result = sendRequest("TBEAENG00500201003", pairs);
+        rspInfo = gson.fromJson(result, RspInfo1.class);
+        return rspInfo;
     }
 }

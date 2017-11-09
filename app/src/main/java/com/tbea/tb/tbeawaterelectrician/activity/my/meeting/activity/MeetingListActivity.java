@@ -115,6 +115,7 @@ public class MeetingListActivity extends TopActivity implements BGARefreshLayout
                     mRefreshLayout.endLoadingMore();
                     switch (msg.what) {
                         case ThreadState.SUCCESS:
+
 //                            PlumberMeetingListMainResonpseModel model = (PlumberMeetingListMainResonpseModel) msg.obj;
 //                            if (model.isSuccess()) {
 //                                if (model.data.meetinglist != null) {

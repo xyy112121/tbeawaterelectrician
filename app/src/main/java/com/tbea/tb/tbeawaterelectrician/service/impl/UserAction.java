@@ -268,11 +268,10 @@ public class UserAction extends BaseAction {
      * @param scanCode     扫码后获得的码
      * @param scanCodeType 当前类型  fanli: 返利; suyuan: 溯源
      */
-    public RspInfo1 provingScanCode(String scanCode, String scanCodeType) throws Exception {
+    public RspInfo1 provingScanCode(String scanCode) throws Exception {
         RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("scancode", scanCode));
-        pairs.add(new BasicNameValuePair("scancodetypeid", scanCodeType));
         String result = sendRequest("TBEAENG006000001000", pairs);
         rspInfo = gson.fromJson(result, RspInfo1.class);
         return rspInfo;
@@ -293,6 +292,8 @@ public class UserAction extends BaseAction {
         rspInfo = gson.fromJson(result, RspInfo1.class);
         return rspInfo;
     }
+
+
 
     /**
      * 返利详情接口

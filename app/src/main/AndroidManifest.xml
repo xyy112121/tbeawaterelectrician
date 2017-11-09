@@ -315,6 +315,7 @@
             android:name=".activity.publicUse.activity.NetWebViewActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.my.meeting.activity.MeetingListActivity" />
+        <activity android:name=".activity.my.meeting.activity.MeetingSignInResultActivity" />
 
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for

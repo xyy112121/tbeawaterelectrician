@@ -83,7 +83,7 @@ public class CodeInputActivity extends TopActivity {
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo1 re = userAction.provingScanCode(result,mScanCodeType);
+                    RspInfo1 re = userAction.provingScanCode(result);
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
