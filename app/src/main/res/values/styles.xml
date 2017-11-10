@@ -196,6 +196,27 @@
         <item name="android:layout_marginRight">5dp</item>
         <item name="android:textColor">@color/add_shop_cart_text_color</item>
     </style>
+    <style name="my_text_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/my_select_btn</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
 
+    <style name="my_right_text_style1">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">0.8</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@null</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textColorHint">@color/text_color</item>
+    </style>
 
 </resources>

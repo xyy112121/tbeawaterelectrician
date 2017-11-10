@@ -48,9 +48,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
-            android:text="签到时间"
             android:textColor="@color/text_color"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            />
 
         <TextView
             android:id="@+id/meeting_signin_result_addr"
@@ -58,7 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
-            android:text="签到地点"
             android:textColor="@color/text_color"
             android:textSize="12sp" />
 
@@ -67,7 +66,7 @@
 
 
     <Button
-        android:id="@+id/completion_finish"
+        android:id="@+id/meeting_signin_result_finish"
         style="@style/style_next_btn"
         android:layout_alignParentBottom="true"
         android:background="@drawable/btn_bg_blue"

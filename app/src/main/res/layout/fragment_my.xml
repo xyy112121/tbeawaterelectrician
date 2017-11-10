@@ -112,7 +112,7 @@
                     android:id="@+id/tv_meeting_size_tv"
                     style="@style/my_text_style"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/icon_orader"
+                    android:drawableLeft="@drawable/icon_my_meeting"
                     android:text="我的会议" />
 
                 <TextView

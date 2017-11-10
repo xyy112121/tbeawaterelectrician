@@ -60,15 +60,14 @@ public class ScanCodeActivity extends TopActivity {
 
 
     private void listener() {
-//        findViewById(R.id.input_code_iv).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(ScanCodeActivity.this,CodeInputActivity.class);
-//                intent.putExtra("scanCodeType",mScanCodeType);
-//                startActivity(intent);
-//
-//            }
-//        });
+        findViewById(R.id.input_code_iv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ScanCodeActivity.this,CodeInputActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
 //        ((CheckBox)findViewById(R.id.scan_code_type)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //            @Override
@@ -231,7 +230,11 @@ public class ScanCodeActivity extends TopActivity {
                 try {
                     UserAction userAction = new UserAction();
                     RspInfo1 re = userAction.provingScanCode(result);
-                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                    if(re == null){
+                        handler.sendEmptyMessage(ThreadState.ERROR);
+                    }else {
+                        handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                    }
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
                 }

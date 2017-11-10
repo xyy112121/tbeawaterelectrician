@@ -16,6 +16,7 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.account.LoginActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.scanCode.ScanCodeActivity;
 import com.tbea.tb.tbeawaterelectrician.component.MainNavigateTabBar;
 import com.tbea.tb.tbeawaterelectrician.entity.UpdateResponseModel;
@@ -27,6 +28,8 @@ import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.AppUpdateUtils;
 import com.tbea.tb.tbeawaterelectrician.util.AppVersion;
+import com.tbea.tb.tbeawaterelectrician.util.Constants;
+import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
@@ -133,7 +136,12 @@ public class MainActivity extends TopActivity {
         findViewById(R.id.tab_post_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ScanCodeActivity.class));
+                if (ShareConfig.getConfigBoolean(mContext, Constants.ONLINE, false) == false) {
+                    startActivity(new Intent(mContext, LoginActivity.class));
+                } else {
+                    startActivity(new Intent(MainActivity.this, ScanCodeActivity.class));
+                }
+
             }
         });
     }

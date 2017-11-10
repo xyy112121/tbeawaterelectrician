@@ -18,16 +18,21 @@
             android:layout_weight="0.33"
             android:gravity="left|center"
             android:text="SH123456789"
+           android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="14sp"
             android:textColor="@color/tab_text_normal" />
 
         <TextView
             android:id="@+id/metting_item_zone"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="18dp"
             android:layout_weight="0.33"
             android:gravity="center"
             android:text="广汉市"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="14sp"
             android:textColor="@color/tab_text_normal"
 
             />
@@ -36,10 +41,13 @@
             android:id="@+id/metting_item_time"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
+           android:layout_marginRight="8dp"
             android:layout_weight="0.33"
             android:gravity="right|center"
             android:text="准备中"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="14sp"
             android:textColor="@color/tab_text_normal" />
     </LinearLayout>
 </FrameLayout>

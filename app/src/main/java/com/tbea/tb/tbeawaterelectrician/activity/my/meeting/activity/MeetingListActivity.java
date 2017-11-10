@@ -1,20 +1,27 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my.meeting.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.meeting.MeetingAction;
 import com.tbea.tb.tbeawaterelectrician.activity.my.meeting.model.MeeingListResponseMode;
+import com.tbea.tb.tbeawaterelectrician.activity.scanCode.ScanCodeActivity;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 
@@ -49,7 +56,7 @@ public class MeetingListActivity extends TopActivity implements BGARefreshLayout
 
     public void intiView() {
         mListView = (ListView) findViewById(R.id.listview);
-        mAdapter = new MyAdapter();
+        mAdapter = new MyAdapter(mContext, 0);
         mListView.setAdapter(mAdapter);
         mRefreshLayout = (BGARefreshLayout) findViewById(R.id.rl_recyclerview_refresh);
         mRefreshLayout.setDelegate(this);
@@ -116,15 +123,15 @@ public class MeetingListActivity extends TopActivity implements BGARefreshLayout
                     switch (msg.what) {
                         case ThreadState.SUCCESS:
 
-//                            PlumberMeetingListMainResonpseModel model = (PlumberMeetingListMainResonpseModel) msg.obj;
-//                            if (model.isSuccess()) {
-//                                if (model.data.meetinglist != null) {
-//                                    mAdapter.addAll(model.data.meetinglist);
-//                                }
-//
-//                            } else {
-//                                ToastUtil.showMessage(model.getMsg());
-//                            }
+                            MeeingListResponseMode model = (MeeingListResponseMode) msg.obj;
+                            if (model.isSuccess()) {
+                                if (model.data.meetinglist != null) {
+                                    mAdapter.addAll(model.data.meetinglist);
+                                }
+
+                            } else {
+                                ToastUtil.showMessage(model.getMsg());
+                            }
                             break;
                         case ThreadState.ERROR:
                             ToastUtil.showMessage("操作失败！");
@@ -154,7 +161,7 @@ public class MeetingListActivity extends TopActivity implements BGARefreshLayout
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
         //下拉刷新
-        mAdapter.removeAll();
+        mAdapter.clear();
         mPage = 1;
         getListData();
     }
@@ -168,27 +175,12 @@ public class MeetingListActivity extends TopActivity implements BGARefreshLayout
 
     @Override
     public void onClick(View v) {
-
+        startActivity(new Intent(mContext, ScanCodeActivity.class));
     }
 
-    public class MyAdapter extends BaseAdapter {
-
-        public List<Object> mList = new ArrayList<>();
-
-
-        @Override
-        public int getCount() {
-            return mList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
+    public class MyAdapter extends ArrayAdapter<MeeingListResponseMode.Data.MeetingModel> {
+        public MyAdapter(@NonNull Context context, @LayoutRes int resource) {
+            super(context, resource);
         }
 
         @Override
@@ -196,33 +188,27 @@ public class MeetingListActivity extends TopActivity implements BGARefreshLayout
             ViewHolder holder;
             if (convertView == null) {
                 convertView = getLayoutInflater().inflate(
-
                         R.layout.activity_meeting_list_item, null);
                 holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
+            final MeeingListResponseMode.Data.MeetingModel model = getItem(position);
+            holder.mCodeView.setText(model.meetingcode);
+            holder.mTimeView.setText(model.checkintime);
+            holder.mZoneView.setText(model.zone);
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, MeetingViewActivity.class);
+                    intent.putExtra("id", model.id);
+                    startActivity(intent);
+                }
+            });
 
             return convertView;
-        }
-
-
-        public void remove(int index) {
-            if (index > 0) {
-                mList.remove(index);
-                notifyDataSetChanged();
-            }
-        }
-
-        public void addAll(List<Object> list) {
-            mList.addAll(list);
-            notifyDataSetChanged();
-        }
-
-        public void removeAll() {
-            mList.clear();
-            notifyDataSetChanged();
         }
 
         class ViewHolder {
