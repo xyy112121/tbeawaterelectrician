@@ -36,12 +36,12 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
  * 收支记录
  */
 
-public class WalletIncomeAndExpensesActivity extends TopActivity implements BGARefreshLayout.BGARefreshLayoutDelegate{
+public class WalletIncomeAndExpensesActivity extends TopActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
     private Context mContext;
     private ListView mListView;
     private MyAdapter mAdapter;
-    private  int mPage = 1;
-    private int mPagesiz =10 ;
+    private int mPage = 1;
+    private int mPagesiz = 10;
     private BGARefreshLayout mRefreshLayout;
 
     @Override
@@ -54,15 +54,14 @@ public class WalletIncomeAndExpensesActivity extends TopActivity implements BGAR
     }
 
 
-
     /**
      * 实例化组件
      */
     private void initUI() {
-        mListView = (ListView)findViewById(R.id.my_wallet_listview);
+        mListView = (ListView) findViewById(R.id.my_wallet_listview);
         mAdapter = new MyAdapter(mContext);
         mListView.setAdapter(mAdapter);
-        mRefreshLayout = (BGARefreshLayout)findViewById(R.id.rl_recyclerview_refresh);
+        mRefreshLayout = (BGARefreshLayout) findViewById(R.id.rl_recyclerview_refresh);
         mRefreshLayout.setDelegate(this);
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(mContext, true));
         mRefreshLayout.beginRefreshing();
@@ -70,8 +69,11 @@ public class WalletIncomeAndExpensesActivity extends TopActivity implements BGAR
         findViewById(R.id.top_left).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext,WalletListActivity.class);
-                startActivity(intent);
+                String flag = getIntent().getStringExtra("flag");
+                if (!"walletList".equals(flag)) {
+                    Intent intent = new Intent(mContext, WalletListActivity.class);
+                    startActivity(intent);
+                }
                 finish();
             }
         });
@@ -80,7 +82,7 @@ public class WalletIncomeAndExpensesActivity extends TopActivity implements BGAR
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(mContext,WalletListActivity.class);
+        Intent intent = new Intent(mContext, WalletListActivity.class);
         startActivity(intent);
         finish();
     }
@@ -89,25 +91,25 @@ public class WalletIncomeAndExpensesActivity extends TopActivity implements BGAR
     /**
      * 获取数据
      */
-    public void getDate(){
-        final Handler handler = new Handler(){
+    public void getDate() {
+        final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 mRefreshLayout.endLoadingMore();
                 mRefreshLayout.endRefreshing();
-                switch (msg.what){
+                switch (msg.what) {
                     case ThreadState.SUCCESS:
-                        RspInfo re = (RspInfo)msg.obj;
-                        if(re.isSuccess()){
-                            List<Receive> receiveList = (List<Receive>)re.getDateObj("receivelist");
-                            if(receiveList != null){
+                        RspInfo re = (RspInfo) msg.obj;
+                        if (re.isSuccess()) {
+                            List<Receive> receiveList = (List<Receive>) re.getDateObj("receivelist");
+                            if (receiveList != null) {
                                 mAdapter.addAll(receiveList);
-                            }else {
-                                if(mPage >1){//防止分页的时候没有加载数据，但是页数已经增加，导致下一次查询不正确
+                            } else {
+                                if (mPage > 1) {//防止分页的时候没有加载数据，但是页数已经增加，导致下一次查询不正确
                                     mPage--;
                                 }
                             }
-                        }else {
+                        } else {
                             UtilAssistants.showToast(re.getMsg());
                         }
 
@@ -124,8 +126,8 @@ public class WalletIncomeAndExpensesActivity extends TopActivity implements BGAR
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo re = userAction.getPayRevenue(mPage++,mPagesiz);
-                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                    RspInfo re = userAction.getPayRevenue(mPage++, mPagesiz);
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
                 }
@@ -157,8 +159,7 @@ public class WalletIncomeAndExpensesActivity extends TopActivity implements BGAR
         /**
          * 构造函数
          *
-         * @param context
-         *            android上下文环境
+         * @param context android上下文环境
          */
         public MyAdapter(Context context) {
             this.context = context;
@@ -185,27 +186,28 @@ public class WalletIncomeAndExpensesActivity extends TopActivity implements BGAR
                     .getSystemService(context.LAYOUT_INFLATER_SERVICE);
             View view = (View) layoutInflater.inflate(
                     R.layout.activity_wallet_income_expenses_list_item, null);
-            ((TextView)view.findViewById(R.id.wallet_income_expences_event)).setText(mList.get(position).getEvent());
-            if("exchangecommodity".equals(mList.get(position).getEventid()) || "ordercommodity".equals(mList.get(position).getEventid())){
-                ((TextView)view.findViewById(R.id.wallet_income_expences_event)).setTextColor(ContextCompat.getColor(mContext,R.color.black));
-            }else if("takemoney".equals(mList.get(position).getEventid()) || "givemoneyforscore".equals(mList.get(position).getEventid())){
-                ((TextView)view.findViewById(R.id.wallet_income_expences_event)).setTextColor(ContextCompat.getColor(mContext,R.color.head_color));
-            }if("appealaward".equals(mList.get(position).getEventid())){
-                ((TextView)view.findViewById(R.id.wallet_income_expences_event)).setTextColor(ContextCompat.getColor(mContext,R.color.orange));
+            ((TextView) view.findViewById(R.id.wallet_income_expences_event)).setText(mList.get(position).getEvent());
+            if ("exchangecommodity".equals(mList.get(position).getEventid()) || "ordercommodity".equals(mList.get(position).getEventid())) {
+                ((TextView) view.findViewById(R.id.wallet_income_expences_event)).setTextColor(ContextCompat.getColor(mContext, R.color.black));
+            } else if ("takemoney".equals(mList.get(position).getEventid()) || "givemoneyforscore".equals(mList.get(position).getEventid())) {
+                ((TextView) view.findViewById(R.id.wallet_income_expences_event)).setTextColor(ContextCompat.getColor(mContext, R.color.head_color));
+            }
+            if ("appealaward".equals(mList.get(position).getEventid())) {
+                ((TextView) view.findViewById(R.id.wallet_income_expences_event)).setTextColor(ContextCompat.getColor(mContext, R.color.orange));
             }
 
-            if("+".equals(mList.get(position).getOptype())){
-                ((TextView)view.findViewById(R.id.wallet_income_expences_thisvalue)).setTextColor(ContextCompat.getColor(mContext,R.color.red));
-            }else {
-                ((TextView)view.findViewById(R.id.wallet_income_expences_thisvalue)).setTextColor(ContextCompat.getColor(mContext,R.color.green));
+            if ("+".equals(mList.get(position).getOptype())) {
+                ((TextView) view.findViewById(R.id.wallet_income_expences_thisvalue)).setTextColor(ContextCompat.getColor(mContext, R.color.red));
+            } else {
+                ((TextView) view.findViewById(R.id.wallet_income_expences_thisvalue)).setTextColor(ContextCompat.getColor(mContext, R.color.green));
             }
-            ((TextView)view.findViewById(R.id.wallet_income_expences_thisvalue)).setText(mList.get(position).getThisvalue());
-            ((TextView)view.findViewById(R.id.wallet_income_expences_time)).setText(mList.get(position).getTime());
-            ((TextView)view.findViewById(R.id.wallet_income_expences_currenttotlemoney)).setText("￥"+mList.get(position).getCurrenttotlemoney());
+            ((TextView) view.findViewById(R.id.wallet_income_expences_thisvalue)).setText(mList.get(position).getThisvalue());
+            ((TextView) view.findViewById(R.id.wallet_income_expences_time)).setText(mList.get(position).getTime());
+            ((TextView) view.findViewById(R.id.wallet_income_expences_currenttotlemoney)).setText("￥" + mList.get(position).getCurrenttotlemoney());
             return view;
         }
 
-        public  void addAll(List<Receive> list){
+        public void addAll(List<Receive> list) {
             mList.addAll(list);
             notifyDataSetChanged();
         }

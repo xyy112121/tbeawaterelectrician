@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by cy on 2017/1/18.
+ *返利详情
  */
 
 public class ScanCodeViewActivity extends TopActivity {

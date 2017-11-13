@@ -5,11 +5,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
@@ -25,16 +26,35 @@ import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
  */
 
 public class MeetingSignInResultActivity extends TopActivity {
+    ImageView mTitlePic;
+    TextView mTitleView;
+    TextView mTimeView;
+    TextView mAddrView;
+    private String mId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meeting_signin_result);
+        mTitlePic = (ImageView) findViewById(R.id.meeting_signin_result_picture);
+        mTitleView = (TextView) findViewById(R.id.meeting_signin_result_title);
+        mTimeView = (TextView) findViewById(R.id.meeting_signin_result_time);
+        mAddrView = (TextView) findViewById(R.id.meeting_signin_result_addr);
         getDate();
 
         findViewById(R.id.meeting_signin_result_finish).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        findViewById(R.id.meeting_signin_result_addr).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, MeetingViewActivity.class);
+                intent.putExtra("id", mId);
+                startActivity(intent);
             }
         });
     }
@@ -47,38 +67,46 @@ public class MeetingSignInResultActivity extends TopActivity {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
+
                 switch (msg.what) {
                     case ThreadState.SUCCESS:
                         try {
-                            MeetingSignInResponseModel re = (MeetingSignInResponseModel) msg.obj;
-                            ImageView pic = (ImageView) findViewById(R.id.meeting_signin_result_picture);
-                            ((TextView) findViewById(R.id.meeting_signin_result_title)).setText(re.getMsg());
+                            RspInfo1 re = (RspInfo1) msg.obj;
+                            mTitleView.setText(re.getMsg());
                             if (re.isSuccess()) {
-
-                                if (re.data != null && re.data.meetingcheckininfo != null) {
-                                    MeetingSignInResponseModel.Data.Meetingcheckininfo info = re.data.meetingcheckininfo;
-                                    if("1".equals(info.checkstatus)){
+                                Gson gson = new GsonBuilder().serializeNulls().create();
+                                String json = gson.toJson(re.getData());
+                                MeetingSignInResponseModel model = (gson.fromJson(json, MeetingSignInResponseModel.class));
+                                if (model != null) {
+                                    MeetingSignInResponseModel.Meetingcheckininfo info = model.meetingcheckininfo;
+                                    if ("1".equals(info.checkstatus)) {
                                         initTopbar("签到成功");
-                                    }else {
-                                        pic.setImageResource(R.drawable.icon_failure);
+                                    } else {
+                                        mTitlePic.setImageResource(R.drawable.icon_failure);
                                         initTopbar("签到失败");
                                     }
-                                    ((TextView) findViewById(R.id.meeting_signin_result_time)).setText("签到时间：" + re.data.meetingcheckininfo.checkintime);
-                                    ((TextView) findViewById(R.id.meeting_signin_result_addr)).setText("签到地点：" + re.data.meetingcheckininfo.checkinplace);
+                                    mId = info.meetingid;
+                                    mTimeView.setVisibility(View.VISIBLE);
+                                    mAddrView.setVisibility(View.VISIBLE);
+                                    mTimeView.setText("签到时间：" + info.checkintime);
+                                    mAddrView.setText("签到地点：" + info.checkinplace);
                                 }
                             } else {
                                 initTopbar("签到失败");
-                                pic.setImageResource(R.drawable.icon_failure);
+                                mTitlePic.setImageResource(R.drawable.icon_failure);
                             }
 
                         } catch (Exception e) {
-                            Log.d(e.getMessage(), "");
+                            initTopbar("签到失败");
+                            mTitlePic.setImageResource(R.drawable.icon_failure);
+                            mTitleView.setText("签到失败");
                         }
-
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        initTopbar("签到失败");
+                        mTitlePic.setImageResource(R.drawable.icon_failure);
+                        mTitleView.setText("签到失败");
                         break;
                 }
             }
@@ -90,8 +118,7 @@ public class MeetingSignInResultActivity extends TopActivity {
                 try {
                     MeetingAction userAction = new MeetingAction();
                     String scanCode = getIntent().getStringExtra("scanCode");
-                    MeetingSignInResponseModel
-                            re = userAction.getSignInResult(scanCode, MyApplication.instance.getAddrsss());
+                    RspInfo1 re = userAction.getSignInResult(scanCode, MyApplication.instance.getAddrsss());
                     if (re == null) {
                         handler.sendEmptyMessage(ThreadState.ERROR);
                     } else {

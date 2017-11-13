@@ -83,7 +83,6 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
                                         public void onClick(View view) {
                                             if ("0".equals(mCurrentMoney) || "0.00".equals(mCurrentMoney)) {
                                                 UtilAssistants.showToast("你当前可提现金额为0");
-
                                             } else {
                                                 startActivity(new Intent(WalletListActivity.this, WalletWithdrawCashActivity.class));
                                             }
@@ -326,7 +325,9 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        startActivity(new Intent(mContext, WalletIncomeAndExpensesActivity.class));
+        Intent intent = new Intent(mContext, WalletIncomeAndExpensesActivity.class);
+        intent.putExtra("flag", "walletList");
+        startActivity(intent);
 
     }
 }

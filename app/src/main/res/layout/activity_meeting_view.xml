@@ -100,8 +100,8 @@
 
                <TextView
                    android:id="@+id/meeting_view_checkintime"
-                   style="@style/my_right_text_style"
-                   android:gravity="right|center" />
+                   style="@style/my_right_text_style1"
+                   />
            </LinearLayout>
 
            <LinearLayout style="@style/my_text_layout">

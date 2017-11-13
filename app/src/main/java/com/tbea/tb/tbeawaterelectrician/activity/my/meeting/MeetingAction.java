@@ -38,13 +38,13 @@ public class MeetingAction extends BaseAction {
      * @param scanCode 扫码获取到的码
      * @param address  扫码地点详情
      */
-    public MeetingSignInResponseModel getSignInResult(String scanCode, String address) throws Exception {
-        MeetingSignInResponseModel rspInfo;
+    public RspInfo1 getSignInResult(String scanCode, String address) throws Exception {
+        RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("scancode", scanCode));
         pairs.add(new BasicNameValuePair("address", address));
         String result = sendRequest("TBEAENG00500201003", pairs);
-        rspInfo = gson.fromJson(result, MeetingSignInResponseModel.class);
+        rspInfo = gson.fromJson(result, RspInfo1.class);
         return rspInfo;
     }
 

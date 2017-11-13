@@ -8,18 +8,13 @@ import com.tbea.tb.tbeawaterelectrician.http.BaseResponseModel;
 
 public class MeetingSignInResponseModel extends BaseResponseModel {
 
+    public Meetingcheckininfo meetingcheckininfo;
 
-    public Data data;
-
-
-    public class Data {
-        public Meetingcheckininfo meetingcheckininfo;
-
-        public class Meetingcheckininfo {
-            public String meetingid;
-            public String checkstatus;
-            public String checkintime;
-            public String checkinplace;
-        }
+    public class Meetingcheckininfo {
+        public String meetingid;
+        public String checkstatus;
+        public String checkintime;
+        public String checkinplace;
     }
+
 }
