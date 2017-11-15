@@ -758,7 +758,13 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                                 }
                             }
                             findViewById(R.id.body_bg_view).setVisibility(View.VISIBLE);
-                            View view1 = (View) findViewById(R.id.add_shop_car_layout);
+                            View view1 =  findViewById(R.id.add_shop_car_layout);
+                            view1.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                }
+                            });
                             view1.setVisibility(View.VISIBLE);
                             Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.in_bottomtotop);
                             animation.setFillAfter(true);

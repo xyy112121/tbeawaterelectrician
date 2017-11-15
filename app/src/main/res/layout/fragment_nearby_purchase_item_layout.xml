@@ -51,7 +51,6 @@
                     android:id="@+id/nearby_commdith_item_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="铜芯聚焦乙烯绝缘乙烯护套"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:maxLines="3"/>
@@ -62,7 +61,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:maxLines="2"
-                    android:text="BVVB-2*4"
                     android:textColor="@color/gray"
                     android:textSize="13sp" />
 
@@ -76,7 +74,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:maxLines="2"
-                        android:text="￥245.00"
                         android:textColor="@color/red"
                         android:textSize="13sp" />
 
@@ -87,7 +84,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_alignBottom="@id/nearby_commdith_item_price"
                         android:layout_marginBottom="2dp"
-                        android:text="985m"
                         android:textColor="@color/bottle_green"
                         android:textSize="13sp" />
                 </RelativeLayout>

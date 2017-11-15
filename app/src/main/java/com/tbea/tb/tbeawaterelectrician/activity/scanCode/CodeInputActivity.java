@@ -30,14 +30,14 @@ public class CodeInputActivity extends TopActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scancode_input);
-        initTopbar("手工输入");
+        initTopbar("手动输入编码");
 
         findViewById(R.id.scan_code_input_comfire).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String result = ((TextView) findViewById(R.id.scan_code_input_text)).getText() + "";
                 if ("".equals(result)) {
-                    UtilAssistants.showToast("请输入扫描码！");
+                    UtilAssistants.showToast("请输入编码！");
                     return;
                 }
 

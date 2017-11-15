@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:textColor="#1a1a1a"
-        android:text="测试一"/>
+       />
 
     <TextView
         android:id="@+id/tx_action_time"
@@ -24,7 +24,7 @@
         android:textColor="#8e8e8e"
         android:layout_below="@id/tx_action"
         android:layout_marginTop="10dp"
-        android:text="2015-07-12 20:34:34"/>
+       />
 
 
 </RelativeLayout>

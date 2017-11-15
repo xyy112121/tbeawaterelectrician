@@ -61,7 +61,6 @@
                     android:drawablePadding="5dp"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:text="特变科技公司"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:layout_marginTop="10dp"/>
@@ -106,7 +105,6 @@
                     android:maxLines="1"
                     android:textColor="@color/red"
                     android:textSize="13sp"
-                    android:text="ddd"
                     android:layout_alignParentBottom="true"
                    />
             </RelativeLayout>

@@ -13,12 +13,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.util.permissonutil.PermissionActivity;
 
 import java.util.List;
 
 import kr.co.namee.permissiongen.PermissionGen;
 
-public class TopActivity extends FragmentActivity {
+public class TopActivity extends PermissionActivity {
     protected ImageButton mBackBtn;
     protected ImageButton mRightBtn;
     public final int SET_REQEST = 1000;

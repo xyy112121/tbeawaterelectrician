@@ -28,14 +28,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/red"
-                android:text="陈师傅"
                 android:layout_marginLeft="5dp"
                 android:textSize="12sp"/>
             <TextView
                 android:id="@+id/home_rebate_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="138****7878   扫码返利累积金额"
                 android:textColor="@color/text_gray"
                 android:layout_marginLeft="5dp"
                 android:textSize="12sp"/>
@@ -45,7 +43,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/red"
-            android:text="50dddddd"
             android:layout_marginLeft="2dp"
             android:textSize="12sp"
            android:layout_alignParentRight="true"
