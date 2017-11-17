@@ -99,6 +99,23 @@
                 android:id="@+id/info_birthday"
                 style="@style/my_right_text_style" />
         </RelativeLayout>
+        <View style="@style/horizontal_view" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/my_select_btn"
+            android:paddingRight="10dp">
+
+            <TextView
+                style="@style/my_text_style"
+                android:layout_height="wrap_content"
+                android:text="工龄" />
+
+            <TextView
+                android:id="@+id/info_workyear"
+                style="@style/my_right_text_style1" />
+        </RelativeLayout>
 
         <View style="@style/horizontal_view" />
 
@@ -150,11 +167,11 @@
             <TextView
                 style="@style/my_text_style"
                 android:layout_height="wrap_content"
-                android:text="所属公司" />
+                android:text="隶属" />
 
             <TextView
                 android:id="@+id/info_companyname"
-                style="@style/my_right_text_style" />
+                style="@style/my_right_text_style1" />
         </RelativeLayout>
 
         <View style="@style/horizontal_view" />

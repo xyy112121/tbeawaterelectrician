@@ -15,6 +15,7 @@ public class UserInfo  {
     private String sex;
     private String birthday;
     private String companyname;
+    private String workyear;
 
     public String getNickname() {
         return nickname;
@@ -86,5 +87,13 @@ public class UserInfo  {
 
     public void setCompanyname(String companyname) {
         this.companyname = companyname;
+    }
+
+    public String getWorkyear() {
+        return workyear;
+    }
+
+    public void setWorkyear(String workyear) {
+        this.workyear = workyear;
     }
 }

@@ -266,7 +266,6 @@ public class UserAction extends BaseAction {
      * 如果 有效即跳转到对应的页面上
      *
      * @param scanCode     扫码后获得的码
-     * @param scanCodeType 当前类型  fanli: 返利; suyuan: 溯源
      */
     public RspInfo1 provingScanCode(String scanCode) throws Exception {
         RspInfo1 rspInfo;

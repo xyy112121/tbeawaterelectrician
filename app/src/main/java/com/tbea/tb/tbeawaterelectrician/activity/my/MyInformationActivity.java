@@ -176,6 +176,7 @@ public class MyInformationActivity extends TopActivity {
                             ((TextView) findViewById(R.id.info_email)).setText(obj.getMailaddr());
                             ((TextView) findViewById(R.id.info_companyname)).setText(obj.getCompanyname());
                             ((TextView) findViewById(R.id.info_sex)).setText(obj.getSex());
+                            ((TextView) findViewById(R.id.info_workyear)).setText(obj.getWorkyear());
                             ((TextView) findViewById(R.id.info_nickName)).setText(obj.getNickname());
                         } else {
                             UtilAssistants.showToast(re.getMsg());
