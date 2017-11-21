@@ -102,5 +102,6 @@ dependencies {
     compile files('libs/umeng_social_tool.jar')
     compile 'com.github.mcxtzhang:SuspensionIndexBar:V1.0.0'
     compile files('libs/core_3.0.1.jar')
+    compile 'com.github.pinguo-zhouwei:CustomPopwindow:2.1.1'
 }
 

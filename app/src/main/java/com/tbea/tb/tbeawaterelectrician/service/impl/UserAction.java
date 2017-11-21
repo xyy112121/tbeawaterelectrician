@@ -570,14 +570,13 @@ public class UserAction extends BaseAction {
     /**
      * 获取输入搜索关键词接口
      */
-    public RspInfo getSearchList(String searchtype, String keyword) throws Exception {
-        RspInfo rspInfo;
+    public RspInfo1 getSearchList(String searchtype, String keyword) throws Exception {
+        RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("searchtype", searchtype));
         pairs.add(new BasicNameValuePair("keyword", keyword));
         String result = sendRequest("TBEAENG002001004000", pairs);
-        rspInfo = gson.fromJson(result, new TypeToken<RspInfo<Object>>() {
-        }.getType());
+        rspInfo = gson.fromJson(result, RspInfo1.class);
         return rspInfo;
     }
 

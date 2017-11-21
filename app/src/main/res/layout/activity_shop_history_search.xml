@@ -18,33 +18,51 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="28dp"
+            android:layout_marginLeft="15dp"
             android:layout_weight="0.8"
             android:background="@drawable/top_history_search"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_marginLeft="15dp">
-            <TextView
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:id="@+id/search_tap_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="商品"
-                android:textColor="@color/text_gtay2"
-                android:layout_marginLeft="5dp"/>
+                android:orientation="horizontal"
+               >
+
+                <TextView
+                    android:id="@+id/search_tap_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商品"
+                    android:textColor="@color/text_gtay2"
+                    android:layout_marginLeft="8dp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="3dp"
+                    android:src="@drawable/icon_arrow_bottom_black" />
+
+            </LinearLayout>
 
             <EditText
-            android:id="@+id/expert_search_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@null"
-            android:imeOptions="actionSearch"
-            android:singleLine="true"
-            android:hint="搜索商品"
+                android:id="@+id/expert_search_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:hint="搜索商品"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
                 android:textColor="#848484"
-            android:textColorHint="#848484"
-            android:textSize="12sp"
-            />
+                android:textColorHint="#848484"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView

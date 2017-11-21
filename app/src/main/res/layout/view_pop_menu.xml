@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="120dp"
+    android:layout_height="120dp"
+    android:background="@drawable/icon_pop_menu_bg"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/menu1"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:tag="civil">
+
+                <ImageView
+                    android:id="@+id/menu1_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/menu1_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="商品"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <View
+                style="@style/horizontal_view"
+                android:background="@color/white" />
+
+            <LinearLayout
+                android:id="@+id/menu2"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:tag="civil">
+
+
+                <TextView
+                    android:id="@+id/menu2_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="商家"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/menu3_view"
+                style="@style/horizontal_view"
+                android:background="@color/white" />
+
+            <LinearLayout
+                android:id="@+id/menu3"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:tag="civil">
+
+
+                <TextView
+                    android:id="@+id/menu3_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="经销商"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
