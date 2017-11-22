@@ -73,8 +73,10 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
     private String id;
     private FlexRadioGroup mColorRG;
     private FlexRadioGroup mSpecificationsRG;
+    private FlexRadioGroup mModelRG;
     private float mWidth;
-    private String mSpecificationId;
+    private String mSpecificationId;//规格id
+    private String mModelId;//型号id
     private String mColorId;
     private String mDistributorid;//经销商id
     private ListView mListView;
@@ -125,6 +127,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         getUrl();
         mColorRG = (FlexRadioGroup) findViewById(R.id.commodith_view_color_rg);
         mSpecificationsRG = (FlexRadioGroup) findViewById(R.id.commodith_view_specifications_rg);
+        mModelRG = (FlexRadioGroup) findViewById(R.id.commodith_view_model_rg);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         mDistributorid = getIntent().getStringExtra("distributorid");
@@ -675,104 +678,146 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                 dialog.dismiss();
                 switch (msg.what) {
                     case ThreadState.SUCCESS:
-                        RspInfo re = (RspInfo) msg.obj;
-                        if (re.isSuccess()) {
+                        try {
+                            final RspInfo re = (RspInfo) msg.obj;
+                            if (re.isSuccess()) {
+                                Map<String, Object> commodityinfo = (Map<String, Object>) re.getDateObj("commodityinfo");
+                                List<Map<String, String>> colorlist = (List<Map<String, String>>) re.getDateObj("colorlist");
+                                List<Map<String, String>> specificationlist = (List<Map<String, String>>) re.getDateObj("commodityspeclist");
+                                List<Map<String, String>> modelListMap = (List<Map<String, String>>) re.getDateObj("commoditymodellist");
 
-                            Map<String, Object> commodityinfo = (Map<String, Object>) re.getDateObj("commodityinfo");
-                            List<Map<String, String>> colorlist = (List<Map<String, String>>) re.getDateObj("colorlist");
-                            List<Map<String, String>> specificationlist = (List<Map<String, String>>) re.getDateObj("specificationlist");
+                                if (commodityinfo != null) {
+                                    ImageView imageView = (ImageView) findViewById(R.id.add_shop_car_layout_picture);
+                                    if (!"".equals(commodityinfo.get("picture")))
+                                        ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + commodityinfo.get("picture"), imageView);
+                                    ((TextView) findViewById(R.id.add_shop_car_layout_price)).setText("￥" + commodityinfo.get("price"));
 
-                            if (commodityinfo != null) {
-                                ImageView imageView = (ImageView) findViewById(R.id.add_shop_car_layout_picture);
-                                if (!"".equals(commodityinfo.get("picture")))
-                                    ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + commodityinfo.get("picture"), imageView);
-                                ((TextView) findViewById(R.id.add_shop_car_layout_price)).setText("￥" + commodityinfo.get("price"));
-                                double stockNumber = (double) commodityinfo.get("stock");
-                                int stock = (int) stockNumber;
-                                ((TextView) findViewById(R.id.add_shop_car_layout_stock)).setText("库存" + stock + "件");
-                            }
-
-                            if (colorlist != null) {
-                                mColorRG.removeAllViews();
-                                List<Condition> colorList = new ArrayList<>();
-                                for (int i = 0; i < colorlist.size(); i++) {
-                                    Condition condition = new Condition();
-                                    condition.setId(colorlist.get(i).get("id"));
-                                    condition.setName(colorlist.get(i).get("name"));
-                                    colorList.add(condition);
+                                    double stockNumber = (double) commodityinfo.get("stock");
+                                    int stock = (int) stockNumber;
+                                    ((TextView) findViewById(R.id.add_shop_car_layout_stock)).setText("库存" + stock + "件");
                                 }
-                                float margin = UtilAssistants.dp2px(mContext, 85);
-                                for (int i = 0; i < colorList.size(); i++) {
-                                    final RadioButton rb = (RadioButton) getLayoutInflater().inflate(R.layout.activity_commodith_view_rb, null);
-                                    rb.setText(colorList.get(i).getName());
-                                    rb.setTag(colorList.get(i).getId());
-                                    FlexboxLayout.LayoutParams lp = new FlexboxLayout.LayoutParams((int) (mWidth - margin) / 4, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                    lp.setMargins(8, 8, 8, 8);
-                                    rb.setLayoutParams(lp);
-                                    mColorRG.addView(rb);
-                                    if (i == 0) {
-                                        rb.setChecked(true);
-                                        mColorId = colorList.get(i).getId();
+
+                                if (colorlist != null) {
+                                    mColorRG.removeAllViews();
+                                    List<Condition> colorList = new ArrayList<>();
+                                    for (int i = 0; i < colorlist.size(); i++) {
+                                        Condition condition = new Condition();
+                                        condition.setId(colorlist.get(i).get("id"));
+                                        condition.setName(colorlist.get(i).get("name"));
+                                        colorList.add(condition);
                                     }
-
-                                    mColorRG.setOnCheckedChangeListener(new FlexRadioGroup.OnCheckedChangeListener() {
-                                        @Override
-                                        public void onCheckedChanged(@IdRes int checkedId) {
-                                            if (((RadioButton) findViewById(checkedId)).isChecked()) {
-                                                mColorId = rb.getTag() + "";
-                                            }
+                                    float margin = UtilAssistants.dp2px(mContext, 85);
+                                    for (int i = 0; i < colorList.size(); i++) {
+                                        final RadioButton rb = (RadioButton) getLayoutInflater().inflate(R.layout.activity_commodith_view_rb, null);
+                                        rb.setText(colorList.get(i).getName());
+                                        rb.setTag(colorList.get(i).getId());
+//                                    rb.setId(i+1);
+                                        FlexboxLayout.LayoutParams lp = new FlexboxLayout.LayoutParams((int) (mWidth - margin) / 4, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                        lp.setMargins(8, 8, 8, 8);
+                                        rb.setLayoutParams(lp);
+                                        mColorRG.addView(rb);
+                                        if (i == 0) {
+                                            rb.setChecked(true);
+                                            mColorId = colorList.get(i).getId();
                                         }
-                                    });
-                                }
-                            }
-                            if (specificationlist != null) {
-                                mSpecificationsRG.removeAllViews();
-                                List<Condition> specificationList = new ArrayList<>();
-                                for (int i = 0; i < specificationlist.size(); i++) {
-                                    Condition condition = new Condition();
-                                    condition.setId(specificationlist.get(i).get("id"));
-                                    condition.setName(specificationlist.get(i).get("name"));
-                                    specificationList.add(condition);
-                                }
-                                float margin = UtilAssistants.dp2px(mContext, 85);
-                                for (int i = 0; i < specificationList.size(); i++) {
-                                    final RadioButton rb = (RadioButton) getLayoutInflater().inflate(R.layout.activity_commodith_view_rb, null);
-                                    rb.setText(specificationList.get(i).getName());
-                                    rb.setTag(specificationList.get(i).getId());
-                                    FlexboxLayout.LayoutParams lp = new FlexboxLayout.LayoutParams((int) (mWidth - margin) / 4, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                    lp.setMargins(8, 8, 8, 8);
-                                    rb.setLayoutParams(lp);
-                                    mSpecificationsRG.addView(rb);
-                                    if (i == 0) {
-                                        rb.setChecked(true);
-                                        mSpecificationId = specificationList.get(i).getId();
+
+                                        mColorRG.setOnCheckedChangeListener(new FlexRadioGroup.OnCheckedChangeListener() {
+                                            @Override
+                                            public void onCheckedChanged(@IdRes int checkedId) {
+                                                RadioButton rb= (RadioButton) findViewById(checkedId);
+                                                if (rb.isChecked()) {
+                                                    mColorId = rb.getTag() + "";
+                                                }
+                                            }
+                                        });
                                     }
-                                    mSpecificationsRG.setOnCheckedChangeListener(new FlexRadioGroup.OnCheckedChangeListener() {
-                                        @Override
-                                        public void onCheckedChanged(@IdRes int checkedId) {
-                                            if (((RadioButton) findViewById(checkedId)).isChecked()) {
-                                                mSpecificationId = rb.getTag() + "";
-                                            }
+                                }
+                                if (specificationlist != null) {
+                                    mSpecificationsRG.removeAllViews();
+                                    List<Condition> specificationList = new ArrayList<>();
+                                    for (int i = 0; i < specificationlist.size(); i++) {
+                                        Condition condition = new Condition();
+                                        condition.setId(specificationlist.get(i).get("id"));
+                                        condition.setName(specificationlist.get(i).get("name"));
+                                        specificationList.add(condition);
+                                    }
+                                    float margin = UtilAssistants.dp2px(mContext, 85);
+                                    for (int i = 0; i < specificationList.size(); i++) {
+                                        final RadioButton rb = (RadioButton) getLayoutInflater().inflate(R.layout.activity_commodith_view_rb, null);
+                                        rb.setText(specificationList.get(i).getName());
+                                        rb.setTag(specificationList.get(i).getId());
+                                        FlexboxLayout.LayoutParams lp = new FlexboxLayout.LayoutParams((int) (mWidth - margin) / 4, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                        lp.setMargins(8, 8, 8, 8);
+                                        rb.setLayoutParams(lp);
+                                        mSpecificationsRG.addView(rb);
+                                        if (i == 0) {
+                                            rb.setChecked(true);
+                                            mSpecificationId = specificationList.get(i).getId();
                                         }
-                                    });
+                                        mSpecificationsRG.setOnCheckedChangeListener(new FlexRadioGroup.OnCheckedChangeListener() {
+                                            @Override
+                                            public void onCheckedChanged(@IdRes int checkedId) {
+                                                RadioButton rb= (RadioButton) findViewById(checkedId);
+                                                if (rb.isChecked()) {
+                                                    mSpecificationId = rb.getTag() + "";
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
-                            }
-                            findViewById(R.id.body_bg_view).setVisibility(View.VISIBLE);
-                            View view1 =  findViewById(R.id.add_shop_car_layout);
-                            view1.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
 
+                                if (modelListMap != null) {
+                                    mModelRG.removeAllViews();
+                                    List<Condition> modelList = new ArrayList<>();
+                                    for (int i = 0; i < modelListMap.size(); i++) {
+                                        Condition condition = new Condition();
+                                        condition.setId(modelListMap.get(i).get("id"));
+                                        condition.setName(modelListMap.get(i).get("name"));
+                                        modelList.add(condition);
+                                    }
+                                    float margin = UtilAssistants.dp2px(mContext, 85);
+                                    for (int i = 0; i < modelList.size(); i++) {
+                                        final RadioButton rb = (RadioButton) getLayoutInflater().inflate(R.layout.activity_commodith_view_rb, null);
+                                        rb.setText(modelList.get(i).getName());
+                                        rb.setTag(modelList.get(i).getId());
+                                        FlexboxLayout.LayoutParams lp = new FlexboxLayout.LayoutParams((int) (mWidth - margin) / 4, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                        lp.setMargins(8, 8, 8, 8);
+                                        rb.setLayoutParams(lp);
+                                        mModelRG.addView(rb);
+                                        if (i == 0) {
+                                            rb.setChecked(true);
+                                            mModelId = modelList.get(i).getId();
+                                        }
+                                        mModelRG.setOnCheckedChangeListener(new FlexRadioGroup.OnCheckedChangeListener() {
+                                            @Override
+                                            public void onCheckedChanged(@IdRes int checkedId) {
+                                                RadioButton rb= (RadioButton) findViewById(checkedId);
+                                                if (rb.isChecked()) {
+                                                    mModelId = rb.getTag() + "";
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
-                            });
-                            view1.setVisibility(View.VISIBLE);
-                            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.in_bottomtotop);
-                            animation.setFillAfter(true);
-                            view1.setAnimation(animation);
-                        } else {
-                            UtilAssistants.showToast(re.getMsg());
+                                findViewById(R.id.body_bg_view).setVisibility(View.VISIBLE);
+                                View view1 = findViewById(R.id.add_shop_car_layout);
+                                view1.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+
+                                    }
+                                });
+                                view1.setVisibility(View.VISIBLE);
+                                Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.in_bottomtotop);
+                                animation.setFillAfter(true);
+                                view1.setAnimation(animation);
+                            } else {
+                                UtilAssistants.showToast(re.getMsg());
+                            }
+
+                        }catch (Exception e){
+                            UtilAssistants.showToast("操作失败！");
                         }
-
                         break;
                     case ThreadState.ERROR:
                         UtilAssistants.showToast("操作失败！");
@@ -972,26 +1017,26 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
      * 添加购物车
      */
     public void addShopCar() {
-        final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
-        dialog.setText("请等待");
-        dialog.show();
+        mDialog.show();
         final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                dialog.dismiss();
                 switch (msg.what) {
                     case ThreadState.SUCCESS:
                         RspInfo1 re = (RspInfo1) msg.obj;
                         if (re.isSuccess()) {
                             getShopCarNumber();
+                            String url = mUrl + "commoditysaleinfo?commodityid=" + id + "&&userid=" + MyApplication.instance.getUserId()
+                                    + "&&colorid=" + mColorId + "&&commodityspecid=" + mSpecificationId + "&&commoditymodelid=" + mModelId;
+                            showWebView(url);
                             UtilAssistants.showToast("成功加入购物车！");
-
                         } else {
                             UtilAssistants.showToast(re.getMsg());
                         }
 
                         break;
                     case ThreadState.ERROR:
+                        mDialog.dismiss();
                         UtilAssistants.showToast("操作失败！");
                         break;
                 }
@@ -1005,7 +1050,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                     UserAction userAction = new UserAction();
                     TextView numView = (TextView) findViewById(R.id.tv_num);
                     String number = numView.getText() + "";
-                    RspInfo1 re = userAction.addShopCar(mDistributorid, id, mSpecificationId, mColorId, number);
+                    RspInfo1 re = userAction.addShopCar(mDistributorid, id, mSpecificationId, mColorId, mModelId, number);
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
@@ -1059,7 +1104,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo1 re = userAction.getOrderDetailId(mDistributorid, id, mSpecificationId, mColorId, number);
+                    RspInfo1 re = userAction.getOrderDetailId(mDistributorid, id, mSpecificationId, mColorId, mModelId, number);
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);

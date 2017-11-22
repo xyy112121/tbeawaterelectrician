@@ -265,7 +265,7 @@ public class UserAction extends BaseAction {
      * 当扫描完成后需要先将此二维码发过去验证此二维码是否有效，
      * 如果 有效即跳转到对应的页面上
      *
-     * @param scanCode     扫码后获得的码
+     * @param scanCode 扫码后获得的码
      */
     public RspInfo1 provingScanCode(String scanCode) throws Exception {
         RspInfo1 rspInfo;
@@ -291,7 +291,6 @@ public class UserAction extends BaseAction {
         rspInfo = gson.fromJson(result, RspInfo1.class);
         return rspInfo;
     }
-
 
 
     /**
@@ -888,7 +887,7 @@ public class UserAction extends BaseAction {
      * 获取加入购物车的弹出框里面的信息（加入购物车的时候弹出的选择规格，数目，颜色 等项的接口）
      */
     public RspInfo getAddSCInfo(String commodityid) throws Exception {
-        RspInfo rspInfo;
+            RspInfo rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("commodityid", commodityid));
         String result = sendRequest("TBEAENG003001009003", pairs);
@@ -904,12 +903,13 @@ public class UserAction extends BaseAction {
      * colorid 所选颜色ID
      * number   数目
      */
-    public RspInfo1 addShopCar(String distributorid, String commodityid, String specificationid, String colorid, String number) throws Exception {
+    public RspInfo1 addShopCar(String distributorid, String commodityid, String specificationid, String colorid, String modelId, String number) throws Exception {
         RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("distributorid", distributorid));
         pairs.add(new BasicNameValuePair("commodityid", commodityid));
         pairs.add(new BasicNameValuePair("specificationid", specificationid));
+        pairs.add(new BasicNameValuePair("commoditymodelid", modelId));
         pairs.add(new BasicNameValuePair("colorid", colorid));
         pairs.add(new BasicNameValuePair("number", number));
         String result = sendRequest("TBEAENG003001010000", pairs);
@@ -928,12 +928,13 @@ public class UserAction extends BaseAction {
      * colorid 所选颜色ID
      * number   数目
      */
-    public RspInfo1 getOrderDetailId(String distributorid, String commodityid, String specificationid, String colorid, String number) throws Exception {
+    public RspInfo1 getOrderDetailId(String distributorid, String commodityid, String specificationid, String colorid, String modelId, String number) throws Exception {
         RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("distributorid", distributorid));
         pairs.add(new BasicNameValuePair("commodityid", commodityid));
         pairs.add(new BasicNameValuePair("specificationid", specificationid));
+        pairs.add(new BasicNameValuePair("commoditymodelid", modelId));
         pairs.add(new BasicNameValuePair("colorid", colorid));
         pairs.add(new BasicNameValuePair("number", number));
         String result = sendRequest("TBEAENG003001011000", pairs);

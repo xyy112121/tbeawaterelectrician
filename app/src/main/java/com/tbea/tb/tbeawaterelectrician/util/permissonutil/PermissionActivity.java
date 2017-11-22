@@ -68,7 +68,7 @@ public class PermissionActivity extends AppCompatActivity implements PermissionU
 
         PermissionUtil.checkDeniedPermissionsNeverAskAgain(this,
                 "请在设置-应用-权限打开相关权限",
-                R.string.settings, R.string.cancel, null, perms);
+                R.string.settings, R.string.camera_cancel, null, perms);
     }
 
     //全部同意

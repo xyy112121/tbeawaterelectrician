@@ -284,6 +284,26 @@
             android:layout_marginLeft="8dp"
 
             />
+        <View
+            style="@style/horizontal_view"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="型号"
+            android:textColor="@color/text_gray" />
+
+        <com.tbea.tb.tbeawaterelectrician.component.FlexRadioGroup
+            android:id="@+id/commodith_view_model_rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:flexWrap="wrap"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+
+            />
         <Button
             android:id="@+id/add_shop_car_layout_finish"
             style="@style/style_next_red_btn"
