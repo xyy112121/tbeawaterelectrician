@@ -30,7 +30,7 @@ public class CodeInputActivity extends TopActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scancode_input);
-        initTopbar("手动输入编码");
+        initTopbar("输入二维码编号");
 
         findViewById(R.id.scan_code_input_comfire).setOnClickListener(new View.OnClickListener() {
             @Override

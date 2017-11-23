@@ -39,8 +39,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-               />
+                android:layout_marginRight="10dp" />
         </RelativeLayout>
 
         <View style="@style/horizontal_view" />
@@ -99,6 +98,7 @@
                 android:id="@+id/info_birthday"
                 style="@style/my_right_text_style" />
         </RelativeLayout>
+
         <View style="@style/horizontal_view" />
 
         <RelativeLayout
@@ -109,12 +109,12 @@
 
             <TextView
                 style="@style/my_text_style"
-                android:layout_height="wrap_content"
-                android:text="工龄" />
+                android:layout_width="wrap_content"
+                android:text="年龄" />
 
             <TextView
                 android:id="@+id/info_workyear"
-                style="@style/my_right_text_style1" />
+                style="@style/my_right_text_style2" />
         </RelativeLayout>
 
         <View style="@style/horizontal_view" />
@@ -166,12 +166,12 @@
 
             <TextView
                 style="@style/my_text_style"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
                 android:text="隶属" />
 
             <TextView
                 android:id="@+id/info_companyname"
-                style="@style/my_right_text_style1" />
+                style="@style/my_right_text_style2" />
         </RelativeLayout>
 
         <View style="@style/horizontal_view" />

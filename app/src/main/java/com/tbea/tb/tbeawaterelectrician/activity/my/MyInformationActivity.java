@@ -34,11 +34,15 @@ import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.EventCity;
 import com.tbea.tb.tbeawaterelectrician.util.EventFlag;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import cn.qqtheme.framework.picker.DatePicker;
@@ -87,7 +91,7 @@ public class MyInformationActivity extends TopActivity {
                             sex = "male";
                         }
                         ((TextView) findViewById(R.id.info_sex)).setText(option);
-                        updateInfo(sex, "", "");
+                        updateInfo(sex, "", "", "");
                     }
                 });
                 picker.setAnimationStyle(R.style.PopWindowAnimationFade);
@@ -99,15 +103,24 @@ public class MyInformationActivity extends TopActivity {
         findViewById(R.id.info_birthday_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePicker picker = new DatePicker(MyInformationActivity.this, DatePicker.MONTH_DAY);
+                DatePicker picker = new DatePicker(MyInformationActivity.this, DatePicker.YEAR_MONTH_DAY);
                 picker.setTextColor(ContextCompat.getColor(mContext, R.color.black));
                 picker.setLabel("", "", "");
+                Calendar c = Calendar.getInstance();//首先要获取日历对象
+                picker.setRange(1949, c.get(Calendar.YEAR));
 //                picker.setLineColor(ContextCompat.getColor(mContext, R.color.white));
-                picker.setOnDatePickListener(new DatePicker.OnMonthDayPickListener() {
+                picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
                     @Override
-                    public void onDatePicked(String month, String day) {
-                        ((TextView) findViewById(R.id.info_birthday)).setText(month + "月" + day + "日");
-                        updateInfo("", day, month);
+                    public void onDatePicked(String year, String month, String day) {
+                        ((TextView) findViewById(R.id.info_birthday)).setText(year + "年" + month + "月" + day + "日");
+                        try {
+                            String age = getAgeAchen(year, month, day);
+                            ((TextView) findViewById(R.id.info_workyear)).setText(age);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        updateInfo("", year, day, month);
                     }
                 });
                 picker.setAnimationStyle(R.style.PopWindowAnimationFade);
@@ -154,6 +167,81 @@ public class MyInformationActivity extends TopActivity {
 
     }
 
+    //根据时间获取年龄
+    public String getAgeAchen(String birthdaYear, String birthdayMonth, String birthdayDay) throws Exception {
+        // 创建 Calendar 对象
+        Calendar birthday = Calendar.getInstance();
+        // 设置传入的时间格式
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        // 指定一个日期
+        Date date = dateFormat.parse(birthdaYear + "-" + birthdayMonth + "-" + birthdayDay);
+        // 对 calendar 设置为 date 所定的日期
+        birthday.setTime(date);
+
+        // 创建 Calendar 对象
+        Calendar now = Calendar.getInstance();
+        // 设置传入的时间格式
+        Date nowDate = dateFormat.parse(dateFormat.format(new Date()));
+        now.setTime(nowDate);
+
+        String mString = "";
+
+        int day = now.get(Calendar.DAY_OF_MONTH) - birthday.get(Calendar.DAY_OF_MONTH);
+        int month = now.get(Calendar.MONTH) + 1 - birthday.get(Calendar.MONTH);
+        int year = now.get(Calendar.YEAR) - birthday.get(Calendar.YEAR);
+
+        // 日期为当前年/月判断
+        if ((year == 0 && month == 0 && day < 0)) {
+            ToastUtil.showMessage("请选择正确的出生年月");
+            return mString;
+        }
+        // 退位计算年/月/日
+        if (day < 0) {
+            month -= 1;
+            now.add(Calendar.MONTH, -1);//得到上一个月，用来得到上个月的天数
+            day = day + now.getActualMaximum(Calendar.DAY_OF_MONTH);//得到该月天数
+        }
+        if (month < 0) {
+            year -= 1;
+            month = month + 12;
+        }
+        // 退位计算后超过当前日期的年龄
+        if (year < 0) {
+            ToastUtil.showMessage("请选择正确的出生年月");
+            return mString;
+        }
+        // 大于一岁的
+        if (year > 0) {
+            if (year > 12) {
+                mString = year + "岁";
+            } else {
+                if (month != 0 && month != 12) {
+                    mString = year + "岁" + month + "个月";
+                } else {
+                    if (month == 12) {
+                        year += 1;
+                        mString = year + "岁";
+                    } else {
+                        mString = year + "岁";
+                    }
+                }
+            }
+        } else {// 不满一岁的
+            // 不满一个月的
+            if (month == 0) {
+                mString = day + "天";
+            } else { // 大于一个月的
+                if (month == 12) {
+                    year += 1;
+                    mString = year + "岁";
+                } else {
+                    mString = month + "月" + day + "天";
+                }
+            }
+        }
+        return mString;
+    }
+
     /**
      * 获取信息
      */
@@ -174,9 +262,10 @@ public class MyInformationActivity extends TopActivity {
                             ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + obj.getPicture(), imageView);
                             ((TextView) findViewById(R.id.info_birthday)).setText(obj.getBirthday());
                             ((TextView) findViewById(R.id.info_email)).setText(obj.getMailaddr());
-                            ((TextView) findViewById(R.id.info_companyname)).setText(obj.getCompanyname());
+                            String campanyName = obj.getCompanyname();
+                            ((TextView) findViewById(R.id.info_companyname)).setText(campanyName);
                             ((TextView) findViewById(R.id.info_sex)).setText(obj.getSex());
-                            ((TextView) findViewById(R.id.info_workyear)).setText(obj.getWorkyear());
+                            ((TextView) findViewById(R.id.info_workyear)).setText(obj.getOldyears());
                             ((TextView) findViewById(R.id.info_nickName)).setText(obj.getNickname());
                         } else {
                             UtilAssistants.showToast(re.getMsg());
@@ -210,7 +299,7 @@ public class MyInformationActivity extends TopActivity {
      * @param birthday   生日 日
      * @param birthmonth 生日 月
      */
-    public void updateInfo(final String sex, final String birthday, final String birthmonth) {
+    public void updateInfo(final String sex, final String birthyear, final String birthday, final String birthmonth) {
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待");
         dialog.show();
@@ -239,7 +328,7 @@ public class MyInformationActivity extends TopActivity {
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo1 re = userAction.updateInfo("", sex, "", birthday, birthmonth);
+                    RspInfo1 re = userAction.updateInfo("", sex, "", birthyear, birthday, birthmonth);
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);

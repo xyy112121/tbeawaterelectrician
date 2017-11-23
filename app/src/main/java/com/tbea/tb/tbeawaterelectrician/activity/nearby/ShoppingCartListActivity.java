@@ -298,8 +298,6 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
                             String picture = list.get("picture");
                             String title = list.get("title");
                             String url = list.get("url");
-
-                            //                    String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+mSelectIds.get(0).getOrderdetailid();
                             UMWeb web = new UMWeb(url);
                             web.setTitle(title);
                             web.setThumb(new UMImage(mContext, MyApplication.instance.getImgPath() + picture));

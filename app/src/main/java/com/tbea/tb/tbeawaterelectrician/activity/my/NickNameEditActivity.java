@@ -78,7 +78,7 @@ public class NickNameEditActivity extends TopActivity {
                         public void run() {
                             try {
                                 UserAction userAction = new UserAction();
-                                RspInfo1 re = userAction.updateInfo(nickName, "", "", "", "");
+                                RspInfo1 re = userAction.updateInfo(nickName, "", "", "","", "");
                                 handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                             } catch (Exception e) {
                                 handler.sendEmptyMessage(ThreadState.ERROR);

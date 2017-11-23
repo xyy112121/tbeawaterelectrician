@@ -82,7 +82,7 @@ public class EmailEditActivity extends TopActivity {
                         public void run() {
                             try {
                                 UserAction userAction = new UserAction();
-                                RspInfo1 re = userAction.updateInfo("","",email,"","");
+                                RspInfo1 re = userAction.updateInfo("","",email,"","","");
                                 handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
                             } catch (Exception e) {
                                 handler.sendEmptyMessage(ThreadState.ERROR);

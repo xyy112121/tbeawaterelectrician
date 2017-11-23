@@ -115,6 +115,17 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="my_right_text_style2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:textColor">#6B6B6B</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <!-- 提示框主题样式 by:ghl -->
     <style name="MyDialog" parent="@android:Theme.Dialog">
         <item name="android:windowBackground">@drawable/tip_box_theme</item>
