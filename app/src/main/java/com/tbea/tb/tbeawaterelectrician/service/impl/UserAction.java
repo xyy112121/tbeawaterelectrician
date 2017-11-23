@@ -633,7 +633,7 @@ public class UserAction extends BaseAction {
         pairs.add(new BasicNameValuePair("nickname", nickname));
         pairs.add(new BasicNameValuePair("sex", sex));
         pairs.add(new BasicNameValuePair("email", email));
-        pairs.add(new BasicNameValuePair("birthyear", birthday));
+        pairs.add(new BasicNameValuePair("birthyear", birthyear));
         pairs.add(new BasicNameValuePair("birthday", birthday));
         pairs.add(new BasicNameValuePair("birthmonth", birthmonth));
         String result = sendRequest("TBEAENG005001002001", pairs);
