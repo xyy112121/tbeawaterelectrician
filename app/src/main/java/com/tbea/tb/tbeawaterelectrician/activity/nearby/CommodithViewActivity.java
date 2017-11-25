@@ -1,10 +1,12 @@
 package com.tbea.tb.tbeawaterelectrician.activity.nearby;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -48,6 +51,7 @@ import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -110,6 +114,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         getShopCarNumber();
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public void initView() {
         mWebView = (WebView) findViewById(R.id.web_view);
         mListView = (ListView) findViewById(R.id.listview);
@@ -119,6 +124,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         mRefreshLayout.setDelegate(this);
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(mContext, true));
 
+        initWebView();
         id = getIntent().getStringExtra("id");
 //        String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid="+id
 //                + "&&userid="+ MyApplication.instance.getUserId()+"&&longitude="+MyApplication.instance.getLongitude()
@@ -132,8 +138,9 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         mDistributorid = getIntent().getStringExtra("distributorid");
         mWidth = metrics.density;
-
     }
+
+
 
     /**
      * 获取url
@@ -214,6 +221,20 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
         }
     }
 
+    private void initWebView(){
+        WebSettings settings = mWebView.getSettings();
+        //自适应屏幕
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+        //启用支持javascript
+        settings.setJavaScriptEnabled(true);
+        settings.setBlockNetworkImage(false);//解决图片加载不出来的问题
+        settings.setAllowFileAccess(true);
+        settings.setDomStorageEnabled(true);//允许DCOM
+
+        mWebView.addJavascriptInterface(new JsToJava(this),"Android");
+    }
+
     /**
      * 修改显示的界面
      *
@@ -222,26 +243,8 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
     public void showWebView(String url) {
         mRefreshLayout.setVisibility(View.GONE);
         mWebView.setVisibility(View.VISIBLE);
-        WebSettings settings = mWebView.getSettings();
-        //自适应屏幕
-        settings.setUseWideViewPort(true);
-        settings.setLoadWithOverviewMode(true);
-        //启用支持javascript
-        settings.setJavaScriptEnabled(true);
-        settings.setBlockNetworkImage(false);//解决图片加载不出来的问题
-        settings.setJavaScriptEnabled(true);
-        settings.setAllowFileAccess(true);
-        settings.setDomStorageEnabled(true);//允许DCOM
-
         mWebView.loadUrl(url);
         mWebView.setWebViewClient(new MyWebViewClient());
-//        mWebView.setWebViewClient(new WebViewClient(){
-//            @Override
-//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                view.loadUrl(url);
-//                return super.shouldOverrideUrlLoading(view, url);
-//            }
-//        });
 
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override

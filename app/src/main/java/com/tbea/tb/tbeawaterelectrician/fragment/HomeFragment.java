@@ -462,6 +462,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                 public void onClick(View view) {
                     Intent intent = new Intent(context, CommodithViewActivity.class);
                     intent.putExtra("id", obj.getId());
+                    intent.putExtra("distributorid",obj.getCompanyid());
                     intent.putExtra("companytypeid", obj.getCompanytypeid());
                     intent.putExtra("companyid", obj.getCompanyid());
                     startActivity(intent);
