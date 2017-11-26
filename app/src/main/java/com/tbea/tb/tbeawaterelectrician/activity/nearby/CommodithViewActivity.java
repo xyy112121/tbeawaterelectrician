@@ -1083,7 +1083,8 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                             Map<String, Object> data = (Map<String, Object>) re.getData();
                             Map<String, String> orderdetailinfo = (Map<String, String>) data.get("orderdetailinfo");
                             String orderdetailid = orderdetailinfo.get("orderdetailid");
-                            OrderDetailid orderDetailid = new OrderDetailid(orderdetailid, number);
+                            String url = orderdetailinfo.get("commoditythumbpicture");
+                            OrderDetailid orderDetailid = new OrderDetailid(orderdetailid, number,url);
                             mSelectIds.add(orderDetailid);
                             Gson gson = new Gson();
                             String objJson = gson.toJson(mSelectIds);
@@ -1132,10 +1133,12 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
     private class OrderDetailid {
         private String orderdetailid;
         private String ordernumber;
+        private String url;
 
-        public OrderDetailid(String id, String number) {
+        public OrderDetailid(String id, String number, String url) {
             this.orderdetailid = id;
             this.ordernumber = number;
+            this.url = url;
         }
     }
 }
