@@ -606,7 +606,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
                 Double price = 0.0;
                 for (ProductInfo item : mList) {
                     item.setChoosed(true);
-                    OrderDetailid orderDetailid = new OrderDetailid(item.getCommodityid(), item.getOrdernumber(), item.getCommoditypicture());
+                    OrderDetailid orderDetailid = new OrderDetailid(item.getOrderdetailid(), item.getOrdernumber(), item.getCommoditypicture());
                     mSelectIds.add(orderDetailid);
                     int count = item.getOrdernumber();
                     price = price + (count * item.getOrderprice()

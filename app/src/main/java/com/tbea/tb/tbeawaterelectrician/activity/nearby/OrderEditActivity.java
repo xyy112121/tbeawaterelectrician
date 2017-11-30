@@ -40,10 +40,10 @@ import java.util.Map;
  */
 
 public class OrderEditActivity extends TopActivity {
-    private  String mReceiveaddrId;//收货的地址id
-    private  String mPaytypeId;//支付类型id
-    private  String mDeliverytypeId ;//发货类型id
-    private  float mActualNeedPayMoney  ;//实际支付金额
+    private String mReceiveaddrId;//收货的地址id
+    private String mPaytypeId;//支付类型id
+    private String mDeliverytypeId;//发货类型id
+    private float mActualNeedPayMoney;//实际支付金额
     private float mTotleMoney;
     private Context mContext;
 
@@ -63,17 +63,17 @@ public class OrderEditActivity extends TopActivity {
     /**
      * 商品详情
      */
-    private void initShop(){
+    private void initShop() {
         String orderdetailidlist = getIntent().getStringExtra("orderdetailidlist");
         Gson gson = new Gson();
         List<OrderDetailid> list = gson.fromJson(orderdetailidlist, new TypeToken<List<OrderDetailid>>() {
         }.getType());
-        LinearLayout parentLayout = (LinearLayout)findViewById(R.id.order_edit_shop_layout);
-        if(list != null && list.size()>0){
-            for (OrderDetailid item:list) {
-                LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_order_edit_shopimage_layout,null);
-                ImageView imageView = (ImageView)layout.findViewById(R.id.order_edit_shop_imageview);
-                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath()+item.url,imageView);
+        LinearLayout parentLayout = (LinearLayout) findViewById(R.id.order_edit_shop_layout);
+        if (list != null && list.size() > 0) {
+            for (OrderDetailid item : list) {
+                LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_order_edit_shopimage_layout, null);
+                ImageView imageView = (ImageView) layout.findViewById(R.id.order_edit_shop_imageview);
+                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + item.url, imageView);
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -89,12 +89,12 @@ public class OrderEditActivity extends TopActivity {
     /**
      * 选择的产品
      */
-    private class OrderDetailid{
+    private class OrderDetailid {
         private String orderdetailid;
         private int ordernumber;
         private String url;
 
-        public OrderDetailid(String  id,int number,String url){
+        public OrderDetailid(String id, int number, String url) {
             this.orderdetailid = id;
             this.ordernumber = number;
             this.url = url;
@@ -105,13 +105,13 @@ public class OrderEditActivity extends TopActivity {
         }
     }
 
-    private void listener(){
+    private void listener() {
         findViewById(R.id.addr_edit_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext,AddressEditListActivity.class);
-                intent.putExtra("flag","select");
-               startActivityForResult(intent,100);
+                Intent intent = new Intent(mContext, AddressEditListActivity.class);
+                intent.putExtra("flag", "select");
+                startActivityForResult(intent, 100);
             }
         });
 
@@ -125,11 +125,11 @@ public class OrderEditActivity extends TopActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-      if(resultCode == RESULT_OK && requestCode == 100 && data != null){
-          String jsonObj = data.getStringExtra("obj");
-          Gson gson = new Gson();
-          Address address = gson.fromJson(jsonObj,Address.class);
-          initAddrView(address);
+        if (resultCode == RESULT_OK && requestCode == 100 && data != null) {
+            String jsonObj = data.getStringExtra("obj");
+            Gson gson = new Gson();
+            Address address = gson.fromJson(jsonObj, Address.class);
+            initAddrView(address);
         }
     }
 
@@ -137,11 +137,11 @@ public class OrderEditActivity extends TopActivity {
      * 下单
      */
     public void planOrder() {
-        if("".equals(mReceiveaddrId) || mReceiveaddrId == null){
+        if ("".equals(mReceiveaddrId) || mReceiveaddrId == null) {
             UtilAssistants.showToast("请增加收货地址");
             return;
         }
-        final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
+        final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待...");
         dialog.show();
         final Handler handler = new Handler() {
@@ -152,19 +152,19 @@ public class OrderEditActivity extends TopActivity {
                     case ThreadState.SUCCESS:
                         RspInfo1 re = (RspInfo1) msg.obj;
                         if (re.isSuccess()) {
-                            Map<String,Object> date = (Map<String,Object>)re.getData();
-                            Map<String,String> map = (Map<String,String>)date.get("userorderinfo");
+                            Map<String, Object> date = (Map<String, Object>) re.getData();
+                            Map<String, String> map = (Map<String, String>) date.get("userorderinfo");
                             String orderid = map.get("orderid");
                             String ordercode = map.get("ordercode");
                             String deliverytype = map.get("deliverytype");
                             String paytype = map.get("paytype");
                             String actualneedpaymoney = map.get("actualneedpaymoney");
-                            Intent intent = new Intent(mContext,OrderScuessViewActivity.class);
-                            intent.putExtra("actualneedpaymoney",actualneedpaymoney);
-                            intent.putExtra("deliverytype",deliverytype);
-                            intent.putExtra("paytype",paytype);
-                            intent.putExtra("ordercode",ordercode);
-                            intent.putExtra("orderid",orderid);
+                            Intent intent = new Intent(mContext, OrderScuessViewActivity.class);
+                            intent.putExtra("actualneedpaymoney", actualneedpaymoney);
+                            intent.putExtra("deliverytype", deliverytype);
+                            intent.putExtra("paytype", paytype);
+                            intent.putExtra("ordercode", ordercode);
+                            intent.putExtra("orderid", orderid);
                             startActivity(intent);
                             finish();
                         } else {
@@ -185,8 +185,8 @@ public class OrderEditActivity extends TopActivity {
                 try {
                     UserAction userAction = new UserAction();
                     String orderdetailidlist = getIntent().getStringExtra("orderdetailidlist");
-                    String ordernote = ((TextView)findViewById(R.id.order_view_ordernote)).getText()+"";
-                    RspInfo1 re = userAction.placeOnOrder(orderdetailidlist,mReceiveaddrId,mPaytypeId,mDeliverytypeId,ordernote,mActualNeedPayMoney+"");
+                    String ordernote = ((TextView) findViewById(R.id.order_view_ordernote)).getText() + "";
+                    RspInfo1 re = userAction.placeOnOrder(orderdetailidlist, mReceiveaddrId, mPaytypeId, mDeliverytypeId, ordernote, mActualNeedPayMoney + "");
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
@@ -199,7 +199,7 @@ public class OrderEditActivity extends TopActivity {
      * 获取数据
      */
     public void getDate() {
-        final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
+        final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("加载中...");
         dialog.show();
         final Handler handler = new Handler() {
@@ -211,8 +211,8 @@ public class OrderEditActivity extends TopActivity {
                         RspInfo re = (RspInfo) msg.obj;
                         if (re.isSuccess()) {
 
-                           Map<String, String> receiveaddrinfo = (Map<String, String>) re.getDateObj("receiveaddrinfo");
-                            if(receiveaddrinfo != null){
+                            Map<String, String> receiveaddrinfo = (Map<String, String>) re.getDateObj("receiveaddrinfo");
+                            if (receiveaddrinfo != null) {
                                 Address address = new Address();
                                 address.setId(receiveaddrinfo.get("receiveaddrid"));
                                 address.setContactperson(receiveaddrinfo.get("contactperson"));
@@ -234,7 +234,7 @@ public class OrderEditActivity extends TopActivity {
                             }
 
                             List<Map<String, String>> deliverytypelist = (List<Map<String, String>>) re.getDateObj("deliverytypelist");
-                            mTotleMoney = Float.valueOf(re.getDateObj("totlemoney")+"");
+                            mTotleMoney = Float.valueOf(re.getDateObj("totlemoney") + "");
                             List<DeliveryType> deliveryTypeList = new ArrayList<>();
                             if (deliverytypelist != null) {
                                 for (int i = 0; i < deliverytypelist.size(); i++) {
@@ -246,8 +246,8 @@ public class OrderEditActivity extends TopActivity {
                                 }
                                 initDeliveryTypeView(deliveryTypeList);
                             }
-                            ((TextView)findViewById(R.id.order_view_totlemoney)).setText("￥"+mTotleMoney);
-                            ((TextView)findViewById(R.id.order_view_promotioninfo)).setText(re.getDateObj("promotioninfo")+"");
+                            ((TextView) findViewById(R.id.order_view_totlemoney)).setText("￥" + mTotleMoney);
+                            ((TextView) findViewById(R.id.order_view_promotioninfo)).setText(re.getDateObj("promotioninfo") + "");
 
 
                         } else {
@@ -267,7 +267,18 @@ public class OrderEditActivity extends TopActivity {
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo re = userAction.getOrderInfo();
+                    String orderdetailidlist = getIntent().getStringExtra("orderdetailidlist");
+                    Gson gson = new Gson();
+                    List<OrderDetailid> list = gson.fromJson(orderdetailidlist, new TypeToken<List<OrderDetailid>>() {
+                    }.getType());
+                    StringBuilder sb = new StringBuilder();
+                    for (OrderDetailid item : list) {
+                        if (sb.length() > 0) {
+                            sb.append(",");
+                        }
+                        sb.append(item.getOrderdetailid());
+                    }
+                    RspInfo re = userAction.getOrderInfo(sb.toString());
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
@@ -276,11 +287,11 @@ public class OrderEditActivity extends TopActivity {
         }).start();
     }
 
-    public void initDeliveryTypeView(final List<DeliveryType> list){
-        RadioGroup rg = (RadioGroup)findViewById(R.id.order_view_delivery_type);
-        for (int i = 0;i< list.size();i++){
+    public void initDeliveryTypeView(final List<DeliveryType> list) {
+        RadioGroup rg = (RadioGroup) findViewById(R.id.order_view_delivery_type);
+        for (int i = 0; i < list.size(); i++) {
             DeliveryType item = list.get(i);
-            RadioButton radioButton = (RadioButton)getLayoutInflater().inflate(R.layout.activity_order_view_rb,null );
+            RadioButton radioButton = (RadioButton) getLayoutInflater().inflate(R.layout.activity_order_view_rb, null);
             RadioGroup.LayoutParams lp = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             lp.setMargins(10, 10, 10, 10);//设置边距
@@ -289,29 +300,29 @@ public class OrderEditActivity extends TopActivity {
             radioButton.setTag(item);
             rg.addView(radioButton);
         }
-        ((RadioButton)rg.getChildAt(0)).setChecked(true);
+        ((RadioButton) rg.getChildAt(0)).setChecked(true);
         mDeliverytypeId = list.get(0).getDeliverytypeid();
-        ((TextView)findViewById(R.id.order_view_deliveryfee)).setText("￥"+list.get(0).getDeliveryfee());
-        mActualNeedPayMoney = mTotleMoney +list.get(0).getDeliveryfee();
-        ((TextView)findViewById(R.id.order_view_all_totlemoney)).setText("实付款:￥"+mActualNeedPayMoney);
+        ((TextView) findViewById(R.id.order_view_deliveryfee)).setText("￥" + list.get(0).getDeliveryfee());
+        mActualNeedPayMoney = mTotleMoney + list.get(0).getDeliveryfee();
+        ((TextView) findViewById(R.id.order_view_all_totlemoney)).setText("实付款:￥" + mActualNeedPayMoney);
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                RadioButton radioButton = (RadioButton)findViewById(radioGroup.getCheckedRadioButtonId());
-                DeliveryType obj = (DeliveryType)radioButton.getTag();
-                    mDeliverytypeId = obj.getDeliverytypeid();
-                    ((TextView)findViewById(R.id.order_view_deliveryfee)).setText("￥"+obj.getDeliveryfee());
-                   mActualNeedPayMoney = mTotleMoney +obj.getDeliveryfee();
-                    ((TextView)findViewById(R.id.order_view_all_totlemoney)).setText("￥"+mActualNeedPayMoney);
+                RadioButton radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
+                DeliveryType obj = (DeliveryType) radioButton.getTag();
+                mDeliverytypeId = obj.getDeliverytypeid();
+                ((TextView) findViewById(R.id.order_view_deliveryfee)).setText("￥" + obj.getDeliveryfee());
+                mActualNeedPayMoney = mTotleMoney + obj.getDeliveryfee();
+                ((TextView) findViewById(R.id.order_view_all_totlemoney)).setText("￥" + mActualNeedPayMoney);
             }
         });
     }
 
-    public void initPayTypeView(List<Condition> list){
-        RadioGroup rg = (RadioGroup)findViewById(R.id.order_view_pay_type);
-        for (int i = 0;i< list.size();i++){
-            Condition item =  list.get(i);
-            RadioButton radioButton = (RadioButton)getLayoutInflater().inflate(R.layout.activity_order_view_rb,null );
+    public void initPayTypeView(List<Condition> list) {
+        RadioGroup rg = (RadioGroup) findViewById(R.id.order_view_pay_type);
+        for (int i = 0; i < list.size(); i++) {
+            Condition item = list.get(i);
+            RadioButton radioButton = (RadioButton) getLayoutInflater().inflate(R.layout.activity_order_view_rb, null);
             RadioGroup.LayoutParams lp = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             lp.setMargins(10, 10, 10, 10);//设置边距
@@ -320,31 +331,31 @@ public class OrderEditActivity extends TopActivity {
             radioButton.setTag(item.getId());
             rg.addView(radioButton);
         }
-        ((RadioButton)rg.getChildAt(0)).setChecked(true);
+        ((RadioButton) rg.getChildAt(0)).setChecked(true);
         mPaytypeId = list.get(0).getId();
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                RadioButton radioButton = (RadioButton)findViewById(radioGroup.getCheckedRadioButtonId());
-                mPaytypeId = radioButton.getTag()+"";
+                RadioButton radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
+                mPaytypeId = radioButton.getTag() + "";
             }
         });
     }
 
-    public void initAddrView(Address obj){
+    public void initAddrView(Address obj) {
         mReceiveaddrId = obj.getId();
 //        (findViewById(R.id.addr_item_contactperson)).setTag(obj.getId());
-        ((TextView)findViewById(R.id.addr_item_contactperson)).setText(obj.getContactperson());
-        ((TextView)findViewById(R.id.addr_item_contactmobile)).setText(obj.getContactmobile());
-        ((TextView)findViewById(R.id.addr_item_address)).setText(obj.getAddress());
-        ((TextView)findViewById(R.id.addr_item_address)).setTextColor(ContextCompat.getColor(mContext,R.color.text_gtay2));
+        ((TextView) findViewById(R.id.addr_item_contactperson)).setText(obj.getContactperson());
+        ((TextView) findViewById(R.id.addr_item_contactmobile)).setText(obj.getContactmobile());
+        ((TextView) findViewById(R.id.addr_item_address)).setText(obj.getAddress());
+        ((TextView) findViewById(R.id.addr_item_address)).setTextColor(ContextCompat.getColor(mContext, R.color.text_gtay2));
         findViewById(R.id.addr_item_isdefault).setVisibility(View.GONE);
     }
 
-    private class DeliveryType{
-        private  String deliverytypeid;
-        private  String deliverytypename;
-        private  float deliveryfee;
+    private class DeliveryType {
+        private String deliverytypeid;
+        private String deliverytypename;
+        private float deliveryfee;
 
         public float getDeliveryfee() {
             return deliveryfee;

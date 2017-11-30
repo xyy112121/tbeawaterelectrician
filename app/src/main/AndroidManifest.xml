@@ -317,7 +317,7 @@
         <activity android:name=".activity.my.meeting.activity.MeetingListActivity" />
         <activity android:name=".activity.my.meeting.activity.MeetingSignInResultActivity" />
         <activity android:name=".activity.my.meeting.activity.MeetingViewActivity" />
-
+        <activity android:name=".activity.nearby.PictureShowActivity" />
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->

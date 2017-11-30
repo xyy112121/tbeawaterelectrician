@@ -3,6 +3,7 @@ package com.tbea.tb.tbeawaterelectrician.service.impl;
 import com.google.gson.reflect.TypeToken;
 import com.tbea.tb.tbeawaterelectrician.activity.my.model.MessageListResponseModel;
 import com.tbea.tb.tbeawaterelectrician.activity.my.model.MessageTypeListResponseModel;
+import com.tbea.tb.tbeawaterelectrician.activity.nearby.model.TbeaPictrueResponseModel;
 import com.tbea.tb.tbeawaterelectrician.entity.Address;
 import com.tbea.tb.tbeawaterelectrician.entity.Appeal;
 import com.tbea.tb.tbeawaterelectrician.entity.Collect;
@@ -998,9 +999,10 @@ public class UserAction extends BaseAction {
     /**
      * 获取下单信息
      */
-    public RspInfo getOrderInfo() throws Exception {
+    public RspInfo getOrderInfo(String ids) throws Exception {
         RspInfo rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("ids", ids));
         String result = sendRequest("TBEAENG003001015000", pairs);
         rspInfo = gson.fromJson(result, RspInfo.class);
         return rspInfo;
@@ -1286,6 +1288,16 @@ public class UserAction extends BaseAction {
         String result = sendRequest("TBEAENG005001013001", pairs);
         rspInfo = gson.fromJson(result, MessageListResponseModel.class);
         return rspInfo;
+    }
+
+    //获取商品图片大图
+    public TbeaPictrueResponseModel getCommodityPicture(String id) throws Exception {
+        TbeaPictrueResponseModel model;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("commodityid", id));
+        String result = sendRequest("TBEAENG003001009005", pairs);
+        model = gson.fromJson(result, TbeaPictrueResponseModel.class);
+        return model;
     }
 
 }
