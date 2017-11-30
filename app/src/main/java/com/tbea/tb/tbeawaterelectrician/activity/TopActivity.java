@@ -3,9 +3,13 @@ package com.tbea.tb.tbeawaterelectrician.activity;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,13 +17,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.util.permissonutil.PermissionActivity;
 
 import java.util.List;
 
 import kr.co.namee.permissiongen.PermissionGen;
 
-public class TopActivity extends PermissionActivity {
+public class TopActivity extends AppCompatActivity {
     protected ImageButton mBackBtn;
     protected ImageButton mRightBtn;
     public final int SET_REQEST = 1000;
@@ -44,21 +49,21 @@ public class TopActivity extends PermissionActivity {
 
     // 显示缺失权限提示
     public void showMissingPermissionDialog() {
-//		final CustomDialog dialog = new CustomDialog(TopActivity.this,R.style.MyDialog,R.layout.tip_delete_dialog);
-//		dialog.setTitle(getResources().getString(R.string.help));
-//		dialog.setText(getResources().getString(R.string.string_help_text));
-//		dialog.setConfirmBtnClickListener(null,getResources().getString(R.string.quit));
-//		dialog.setCancelBtnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//
-//				dialog.dismiss();
-//				Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-//				intent.setData(Uri.parse("package:" + getPackageName()));
-//				startActivityForResult(intent,SET_REQEST);
-//			}
-//		},getResources().getString(R.string.settings));
-//		dialog.show();
+        final CustomDialog dialog = new CustomDialog(TopActivity.this, R.style.MyDialog, R.layout.tip_delete_dialog);
+        dialog.setTitle(getResources().getString(R.string.help));
+        dialog.setText(getResources().getString(R.string.string_help_text));
+        dialog.setConfirmBtnClickListener(null, getResources().getString(R.string.quit));
+        dialog.setCancelBtnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, SET_REQEST);
+            }
+        }, getResources().getString(R.string.settings));
+        dialog.show();
     }
 
     @Override

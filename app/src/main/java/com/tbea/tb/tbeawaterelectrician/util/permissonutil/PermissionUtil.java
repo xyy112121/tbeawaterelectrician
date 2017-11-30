@@ -16,6 +16,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 
+import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -185,7 +188,7 @@ public class PermissionUtil {
                     return true;
                 }
 
-                AlertDialog dialog = new AlertDialog.Builder(activity)
+                AlertDialog dialog = new AlertDialog.Builder(activity, R.style.dialog)
                         .setMessage(rationale)
                         .setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
                             @Override

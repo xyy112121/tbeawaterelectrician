@@ -49,7 +49,6 @@ public class PermissionActivity extends AppCompatActivity implements PermissionU
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         PermissionUtil.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 

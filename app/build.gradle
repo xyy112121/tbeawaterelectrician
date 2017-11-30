@@ -18,10 +18,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        ndk {
-            // 设置支持的SO库架构
-            abiFilters 'armeabi'
-        }
+//        ndk {
+//            // 设置支持的SO库架构
+//            abiFilters 'armeabi'
+//        }
     }
 
     buildTypes {
@@ -55,14 +55,14 @@ android {
         }
     }
 
-//    splits {
-//        abi {
-//            enable true
-//            reset()
-//            include 'x86', 'armeabi-v7a'
-//            universalApk true
-//        }
-//    }
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'armeabi-v7a'
+            universalApk true
+        }
+    }
 }
 
 dependencies {
@@ -103,5 +103,14 @@ dependencies {
     compile 'com.github.mcxtzhang:SuspensionIndexBar:V1.0.0'
     compile files('libs/core_3.0.1.jar')
     compile 'com.github.pinguo-zhouwei:CustomPopwindow:2.1.1'
+
+    //动态权限处理
+    compile 'com.github.hotchemi:permissionsdispatcher:3.0.1'
+    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.0.1'
+
+    //RxPermissions
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+    //RxJava2
+    compile "io.reactivex.rxjava2:rxjava:2.0.0"
 }
 
