@@ -32,8 +32,6 @@ import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.util.Map;
 
-import kr.co.namee.permissiongen.PermissionFail;
-import kr.co.namee.permissiongen.PermissionGen;
 
 /**
  * Created by cy on 2016/12/15.登录页面
@@ -49,15 +47,15 @@ public class LoginActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if (Build.VERSION.SDK_INT >= 23) {
-            mPermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.CALL_PHONE,
-                    Manifest.permission.ACCESS_FINE_LOCATION};
-            PermissionGen.needPermission(LoginActivity.this, 100, mPermissions);
-        }
+//        if (Build.VERSION.SDK_INT >= 23) {
+//            mPermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                    Manifest.permission.CAMERA,
+//                    Manifest.permission.ACCESS_COARSE_LOCATION,
+//                    Manifest.permission.READ_EXTERNAL_STORAGE,
+//                    Manifest.permission.CALL_PHONE,
+//                    Manifest.permission.ACCESS_FINE_LOCATION};
+//            PermissionGen.needPermission(LoginActivity.this, 100, mPermissions);
+//        }
         listener();
 //        if (ShareConfig.getConfigBoolean(LoginActivity.this, Constants.ONLINE, false) == true) {
 //            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -67,25 +65,25 @@ public class LoginActivity extends Activity {
     }
 
 
-    @PermissionFail(requestCode = 100)
-    private void doFailSomething() {
-        try {
-            for (int i = 0; i < mPermissions.length; i++) {
-                boolean isTip = ActivityCompat.shouldShowRequestPermissionRationale(this, mPermissions[i]);
-                if (isTip) {
-                    Toast.makeText(LoginActivity.this, "你需要允许访问权限，才可正常使用该功能！", Toast.LENGTH_SHORT).show();
-//                finish();
-                    break;
-                } else {
-                    showMissingPermissionDialog();
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            Log.e("Login,doFailSomething", e.getMessage());
-        }
-
-    }
+//    @PermissionFail(requestCode = 100)
+//    private void doFailSomething() {
+//        try {
+//            for (int i = 0; i < mPermissions.length; i++) {
+//                boolean isTip = ActivityCompat.shouldShowRequestPermissionRationale(this, mPermissions[i]);
+//                if (isTip) {
+//                    Toast.makeText(LoginActivity.this, "你需要允许访问权限，才可正常使用该功能！", Toast.LENGTH_SHORT).show();
+////                finish();
+//                    break;
+//                } else {
+//                    showMissingPermissionDialog();
+//                    break;
+//                }
+//            }
+//        } catch (Exception e) {
+//            Log.e("Login,doFailSomething", e.getMessage());
+//        }
+//
+//    }
 
     // 显示缺失权限提示
     public void showMissingPermissionDialog() {
@@ -112,15 +110,15 @@ public class LoginActivity extends Activity {
     }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        try {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            PermissionGen.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
-        } catch (Exception e) {
-            Log.e("Login,onRequest", e.getMessage());
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        try {
+//            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//            PermissionGen.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+//        } catch (Exception e) {
+//            Log.e("Login,onRequest", e.getMessage());
+//        }
+//    }
 
     public void listener() {
         findViewById(R.id.login_register_btn).setOnClickListener(new View.OnClickListener() {

@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -22,13 +23,12 @@ import com.tbea.tb.tbeawaterelectrician.util.permissonutil.PermissionActivity;
 
 import java.util.List;
 
-import kr.co.namee.permissiongen.PermissionGen;
 
 public class TopActivity extends AppCompatActivity {
     protected ImageButton mBackBtn;
     protected ImageButton mRightBtn;
     public final int SET_REQEST = 1000;
-    protected Context mContext;
+    protected Activity mContext;
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -41,11 +41,6 @@ public class TopActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        PermissionGen.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
-    }
 
     // 显示缺失权限提示
     public void showMissingPermissionDialog() {

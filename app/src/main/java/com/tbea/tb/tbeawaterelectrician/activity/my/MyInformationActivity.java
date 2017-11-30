@@ -2,6 +2,7 @@ package com.tbea.tb.tbeawaterelectrician.activity.my;
 
 import android.app.Activity;
 import android.app.usage.UsageEvents;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
@@ -20,6 +22,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.compress.Luban;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
@@ -41,36 +48,42 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import cn.qqtheme.framework.picker.DatePicker;
 import cn.qqtheme.framework.picker.OptionPicker;
+
+import static com.umeng.socialize.utils.DeviceConfig.context;
 
 /**
  * Created by abc on 16/12/28.个人信息
  */
 
 public class MyInformationActivity extends TopActivity {
-    private Context mContext;
     private final int RESULT_EMAIL = 1000;
     private final int RESULT_NICKNAME = 1001;
-    private static final int RESULT_CAMERA = 0x000001;//相机
-    private static final int RESULT_PHOTO = 0x000002;//图片
+    //    private static final int RESULT_CAMERA = 0x000001;//相机
+//    private static final int RESULT_PHOTO = 0x000002;//图片
+    List<LocalMedia> mSelectList = new ArrayList<>();
     private Uri mUri;
+    ImageView mHeaderView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_my_information);
-        mContext = this;
         initTopbar("个人信息");
         listener();
         getDate();
     }
 
     public void listener() {
+
+        mHeaderView = (ImageView)findViewById(R.id.info_head);
         /**
          * 性别
          */
@@ -365,32 +378,28 @@ public class MyInformationActivity extends TopActivity {
         public void onClick(View v) {
             mPopWindow.dismiss();
             if ("camera".equals(mType)) {//图片
-                Intent cameraIntent = new Intent(
-                        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                File file = new File(Environment.getExternalStorageDirectory()
-                        + "/Images");
-                if (!file.exists()) {
-                    file.mkdirs();
-                }
-                mUri = Uri.fromFile(new File(Environment
-                        .getExternalStorageDirectory() + "/Images/",
-                        "cameraImg"
-                                + String.valueOf(System.currentTimeMillis())
-                                + ".jpg"));
-                cameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
-                        mUri);
-                cameraIntent.putExtra("return-data", true);
-                startActivityForResult(cameraIntent, RESULT_CAMERA);
+                PictureSelector.create(mContext)
+                        .openCamera(PictureMimeType.ofImage())
+                        .compress(true)
+                        .forResult(PictureConfig.CHOOSE_REQUEST);
             } else if ("album".equals(mType)) {//相册选择图片
-                Intent localIntent2 = new Intent();
-                localIntent2.setType("image/*");
-                localIntent2.putExtra("return-data", true);
-                localIntent2
-                        .setAction("android.intent.action.GET_CONTENT");
-                startActivityForResult(localIntent2, RESULT_PHOTO);
+                openImage();
             }
         }
     }
+
+    private void openImage() {
+        // 进入相册 以下是例子：用不到的api可以不写
+        PictureSelector.create(mContext)
+                .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()
+                .theme(R.style.picture_default_style)//主题样式(不设置为默认样式) 也可参考demo values/styles下 例如：R.style.picture.white.style
+                .compress(true)
+                .isCamera(false)
+                .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
+                .selectionMedia(mSelectList)// 是否传入已选图片 List<LocalMedia> list
+                .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
+    }
+
 
     public void updateHead(final String filePath) {
         try {
@@ -407,8 +416,8 @@ public class MyInformationActivity extends TopActivity {
                             RspInfo1 re = (RspInfo1) msg.obj;
                             if (re.isSuccess()) {
                                 UtilAssistants.showToast("操作成功！");
-                                final ImageView imageView = (ImageView) findViewById(R.id.info_head);
-                                imageView.setImageBitmap(bitmap);
+//                                final ImageView imageView = (ImageView) findViewById(R.id.info_head);
+//                                imageView.setImageBitmap(bitmap);
                                 EventBus.getDefault().post(new EventCity(EventFlag.EVENT_MY_HEAD));
                             } else {
                                 UtilAssistants.showToast(re.getMsg());
@@ -450,16 +459,11 @@ public class MyInformationActivity extends TopActivity {
                     String nickName = data.getStringExtra("code");
                     ((TextView) findViewById(R.id.info_nickName)).setText(nickName);
                     break;
-                case RESULT_CAMERA:
-                    String filePath = mUri.getPath();
-                    updateHead(filePath);//显示图片
-                    break;
-                case RESULT_PHOTO:
-                    if (data != null) {
-//                       filePath = data.getData().getPath();
-                        filePath = UtilAssistants.getPath(mContext, data.getData());
-                        updateHead(filePath);//显示图片
-                    }
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 图片选择结果回调
+                    mSelectList = PictureSelector.obtainMultipleResult(data);
+                    ImageLoader.getInstance().displayImage("file://" + mSelectList.get(0).getCompressPath(), mHeaderView);
+                    updateHead("file://" + mSelectList.get(0).getCompressPath());
                     break;
             }
         }
