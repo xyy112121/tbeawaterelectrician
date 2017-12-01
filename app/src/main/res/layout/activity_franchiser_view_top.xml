@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dip"
         android:src="@drawable/icon_advertisement"
-        android:scaleType="fitXY"
+        android:scaleType="center"
         android:layout_marginTop="10dp"/>
     <View
         style="@style/horizontal_view"
