@@ -108,12 +108,12 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
                                 }
                             }
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -210,7 +210,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
                     intent.putExtra("orderdetailidlist", objJson);
                     startActivity(intent);
                 } else {
-                    UtilAssistants.showToast("您至少需要选择一个产品！");
+                    UtilAssistants.showToast("您至少需要选择一个产品！",mContext);
                 }
 
             }
@@ -235,7 +235,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
 //                            .setCallback(umShareListener).open();
 
                 } else {
-                    UtilAssistants.showToast("您需要选择一个产品！");
+                    UtilAssistants.showToast("您需要选择一个产品！",mContext);
                 }
 
 
@@ -254,12 +254,12 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
 
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            UtilAssistants.showToast("分享成功啦");
+            UtilAssistants.showToast("分享成功啦",mContext);
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            UtilAssistants.showToast("分享失败啦" + t.getMessage());
+            UtilAssistants.showToast("分享失败啦" + t.getMessage(),mContext);
             if (t != null) {
                 Log.d("throw", "throw:" + t.getMessage());
             }
@@ -267,7 +267,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            UtilAssistants.showToast("分享取消啦");
+            UtilAssistants.showToast("分享取消啦",mContext);
         }
     };
 
@@ -314,7 +314,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
 
 
                 } else if (msg.what == ThreadState.ERROR) {
-                    UtilAssistants.showToast("分享失败，请重试！");
+                    UtilAssistants.showToast("分享失败，请重试！",mContext);
                 }
 
             }
@@ -359,7 +359,7 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
 
     private void delect() {
         if (mSelectIds.size() < 1) {
-            UtilAssistants.showToast("您至少需要选择一个产品！");
+            UtilAssistants.showToast("您至少需要选择一个产品！",mContext);
             return;
         }
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
@@ -375,12 +375,12 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
                         if (re.isSuccess()) {
                             mRefreshLayout.beginRefreshing();
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

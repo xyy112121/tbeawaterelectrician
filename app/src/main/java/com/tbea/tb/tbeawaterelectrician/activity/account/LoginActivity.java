@@ -149,11 +149,11 @@ public class LoginActivity extends Activity {
 
     public void login(final String mobile, final String pwd) {
         if (isMobileNO(mobile) == false) {
-            UtilAssistants.showToast("请输入正确的手机号码！");
+            UtilAssistants.showToast("请输入正确的手机号码！",LoginActivity.this);
             return;
         }
         if ("".equals(pwd)) {
-            UtilAssistants.showToast("请输入密码！");
+            UtilAssistants.showToast("请输入密码！",LoginActivity.this);
             return;
 
         }
@@ -179,11 +179,11 @@ public class LoginActivity extends Activity {
                             MyApplication.instance.exit();
                             finish();
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),LoginActivity.this);
                         }
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",LoginActivity.this);
                         break;
                 }
             }

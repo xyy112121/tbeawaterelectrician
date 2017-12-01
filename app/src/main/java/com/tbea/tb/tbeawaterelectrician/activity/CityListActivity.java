@@ -132,12 +132,12 @@ public class CityListActivity extends Activity{
                             if(list != null)
                             mAdapter.addAll(list);
                         }else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),CityListActivity.this);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",CityListActivity.this);
                         break;
                 }
             }

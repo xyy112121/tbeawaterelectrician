@@ -164,12 +164,12 @@ public class NearbyFranchiserFagment extends Fragment implements BGARefreshLayou
                                 }
                             }
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),getActivity());
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",getActivity());
                         break;
                 }
             }
@@ -205,12 +205,12 @@ public class NearbyFranchiserFagment extends Fragment implements BGARefreshLayou
                                 showDialog(view, list, "");
                             }
                         } else {
-                            UtilAssistants.showToast("操作失败！");
+                            UtilAssistants.showToast("操作失败！",getActivity());
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",getActivity());
                         break;
                 }
             }
@@ -254,12 +254,12 @@ public class NearbyFranchiserFagment extends Fragment implements BGARefreshLayou
                                 showDialog(view, list, methodName);
                             }
                         } else {
-                            UtilAssistants.showToast("操作失败！");
+                            UtilAssistants.showToast("操作失败！",getActivity());
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",getActivity());
                         break;
                 }
             }

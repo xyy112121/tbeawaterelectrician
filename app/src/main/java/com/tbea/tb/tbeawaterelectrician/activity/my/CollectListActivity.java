@@ -95,12 +95,12 @@ public class CollectListActivity extends TopActivity implements BGARefreshLayout
                             }
 
                         }else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -161,7 +161,7 @@ public class CollectListActivity extends TopActivity implements BGARefreshLayout
      */
     public  void cancelCollect(){
         if(selectList.size() <0){
-            UtilAssistants.showToast("你选择你需要取消收藏的商品！");
+            UtilAssistants.showToast("你选择你需要取消收藏的商品！",mContext);
             return;
         }
         final CustomDialog dialog = new CustomDialog(CollectListActivity.this,R.style.MyDialog,R.layout.tip_delete_dialog);
@@ -191,12 +191,12 @@ public class CollectListActivity extends TopActivity implements BGARefreshLayout
                                     mPage = 1;
                                     mRefreshLayout.beginRefreshing();
                                 }else {
-                                    UtilAssistants.showToast(re.getMsg());
+                                    UtilAssistants.showToast(re.getMsg(),mContext);
                                 }
 
                                 break;
                             case ThreadState.ERROR:
-                                UtilAssistants.showToast("操作失败！");
+                                UtilAssistants.showToast("操作失败！",mContext);
                                 break;
                         }
                     }

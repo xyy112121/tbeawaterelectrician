@@ -66,12 +66,12 @@ public class EmailEditActivity extends TopActivity {
                                         setResult(RESULT_OK,intent);
                                        finish();
                                     }else {
-                                        UtilAssistants.showToast(re.getMsg());
+                                        UtilAssistants.showToast(re.getMsg(),mContext);
                                     }
 
                                     break;
                                 case ThreadState.ERROR:
-                                    UtilAssistants.showToast("操作失败！");
+                                    UtilAssistants.showToast("操作失败！",mContext);
                                     break;
                             }
                         }
@@ -90,7 +90,7 @@ public class EmailEditActivity extends TopActivity {
                         }
                     }).start();
                 }else {
-                    UtilAssistants.showToast("请填写正确的邮箱！");
+                    UtilAssistants.showToast("请填写正确的邮箱！",mContext);
                 }
 
             }

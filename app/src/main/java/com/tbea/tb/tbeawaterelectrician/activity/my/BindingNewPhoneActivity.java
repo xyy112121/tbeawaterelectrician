@@ -53,7 +53,7 @@ public class BindingNewPhoneActivity extends TopActivity {
             public void onClick(View v) {
                 final  String mobile = ((EditText)findViewById(R.id.new_phone)).getText()+"";
                 if(isMobileNO(mobile) == false){
-                    UtilAssistants.showToast("请输入正确的手机号码");
+                    UtilAssistants.showToast("请输入正确的手机号码",mContext);
                     return;
                 }
                 mc = new MyCount(60000, 1000);//倒计时60秒
@@ -69,10 +69,10 @@ public class BindingNewPhoneActivity extends TopActivity {
                                     mc.cancel();
                                     button.setText("获取验证码");
                                 }
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(),mContext);
                                 break;
                             case  ThreadState.ERROR:
-                                UtilAssistants.showToast("获取验证失败，请重试！");
+                                UtilAssistants.showToast("获取验证失败，请重试！",mContext);
                                 mc.cancel();
                                 button.setText("获取验证码");
                                 break;
@@ -129,11 +129,11 @@ public class BindingNewPhoneActivity extends TopActivity {
 
     public  void updateNewPhone(final String mobile, final String verifycode){
         if(isMobileNO(mobile) == false){
-            UtilAssistants.showToast("请输入正确的手机号码！");
+            UtilAssistants.showToast("请输入正确的手机号码！",mContext);
             return;
         }
         if("".equals(verifycode)){
-            UtilAssistants.showToast("验证码不能为空！");
+            UtilAssistants.showToast("验证码不能为空！",mContext);
             return;
         }
         final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
@@ -153,11 +153,11 @@ public class BindingNewPhoneActivity extends TopActivity {
                             startActivity(intent);
                             finish();
                         }else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

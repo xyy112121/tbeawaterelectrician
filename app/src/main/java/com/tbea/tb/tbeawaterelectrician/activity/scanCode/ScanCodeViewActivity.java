@@ -86,7 +86,7 @@ public class ScanCodeViewActivity extends TopActivity {
             public void onClick(View view) {
                 if (mObj != null) {
                     if ("2".equals(mNeedappeal)) {
-                        UtilAssistants.showToast("您已经举报过了");
+                        UtilAssistants.showToast("您已经举报过了",mContext);
                         return;
                     }
                     Intent intent = new Intent(ScanCodeViewActivity.this, MyAccusationEditActivity.class);
@@ -123,19 +123,19 @@ public class ScanCodeViewActivity extends TopActivity {
                         try {
                             RspInfo1 re = (RspInfo1) msg.obj;
                             if (re.isSuccess()) {
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(),mContext);
                                 startActivity(new Intent(ScanCodeViewActivity.this, WalletIncomeAndExpensesActivity.class));
                                 finish();
                             } else {
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(),mContext);
                             }
                         } catch (Exception e) {
-                            UtilAssistants.showToast("操作失败！");
+                            UtilAssistants.showToast("操作失败！",mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -248,7 +248,7 @@ public class ScanCodeViewActivity extends TopActivity {
                                 setViewDate(obj);
 
                             } else {
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(),mContext);
                             }
                         } catch (Exception e) {
                             Log.d(e.getMessage(), "");
@@ -257,7 +257,7 @@ public class ScanCodeViewActivity extends TopActivity {
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

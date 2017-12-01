@@ -121,12 +121,12 @@ public class OrderListFragmnet extends Fragment implements BGARefreshLayout.BGAR
                                 }
                             }
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),getActivity());
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",getActivity());
                         break;
                 }
             }
@@ -322,13 +322,13 @@ public class OrderListFragmnet extends Fragment implements BGARefreshLayout.BGAR
                         case ThreadState.SUCCESS:
                             RspInfo1 re = (RspInfo1) msg.obj;
                             if(re.isSuccess()){
-                                UtilAssistants.showToast("提醒发货成功");
+                                UtilAssistants.showToast("提醒发货成功",getActivity());
                             }else {
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(),getActivity());
                             }
                             break;
                         case ThreadState.ERROR:
-                            UtilAssistants.showToast("操作失败！");
+                            UtilAssistants.showToast("操作失败！",getActivity());
                             break;
                     }
                 }

@@ -125,12 +125,12 @@ public class HistorySearchActivity extends TopActivity {
                                 }
                             }
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -172,7 +172,7 @@ public class HistorySearchActivity extends TopActivity {
                         save(text);
                         search(text);
                     } else {
-                        UtilAssistants.showToast("搜索内容至少需要两个字符！");
+                        UtilAssistants.showToast("搜索内容至少需要两个字符！",mContext);
                     }
                 }
                 return false;

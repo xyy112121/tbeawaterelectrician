@@ -92,12 +92,12 @@ public class MyFragment extends Fragment {
                             ((TextView)view.findViewById(R.id.tv_accusation_size)).setText(serviceInfo.get("appealnumber"));
 
                         }else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),getActivity());
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",getActivity());
                         break;
                 }
             }

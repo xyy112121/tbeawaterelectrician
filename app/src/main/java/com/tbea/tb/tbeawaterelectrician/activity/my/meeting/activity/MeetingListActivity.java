@@ -130,11 +130,11 @@ public class MeetingListActivity extends TopActivity implements BGARefreshLayout
                                 }
 
                             } else {
-                                ToastUtil.showMessage(model.getMsg());
+                                ToastUtil.showMessage(model.getMsg(),mContext);
                             }
                             break;
                         case ThreadState.ERROR:
-                            ToastUtil.showMessage("操作失败！");
+                            ToastUtil.showMessage("操作失败！",mContext);
                             break;
                     }
                 }

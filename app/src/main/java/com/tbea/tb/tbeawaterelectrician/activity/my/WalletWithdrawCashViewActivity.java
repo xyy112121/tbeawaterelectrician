@@ -68,7 +68,7 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
                     public void onClick(View view) {
                         dialog.dismiss();
                         if ("".equals(mId)) {
-                            UtilAssistants.showToast("删除失败！");
+                            UtilAssistants.showToast("删除失败！",mContext);
                         } else {
                             delect(mId);
                         }
@@ -128,13 +128,13 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
                             ((TextView) findViewById(R.id.wallet_withdraw_cash_view_distributorinfo_mobilenumber)).setText(mobilenumber);
                             getCanexChangeMoneySuccess();
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                             finish();
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         finish();
                         break;
                 }
@@ -196,13 +196,13 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
                             ((TextView) findViewById(R.id.wallet_withdraw_cash_view_distributorinfo_mobilenumber)).setText(mobilenumber);
                             getCanexChangeMoneySuccess();
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                             finish();
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         finish();
                         break;
                 }
@@ -310,15 +310,15 @@ public class WalletWithdrawCashViewActivity extends TopActivity {
                     case ThreadState.SUCCESS:
                         RspInfo1 re = (RspInfo1) msg.obj;
                         if (re.isSuccess()) {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                             finish();
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

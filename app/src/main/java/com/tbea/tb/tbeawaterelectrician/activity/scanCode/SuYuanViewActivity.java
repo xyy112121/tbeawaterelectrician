@@ -94,7 +94,7 @@ public class SuYuanViewActivity extends TopActivity {
                                 ((TextView) findViewById(R.id.suyuan_view_deliverdate)).setText(suYuan.getDeliverdate());
                                 ((TextView) findViewById(R.id.suyuan_view_manufacture)).setText(suYuan.getManufacture());
                             } else {
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(),mContext);
                             }
                         } catch (Exception e) {
                             Log.d(e.getMessage(), "");
@@ -103,7 +103,7 @@ public class SuYuanViewActivity extends TopActivity {
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

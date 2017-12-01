@@ -218,7 +218,7 @@ public class ScanCodeActivity extends TopActivity {
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

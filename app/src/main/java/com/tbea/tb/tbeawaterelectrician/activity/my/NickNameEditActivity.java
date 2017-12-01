@@ -62,12 +62,12 @@ public class NickNameEditActivity extends TopActivity {
                                         setResult(RESULT_OK, intent);
                                         finish();
                                     } else {
-                                        UtilAssistants.showToast(re.getMsg());
+                                        UtilAssistants.showToast(re.getMsg(),mContext);
                                     }
 
                                     break;
                                 case ThreadState.ERROR:
-                                    UtilAssistants.showToast("操作失败！");
+                                    UtilAssistants.showToast("操作失败！",mContext);
                                     break;
                             }
                         }
@@ -86,7 +86,7 @@ public class NickNameEditActivity extends TopActivity {
                         }
                     }).start();
                 } else {
-                    UtilAssistants.showToast("请输入昵称！");
+                    UtilAssistants.showToast("请输入昵称！",mContext);
                 }
 
             }

@@ -82,7 +82,7 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
                                         @Override
                                         public void onClick(View view) {
                                             if ("0".equals(mCurrentMoney) || "0.00".equals(mCurrentMoney)) {
-                                                UtilAssistants.showToast("你当前可提现金额为0");
+                                                UtilAssistants.showToast("你当前可提现金额为0",mContext);
                                             } else {
                                                 startActivity(new Intent(WalletListActivity.this, WalletWithdrawCashActivity.class));
                                             }
@@ -115,7 +115,7 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
                                 }
                                 isFirst = false;
                             } else {
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(),mContext);
                             }
                         } catch (Exception e) {
                             isFirst = false;
@@ -124,7 +124,7 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -289,15 +289,15 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
                     case ThreadState.SUCCESS:
                         RspInfo1 re = (RspInfo1) msg.obj;
                         if (re.isSuccess()) {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                             mRefreshLayout.beginRefreshing();
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

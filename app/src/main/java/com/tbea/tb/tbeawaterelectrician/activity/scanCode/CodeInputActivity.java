@@ -37,7 +37,7 @@ public class CodeInputActivity extends TopActivity {
             public void onClick(View view) {
                 String result = ((TextView) findViewById(R.id.scan_code_input_text)).getText() + "";
                 if ("".equals(result)) {
-                    UtilAssistants.showToast("请输入编码！");
+                    UtilAssistants.showToast("请输入编码！",mContext);
                     return;
                 }
 
@@ -78,12 +78,12 @@ public class CodeInputActivity extends TopActivity {
                             }
 
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

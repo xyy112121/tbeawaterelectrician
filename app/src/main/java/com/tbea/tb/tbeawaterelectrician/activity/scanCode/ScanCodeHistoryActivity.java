@@ -96,15 +96,15 @@ public class ScanCodeHistoryActivity extends TopActivity implements BGARefreshLa
                     case ThreadState.SUCCESS:
                         RspInfo1 re = (RspInfo1)msg.obj;
                         if(re.isSuccess()){
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                             mRefreshLayout.beginRefreshing();
                         }else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -158,12 +158,12 @@ public class ScanCodeHistoryActivity extends TopActivity implements BGARefreshLa
                                 }
                             }
                         }else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

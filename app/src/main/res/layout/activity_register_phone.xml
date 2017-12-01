@@ -173,9 +173,9 @@
                     android:orientation="horizontal">
 
                     <CheckBox
+                        style="@style/register_ck_style"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
-                        android:background="@drawable/icon_select_ok"
                         android:button="@null"
                         android:checked="true" />
 

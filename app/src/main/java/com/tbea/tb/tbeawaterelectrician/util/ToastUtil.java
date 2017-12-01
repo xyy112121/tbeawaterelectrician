@@ -12,10 +12,11 @@
  */
 package com.tbea.tb.tbeawaterelectrician.util;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.Toast;
 
+import com.mic.etoast2.Toast;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 
 
@@ -31,8 +32,8 @@ public class ToastUtil {
 
     private static Object synObj = new Object();
 
-    public static void showMessage(final String msg) {
-        showMessage(msg, Toast.LENGTH_SHORT);
+    public static void showMessage(final String msg, Context context) {
+        showMessage(context, msg, android.widget.Toast.LENGTH_SHORT);
     }
 
     /**
@@ -40,8 +41,8 @@ public class ToastUtil {
      *
      * @param msg
      */
-    public static void showMessage(final int msg) {
-        showMessage(msg, Toast.LENGTH_SHORT);
+    public static void showMessage(Context context, final int msg) {
+        showMessage(context, msg, android.widget.Toast.LENGTH_SHORT);
     }
 
     /**
@@ -50,7 +51,7 @@ public class ToastUtil {
      * @param msg
      * @param len
      */
-    public static void showMessage(final CharSequence msg, final int len) {
+    public static void showMessage(final Context context, final CharSequence msg, final int len) {
         if (msg == null || msg.equals("")) {
             return;
         }
@@ -61,9 +62,9 @@ public class ToastUtil {
                     if (toast != null) {
                         //toast.cancel();
                         toast.setText(msg);
-                        toast.setDuration(len);
+//                        toast.setDuration(len);
                     } else {
-                        toast = Toast.makeText(MyApplication.instance.getApplicationContext(), msg, len);
+                        toast = Toast.makeText(context, msg + "", len);
                     }
                     toast.show();
                 }
@@ -77,18 +78,12 @@ public class ToastUtil {
      * @param msg
      * @param len
      */
-    public static void showMessage(final int msg, final int len) {
+    public static void showMessage(final Context context, final int msg, final int len) {
         handler.post(new Runnable() {
             @Override
             public void run() {
                 synchronized (synObj) {
-                    if (toast != null) {
-                        //toast.cancel();
-                        toast.setText(msg);
-                        toast.setDuration(len);
-                    } else {
-                        toast = Toast.makeText(MyApplication.instance.getApplicationContext(), msg, len);
-                    }
+                    toast = Toast.makeText(context, msg, len);
                     toast.show();
                 }
             }

@@ -82,12 +82,12 @@ public class MessageListActivity extends TopActivity implements BGARefreshLayout
                             }
 
                         } else {
-                            ToastUtil.showMessage(re.getMsg());
+                            ToastUtil.showMessage(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        ToastUtil.showMessage("操作失败！");
+                        ToastUtil.showMessage("操作失败！",mContext);
                         break;
                 }
             }

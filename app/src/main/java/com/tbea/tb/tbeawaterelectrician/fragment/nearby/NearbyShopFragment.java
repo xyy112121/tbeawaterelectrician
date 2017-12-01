@@ -154,12 +154,12 @@ public class NearbyShopFragment extends Fragment implements BGARefreshLayout.BGA
                                 }
                             }
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),getActivity());
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",getActivity());
                         break;
                 }
             }
@@ -195,12 +195,12 @@ public class NearbyShopFragment extends Fragment implements BGARefreshLayout.BGA
                                 showDialog(view, list, "");
                             }
                         } else {
-                            UtilAssistants.showToast("操作失败！");
+                            UtilAssistants.showToast("操作失败！",getActivity());
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",getActivity());
                         break;
                 }
             }
@@ -244,12 +244,12 @@ public class NearbyShopFragment extends Fragment implements BGARefreshLayout.BGA
                                 showDialog(view, list, methodName);
                             }
                         } else {
-                            UtilAssistants.showToast("操作失败！");
+                            UtilAssistants.showToast("操作失败！",getActivity());
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",getActivity());
                         break;
                 }
             }

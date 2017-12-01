@@ -160,12 +160,12 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                             String url = mUrl + "commoditysaleinfo?commodityid=" + id + "&&userid=" + MyApplication.instance.getUserId();
                             showWebView(url);
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -354,7 +354,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                                 case ThreadState.SUCCESS:
                                     RspInfo1 re = (RspInfo1) msg.obj;
                                     if (re.isSuccess()) {
-                                        UtilAssistants.showToast(re.getMsg());
+                                        UtilAssistants.showToast(re.getMsg(),mContext);
                                         Map<String, Object> map = (Map<String, Object>) re.getData();
                                         TextView collectView = (TextView) findViewById(R.id.commodith_view_collect);
                                         if ("0".equals(map.get("commoditysavestatus"))) {
@@ -368,11 +368,11 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
 
 
                                     } else {
-                                        UtilAssistants.showToast(re.getMsg());
+                                        UtilAssistants.showToast(re.getMsg(),mContext);
                                     }
                                     break;
                                 case ThreadState.ERROR:
-                                    UtilAssistants.showToast("操作失败！");
+                                    UtilAssistants.showToast("操作失败！",mContext);
                                     break;
                             }
                         }
@@ -528,12 +528,12 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
 
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            UtilAssistants.showToast("分享成功啦");
+            UtilAssistants.showToast("分享成功啦",mContext);
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            UtilAssistants.showToast("分享失败啦" + t.getMessage());
+            UtilAssistants.showToast("分享失败啦" + t.getMessage(),mContext);
             if (t != null) {
                 com.umeng.socialize.utils.Log.d("throw", "throw:" + t.getMessage());
             }
@@ -541,7 +541,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            UtilAssistants.showToast("分享取消啦");
+            UtilAssistants.showToast("分享取消啦",mContext);
         }
     };
 
@@ -580,7 +580,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                         }
                     }
                 } else if (msg.what == ThreadState.ERROR) {
-                    UtilAssistants.showToast("分享失败，请重试！");
+                    UtilAssistants.showToast("分享失败，请重试！",mContext);
                 }
 
             }
@@ -640,7 +640,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
 
 
                             } else {
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(),mContext);
                             }
 
                         } catch (Exception e) {
@@ -649,7 +649,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -815,15 +815,15 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                                 animation.setFillAfter(true);
                                 view1.setAnimation(animation);
                             } else {
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(),mContext);
                             }
 
                         }catch (Exception e){
-                            UtilAssistants.showToast("操作失败！");
+                            UtilAssistants.showToast("操作失败！",mContext);
                         }
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -876,12 +876,12 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                                 }
                             }
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -1032,15 +1032,15 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                             String url = mUrl + "commoditysaleinfo?commodityid=" + id + "&&userid=" + MyApplication.instance.getUserId()
                                     + "&&colorid=" + mColorId + "&&commodityspecid=" + mSpecificationId + "&&commoditymodelid=" + mModelId;
                             showWebView(url);
-                            UtilAssistants.showToast("成功加入购物车！");
+                            UtilAssistants.showToast("成功加入购物车！",mContext);
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
                         mDialog.dismiss();
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -1092,12 +1092,12 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                             intent.putExtra("orderdetailidlist", objJson);
                             startActivity(intent);
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

@@ -51,9 +51,13 @@ public class SetionActivity extends TopActivity {
             ((TextView) findViewById(R.id.authentication_tv)).setText("未认证");
         } else if ("identifying".equals(getIntent().getStringExtra("whetheridentifiedid"))) {
             ((TextView) findViewById(R.id.authentication_tv)).setText("认证中");
+        } else if ("identifyfailed".equals(getIntent().getStringExtra("whetheridentifiedid"))) {
+            ((TextView) findViewById(R.id.authentication_tv)).setText("认证失败");
         } else {
             ((TextView) findViewById(R.id.authentication_tv)).setText("已认证");
         }
+
+
         listener();
         try {
             String size = DataCleanManager.getTotalCacheSize(MyApplication.instance);
@@ -101,7 +105,7 @@ public class SetionActivity extends TopActivity {
 //                        String size = getCacheSize(getApplicationContext().getExternalCacheDir());
 
                         ((TextView) findViewById(R.id.cache_size)).setText("0KB");
-                        UtilAssistants.showToast("清除成功！");
+                        UtilAssistants.showToast("清除成功！", mContext);
                     }
                 }, "确定");
                 dialog.setConfirmBtnClickListener(new View.OnClickListener() {
@@ -188,11 +192,11 @@ public class SetionActivity extends TopActivity {
                                     }
                                 }
                             } else {
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(), mContext);
                             }
                             break;
                         case ThreadState.ERROR:
-                            UtilAssistants.showToast("操作失败！");
+                            UtilAssistants.showToast("操作失败！", mContext);
                             break;
                     }
                 }

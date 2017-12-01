@@ -58,11 +58,11 @@ public class AccountSafeActivity extends TopActivity {
                             mPhone = personInfo.get("mobilenumber");
                             ((TextView)findViewById(R.id.account_old_phone)).setText(mPhone);
                         }else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

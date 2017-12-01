@@ -82,11 +82,11 @@ public class MeetingViewActivity extends TopActivity {
 
                                 }
                             } else {
-                                ToastUtil.showMessage(model.getMsg());
+                                ToastUtil.showMessage(model.getMsg(),mContext);
                             }
                             break;
                         case ThreadState.ERROR:
-                            ToastUtil.showMessage("操作失败！");
+                            ToastUtil.showMessage("操作失败！",mContext);
                             break;
                     }
                 }

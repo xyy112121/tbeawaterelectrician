@@ -16,11 +16,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.mic.etoast2.Toast;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 
 import java.io.BufferedInputStream;
@@ -34,7 +31,7 @@ import cn.qqtheme.framework.util.LogUtils;
  * Created by cy on 2017/1/22.
  */
 
-public  class UtilAssistants {
+public class UtilAssistants {
 
     //根据Uri获取path开始
     @SuppressLint("NewApi")
@@ -99,7 +96,7 @@ public  class UtilAssistants {
 
         Cursor cursor = null;
         final String column = "_data";
-        final String[] projection = { column };
+        final String[] projection = {column};
 
         try {
             cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
@@ -110,9 +107,9 @@ public  class UtilAssistants {
             }
         }
 //        java.lang.SecurityException: Permission Denial: reading com.android.providers.media.MediaProvide
-        catch (Exception e){
-            Log.d("",e.getMessage());
-        }  finally{
+        catch (Exception e) {
+            Log.d("", e.getMessage());
+        } finally {
             if (cursor != null)
                 cursor.close();
         }
@@ -128,8 +125,7 @@ public  class UtilAssistants {
     }
 
     /**
-     * @param uri
-     *            The Uri to check.
+     * @param uri The Uri to check.
      * @return Whether the Uri authority is MediaProvider.
      */
     public static boolean isMediaDocument(Uri uri) {
@@ -137,7 +133,7 @@ public  class UtilAssistants {
     }
     //根据Uri获取path结束
 
-    public static Bitmap revitionImageSize(String path)  {
+    public static Bitmap revitionImageSize(String path) {
         Bitmap bitmap = null;
         try {
             BufferedInputStream in = new BufferedInputStream(new FileInputStream(new File(path)));
@@ -145,7 +141,7 @@ public  class UtilAssistants {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             //2.为位图设置10K的缓存
-            options.inTempStorage = new byte[10*1024];
+            options.inTempStorage = new byte[10 * 1024];
             //3.设置位图颜色显示优化方式
             options.inPreferredConfig = Bitmap.Config.RGB_565;
             //4.设置图片可以被回收，创建Bitmap用于存储Pixel的内存空间在系统内存不足时可以被回收
@@ -221,13 +217,13 @@ public  class UtilAssistants {
 
     //根据path获得Bitmpa结束
 
-    public static void showToast(String text){
-        Toast.makeText(MyApplication.instance, text, Toast.LENGTH_SHORT).show();
+    public static void showToast(String text,Context c) {
+        Toast.makeText(c, text,  android.widget.Toast.LENGTH_SHORT).show();
     }
 
-    public static int px2dip(Context context, float pxValue){
+    public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
-        return (int)(pxValue / scale + 0.5f);
+        return (int) (pxValue / scale + 0.5f);
     }
 
     /**
@@ -249,7 +245,7 @@ public  class UtilAssistants {
         return dm.widthPixels;
     }
 
-   // 操作安装包中的“assets”目录下的文件
+    // 操作安装包中的“assets”目录下的文件
     public static String readText(Context context, String assetPath) {
         LogUtils.debug("read assets file as text: " + assetPath);
         try {

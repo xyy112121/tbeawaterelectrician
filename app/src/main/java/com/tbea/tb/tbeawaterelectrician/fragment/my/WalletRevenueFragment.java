@@ -86,12 +86,12 @@ public class WalletRevenueFragment extends Fragment implements BGARefreshLayout.
                                 }
                             }
                         }else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),getActivity());
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",getActivity());
                         break;
                 }
             }

@@ -79,7 +79,7 @@ public class WalletWithdrawCashActivity extends TopActivity {
 
                             Double mo = Double.parseDouble(money);
                             if (mo > Double.parseDouble(mCanexChangeMoney)) {
-                                UtilAssistants.showToast("不能大于最大提现金额");
+                                UtilAssistants.showToast("不能大于最大提现金额",mContext);
                                 return;
                             }
                             Intent intent = new Intent(WalletWithdrawCashActivity.this, WalletWithdrawCashViewActivity.class);
@@ -166,15 +166,15 @@ public class WalletWithdrawCashActivity extends TopActivity {
                                 mPicker.setAnimationStyle(R.style.PopWindowAnimationFade);
                                 mPicker.show();
                             } else {
-                                UtilAssistants.showToast("操作失败！");
+                                UtilAssistants.showToast("操作失败！",mContext);
                             }
                         } else {
-                            UtilAssistants.showToast("操作失败！");
+                            UtilAssistants.showToast("操作失败！",mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
                 dialog.dismiss();
@@ -234,12 +234,12 @@ public class WalletWithdrawCashActivity extends TopActivity {
                             String url = mUrl + "address?longitude=" + obj.getLongitude() + "&&latitude=" + obj.getLatitude();
                             showWebView(url);
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -322,12 +322,12 @@ public class WalletWithdrawCashActivity extends TopActivity {
                                 getUrl(obj);
                             }
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

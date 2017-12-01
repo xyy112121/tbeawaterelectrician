@@ -3,20 +3,17 @@ package com.tbea.tb.tbeawaterelectrician.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.Thing;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mic.etoast2.Toast;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.account.LoginActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.scanCode.ScanCodeActivity;
@@ -34,13 +31,10 @@ import com.tbea.tb.tbeawaterelectrician.util.AppVersion;
 import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
-import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
-import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import io.reactivex.functions.Consumer;
-
 
 
 public class MainActivity extends TopActivity {
@@ -98,7 +92,6 @@ public class MainActivity extends TopActivity {
                 });
 
 
-
 //        rxPermission
 //                .requestEach(
 //                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -143,7 +136,7 @@ public class MainActivity extends TopActivity {
         popWindow1.setItemClickClose(new CustomPopWindow1.ItemClickClose() {
             @Override
             public void close() {
-                Toast.makeText(MainActivity.this, "你需要允许访问权限，才可正常使用该功能！", Toast.LENGTH_SHORT).show();
+                UtilAssistants.showToast("你需要允许访问权限，才可正常使用该功能！", mContext);
                 finish();
             }
         });
@@ -188,7 +181,7 @@ public class MainActivity extends TopActivity {
                             }
                             break;
                         case ThreadState.ERROR:
-                            UtilAssistants.showToast("操作失败！");
+                            UtilAssistants.showToast("操作失败！", mContext);
                             break;
                     }
                 }

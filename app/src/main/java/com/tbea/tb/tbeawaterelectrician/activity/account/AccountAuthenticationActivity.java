@@ -21,6 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
@@ -35,6 +39,8 @@ import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,22 +48,21 @@ import java.util.Map;
  */
 
 public class AccountAuthenticationActivity extends TopActivity {
-    private Uri mUri;
-    private static final int RESULT_CAMERA = 0x000001;//相机
-    private static final int RESULT_PHOTO = 0x000002;//图片
+//    private Uri mUri;
+//    private static final int RESULT_CAMERA = 0x000001;//相机
+//    private static final int RESULT_PHOTO = 0x000002;//图片
     private String personidcard1Path = "";//身份证正面
     private String personidcard2Path = "";//身份证反面
     private String personidcardwithpersonPath = "";//手持身份证图片
     private int mFlag;//判断当前选择的图片是什么
-    private Context mContext;
     private String whetheridentifiedid;
+    List<LocalMedia> mSelectList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_authentication);
         initTopbar("实名认证");
-        mContext = this;
         TextView lookImageView = (TextView) findViewById(R.id.look_give_typical_examples_image);
         Typeface iconfont = Typeface.createFromAsset(mContext.getAssets(),
                 "iconfont/iconfont.ttf");
@@ -92,12 +97,12 @@ public class AccountAuthenticationActivity extends TopActivity {
                                 ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcardwithperson"), imageView3);
 
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -171,24 +176,24 @@ public class AccountAuthenticationActivity extends TopActivity {
                     final String realname = ((EditText) findViewById(R.id.regist_realname)).getText() + "";
                     final String personid = ((EditText) findViewById(R.id.regist_personid)).getText() + "";
                     if (realname.equals("")) {
-                        UtilAssistants.showToast("请输入真实姓名");
+                        UtilAssistants.showToast("请输入真实姓名",mContext);
                         return;
                     }
                     if (isIDCard(personid) == false) {
-                        UtilAssistants.showToast("请输入正确的身份证号");
+                        UtilAssistants.showToast("请输入正确的身份证号",mContext);
                         return;
                     }
 
                     if ("".equals(personidcard1Path)) {
-                        UtilAssistants.showToast("请选择需要上传的身份证正面");
+                        UtilAssistants.showToast("请选择需要上传的身份证正面",mContext);
                         return;
                     }
                     if ("".equals(personidcard2Path)) {
-                        UtilAssistants.showToast("请选择需要上传的身份证反面");
+                        UtilAssistants.showToast("请选择需要上传的身份证反面",mContext);
                         return;
                     }
                     if ("".equals(personidcardwithpersonPath)) {
-                        UtilAssistants.showToast("请选择需要上传的手持身份证照片");
+                        UtilAssistants.showToast("请选择需要上传的手持身份证照片",mContext);
                         return;
                     }
 
@@ -203,7 +208,7 @@ public class AccountAuthenticationActivity extends TopActivity {
                             switch (msg.what) {
                                 case ThreadState.SUCCESS:
                                     RspInfo1 re = (RspInfo1) msg.obj;
-                                    UtilAssistants.showToast(re.getMsg());
+                                    UtilAssistants.showToast(re.getMsg(),mContext);
                                     if (re.isSuccess()) {
                                         Intent intent = new Intent();
                                         intent.putExtra("whetheridentifiedid", "notidentify");
@@ -213,7 +218,7 @@ public class AccountAuthenticationActivity extends TopActivity {
                                     }
                                     break;
                                 case ThreadState.ERROR:
-                                    UtilAssistants.showToast("操作失败，请重试！");
+                                    UtilAssistants.showToast("操作失败，请重试！",mContext);
                                     break;
                             }
                         }
@@ -282,31 +287,26 @@ public class AccountAuthenticationActivity extends TopActivity {
         public void onClick(View v) {
             mPopWindow.dismiss();
             if ("camera".equals(mType)) {//图片
-                Intent cameraIntent = new Intent(
-                        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                File file = new File(Environment.getExternalStorageDirectory()
-                        + "/Images");
-                if (!file.exists()) {
-                    file.mkdirs();
-                }
-                mUri = Uri.fromFile(new File(Environment
-                        .getExternalStorageDirectory() + "/Images/",
-                        "cameraImg"
-                                + String.valueOf(System.currentTimeMillis())
-                                + ".jpg"));
-                cameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
-                        mUri);
-                cameraIntent.putExtra("return-data", true);
-                startActivityForResult(cameraIntent, RESULT_CAMERA);
-            } else if ("album".equals(mType)) {//相册选择图片
-                Intent localIntent2 = new Intent();
-                localIntent2.setType("image/*");
-                localIntent2.putExtra("return-data", true);
-                localIntent2
-                        .setAction("android.intent.action.GET_CONTENT");
-                startActivityForResult(localIntent2, RESULT_PHOTO);
+                PictureSelector.create(mContext)
+                        .openCamera(PictureMimeType.ofImage())
+                        .compress(true)
+                        .forResult(PictureConfig.CHOOSE_REQUEST);
+            } else if("album".equals(mType)){//相册选择图片
+                openImage();
             }
         }
+    }
+
+    private void openImage() {
+        // 进入相册 以下是例子：用不到的api可以不写
+        PictureSelector.create(mContext)
+                .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()
+                .theme(R.style.picture_default_style)//主题样式(不设置为默认样式) 也可参考demo values/styles下 例如：R.style.picture.white.style
+                .compress(true)
+                .isCamera(false)
+                .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
+                .selectionMedia(mSelectList)// 是否传入已选图片 List<LocalMedia> list
+                .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
     }
 
     @Override
@@ -314,17 +314,23 @@ public class AccountAuthenticationActivity extends TopActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case RESULT_CAMERA:
-                    String filePath = mUri.getPath();
-                    showImage(filePath);//显示图片
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 图片选择结果回调
+                    mSelectList = PictureSelector.obtainMultipleResult(data);
+//                    ImageLoader.getInstance().displayImage("file://" + mSelectList.get(0).getCompressPath(), mHeaderView);
+                    showImage( mSelectList.get(0).getCompressPath());
                     break;
-                case RESULT_PHOTO:
-                    if (data != null) {
-//                       filePath = data.getData().getPath();
-                        filePath = UtilAssistants.getPath(mContext, data.getData());
-                        showImage(filePath);//显示图片
-                    }
-                    break;
+//                case RESULT_CAMERA:
+//                    String filePath = mUri.getPath();
+//                    showImage(filePath);//显示图片
+//                    break;
+//                case RESULT_PHOTO:
+//                    if (data != null) {
+////                       filePath = data.getData().getPath();
+//                        filePath = UtilAssistants.getPath(mContext, data.getData());
+//                        showImage(filePath);//显示图片
+//                    }
+//                    break;
 
             }
         }
@@ -362,7 +368,7 @@ public class AccountAuthenticationActivity extends TopActivity {
             imageView.setImageBitmap(bitmap);
             mFlag = 0;
         } catch (Exception e) {
-            UtilAssistants.showToast("操作失败!");
+            UtilAssistants.showToast("操作失败!",mContext);
         }
     }
 

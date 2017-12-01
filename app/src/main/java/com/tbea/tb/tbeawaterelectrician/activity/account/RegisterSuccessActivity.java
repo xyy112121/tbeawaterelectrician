@@ -51,12 +51,12 @@ public class RegisterSuccessActivity extends TopActivity {
                             ((TextView)findViewById(R.id.register_sunccess_cm_phone)).setText("热线电话: "+mPhone);
 
                         }else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

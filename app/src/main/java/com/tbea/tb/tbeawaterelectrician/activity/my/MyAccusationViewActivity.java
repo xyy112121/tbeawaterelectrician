@@ -100,12 +100,12 @@ public class MyAccusationViewActivity extends TopActivity{
                                 ((TextView)findViewById(R.id.accusation_view_replycontent)).setText(replyinfo.get("replycontent"));
                             }
                         }else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

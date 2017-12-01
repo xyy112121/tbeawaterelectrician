@@ -72,12 +72,12 @@ public class RegisterActivity extends TopActivity {
                             ((TextView) findViewById(R.id.register_cm_phone)).setText("热线电话: " + mPhone);
 
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -122,7 +122,7 @@ public class RegisterActivity extends TopActivity {
                 if (!"".equals(zone)) {
                     getDistributorList();
                 } else {
-                    UtilAssistants.showToast("请选择所在地区");
+                    UtilAssistants.showToast("请选择所在地区",mContext);
                 }
             }
         });
@@ -149,21 +149,21 @@ public class RegisterActivity extends TopActivity {
                 String pwd2 = ((TextView)findViewById(R.id.register_pwd2)).getText()+"";
 
                 if (isMobileNO(mobile) == false) {
-                    UtilAssistants.showToast("请正确输入手机号码");
+                    UtilAssistants.showToast("请正确输入手机号码",mContext);
                     return;
                 }
                 if (code.equals("") || "".equals(pwd) || "".equals(zone) || "".equals(distributor)||"".equals(pwd2)) {
-                    UtilAssistants.showToast("请填写全部信息");
+                    UtilAssistants.showToast("请填写全部信息",mContext);
                     return;
                 }
 
                 if(pwd.length() < 6 || pwd.length() > 10){
-                    UtilAssistants.showToast("密码长度6到10位！");
+                    UtilAssistants.showToast("密码长度6到10位！",mContext);
                     return;
                 }
 
                 if(!pwd.equals(pwd2)){
-                    UtilAssistants.showToast("两次密码不一致！");
+                    UtilAssistants.showToast("两次密码不一致！",mContext);
                     return;
                 }
 
@@ -183,12 +183,12 @@ public class RegisterActivity extends TopActivity {
                                     startActivity(new Intent(mContext, RegisterSuccessActivity.class));
                                     finish();
                                 } else {
-                                    UtilAssistants.showToast(re.getMsg());
+                                    UtilAssistants.showToast(re.getMsg(),mContext);
                                 }
 
                                 break;
                             case ThreadState.ERROR:
-                                UtilAssistants.showToast("注册失败！");
+                                UtilAssistants.showToast("注册失败！",mContext);
                                 break;
                         }
                     }
@@ -223,7 +223,7 @@ public class RegisterActivity extends TopActivity {
             public void onClick(View v) {
                 final String mobile = ((EditText) findViewById(R.id.register_phone)).getText() + "";
                 if (isMobileNO(mobile) == false) {
-                    UtilAssistants.showToast("请输入正确的手机号码！");
+                    UtilAssistants.showToast("请输入正确的手机号码！",mContext);
                     return;
                 }
                 mc = new MyCount(60000, 1000);//倒计时60秒
@@ -239,10 +239,10 @@ public class RegisterActivity extends TopActivity {
                                     mc.cancel();
                                     button.setText("获取验证码");
                                 }
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(),mContext);
                                 break;
                             case ThreadState.ERROR:
-                                UtilAssistants.showToast("获取验证失败，请重试！");
+                                UtilAssistants.showToast("获取验证失败，请重试！",mContext);
                                 mc.cancel();
                                 button.setText("获取验证码");
                                 break;
@@ -308,15 +308,15 @@ public class RegisterActivity extends TopActivity {
                                 mPicker.setAnimationStyle(R.style.PopWindowAnimationFade);
                                 mPicker.show();
                             } else {
-                                UtilAssistants.showToast("操作失败！");
+                                UtilAssistants.showToast("操作失败！",mContext);
                             }
                         } else {
-                            UtilAssistants.showToast("操作失败！");
+                            UtilAssistants.showToast("操作失败！",mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
                 dialog.dismiss();

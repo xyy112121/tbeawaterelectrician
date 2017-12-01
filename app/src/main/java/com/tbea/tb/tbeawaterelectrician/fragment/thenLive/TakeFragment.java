@@ -106,7 +106,7 @@ public class TakeFragment extends Fragment implements BGARefreshLayout.BGARefres
                                 }
 
                             } else {
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(),getActivity());
                             }
 
                         } catch (Exception e) {
@@ -115,7 +115,7 @@ public class TakeFragment extends Fragment implements BGARefreshLayout.BGARefres
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",getActivity());
                         break;
                 }
             }
@@ -228,12 +228,12 @@ public class TakeFragment extends Fragment implements BGARefreshLayout.BGARefres
                                 }
                             }
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),getActivity());
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",getActivity());
                         break;
                 }
             }
@@ -269,12 +269,12 @@ public class TakeFragment extends Fragment implements BGARefreshLayout.BGARefres
                                 showDialog(view, list, "");
                             }
                         } else {
-                            UtilAssistants.showToast("操作失败！");
+                            UtilAssistants.showToast("操作失败！",getActivity());
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",getActivity());
                         break;
                 }
             }
@@ -318,12 +318,12 @@ public class TakeFragment extends Fragment implements BGARefreshLayout.BGARefres
                                 showDialog(view, list, methodName);
                             }
                         } else {
-                            UtilAssistants.showToast("操作失败！");
+                            UtilAssistants.showToast("操作失败！",getActivity());
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",getActivity());
                         break;
                 }
             }

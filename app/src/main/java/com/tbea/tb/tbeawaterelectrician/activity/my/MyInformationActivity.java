@@ -66,10 +66,7 @@ import static com.umeng.socialize.utils.DeviceConfig.context;
 public class MyInformationActivity extends TopActivity {
     private final int RESULT_EMAIL = 1000;
     private final int RESULT_NICKNAME = 1001;
-    //    private static final int RESULT_CAMERA = 0x000001;//相机
-//    private static final int RESULT_PHOTO = 0x000002;//图片
     List<LocalMedia> mSelectList = new ArrayList<>();
-    private Uri mUri;
     ImageView mHeaderView;
 
     @Override
@@ -205,7 +202,7 @@ public class MyInformationActivity extends TopActivity {
 
         // 日期为当前年/月判断
         if ((year == 0 && month == 0 && day < 0)) {
-            ToastUtil.showMessage("请选择正确的出生年月");
+            ToastUtil.showMessage("请选择正确的出生年月",mContext);
             return mString;
         }
         // 退位计算年/月/日
@@ -220,7 +217,7 @@ public class MyInformationActivity extends TopActivity {
         }
         // 退位计算后超过当前日期的年龄
         if (year < 0) {
-            ToastUtil.showMessage("请选择正确的出生年月");
+            ToastUtil.showMessage("请选择正确的出生年月",mContext);
             return mString;
         }
         // 大于一岁的
@@ -281,11 +278,11 @@ public class MyInformationActivity extends TopActivity {
                             ((TextView) findViewById(R.id.info_workyear)).setText(obj.getOldyears());
                             ((TextView) findViewById(R.id.info_nickName)).setText(obj.getNickname());
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -324,13 +321,13 @@ public class MyInformationActivity extends TopActivity {
                     case ThreadState.SUCCESS:
                         RspInfo1 re = (RspInfo1) msg.obj;
                         if (re.isSuccess()) {
-                            UtilAssistants.showToast("操作成功！");
+                            UtilAssistants.showToast("操作成功！",mContext);
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -377,7 +374,7 @@ public class MyInformationActivity extends TopActivity {
         @Override
         public void onClick(View v) {
             mPopWindow.dismiss();
-            if ("camera".equals(mType)) {//图片
+            if ("camera".equals(mType)) {//相机
                 PictureSelector.create(mContext)
                         .openCamera(PictureMimeType.ofImage())
                         .compress(true)
@@ -403,7 +400,6 @@ public class MyInformationActivity extends TopActivity {
 
     public void updateHead(final String filePath) {
         try {
-            final Bitmap bitmap = UtilAssistants.getBitmapFromPath(filePath, new Point(1024, 1024));
             final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
             dialog.setText("请等待");
             dialog.show();
@@ -415,16 +411,14 @@ public class MyInformationActivity extends TopActivity {
                         case ThreadState.SUCCESS:
                             RspInfo1 re = (RspInfo1) msg.obj;
                             if (re.isSuccess()) {
-                                UtilAssistants.showToast("操作成功！");
-//                                final ImageView imageView = (ImageView) findViewById(R.id.info_head);
-//                                imageView.setImageBitmap(bitmap);
+                                UtilAssistants.showToast("操作成功！",mContext);
                                 EventBus.getDefault().post(new EventCity(EventFlag.EVENT_MY_HEAD));
                             } else {
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(),mContext);
                             }
                             break;
                         case ThreadState.ERROR:
-                            UtilAssistants.showToast("操作失败！");
+                            UtilAssistants.showToast("操作失败！",mContext);
                             break;
                     }
                 }
@@ -443,7 +437,7 @@ public class MyInformationActivity extends TopActivity {
                 }
             }).start();
         } catch (Exception e) {
-            UtilAssistants.showToast("操作失败!");
+            UtilAssistants.showToast("操作失败!",mContext);
         }
     }
 
@@ -463,7 +457,7 @@ public class MyInformationActivity extends TopActivity {
                     // 图片选择结果回调
                     mSelectList = PictureSelector.obtainMultipleResult(data);
                     ImageLoader.getInstance().displayImage("file://" + mSelectList.get(0).getCompressPath(), mHeaderView);
-                    updateHead("file://" + mSelectList.get(0).getCompressPath());
+                    updateHead( mSelectList.get(0).getCompressPath());
                     break;
             }
         }

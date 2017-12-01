@@ -103,7 +103,7 @@ public class NearbyFragment extends android.app.Fragment {
                                 }
 
                             } else {
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(),getActivity());
                             }
 
                         }catch (Exception e){
@@ -112,7 +112,7 @@ public class NearbyFragment extends android.app.Fragment {
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",getActivity());
                         break;
                 }
             }

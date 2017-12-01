@@ -72,12 +72,12 @@ public class AddressEditActivity extends TopActivity implements View.OnClickList
                                 ((CheckBox)findViewById(R.id.addr_edit_isdefault)).setChecked(true);
                             }
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -136,12 +136,12 @@ public class AddressEditActivity extends TopActivity implements View.OnClickList
         CheckBox ck = (CheckBox)findViewById(R.id.addr_edit_isdefault);
 
         if("".equals(name) || "".equals(contactmobile) || "".equals(address) || "".equals(citys)){
-            UtilAssistants.showToast("请填写完整的地址信息");
+            UtilAssistants.showToast("请填写完整的地址信息",mContext);
             return;
         }
 
         if(isMobileNO(contactmobile) == false){
-            UtilAssistants.showToast("请输入正确的手机号码！");
+            UtilAssistants.showToast("请输入正确的手机号码！",mContext);
             return;
         }
 
@@ -168,12 +168,12 @@ public class AddressEditActivity extends TopActivity implements View.OnClickList
                             setResult(RESULT_OK);
                             finish();
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

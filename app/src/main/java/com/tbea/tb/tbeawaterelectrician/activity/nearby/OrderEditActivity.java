@@ -138,7 +138,7 @@ public class OrderEditActivity extends TopActivity {
      */
     public void planOrder() {
         if ("".equals(mReceiveaddrId) || mReceiveaddrId == null) {
-            UtilAssistants.showToast("请增加收货地址");
+            UtilAssistants.showToast("请增加收货地址",mContext);
             return;
         }
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
@@ -168,12 +168,12 @@ public class OrderEditActivity extends TopActivity {
                             startActivity(intent);
                             finish();
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -251,12 +251,12 @@ public class OrderEditActivity extends TopActivity {
 
 
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

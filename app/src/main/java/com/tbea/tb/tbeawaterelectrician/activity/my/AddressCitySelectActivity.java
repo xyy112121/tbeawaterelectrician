@@ -140,12 +140,12 @@ public class AddressCitySelectActivity extends TopActivity implements View.OnCli
                             picker.setAnimationStyle(R.style.PopWindowAnimationFade);
                             picker.show();
                         } else {
-                            UtilAssistants.showToast("操作失败！");
+                            UtilAssistants.showToast("操作失败！",mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -188,7 +188,7 @@ public class AddressCitySelectActivity extends TopActivity implements View.OnCli
         String location = ((TextView) findViewById(R.id.addr_city_select_location)).getText() + "";
 
         if("".equals(province) || "".equals(city) || "".equals(location)){
-            UtilAssistants.showToast("请选择正确的地址");
+            UtilAssistants.showToast("请选择正确的地址",mContext);
             return;
         }
 

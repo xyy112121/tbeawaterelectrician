@@ -29,6 +29,7 @@ import com.tbea.tb.tbeawaterelectrician.activity.my.MessageListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.MessageTypeListActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.CommodithViewActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.HistorySearchActivity;
+import com.tbea.tb.tbeawaterelectrician.component.BannerImageLoader;
 import com.tbea.tb.tbeawaterelectrician.component.CircleImageView;
 import com.tbea.tb.tbeawaterelectrician.entity.Company;
 import com.tbea.tb.tbeawaterelectrician.entity.HomeDateSon;
@@ -165,7 +166,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                                 }
 
                             } else {
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(),getActivity());
                             }
 
                         } catch (Exception e) {
@@ -174,7 +175,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",getActivity());
                         break;
                 }
             }
@@ -256,23 +257,22 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
 //        List<Map<String, String>> advertiselist = (List<Map<String, String>>) re.getDateObj("advertiselist");
         Map<String, Object> date = (Map<String, Object>) re.getData();
         List<Map<String, String>> advertiselist = (List<Map<String, String>>) date.get("advertiselist");
-        String[] images = new String[advertiselist.size()];
+        List<String> images = new ArrayList<>(advertiselist.size());
         if (advertiselist != null) {
             for (int i = 0; i < advertiselist.size(); i++) {
                 String picture = MyApplication.instance.getImgPath() + advertiselist.get(i).get("picture") + "";
-                images[i] = picture;
+                images.add(picture);
             }
             Banner banner = (Banner) headView.findViewById(R.id.banner);
             //设置banner样式
             banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-            //设置图片集合
-            banner.setImages(images);
+
             //设置banner动画效果
             banner.setBannerAnimation(Transformer.DepthPage);
-            //设置轮播时间
-//        banner.setDelayTime(1500);
-            //设置指示器位置（当banner模式中有指示器时）
-            banner.setIndicatorGravity(BannerConfig.CENTER);
+            banner.setImageLoader(new BannerImageLoader());
+            //设置图片集合
+            banner.setImages(images);
+            banner.start();
 
 
         }
@@ -462,7 +462,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                 public void onClick(View view) {
                     Intent intent = new Intent(context, CommodithViewActivity.class);
                     intent.putExtra("id", obj.getId());
-                    intent.putExtra("distributorid",obj.getCompanyid());
+                    intent.putExtra("distributorid", obj.getCompanyid());
                     intent.putExtra("companytypeid", obj.getCompanytypeid());
                     intent.putExtra("companyid", obj.getCompanyid());
                     startActivity(intent);

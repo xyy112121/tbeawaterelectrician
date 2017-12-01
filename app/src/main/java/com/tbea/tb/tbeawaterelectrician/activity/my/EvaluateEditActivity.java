@@ -65,7 +65,7 @@ public class EvaluateEditActivity extends TopActivity implements View.OnClickLis
     public void onClick(View view) {
         final String appraise = ((EditText)findViewById(R.id.order_evaluate_edit_appraise)).getText()+"";
         if("".equals(mStarlevel) || "".equals(appraise)){
-            UtilAssistants.showToast("请评价...");
+            UtilAssistants.showToast("请评价...",mContext);
             return;
         }
 
@@ -83,12 +83,12 @@ public class EvaluateEditActivity extends TopActivity implements View.OnClickLis
                         if(re.isSuccess()){
                             finish();
                         }else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

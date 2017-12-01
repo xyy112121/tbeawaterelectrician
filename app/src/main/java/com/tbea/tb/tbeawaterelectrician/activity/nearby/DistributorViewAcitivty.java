@@ -67,12 +67,12 @@ public class DistributorViewAcitivty extends TopActivity {
                             String url = re.data.url + "business?companyid=" + id + "&&latitude=" + MyApplication.instance.getLatitude() + "&&longitude=" + MyApplication.instance.getLongitude();
                             showWebView(url);
                         } else {
-                            UtilAssistants.showToast(re.getMsg());
+                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }

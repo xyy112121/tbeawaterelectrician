@@ -481,7 +481,7 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
                                     }
                                 }
                             } else {
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(),mContext);
                             }
 
                         }catch (Exception e){
@@ -490,7 +490,7 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
@@ -561,7 +561,7 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
                                     }
                                 }
                             } else {
-                                UtilAssistants.showToast(re.getMsg());
+                                UtilAssistants.showToast(re.getMsg(),mContext);
                             }
 
                         }catch (Exception e){
@@ -570,7 +570,7 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！");
+                        UtilAssistants.showToast("操作失败！",mContext);
                         break;
                 }
             }
