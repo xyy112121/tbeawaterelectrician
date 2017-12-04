@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.account;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
+import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.AddressCitySelectActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.publicUse.activity.NetWebViewActivity;
@@ -43,9 +45,15 @@ public class RegisterActivity extends TopActivity {
     private String mProvinceId;
     private String mCityId;
     private String mLocationId;
+
+    private String mProvince;
+    private String mCity;
+    private String mLocation;
     private MyCount mc;
     private Button button;
     private String mPhone;
+
+    private final int ADDR_SELECT = 100;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,6 +63,10 @@ public class RegisterActivity extends TopActivity {
         initTopbar("注册");
         mContext = this;
         button = (Button) findViewById(R.id.regist_sendcode);
+        mProvince = MyApplication.instance.getProvince();
+        mCity = MyApplication.instance.getCity();
+        mLocation = MyApplication.instance.getDistrict();
+        ((TextView) findViewById(R.id.register_zone)).setText(mProvince + mCity + mLocation);
         listener();
     }
 
@@ -72,12 +84,12 @@ public class RegisterActivity extends TopActivity {
                             ((TextView) findViewById(R.id.register_cm_phone)).setText("热线电话: " + mPhone);
 
                         } else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            UtilAssistants.showToast(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        UtilAssistants.showToast("操作失败！", mContext);
                         break;
                 }
             }
@@ -102,7 +114,7 @@ public class RegisterActivity extends TopActivity {
         findViewById(R.id.register_cm_phone).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+ mPhone));
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mPhone));
                 startActivity(intent);
             }
         });
@@ -111,7 +123,8 @@ public class RegisterActivity extends TopActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, AddressCitySelectActivity.class);
-                startActivityForResult(intent, 100);
+                intent.putExtra("withall", "0");//不显示全部
+                startActivityForResult(intent, ADDR_SELECT);
             }
         });
 
@@ -122,7 +135,7 @@ public class RegisterActivity extends TopActivity {
                 if (!"".equals(zone)) {
                     getDistributorList();
                 } else {
-                    UtilAssistants.showToast("请选择所在地区",mContext);
+                    UtilAssistants.showToast("请选择所在地区", mContext);
                 }
             }
         });
@@ -131,8 +144,8 @@ public class RegisterActivity extends TopActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RegisterActivity.this, NetWebViewActivity.class);
-                intent.putExtra("title","用户注册协议");
-                intent.putExtra("parameter","userregisteragreement");//URL后缀
+                intent.putExtra("title", "用户注册协议");
+                intent.putExtra("parameter", "userregisteragreement");//URL后缀
                 startActivity(intent);
 
             }
@@ -146,24 +159,24 @@ public class RegisterActivity extends TopActivity {
                 final String pwd = ((EditText) findViewById(R.id.register_pwd)).getText() + "";
                 final String zone = ((TextView) findViewById(R.id.register_zone)).getText() + "";
                 final String distributor = ((TextView) findViewById(R.id.register_distributor)).getText() + "";
-                String pwd2 = ((TextView)findViewById(R.id.register_pwd2)).getText()+"";
+                String pwd2 = ((TextView) findViewById(R.id.register_pwd2)).getText() + "";
 
                 if (isMobileNO(mobile) == false) {
-                    UtilAssistants.showToast("请正确输入手机号码",mContext);
+                    UtilAssistants.showToast("请正确输入手机号码", mContext);
                     return;
                 }
-                if (code.equals("") || "".equals(pwd) || "".equals(zone) || "".equals(distributor)||"".equals(pwd2)) {
-                    UtilAssistants.showToast("请填写全部信息",mContext);
-                    return;
-                }
-
-                if(pwd.length() < 6 || pwd.length() > 10){
-                    UtilAssistants.showToast("密码长度6到10位！",mContext);
+                if (code.equals("") || "".equals(pwd) || "".equals(zone) || "".equals(distributor) || "".equals(pwd2)) {
+                    UtilAssistants.showToast("请填写全部信息", mContext);
                     return;
                 }
 
-                if(!pwd.equals(pwd2)){
-                    UtilAssistants.showToast("两次密码不一致！",mContext);
+                if (pwd.length() < 6 || pwd.length() > 10) {
+                    UtilAssistants.showToast("密码长度6到10位！", mContext);
+                    return;
+                }
+
+                if (!pwd.equals(pwd2)) {
+                    UtilAssistants.showToast("两次密码不一致！", mContext);
                     return;
                 }
 
@@ -171,24 +184,23 @@ public class RegisterActivity extends TopActivity {
                 dialog.setText("加载中");
                 dialog.show();
 
-                final Handler handler = new Handler() {
+                @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
                     @Override
                     public void handleMessage(Message msg) {
                         dialog.dismiss();
                         switch (msg.what) {
                             case ThreadState.SUCCESS:
                                 RspInfo1 re = (RspInfo1) msg.obj;
-
                                 if (re.isSuccess()) {
                                     startActivity(new Intent(mContext, RegisterSuccessActivity.class));
                                     finish();
                                 } else {
-                                    UtilAssistants.showToast(re.getMsg(),mContext);
+                                    UtilAssistants.showToast(re.getMsg(), mContext);
                                 }
 
                                 break;
                             case ThreadState.ERROR:
-                                UtilAssistants.showToast("注册失败！",mContext);
+                                UtilAssistants.showToast("注册失败！", mContext);
                                 break;
                         }
                     }
@@ -207,7 +219,7 @@ public class RegisterActivity extends TopActivity {
                                     }
                                 }
                             }
-                            RspInfo1 result = action.register(mobile, pwd, code, mProvinceId, mCityId, mLocationId, distributorId);
+                            RspInfo1 result = action.register(mobile, pwd, code, mProvinceId, mCityId, mLocationId, distributorId, mProvince, mCity, mLocation);
                             handler.obtainMessage(ThreadState.SUCCESS, result).sendToTarget();
                         } catch (Exception e) {
                             handler.sendEmptyMessage(ThreadState.ERROR);
@@ -223,7 +235,7 @@ public class RegisterActivity extends TopActivity {
             public void onClick(View v) {
                 final String mobile = ((EditText) findViewById(R.id.register_phone)).getText() + "";
                 if (isMobileNO(mobile) == false) {
-                    UtilAssistants.showToast("请输入正确的手机号码！",mContext);
+                    UtilAssistants.showToast("请输入正确的手机号码！", mContext);
                     return;
                 }
                 mc = new MyCount(60000, 1000);//倒计时60秒
@@ -239,10 +251,10 @@ public class RegisterActivity extends TopActivity {
                                     mc.cancel();
                                     button.setText("获取验证码");
                                 }
-                                UtilAssistants.showToast(re.getMsg(),mContext);
+                                UtilAssistants.showToast(re.getMsg(), mContext);
                                 break;
                             case ThreadState.ERROR:
-                                UtilAssistants.showToast("获取验证失败，请重试！",mContext);
+                                UtilAssistants.showToast("获取验证失败，请重试！", mContext);
                                 mc.cancel();
                                 button.setText("获取验证码");
                                 break;
@@ -268,13 +280,16 @@ public class RegisterActivity extends TopActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == 100 && data != null) {
+        if (resultCode == RESULT_OK && requestCode == ADDR_SELECT && data != null) {
             String text = data.getStringExtra("text");
             ((TextView) findViewById(R.id.register_zone)).setText(text);
             ((TextView) findViewById(R.id.register_distributor)).setText("");
             mProvinceId = data.getStringExtra("provinceId");
             mCityId = data.getStringExtra("cityId");
             mLocationId = data.getStringExtra("locationId");
+            mProvince = data.getStringExtra("province");
+            mCity = data.getStringExtra("city");
+            mLocation = data.getStringExtra("location");
         }
     }
 
@@ -282,7 +297,7 @@ public class RegisterActivity extends TopActivity {
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("加载中");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
 
@@ -308,15 +323,15 @@ public class RegisterActivity extends TopActivity {
                                 mPicker.setAnimationStyle(R.style.PopWindowAnimationFade);
                                 mPicker.show();
                             } else {
-                                UtilAssistants.showToast("操作失败！",mContext);
+                                UtilAssistants.showToast("操作失败！", mContext);
                             }
                         } else {
-                            UtilAssistants.showToast("操作失败！",mContext);
+                            UtilAssistants.showToast("操作失败！", mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        UtilAssistants.showToast("操作失败！", mContext);
                         break;
                 }
                 dialog.dismiss();

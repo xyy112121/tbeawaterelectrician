@@ -69,11 +69,11 @@ public class WalletIncomeAndExpensesActivity extends TopActivity implements BGAR
         findViewById(R.id.top_left).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String flag = getIntent().getStringExtra("flag");
-                if (!"walletList".equals(flag)) {
-                    Intent intent = new Intent(mContext, WalletListActivity.class);
-                    startActivity(intent);
-                }
+//                String flag = getIntent().getStringExtra("flag");
+//                if (!"walletList".equals(flag)) {
+//                    Intent intent = new Intent(mContext, WalletListActivity.class);
+//                    startActivity(intent);
+//                }
                 finish();
             }
         });
@@ -82,8 +82,8 @@ public class WalletIncomeAndExpensesActivity extends TopActivity implements BGAR
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(mContext, WalletListActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(mContext, WalletListActivity.class);
+//        startActivity(intent);
         finish();
     }
 

@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.account;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,6 +37,8 @@ import com.tbea.tb.tbeawaterelectrician.entity.Register;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
+import com.tbea.tb.tbeawaterelectrician.util.Constants;
+import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
@@ -48,14 +52,12 @@ import java.util.Map;
  */
 
 public class AccountAuthenticationActivity extends TopActivity {
-//    private Uri mUri;
-//    private static final int RESULT_CAMERA = 0x000001;//相机
-//    private static final int RESULT_PHOTO = 0x000002;//图片
     private String personidcard1Path = "";//身份证正面
     private String personidcard2Path = "";//身份证反面
     private String personidcardwithpersonPath = "";//手持身份证图片
     private int mFlag;//判断当前选择的图片是什么
-    private String whetheridentifiedid;
+    private String mIdentify;
+    private Button mFinishView;
     List<LocalMedia> mSelectList = new ArrayList<>();
 
     @Override
@@ -67,7 +69,7 @@ public class AccountAuthenticationActivity extends TopActivity {
         Typeface iconfont = Typeface.createFromAsset(mContext.getAssets(),
                 "iconfont/iconfont.ttf");
         lookImageView.setTypeface(iconfont);
-        whetheridentifiedid = getIntent().getStringExtra("whetheridentifiedid");
+        mIdentify = ShareConfig.getConfigString(mContext, Constants.WHETHERIDENTIFIEDID, "notidentify");
         listener();
     }
 
@@ -75,7 +77,7 @@ public class AccountAuthenticationActivity extends TopActivity {
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("加载中...");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -97,12 +99,12 @@ public class AccountAuthenticationActivity extends TopActivity {
                                 ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcardwithperson"), imageView3);
 
                         } else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            UtilAssistants.showToast(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        UtilAssistants.showToast("操作失败！", mContext);
                         break;
                 }
             }
@@ -122,42 +124,72 @@ public class AccountAuthenticationActivity extends TopActivity {
         }).start();
     }
 
-    public void listener() {
-        if (!"notidentify".equals(whetheridentifiedid) && whetheridentifiedid != null) {
-            findViewById(R.id.register_commit_review).setVisibility(View.GONE);
-            (findViewById(R.id.regist_realname)).setFocusable(false);
-            (findViewById(R.id.regist_personid)).setFocusable(false);
+    private void setView() {
+        (findViewById(R.id.regist_realname)).setFocusable(false);
+        (findViewById(R.id.regist_personid)).setFocusable(false);
+        findViewById(R.id.register_update_image1).setClickable(false);
+        findViewById(R.id.register_update_image2).setClickable(false);
+        findViewById(R.id.register_update_image3).setClickable(false);
+        mFinishView.setEnabled(false);
+        mFinishView.setText("认证中");
+    }
 
+    private void setViewTrue() {
+        setViewEdit(R.id.regist_realname);
+        setViewEdit(R.id.regist_personid);
+        findViewById(R.id.register_update_image1).setClickable(true);
+        findViewById(R.id.register_update_image2).setClickable(true);
+        findViewById(R.id.register_update_image3).setClickable(true);
+        mFinishView.setEnabled(true);
+        mFinishView.setBackgroundResource(R.drawable.btn_bg_blue);
+        mFinishView.setText("提交审核");
+    }
+
+    private void setViewEdit(int id) {
+        EditText editText = (EditText)findViewById(id);
+        editText.setFocusableInTouchMode(true);
+        editText.setFocusable(true);
+        if(editText.getId() == R.id.regist_realname){
+            editText.requestFocus();
         }
-        getDate();
+    }
 
+
+    public void listener() {
+        mFinishView = (Button) findViewById(R.id.register_commit_review);
+        if ("identifying".equals(mIdentify) || "identified".equals(mIdentify)) {//正在认证和认证通过
+            setView();
+        }
+
+        //认证失败和认证通过
+        if ("identifyfailed".equals(mIdentify) || "identified".equals(mIdentify)) {
+            mFinishView.setBackgroundResource(R.drawable.btn_bg_red);
+            mFinishView.setEnabled(true);
+            mFinishView.setText("重新认证");
+        }
+
+        getDate();
         findViewById(R.id.register_update_image1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ("notidentify".equals(whetheridentifiedid) || whetheridentifiedid == null) {
-                    mFlag = FlagImage.personidcard1;
-                    showDialog(view);
-                }
+                mFlag = FlagImage.personidcard1;
+                showDialog(view);
             }
         });
 
         findViewById(R.id.register_update_image2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ("notidentify".equals(whetheridentifiedid) || whetheridentifiedid == null) {
-                    mFlag = FlagImage.personidcard2;
-                    showDialog(view);
-                }
+                mFlag = FlagImage.personidcard2;
+                showDialog(view);
             }
         });
 
         findViewById(R.id.register_update_image3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ("notidentify".equals(whetheridentifiedid) || whetheridentifiedid == null) {
-                    mFlag = FlagImage.personidcardwithperson;
-                    showDialog(view);
-                }
+                mFlag = FlagImage.personidcardwithperson;
+                showDialog(view);
             }
         });
 
@@ -172,80 +204,81 @@ public class AccountAuthenticationActivity extends TopActivity {
         findViewById(R.id.register_commit_review).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    final String realname = ((EditText) findViewById(R.id.regist_realname)).getText() + "";
-                    final String personid = ((EditText) findViewById(R.id.regist_personid)).getText() + "";
-                    if (realname.equals("")) {
-                        UtilAssistants.showToast("请输入真实姓名",mContext);
-                        return;
-                    }
-                    if (isIDCard(personid) == false) {
-                        UtilAssistants.showToast("请输入正确的身份证号",mContext);
-                        return;
-                    }
 
-                    if ("".equals(personidcard1Path)) {
-                        UtilAssistants.showToast("请选择需要上传的身份证正面",mContext);
-                        return;
-                    }
-                    if ("".equals(personidcard2Path)) {
-                        UtilAssistants.showToast("请选择需要上传的身份证反面",mContext);
-                        return;
-                    }
-                    if ("".equals(personidcardwithpersonPath)) {
-                        UtilAssistants.showToast("请选择需要上传的手持身份证照片",mContext);
-                        return;
-                    }
-
-                    final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
-                    dialog.setText("请等待...");
-                    dialog.show();
-
-                    final Handler handler = new Handler() {
-                        @Override
-                        public void handleMessage(Message msg) {
-                            dialog.dismiss();
-                            switch (msg.what) {
-                                case ThreadState.SUCCESS:
-                                    RspInfo1 re = (RspInfo1) msg.obj;
-                                    UtilAssistants.showToast(re.getMsg(),mContext);
-                                    if (re.isSuccess()) {
-                                        Intent intent = new Intent();
-                                        intent.putExtra("whetheridentifiedid", "notidentify");
-//                                        intent.putExtra("whetheridentifiedid", "tidentify");
-                                        setResult(RESULT_OK, intent);
-                                        finish();
-                                    }
-                                    break;
-                                case ThreadState.ERROR:
-                                    UtilAssistants.showToast("操作失败，请重试！",mContext);
-                                    break;
-                            }
+                if ("重新认证".equals(mFinishView.getText() + "") && "identified".equals(mIdentify)) {
+                    setViewTrue();
+                } else {
+                    try {
+                        final String realname = ((EditText) findViewById(R.id.regist_realname)).getText() + "";
+                        final String personid = ((EditText) findViewById(R.id.regist_personid)).getText() + "";
+                        if (realname.equals("")) {
+                            UtilAssistants.showToast("请输入真实姓名", mContext);
+                            return;
                         }
-                    };
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Register obj = new Register();
-                                obj.setRealname(realname);
-                                obj.setPersonid(personid);
-                                obj.setPersonidcard1(personidcard1Path);
-                                obj.setPersonidcard2(personidcard2Path);
-                                obj.setPersonidcardwithperson(personidcardwithpersonPath);
-                                UserAction action = new UserAction();
-                                RspInfo1 result = action.accountAuthentication(obj);
-                                handler.obtainMessage(ThreadState.SUCCESS, result).sendToTarget();
-                            } catch (Exception e) {
-                                handler.sendEmptyMessage(ThreadState.ERROR);
-                            }
+                        if (isIDCard(personid) == false) {
+                            UtilAssistants.showToast("请输入正确的身份证号", mContext);
+                            return;
                         }
-                    }).start();
-                } catch (Exception e) {
-                    e.printStackTrace();
+
+                        if ("".equals(personidcard1Path)) {
+                            UtilAssistants.showToast("请选择需要上传的身份证正面", mContext);
+                            return;
+                        }
+                        if ("".equals(personidcard2Path)) {
+                            UtilAssistants.showToast("请选择需要上传的身份证反面", mContext);
+                            return;
+                        }
+                        if ("".equals(personidcardwithpersonPath)) {
+                            UtilAssistants.showToast("请选择需要上传的手持身份证照片", mContext);
+                            return;
+                        }
+
+                        final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
+                        dialog.setText("请等待...");
+                        dialog.show();
+
+                        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
+                            @Override
+                            public void handleMessage(Message msg) {
+                                dialog.dismiss();
+                                switch (msg.what) {
+                                    case ThreadState.SUCCESS:
+                                        RspInfo1 re = (RspInfo1) msg.obj;
+                                        UtilAssistants.showToast(re.getMsg(), mContext);
+                                        if (re.isSuccess()) {
+                                            ShareConfig.setConfig(mContext, Constants.WHETHERIDENTIFIEDID, "identifying");
+                                            setResult(RESULT_OK);
+                                            finish();
+                                        }
+                                        break;
+                                    case ThreadState.ERROR:
+                                        UtilAssistants.showToast("操作失败，请重试！", mContext);
+                                        break;
+                                }
+                            }
+                        };
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Register obj = new Register();
+                                    obj.setRealname(realname);
+                                    obj.setPersonid(personid);
+                                    obj.setPersonidcard1(personidcard1Path);
+                                    obj.setPersonidcard2(personidcard2Path);
+                                    obj.setPersonidcardwithperson(personidcardwithpersonPath);
+                                    UserAction action = new UserAction();
+                                    RspInfo1 result = action.accountAuthentication(obj);
+                                    handler.obtainMessage(ThreadState.SUCCESS, result).sendToTarget();
+                                } catch (Exception e) {
+                                    handler.sendEmptyMessage(ThreadState.ERROR);
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-
-
             }
         });
     }
@@ -291,7 +324,7 @@ public class AccountAuthenticationActivity extends TopActivity {
                         .openCamera(PictureMimeType.ofImage())
                         .compress(true)
                         .forResult(PictureConfig.CHOOSE_REQUEST);
-            } else if("album".equals(mType)){//相册选择图片
+            } else if ("album".equals(mType)) {//相册选择图片
                 openImage();
             }
         }
@@ -318,19 +351,8 @@ public class AccountAuthenticationActivity extends TopActivity {
                     // 图片选择结果回调
                     mSelectList = PictureSelector.obtainMultipleResult(data);
 //                    ImageLoader.getInstance().displayImage("file://" + mSelectList.get(0).getCompressPath(), mHeaderView);
-                    showImage( mSelectList.get(0).getCompressPath());
+                    showImage(mSelectList.get(0).getCompressPath());
                     break;
-//                case RESULT_CAMERA:
-//                    String filePath = mUri.getPath();
-//                    showImage(filePath);//显示图片
-//                    break;
-//                case RESULT_PHOTO:
-//                    if (data != null) {
-////                       filePath = data.getData().getPath();
-//                        filePath = UtilAssistants.getPath(mContext, data.getData());
-//                        showImage(filePath);//显示图片
-//                    }
-//                    break;
 
             }
         }
@@ -338,12 +360,6 @@ public class AccountAuthenticationActivity extends TopActivity {
 
     public void showImage(String filePath) {
         try {
-//            Display display = getActivity().getWindowManager().getDefaultDisplay();
-//            Point size = new Point();
-//            display.getSize(size);
-//            int width = size.x;
-//            int height = size.y;
-//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width/2-30,200);
             Bitmap bitmap = UtilAssistants.getBitmapFromPath(filePath, new Point(1024, 1024));
             ImageView imageView = null;
             if (mFlag == FlagImage.personidcard1) {
@@ -368,7 +384,7 @@ public class AccountAuthenticationActivity extends TopActivity {
             imageView.setImageBitmap(bitmap);
             mFlag = 0;
         } catch (Exception e) {
-            UtilAssistants.showToast("操作失败!",mContext);
+            UtilAssistants.showToast("操作失败!", mContext);
         }
     }
 

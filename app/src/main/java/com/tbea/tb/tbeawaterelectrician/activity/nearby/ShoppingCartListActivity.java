@@ -305,7 +305,8 @@ public class ShoppingCartListActivity extends TopActivity implements View.OnClic
 
                             new ShareAction((Activity) mContext)
                                     .withMedia(web)
-                                    .setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
+//                                    .setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
+                                    .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
                                     .setCallback(umShareListener).open();
 
                         }

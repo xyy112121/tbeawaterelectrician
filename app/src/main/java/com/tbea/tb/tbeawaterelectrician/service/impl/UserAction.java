@@ -1,6 +1,7 @@
 package com.tbea.tb.tbeawaterelectrician.service.impl;
 
 import com.google.gson.reflect.TypeToken;
+import com.tbea.tb.tbeawaterelectrician.activity.account.model.ResponseInfo;
 import com.tbea.tb.tbeawaterelectrician.activity.my.model.MessageListResponseModel;
 import com.tbea.tb.tbeawaterelectrician.activity.my.model.MessageTypeListResponseModel;
 import com.tbea.tb.tbeawaterelectrician.activity.nearby.model.TbeaPictrueResponseModel;
@@ -136,10 +137,11 @@ public class UserAction extends BaseAction {
     /**
      * 获取查询条件的列表（如经销商类型，区域类型等）
      */
-    public RspInfo getLocationList(String cityName) throws Exception {
+    public RspInfo getLocationList(String cityName, String withall) throws Exception {
         RspInfo rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("cityname", cityName));
+        pairs.add(new BasicNameValuePair("withall", withall));
         String result = sendRequest("TBEAENG003001002000", pairs);
         rspInfo = gson.fromJson(result, new TypeToken<RspInfo<List<Condition>>>() {
         }.getType());
@@ -628,7 +630,7 @@ public class UserAction extends BaseAction {
      * @return
      * @throws Exception
      */
-    public RspInfo1 updateInfo(String nickname, String sex, String email,String birthyear, String birthday, String birthmonth) throws Exception {
+    public RspInfo1 updateInfo(String nickname, String sex, String email, String birthyear, String birthday, String birthmonth) throws Exception {
         RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("nickname", nickname));
@@ -889,7 +891,7 @@ public class UserAction extends BaseAction {
      * 获取加入购物车的弹出框里面的信息（加入购物车的时候弹出的选择规格，数目，颜色 等项的接口）
      */
     public RspInfo getAddSCInfo(String commodityid) throws Exception {
-            RspInfo rspInfo;
+        RspInfo rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("commodityid", commodityid));
         String result = sendRequest("TBEAENG003001009003", pairs);
@@ -1116,7 +1118,10 @@ public class UserAction extends BaseAction {
         return rspInfo;
     }
 
-    public RspInfo1 register(String mobile, String password, String verifycode, String provinceid, String cityid, String zoneid, String distributorid) throws Exception {
+    public RspInfo1 register(String mobile, String password, String verifycode,
+                             String provinceid, String cityid, String zoneid,
+                             String distributorid,
+                             String province, String city, String zone) throws Exception {
         RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("mobile", mobile));
@@ -1125,6 +1130,9 @@ public class UserAction extends BaseAction {
         pairs.add(new BasicNameValuePair("provinceid", provinceid));
         pairs.add(new BasicNameValuePair("cityid", cityid));
         pairs.add(new BasicNameValuePair("zoneid", zoneid));
+        pairs.add(new BasicNameValuePair(" province", province));
+        pairs.add(new BasicNameValuePair("city", city));
+        pairs.add(new BasicNameValuePair("zone", zone));
         pairs.add(new BasicNameValuePair("distributorid", distributorid));
         String result = sendRequest("TBEAENG001001002000", pairs);
         rspInfo = gson.fromJson(result, RspInfo1.class);
@@ -1216,7 +1224,7 @@ public class UserAction extends BaseAction {
     }
 
     /**
-     * 获取下单信息
+     * 获取是否实名认证
      */
     public RspInfo getAccountAuthentication() throws Exception {
         RspInfo rspInfo;
@@ -1298,6 +1306,14 @@ public class UserAction extends BaseAction {
         String result = sendRequest("TBEAENG003001009005", pairs);
         model = gson.fromJson(result, TbeaPictrueResponseModel.class);
         return model;
+    }
+
+    public ResponseInfo getDentifiedFailInfo() throws Exception {
+        ResponseInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG005001002005", pairs);
+        rspInfo = gson.fromJson(result, ResponseInfo.class);
+        return rspInfo;
     }
 
 }

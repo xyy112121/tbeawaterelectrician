@@ -18,6 +18,7 @@ import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.account.AccountAuthenticationActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.account.RealNameAuthenticationFailActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.UpdateResponseModel;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
@@ -47,17 +48,6 @@ public class SetionActivity extends TopActivity {
         mContext = this;
         MyApplication.instance.addActivity((Activity) mContext);
         initTopbar("设置");
-        if ("notidentify".equals(getIntent().getStringExtra("whetheridentifiedid"))) {
-            ((TextView) findViewById(R.id.authentication_tv)).setText("未认证");
-        } else if ("identifying".equals(getIntent().getStringExtra("whetheridentifiedid"))) {
-            ((TextView) findViewById(R.id.authentication_tv)).setText("认证中");
-        } else if ("identifyfailed".equals(getIntent().getStringExtra("whetheridentifiedid"))) {
-            ((TextView) findViewById(R.id.authentication_tv)).setText("认证失败");
-        } else {
-            ((TextView) findViewById(R.id.authentication_tv)).setText("已认证");
-        }
-
-
         listener();
         try {
             String size = DataCleanManager.getTotalCacheSize(MyApplication.instance);
@@ -66,6 +56,22 @@ public class SetionActivity extends TopActivity {
 
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String state = ShareConfig.getConfigString(mContext, Constants.WHETHERIDENTIFIEDID, "notidentify");
+        TextView tvState = (TextView) findViewById(R.id.authentication_tv);
+        if ("notidentify".equals(state)) {
+            tvState.setText("未认证");
+        } else if ("identifying".equals(state)) {
+            tvState.setText("认证中");
+        } else if ("identifyfailed".equals(state)) {
+            tvState.setText("认证失败");
+        } else {
+            tvState.setText("已认证");
+        }
     }
 
     private void listener() {
@@ -148,9 +154,16 @@ public class SetionActivity extends TopActivity {
         (findViewById(R.id.authentication_tv)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, AccountAuthenticationActivity.class);
-                intent.putExtra("whetheridentifiedid", getIntent().getStringExtra("whetheridentifiedid"));
-                startActivityForResult(intent, 100);
+                String state = getIntent().getStringExtra("whetheridentifiedid");
+                if ("identifyfailed".equals(state)) {//没有通过认证
+                    startActivity(new Intent(mContext, RealNameAuthenticationFailActivity.class));
+
+                } else {//已通过和审核中的，就显示认证信息
+                    startActivity(new Intent(mContext, AccountAuthenticationActivity.class));
+                }
+//                Intent intent = new Intent(mContext, AccountAuthenticationActivity.class);
+//                intent.putExtra("whetheridentifiedid", getIntent().getStringExtra("whetheridentifiedid"));
+//                startActivityForResult(intent, 100);
             }
         });
     }

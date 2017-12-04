@@ -87,8 +87,8 @@ public class MyInformationActivity extends TopActivity {
         findViewById(R.id.info_sex_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OptionPicker picker = new OptionPicker((Activity) mContext, new String[]{
-                        "先生", "女士"
+                OptionPicker picker = new OptionPicker( mContext, new String[]{
+                        "男", "女"
                 });
                 picker.setOffset(1);
                 picker.setSelectedIndex(1);
@@ -97,7 +97,7 @@ public class MyInformationActivity extends TopActivity {
                     @Override
                     public void onOptionPicked(String option) {
                         String sex = "female";
-                        if ("先生".equals(option)) {
+                        if ("男".equals(option)) {
                             sex = "male";
                         }
                         ((TextView) findViewById(R.id.info_sex)).setText(option);
@@ -386,7 +386,7 @@ public class MyInformationActivity extends TopActivity {
     }
 
     private void openImage() {
-        // 进入相册 以下是例子：用不到的api可以不写
+        // 进入相册
         PictureSelector.create(mContext)
                 .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()
                 .theme(R.style.picture_default_style)//主题样式(不设置为默认样式) 也可参考demo values/styles下 例如：R.style.picture.white.style

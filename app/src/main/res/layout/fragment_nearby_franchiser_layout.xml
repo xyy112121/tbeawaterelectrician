@@ -112,12 +112,15 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:background="#BEBEBE" />
+            android:background="#BEBEBE"
+            android:visibility="gone"/>
 
         <RelativeLayout
+
             android:layout_width="0dp"
             android:layout_height="35dp"
-            android:layout_weight="0.5">
+            android:layout_weight="0.5"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"

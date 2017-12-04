@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.scanCode;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -63,7 +64,7 @@ public class ScanCodeActivity extends TopActivity {
         findViewById(R.id.input_code_iv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ScanCodeActivity.this,CodeInputActivity.class);
+                Intent intent = new Intent(ScanCodeActivity.this, CodeInputActivity.class);
                 startActivity(intent);
 
             }
@@ -176,7 +177,7 @@ public class ScanCodeActivity extends TopActivity {
         final CustomDialog dialog = new CustomDialog(ScanCodeActivity.this, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待...");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -187,20 +188,21 @@ public class ScanCodeActivity extends TopActivity {
                             Object date = re.getData();
                             Gson gson = new GsonBuilder().serializeNulls().create();
                             String json = gson.toJson(date);
-                            ProvingScanCodeResponseModel model = gson.fromJson(json,ProvingScanCodeResponseModel.class);
-                            if(model.qrtypeinfo != null){
+                            ProvingScanCodeResponseModel model = gson.fromJson(json, ProvingScanCodeResponseModel.class);
+                            if (model.qrtypeinfo != null) {
                                 Intent intent = new Intent();
                                 String type = model.qrtypeinfo.qrtype;
                                 if (type.equals("meetingcheckin")) {//会议签到成功页面
                                     intent.setClass(ScanCodeActivity.this, MeetingSignInResultActivity.class);
-                                } else if (type.equals("scanrebate"))  {//扫码返利信息页面
+                                } else if (type.equals("scanrebate")) {//扫码返利信息页面
                                     intent.setClass(ScanCodeActivity.this, ScanCodeViewActivity.class);
                                     intent.putExtra("type", "net");
-                                }else if (type.equals("verifytbeaproduct"))  {//扫码溯源页面
+                                } else if (type.equals("verifytbeaproduct")) {//扫码溯源页面
                                     intent.setClass(ScanCodeActivity.this, SuYuanViewActivity.class);
                                 }
                                 intent.putExtra("scanCode", result);
                                 startActivity(intent);
+                                finish();
                             }
 
                         } else {
@@ -218,7 +220,7 @@ public class ScanCodeActivity extends TopActivity {
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        UtilAssistants.showToast("操作失败！", mContext);
                         break;
                 }
             }
@@ -230,9 +232,9 @@ public class ScanCodeActivity extends TopActivity {
                 try {
                     UserAction userAction = new UserAction();
                     RspInfo1 re = userAction.provingScanCode(result);
-                    if(re == null){
+                    if (re == null) {
                         handler.sendEmptyMessage(ThreadState.ERROR);
-                    }else {
+                    } else {
                         handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                     }
                 } catch (Exception e) {

@@ -28,6 +28,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.publicUse.activity.NetWebViewActivity;
 import com.tbea.tb.tbeawaterelectrician.entity.Commodith;
 import com.tbea.tb.tbeawaterelectrician.entity.CompanyDynamic;
 import com.tbea.tb.tbeawaterelectrician.entity.NearbyCompany;
@@ -452,7 +453,7 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
                                 if (advertise != null) {
                                     ImageView imageView = (ImageView) findViewById(R.id.franchiser_view_advertisement);
                                     String picture = advertise.get("picture");
-                                    ImageLoader.getInstance().displayImage(picture , imageView);
+                                    ImageLoader.getInstance().displayImage(picture, imageView);
                                 }
 
 
@@ -733,9 +734,19 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
                     .getSystemService(context.LAYOUT_INFLATER_SERVICE);
             FrameLayout view = (FrameLayout) layoutInflater.inflate(
                     R.layout.fragment_company_dynamics_item, null);
-            CompanyDynamic obj = mList.get(position);
+            final CompanyDynamic obj = mList.get(position);
             ((TextView) view.findViewById(R.id.item_CompanyDynamic_newstime)).setText(obj.getNewstime());
             ((TextView) view.findViewById(R.id.item_CompanyDynamic_content)).setText(obj.getContent());
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, NetWebViewActivity.class);
+                    intent.putExtra("title", "动态详情");
+                    String par = "newsdetail?id=" + obj.getId();
+                    intent.putExtra("parameter", par);//URL后缀
+                    startActivity(intent);
+                }
+            });
             return view;
         }
 

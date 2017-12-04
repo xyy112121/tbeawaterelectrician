@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.scanCode;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +21,8 @@ import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * Created by cy on 2017/1/16.条形码输入界面
  */
@@ -30,7 +33,7 @@ public class CodeInputActivity extends TopActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scancode_input);
-        initTopbar("输入二维码编号");
+        initTopbar("输入编码");
 
         findViewById(R.id.scan_code_input_comfire).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +53,7 @@ public class CodeInputActivity extends TopActivity {
         final CustomDialog dialog = new CustomDialog(CodeInputActivity.this, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待...");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -75,6 +78,7 @@ public class CodeInputActivity extends TopActivity {
                                 }
                                 intent.putExtra("scanCode", result);
                                 startActivity(intent);
+                                finish();
                             }
 
                         } else {

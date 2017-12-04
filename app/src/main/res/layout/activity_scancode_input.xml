@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="输入二维码编号"
+            android:text="输入编码"
             android:textSize="16sp"
             android:textColor="#848484"/>
         <EditText

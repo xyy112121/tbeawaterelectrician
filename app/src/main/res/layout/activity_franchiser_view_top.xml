@@ -7,9 +7,9 @@
     <ImageView
         android:id="@+id/franchiser_view_advertisement"
         android:layout_width="match_parent"
-        android:layout_height="60dip"
+        android:layout_height="140dip"
         android:src="@drawable/icon_advertisement"
-        android:scaleType="center"
+        android:scaleType="fitXY"
         android:layout_marginTop="10dp"/>
     <View
         style="@style/horizontal_view"

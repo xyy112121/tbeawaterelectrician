@@ -285,7 +285,7 @@ public class TakeFragment extends Fragment implements BGARefreshLayout.BGARefres
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo re = userAction.getLocationList(mCityname);
+                    RspInfo re = userAction.getLocationList(mCityname,"1");
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);

@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.scanCode;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,12 +30,14 @@ import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- *返利详情
+ * 返利详情
  */
 
 public class ScanCodeViewActivity extends TopActivity {
@@ -86,7 +89,7 @@ public class ScanCodeViewActivity extends TopActivity {
             public void onClick(View view) {
                 if (mObj != null) {
                     if ("2".equals(mNeedappeal)) {
-                        UtilAssistants.showToast("您已经举报过了",mContext);
+                        UtilAssistants.showToast("您已经举报过了", mContext);
                         return;
                     }
                     Intent intent = new Intent(ScanCodeViewActivity.this, MyAccusationEditActivity.class);
@@ -114,7 +117,7 @@ public class ScanCodeViewActivity extends TopActivity {
         final CustomDialog dialog = new CustomDialog(ScanCodeViewActivity.this, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待...");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -123,19 +126,19 @@ public class ScanCodeViewActivity extends TopActivity {
                         try {
                             RspInfo1 re = (RspInfo1) msg.obj;
                             if (re.isSuccess()) {
-                                UtilAssistants.showToast(re.getMsg(),mContext);
+                                UtilAssistants.showToast(re.getMsg(), mContext);
                                 startActivity(new Intent(ScanCodeViewActivity.this, WalletIncomeAndExpensesActivity.class));
                                 finish();
                             } else {
-                                UtilAssistants.showToast(re.getMsg(),mContext);
+                                UtilAssistants.showToast(re.getMsg(), mContext);
                             }
                         } catch (Exception e) {
-                            UtilAssistants.showToast("操作失败！",mContext);
+                            UtilAssistants.showToast("操作失败！", mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        UtilAssistants.showToast("操作失败！", mContext);
                         break;
                 }
             }
@@ -248,7 +251,7 @@ public class ScanCodeViewActivity extends TopActivity {
                                 setViewDate(obj);
 
                             } else {
-                                UtilAssistants.showToast(re.getMsg(),mContext);
+                                UtilAssistants.showToast(re.getMsg(), mContext);
                             }
                         } catch (Exception e) {
                             Log.d(e.getMessage(), "");
@@ -257,7 +260,7 @@ public class ScanCodeViewActivity extends TopActivity {
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        UtilAssistants.showToast("操作失败！", mContext);
                         break;
                 }
             }

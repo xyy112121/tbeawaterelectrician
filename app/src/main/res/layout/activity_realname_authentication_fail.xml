@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/activity_page_top" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:text="系统拒绝理由"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <View
+            style="@style/horizontal_view"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp" />
+
+        <LinearLayout
+            android:id="@+id/realname_authentication_fail_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/identification_finish"
+        style="@style/style_next_btn"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/btn_bg_blue"
+        android:text="重新认证" />
+
+</RelativeLayout>

@@ -64,7 +64,7 @@ public class MyApplication extends Application implements BDLocationListener {
         Config.DEBUG = true;
         UMShareAPI.get(this);
         initUniversalImageLoader();
-//        SDKInitializer.initialize(getApplicationContext());
+        SDKInitializer.initialize(getApplicationContext());
         //百度定位
         mLocationClient = new LocationClient(getApplicationContext());
         mLocationClient.registerLocationListener(this);

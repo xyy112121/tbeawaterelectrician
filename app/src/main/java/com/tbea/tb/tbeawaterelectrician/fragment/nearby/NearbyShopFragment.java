@@ -211,7 +211,7 @@ public class NearbyShopFragment extends Fragment implements BGARefreshLayout.BGA
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo re = userAction.getLocationList(NearbyFragment.mCityname);
+                    RspInfo re = userAction.getLocationList(NearbyFragment.mCityname,"1");
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);

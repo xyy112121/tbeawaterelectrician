@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.fragment.my;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,8 +28,10 @@ import com.tbea.tb.tbeawaterelectrician.activity.my.meeting.activity.MeetingList
 import com.tbea.tb.tbeawaterelectrician.activity.publicUse.activity.NetWebViewActivity;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
+import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.EventCity;
 import com.tbea.tb.tbeawaterelectrician.util.EventFlag;
+import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
@@ -70,7 +73,7 @@ public class MyFragment extends Fragment {
     }
 
     public void getDate(final View view){
-        final Handler handler = new Handler(){
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what){
@@ -81,6 +84,7 @@ public class MyFragment extends Fragment {
                             Map<String, String> personInfo = (Map<String, String>) data.get("personinfo");
                             Map<String, String> serviceInfo = (Map<String, String>) data.get("serviceinfo");
                             whetheridentifiedid = personInfo.get("whetheridentifiedid");
+                            ShareConfig.setConfig(getActivity(), Constants.WHETHERIDENTIFIEDID,whetheridentifiedid);
                             ((TextView)view.findViewById(R.id.user_name)).setText(personInfo.get("name"));
                             ((TextView)view.findViewById(R.id.user_mobile)).setText(personInfo.get("mobile"));
                             String url = MyApplication.instance.getImgPath()+personInfo.get("picture");

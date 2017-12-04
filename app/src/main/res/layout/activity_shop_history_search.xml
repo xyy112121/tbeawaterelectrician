@@ -57,7 +57,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@null"
-                android:hint="搜索商品"
                 android:imeOptions="actionSearch"
                 android:singleLine="true"
                 android:textColor="#848484"
