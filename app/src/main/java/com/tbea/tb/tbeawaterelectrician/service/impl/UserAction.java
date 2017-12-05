@@ -1106,12 +1106,16 @@ public class UserAction extends BaseAction {
     /**
      * 注册时获取上级经销商列表
      */
-    public RspInfo getDistributorList(String provinceId, String cityId, String locationId) throws Exception {
+    public RspInfo getDistributorList(String provinceId, String cityId, String locationId,
+    String province,String city,String zone) throws Exception {
         RspInfo rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("provinceid", provinceId));
         pairs.add(new BasicNameValuePair("cityid", cityId));
         pairs.add(new BasicNameValuePair("zoneid", locationId));
+        pairs.add(new BasicNameValuePair(" province", province));
+        pairs.add(new BasicNameValuePair("city", city));
+        pairs.add(new BasicNameValuePair("zone", zone));
         String result = sendRequest("TBEAENG001001002001", pairs);
         rspInfo = gson.fromJson(result, new TypeToken<RspInfo<List<Condition>>>() {
         }.getType());

@@ -343,7 +343,7 @@ public class RegisterActivity extends TopActivity {
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo re = userAction.getDistributorList(mProvinceId, mCityId, mLocationId);
+                    RspInfo re = userAction.getDistributorList(mProvinceId, mCityId, mLocationId,mProvince,mCity,mLocation);
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
