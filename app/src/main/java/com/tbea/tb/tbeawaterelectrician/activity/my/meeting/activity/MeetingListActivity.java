@@ -53,6 +53,11 @@ public class MeetingListActivity extends TopActivity implements BGARefreshLayout
         intiView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mRefreshLayout.beginRefreshing();
+    }
 
     public void intiView() {
         mListView = (ListView) findViewById(R.id.listview);
@@ -61,7 +66,7 @@ public class MeetingListActivity extends TopActivity implements BGARefreshLayout
         mRefreshLayout = (BGARefreshLayout) findViewById(R.id.rl_recyclerview_refresh);
         mRefreshLayout.setDelegate(this);
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(mContext, true));
-        mRefreshLayout.beginRefreshing();
+
 
         mCodeView = (ImageView) findViewById(R.id.meeting_list_code_iv);
         mTimeView = (ImageView) findViewById(R.id.meeting_list_time_iv);
