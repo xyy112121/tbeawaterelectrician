@@ -108,6 +108,7 @@ public class AddressEditActivity extends TopActivity implements View.OnClickList
                     intent.putExtra("city",mObj.getCity());
                     intent.putExtra("zone",mObj.getZone());
                 }
+                intent.putExtra("withall","0");
                 startActivityForResult(intent,100);
 
             }

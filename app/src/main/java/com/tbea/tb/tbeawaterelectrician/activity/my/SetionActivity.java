@@ -155,7 +155,6 @@ public class SetionActivity extends TopActivity {
             @Override
             public void onClick(View view) {
                 String state = ShareConfig.getConfigString(mContext, Constants.WHETHERIDENTIFIEDID, "notidentify");
-//                String state = "identifyfailed";
                 if ("identifyfailed".equals(state)) {//没有通过认证
                     startActivity(new Intent(mContext, RealNameAuthenticationFailActivity.class));
 

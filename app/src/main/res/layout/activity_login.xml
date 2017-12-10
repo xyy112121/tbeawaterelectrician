@@ -128,19 +128,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@drawable/icon_qq" />
+                    android:src="@drawable/icon_qq"
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@drawable/icon_alipay" />
+                    android:src="@drawable/icon_alipay"
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@drawable/icon_weibo" />
+                    android:src="@drawable/icon_weibo"
+                    android:visibility="gone"/>
             </LinearLayout>
         </LinearLayout>
 

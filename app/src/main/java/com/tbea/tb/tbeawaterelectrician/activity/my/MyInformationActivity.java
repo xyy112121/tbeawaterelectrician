@@ -1,29 +1,19 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
 import android.app.Activity;
-import android.app.usage.UsageEvents;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Point;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.luck.picture.lib.PictureSelector;
-import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -38,26 +28,24 @@ import com.tbea.tb.tbeawaterelectrician.entity.UserInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
+import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.EventCity;
 import com.tbea.tb.tbeawaterelectrician.util.EventFlag;
+import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import cn.qqtheme.framework.picker.DatePicker;
 import cn.qqtheme.framework.picker.OptionPicker;
-
-import static com.umeng.socialize.utils.DeviceConfig.context;
 
 /**
  * Created by abc on 16/12/28.个人信息
@@ -81,6 +69,8 @@ public class MyInformationActivity extends TopActivity {
     public void listener() {
 
         mHeaderView = (ImageView)findViewById(R.id.info_head);
+
+
         /**
          * 性别
          */
@@ -151,10 +141,13 @@ public class MyInformationActivity extends TopActivity {
         findViewById(R.id.info_nickName_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = ((TextView) findViewById(R.id.info_nickName)).getText() + "";
-                Intent intent = new Intent(mContext, NickNameEditActivity.class);
-                intent.putExtra("code", email);
-                startActivityForResult(intent, RESULT_NICKNAME);
+                String state = ShareConfig.getConfigString(mContext, Constants.WHETHERIDENTIFIEDID, "notidentify");
+                if(!"identified".equals(state)){
+                    String nickName = ((TextView) findViewById(R.id.info_nickName)).getText() + "";
+                    Intent intent = new Intent(mContext, NickNameEditActivity.class);
+                    intent.putExtra("code", nickName);
+                    startActivityForResult(intent, RESULT_NICKNAME);
+                }
             }
         });
 

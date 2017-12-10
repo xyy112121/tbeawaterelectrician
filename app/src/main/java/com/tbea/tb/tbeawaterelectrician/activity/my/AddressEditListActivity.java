@@ -62,7 +62,7 @@ public class AddressEditListActivity extends TopActivity {
     }
 
     private void listener(){
-        ((Button)findViewById(R.id.addr_list_add)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.addr_list_add)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivityForResult(new Intent(mContext,AddressEditActivity.class),100);

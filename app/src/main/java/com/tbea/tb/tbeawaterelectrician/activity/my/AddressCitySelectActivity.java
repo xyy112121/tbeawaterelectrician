@@ -157,6 +157,10 @@ public class AddressCitySelectActivity extends TopActivity implements View.OnCli
                         re = userAction.getProvinceList();
                     }
                     if ("TBEAENG002001002000".equals(methodName)) {
+                        if(name == null||"".equals(name)){
+                            handler.sendEmptyMessage(ThreadState.ERROR);
+                            return;
+                        }
                         String provinceId = "";
                         for (Condition obj : mProvinceList) {
                             if (obj.getName().equals(name)) {
@@ -166,6 +170,10 @@ public class AddressCitySelectActivity extends TopActivity implements View.OnCli
                         re = userAction.getCityList2(provinceId);
                     }
                     if ("TBEAENG003001002000".equals(methodName)) {
+                        if(name == null ||"".equals(name)){
+                            handler.sendEmptyMessage(ThreadState.ERROR);
+                            return;
+                        }
                         String withall = getIntent().getStringExtra("withall");
                         if (withall == null || "".equals(withall)) {
                             withall = "1";

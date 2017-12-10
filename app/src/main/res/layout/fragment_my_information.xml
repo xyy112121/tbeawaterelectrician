@@ -58,7 +58,8 @@
 
             <TextView
                 android:id="@+id/info_nickName"
-                style="@style/my_right_text_style" />
+                style="@style/my_right_text_style"
+                android:background="@null"/>
         </RelativeLayout>
 
         <View style="@style/horizontal_view" />
