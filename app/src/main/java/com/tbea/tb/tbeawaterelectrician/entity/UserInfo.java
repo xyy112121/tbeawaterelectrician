@@ -16,6 +16,10 @@ public class UserInfo  {
     private String birthday;
     private String companyname;
     private String oldyears;
+    private String realname;//真实姓名
+    private String address;//所在地
+    private String servicescope;//服务范围
+    private String introduce;//个人介绍
 
     public String getNickname() {
         return nickname;
@@ -95,5 +99,21 @@ public class UserInfo  {
 
     public void setOldyears(String oldyears) {
         this.oldyears = oldyears;
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getServicescope() {
+        return servicescope;
+    }
+
+    public String getIntroduce() {
+        return introduce;
     }
 }

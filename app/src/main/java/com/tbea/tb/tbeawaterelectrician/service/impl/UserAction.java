@@ -627,10 +627,11 @@ public class UserAction extends BaseAction {
      * @param email      邮件
      * @param birthday   生日 日
      * @param birthmonth 生日 月
-     * @return
+     * @return , , ,
      * @throws Exception
      */
-    public RspInfo1 updateInfo(String nickname, String sex, String email, String birthyear, String birthday, String birthmonth) throws Exception {
+    public RspInfo1 updateInfo(String nickname, String sex, String email,
+                               String birthyear, String birthday, String birthmonth) throws Exception {
         RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("nickname", nickname));
@@ -639,10 +640,59 @@ public class UserAction extends BaseAction {
         pairs.add(new BasicNameValuePair("birthyear", birthyear));
         pairs.add(new BasicNameValuePair("birthday", birthday));
         pairs.add(new BasicNameValuePair("birthmonth", birthmonth));
+        pairs.add(new BasicNameValuePair("province", ""));
+        pairs.add(new BasicNameValuePair("city", ""));
+        pairs.add(new BasicNameValuePair("zone", ""));
+        pairs.add(new BasicNameValuePair("addr", ""));
+        pairs.add(new BasicNameValuePair("servicescope", ""));
+        pairs.add(new BasicNameValuePair("introduce", ""));
         String result = sendRequest("TBEAENG005001002001", pairs);
         rspInfo = gson.fromJson(result, RspInfo1.class);
         return rspInfo;
     }
+
+    public RspInfo1 updateInfo(String servicescope, String introduce) throws Exception {
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("nickname", ""));
+        pairs.add(new BasicNameValuePair("sex", ""));
+        pairs.add(new BasicNameValuePair("email", ""));
+        pairs.add(new BasicNameValuePair("birthyear", ""));
+        pairs.add(new BasicNameValuePair("birthday", ""));
+        pairs.add(new BasicNameValuePair("birthmonth", ""));
+        pairs.add(new BasicNameValuePair("province", ""));
+        pairs.add(new BasicNameValuePair("city", ""));
+        pairs.add(new BasicNameValuePair("zone", ""));
+        pairs.add(new BasicNameValuePair("addr", ""));
+        pairs.add(new BasicNameValuePair("servicescope", servicescope));
+        pairs.add(new BasicNameValuePair("introduce", introduce));
+        String result = sendRequest("TBEAENG005001002001", pairs);
+        rspInfo = gson.fromJson(result, RspInfo1.class);
+        return rspInfo;
+    }
+
+
+    public RspInfo1 updateInfoAddr(String province, String city, String zone, String addr
+    ) throws Exception {
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("nickname", ""));
+        pairs.add(new BasicNameValuePair("sex", ""));
+        pairs.add(new BasicNameValuePair("email", ""));
+        pairs.add(new BasicNameValuePair("birthyear", ""));
+        pairs.add(new BasicNameValuePair("birthday", ""));
+        pairs.add(new BasicNameValuePair("birthmonth", ""));
+        pairs.add(new BasicNameValuePair("servicescope", ""));
+        pairs.add(new BasicNameValuePair("introduce", ""));
+        pairs.add(new BasicNameValuePair("province", province));
+        pairs.add(new BasicNameValuePair("city", city));
+        pairs.add(new BasicNameValuePair("zone", zone));
+        pairs.add(new BasicNameValuePair("addr", addr));
+        String result = sendRequest("TBEAENG005001002001", pairs);
+        rspInfo = gson.fromJson(result, RspInfo1.class);
+        return rspInfo;
+    }
+
 
     /**
      * 获取个人信息
@@ -1107,7 +1157,7 @@ public class UserAction extends BaseAction {
      * 注册时获取上级经销商列表
      */
     public RspInfo getDistributorList(String provinceId, String cityId, String locationId,
-    String province,String city,String zone) throws Exception {
+                                      String province, String city, String zone) throws Exception {
         RspInfo rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         pairs.add(new BasicNameValuePair("provinceid", provinceId));

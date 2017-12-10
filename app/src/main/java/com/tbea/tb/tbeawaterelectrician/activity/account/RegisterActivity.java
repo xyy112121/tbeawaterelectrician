@@ -124,6 +124,9 @@ public class RegisterActivity extends TopActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, AddressCitySelectActivity.class);
                 intent.putExtra("withall", "0");//不显示全部
+                intent.putExtra("province", mProvince);
+                intent.putExtra("city", mCity);
+                intent.putExtra("zone", mLocation);
                 startActivityForResult(intent, ADDR_SELECT);
             }
         });
