@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_page_top" />
+
+    <LinearLayout style="@style/my_text_layout">
+
+        <TextView
+            style="@style/my_text_style"
+            android:layout_width="wrap_content"
+            android:text="真实姓名"
+            android:textColor="@color/text_color" />
+
+        <TextView
+            android:id="@+id/identification_name_tv"
+            style="@style/my_right_text_style1"
+            android:gravity="right|center_vertical" />
+    </LinearLayout>
+
+    <View style="@style/horizontal_view" />
+
+    <LinearLayout style="@style/my_text_layout">
+
+        <TextView
+            style="@style/my_text_style"
+            android:layout_width="wrap_content"
+            android:text="身份证号"
+            android:textColor="@color/text_color" />
+
+        <TextView
+            android:id="@+id/identification_cardId_tv"
+            style="@style/my_right_text_style1"
+            android:gravity="right|center_vertical" />
+    </LinearLayout>
+
+
+    <View
+        style="@style/horizontal_view"
+        android:layout_height="10dp"
+        android:background="@color/interval_color" />
+
+    <RelativeLayout
+        style="@style/my_text_layout"
+        android:layout_height="100dp">
+
+        <TextView
+            style="@style/my_text_style"
+            android:layout_width="wrap_content"
+            android:text="身份证正面"
+            android:textColor="@color/text_color" />
+
+        <ImageView
+            android:id="@+id/identification_personidcard1_tv"
+            android:layout_height="70dp"
+            android:layout_width="120dp"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/icon_defult" />
+    </RelativeLayout>
+
+    <View style="@style/horizontal_view" />
+
+    <RelativeLayout
+        style="@style/my_text_layout"
+        android:layout_height="100dp">
+
+        <TextView
+            style="@style/my_text_style"
+            android:layout_width="wrap_content"
+            android:text="身份证背面"
+            android:textColor="@color/text_color" />
+
+        <ImageView
+            android:id="@+id/identification_personidcard2_tv"
+            android:layout_height="70dp"
+            android:layout_width="120dp"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/icon_defult" />
+    </RelativeLayout>
+
+    <View style="@style/horizontal_view" />
+
+    <RelativeLayout
+        style="@style/my_text_layout"
+        android:layout_height="100dp">
+
+        <TextView
+            style="@style/my_text_style"
+            android:layout_width="wrap_content"
+            android:text="持证照"
+            android:textColor="@color/text_color" />
+
+        <ImageView
+            android:id="@+id/identification_personidcard3_tv"
+            android:layout_height="70dp"
+            android:layout_width="120dp"
+            android:layout_centerVertical="true"
+           android:scaleType="centerCrop"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/icon_defult" />
+    </RelativeLayout>
+
+    <View style="@style/horizontal_view" />
+</LinearLayout>

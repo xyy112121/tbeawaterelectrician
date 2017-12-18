@@ -18,6 +18,7 @@ import com.tbea.tb.tbeawaterelectrician.activity.MainActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.account.AccountAuthenticationActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.account.RealNameAuthenticationActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.account.RealNameAuthenticationFailActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.UpdateResponseModel;
@@ -155,15 +156,12 @@ public class SetionActivity extends TopActivity {
             @Override
             public void onClick(View view) {
                 String state = ShareConfig.getConfigString(mContext, Constants.WHETHERIDENTIFIEDID, "notidentify");
-                if ("identifyfailed".equals(state)) {//没有通过认证
-                    startActivity(new Intent(mContext, RealNameAuthenticationFailActivity.class));
+                if ("notidentify".equals(state)) {//没有认证
+                    startActivity(new Intent(mContext, AccountAuthenticationActivity.class));
 
                 } else {//已通过和审核中的，就显示认证信息
-                    startActivity(new Intent(mContext, AccountAuthenticationActivity.class));
+                    startActivity(new Intent(mContext, RealNameAuthenticationActivity.class));
                 }
-//                Intent intent = new Intent(mContext, AccountAuthenticationActivity.class);
-//                intent.putExtra("whetheridentifiedid", getIntent().getStringExtra("whetheridentifiedid"));
-//                startActivityForResult(intent, 100);
             }
         });
     }
