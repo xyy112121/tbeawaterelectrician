@@ -4,10 +4,15 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical">
-    <include layout="@layout/activity_page_top"/>
 
-    <LinearLayout style="@style/edit_style_layout"
-        android:layout_marginTop="20dp">
+    <include layout="@layout/activity_page_top" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/email_edit_code_tv"
@@ -16,13 +21,12 @@
 
         <EditText
             android:id="@+id/email_edit_code"
-            style="@style/edit_style"
+            android:layout_width="match_parent"
+            android:background="@null"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_weight="0.74"
             android:hint="请输入电子邮件"
-            android:imeOptions="actionNext"
-            android:maxLines="5"
-            android:inputType="textEmailAddress" />
+            />
 
     </LinearLayout>
 

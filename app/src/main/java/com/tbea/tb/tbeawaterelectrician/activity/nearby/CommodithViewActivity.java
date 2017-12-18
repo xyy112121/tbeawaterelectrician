@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.nearby;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -145,7 +146,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
      * 获取url
      */
     public void getUrl() {
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what) {
@@ -156,7 +157,9 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
 //                            String url = "http://www.u-shang.net/enginterface/index.php/Apph5/commoditysaleinfo?commodityid=" + id
 //                                    + "&&userid=" + MyApplication.instance.getUserId() + "&&longitude=" + MyApplication.instance.getLongitude()
 //                                    + "&&latitude=" + MyApplication.instance.getLatitude();
-                            String url = mUrl + "commoditysaleinfo?commodityid=" + id + "&&userid=" + MyApplication.instance.getUserId();
+                            String url = mUrl + "commoditysaleinfo?commodityid=" + id + "&&userid=" + MyApplication.instance.getUserId()
+                                    + "&&longitude=" + MyApplication.instance.getLongitude()
+                                    + "&&latitude=" + MyApplication.instance.getLatitude();
                             showWebView(url);
                         } else {
                             UtilAssistants.showToast(re.getMsg(), mContext);
@@ -268,7 +271,9 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
 //                        + "&&userid="+ MyApplication.instance.getUserId()+"&&longitude="+MyApplication.instance.getLongitude()
 //                        +"&&latitude="+MyApplication.instance.getLatitude();
                 mDialog.show();
-                String url = mUrl + "commoditysaleinfo?commodityid=" + id + "&&userid=" + MyApplication.instance.getUserId();
+                String url = mUrl + "commoditysaleinfo?commodityid=" + id + "&&userid=" + MyApplication.instance.getUserId()
+                        + "&&longitude=" + MyApplication.instance.getLongitude()
+                        + "&&latitude=" + MyApplication.instance.getLatitude();
                 showWebView(url);
             }
         });
@@ -550,7 +555,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
      * @return
      */
     private void getShareInfo(final String id) {
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -1021,7 +1026,7 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
      */
     public void addShopCar() {
         mDialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what) {
@@ -1030,7 +1035,9 @@ public class CommodithViewActivity extends Activity implements BGARefreshLayout.
                         if (re.isSuccess()) {
                             getShopCarNumber();
                             String url = mUrl + "commoditysaleinfo?commodityid=" + id + "&&userid=" + MyApplication.instance.getUserId()
-                                    + "&&colorid=" + mColorId + "&&commodityspecid=" + mSpecificationId + "&&commoditymodelid=" + mModelId;
+                                    + "&&colorid=" + mColorId + "&&commodityspecid=" + mSpecificationId + "&&commoditymodelid=" + mModelId
+                                    + "&&longitude=" + MyApplication.instance.getLongitude()
+                                    + "&&latitude=" + MyApplication.instance.getLatitude();
                             showWebView(url);
                             UtilAssistants.showToast("成功加入购物车！", mContext);
                         } else {

@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -184,7 +185,7 @@ public class MyInformationActivity extends TopActivity implements View.OnClickLi
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -332,7 +333,7 @@ public class MyInformationActivity extends TopActivity implements View.OnClickLi
                 break;
             case R.id.info_servicescope_layout:
                 String nickName = ((TextView) findViewById(R.id.info_servicescope_tv)).getText() + "";
-                intent = new Intent(mContext, NickNameEditActivity.class);
+                intent = new Intent(mContext, MultiLineEditActivity.class);
                 intent.putExtra("code", nickName);
                 intent.putExtra("title", "服务范围");
                 intent.putExtra("viewId", R.id.info_servicescope_tv);
@@ -341,10 +342,10 @@ public class MyInformationActivity extends TopActivity implements View.OnClickLi
                 break;
             case R.id.info_introduce_layout:
                 nickName = ((TextView) findViewById(R.id.info_introduce_tv)).getText() + "";
-                intent = new Intent(mContext, NickNameEditActivity.class);
+                intent = new Intent(mContext, MultiLineEditActivity.class);
                 intent.putExtra("code", nickName);
                 intent.putExtra("title", "个人介绍");
-                intent.putExtra("viewId",  R.id.info_introduce_tv);
+                intent.putExtra("viewId", R.id.info_introduce_tv);
                 startActivityForResult(intent, RESULT_NICKNAME);
 
                 break;
@@ -447,7 +448,7 @@ public class MyInformationActivity extends TopActivity implements View.OnClickLi
             final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
             dialog.setText("请等待");
             dialog.show();
-            final Handler handler = new Handler() {
+            @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     dialog.dismiss();
@@ -527,7 +528,7 @@ public class MyInformationActivity extends TopActivity implements View.OnClickLi
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -548,7 +549,7 @@ public class MyInformationActivity extends TopActivity implements View.OnClickLi
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo1 re = userAction.updateInfoAddr(province,city,location, "");
+                    RspInfo1 re = userAction.updateInfoAddr(province, city, location, "");
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);

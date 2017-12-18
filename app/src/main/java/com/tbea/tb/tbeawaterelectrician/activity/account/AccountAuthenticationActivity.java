@@ -91,12 +91,16 @@ public class AccountAuthenticationActivity extends TopActivity {
                             ImageView imageView1 = (ImageView) findViewById(R.id.register_update_image1);
                             ImageView imageView2 = (ImageView) findViewById(R.id.register_update_image2);
                             ImageView imageView3 = (ImageView) findViewById(R.id.register_update_image3);
-                            if (TextUtils.isEmpty(useridentifyinfo.get("personidcard1")))
-                                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcard1"), imageView1);
-                            if (TextUtils.isEmpty(useridentifyinfo.get("personidcard2")))
-                                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcard2"), imageView2);
-                            if (TextUtils.isEmpty(useridentifyinfo.get("personidcardwithperson")))
-                                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcardwithperson"), imageView3);
+                            personidcard1Path = useridentifyinfo.get("personidcard1");
+                            personidcard2Path = useridentifyinfo.get("personidcard2");
+                            personidcardwithpersonPath = useridentifyinfo.get("personidcardwithperson");
+
+                            if (TextUtils.isEmpty(personidcard1Path))
+                                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + personidcard1Path, imageView1);
+                            if (TextUtils.isEmpty(personidcard2Path))
+                                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + personidcard2Path, imageView2);
+                            if (TextUtils.isEmpty(personidcardwithpersonPath))
+                                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + personidcardwithpersonPath, imageView3);
 
                         } else {
                             UtilAssistants.showToast(re.getMsg(), mContext);
@@ -146,10 +150,10 @@ public class AccountAuthenticationActivity extends TopActivity {
     }
 
     private void setViewEdit(int id) {
-        EditText editText = (EditText)findViewById(id);
+        EditText editText = (EditText) findViewById(id);
         editText.setFocusableInTouchMode(true);
         editText.setFocusable(true);
-        if(editText.getId() == R.id.regist_realname){
+        if (editText.getId() == R.id.regist_realname) {
             editText.requestFocus();
         }
     }

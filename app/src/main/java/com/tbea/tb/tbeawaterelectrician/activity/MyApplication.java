@@ -46,12 +46,12 @@ import java.util.List;
 public class MyApplication extends Application implements BDLocationListener {
 
     private static final String IMG_SERVICE_PATH = "";
-    private static final String SERVICE_PATH = "http://www.u-shang.net/enginterface/index.php";
-//    private static final String SERVICE_PATH = "http://121.42.193.154:6698/enginterface/index.php";//测试
+//    private static final String SERVICE_PATH = "http://www.u-shang.net/enginterface/index.php";
+    private static final String SERVICE_PATH = "http://121.42.193.154:6698/enginterface/index.php";//测试
 
 
     public static MyApplication instance;
-    private List<SoftReference<Activity>> activitys = new ArrayList<SoftReference<Activity>>();
+    private List<SoftReference<Activity>> activitys = new ArrayList<>();
     private boolean mOnline = false;
 
 

@@ -4,249 +4,258 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color">
 
-    <LinearLayout
+    <include layout="@layout/activity_page_top" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_color"
-        android:orientation="vertical">
-
-        <include layout="@layout/activity_page_top" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/my_select_btn"
-            android:paddingRight="10dp">
-
-            <TextView
-                style="@style/my_text_style"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="头像" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/info_head"
-                android:src="@drawable/icon_arrow_right" />
-
-            <com.tbea.tb.tbeawaterelectrician.component.CircleImageView
-                android:id="@id/info_head"
-                android:layout_width="40dip"
-                android:layout_height="40dip"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp" />
-        </RelativeLayout>
-
-        <View style="@style/horizontal_view" />
-
-        <RelativeLayout
-            android:id="@+id/info_nickName_layout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@drawable/my_select_btn"
-            android:paddingRight="10dp">
-
-            <TextView
-                style="@style/my_text_style"
-                android:layout_height="wrap_content"
-                android:text="昵称" />
-
-            <TextView
-                android:id="@+id/info_nickName"
-                style="@style/my_right_text_style"
-                android:background="@null"/>
-        </RelativeLayout>
-
-        <View style="@style/horizontal_view" />
-
-        <RelativeLayout
-            android:id="@+id/info_sex_layout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@drawable/my_select_btn"
-            android:paddingRight="10dp">
-
-            <TextView
-                style="@style/my_text_style"
-                android:layout_height="wrap_content"
-                android:text="性别" />
-
-            <TextView
-                android:id="@+id/info_sex"
-                style="@style/my_right_text_style" />
-        </RelativeLayout>
-
-        <View style="@style/horizontal_view" />
-
-        <RelativeLayout
-            android:id="@+id/info_birthday_layout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@drawable/my_select_btn"
-            android:paddingRight="10dp">
-
-            <TextView
-                style="@style/my_text_style"
-                android:layout_height="wrap_content"
-                android:text="生日" />
-
-            <TextView
-                android:id="@+id/info_birthday"
-                style="@style/my_right_text_style" />
-        </RelativeLayout>
-
-        <View style="@style/horizontal_view" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@drawable/my_select_btn"
-            android:paddingRight="10dp">
-
-            <TextView
-                style="@style/my_text_style"
-                android:layout_width="wrap_content"
-                android:text="年龄" />
-
-            <TextView
-                android:id="@+id/info_workyear"
-                style="@style/my_right_text_style2" />
-        </RelativeLayout>
-
-        <View style="@style/horizontal_view" />
-
-        <RelativeLayout
-            android:id="@+id/info_email_layout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@drawable/my_select_btn"
-            android:paddingRight="10dp">
-
-            <TextView
-                style="@style/my_text_style"
-                android:layout_height="wrap_content"
-                android:text="电子邮件" />
-
-            <TextView
-                android:id="@+id/info_email"
-                style="@style/my_right_text_style" />
-        </RelativeLayout>
-
-        <View style="@style/horizontal_view" />
-
-        <RelativeLayout
-            android:id="@+id/info_addr_layout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@drawable/my_select_btn"
-            android:paddingRight="10dp">
-
-            <TextView
-                style="@style/my_text_style"
-                android:layout_height="wrap_content"
-                android:text="收货地址管理" />
-
-            <TextView
-                style="@style/my_right_text_style"
-                android:text="添加/修改" />
-        </RelativeLayout>
-
-        <View style="@style/horizontal_view" />
-
-        <RelativeLayout
-            android:id="@+id/info_address_layout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@drawable/my_select_btn"
-            android:paddingRight="10dp">
-
-            <TextView
-                style="@style/my_text_style"
-                android:layout_height="wrap_content"
-                android:text="所在地" />
-
-            <TextView
-                android:id="@+id/info_address_tv"
-                style="@style/my_right_text_style"
-                 />
-        </RelativeLayout>
-
-        <View style="@style/horizontal_view" />
-
-        <RelativeLayout
-            android:id="@+id/info_companyname_layout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@drawable/my_select_btn"
-            android:paddingRight="10dp">
-
-            <TextView
-                style="@style/my_text_style"
-                android:layout_width="wrap_content"
-                android:text="隶属" />
-
-            <TextView
-                android:id="@+id/info_companyname"
-                style="@style/my_right_text_style2" />
-        </RelativeLayout>
-
-        <View style="@style/horizontal_view" />
+        android:layout_below="@id/topbar"
+        android:background="@color/bg_color">
 
         <LinearLayout
-            android:id="@+id/info_servicescope_layout"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@drawable/my_select_btn"
-            android:paddingRight="10dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:background="@color/bg_color"
+            android:orientation="vertical">
 
-            <TextView
-                style="@style/my_text_style"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp">
+
+                <TextView
+                    style="@style/my_text_style"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="头像" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/info_head"
+                    android:src="@drawable/icon_arrow_right" />
+
+                <com.tbea.tb.tbeawaterelectrician.component.CircleImageView
+                    android:id="@id/info_head"
+                    android:layout_width="40dip"
+                    android:layout_height="40dip"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp" />
+            </RelativeLayout>
+
+            <View style="@style/horizontal_view" />
+
+            <RelativeLayout
+                android:id="@+id/info_nickName_layout"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp">
+
+                <TextView
+                    style="@style/my_text_style"
+                    android:layout_height="wrap_content"
+                    android:text="昵称" />
+
+                <TextView
+                    android:id="@+id/info_nickName"
+                    style="@style/my_right_text_style"
+                    android:background="@null" />
+            </RelativeLayout>
+
+            <View style="@style/horizontal_view" />
+
+            <RelativeLayout
+                android:id="@+id/info_sex_layout"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp">
+
+                <TextView
+                    style="@style/my_text_style"
+                    android:layout_height="wrap_content"
+                    android:text="性别" />
+
+                <TextView
+                    android:id="@+id/info_sex"
+                    style="@style/my_right_text_style" />
+            </RelativeLayout>
+
+            <View style="@style/horizontal_view" />
+
+            <RelativeLayout
+                android:id="@+id/info_birthday_layout"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp">
+
+                <TextView
+                    style="@style/my_text_style"
+                    android:layout_height="wrap_content"
+                    android:text="生日" />
+
+                <TextView
+                    android:id="@+id/info_birthday"
+                    style="@style/my_right_text_style" />
+            </RelativeLayout>
+
+            <View style="@style/horizontal_view" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp">
+
+                <TextView
+                    style="@style/my_text_style"
+                    android:layout_width="wrap_content"
+                    android:text="年龄" />
+
+                <TextView
+                    android:id="@+id/info_workyear"
+                    style="@style/my_right_text_style2" />
+            </RelativeLayout>
+
+            <View style="@style/horizontal_view" />
+
+            <RelativeLayout
+                android:id="@+id/info_email_layout"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp">
+
+                <TextView
+                    style="@style/my_text_style"
+                    android:layout_height="wrap_content"
+                    android:text="电子邮件" />
+
+                <TextView
+                    android:id="@+id/info_email"
+                    style="@style/my_right_text_style" />
+            </RelativeLayout>
+
+            <View style="@style/horizontal_view" />
+
+            <RelativeLayout
+                android:id="@+id/info_addr_layout"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp">
+
+                <TextView
+                    style="@style/my_text_style"
+                    android:layout_height="wrap_content"
+                    android:text="收货地址管理" />
+
+                <TextView
+                    style="@style/my_right_text_style"
+                    android:text="添加/修改" />
+            </RelativeLayout>
+
+            <View style="@style/horizontal_view" />
+
+            <RelativeLayout
+                android:id="@+id/info_address_layout"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp">
+
+                <TextView
+                    style="@style/my_text_style"
+                    android:layout_height="wrap_content"
+                    android:text="所在地" />
+
+                <TextView
+                    android:id="@+id/info_address_tv"
+                    style="@style/my_right_text_style" />
+            </RelativeLayout>
+
+            <View style="@style/horizontal_view" />
+
+            <RelativeLayout
+                android:id="@+id/info_companyname_layout"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/my_select_btn"
+                android:paddingRight="10dp">
+
+                <TextView
+                    style="@style/my_text_style"
+                    android:layout_width="wrap_content"
+                    android:text="隶属" />
+
+                <TextView
+                    android:id="@+id/info_companyname"
+                    style="@style/my_right_text_style2" />
+            </RelativeLayout>
+
+            <View style="@style/horizontal_view" />
+
+            <LinearLayout
+                android:id="@+id/info_servicescope_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="0.3"
-                android:text="服务范围" />
+                android:background="@drawable/my_select_btn"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp">
 
-            <TextView
-                android:id="@+id/info_servicescope_tv"
-                style="@style/my_right_text_style"
-                android:layout_width="0dp"
-                android:layout_weight="0.8"
-                />
-        </LinearLayout>
+                <TextView
+                    style="@style/my_text_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:text="服务范围" />
 
-        <View style="@style/horizontal_view" />
+                <TextView
+                    android:id="@+id/info_servicescope_tv"
+                    style="@style/my_right_text_style"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.8"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/info_introduce_layout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@drawable/my_select_btn"
-            android:paddingRight="10dp"
-            android:orientation="horizontal">
+            <View style="@style/horizontal_view" />
 
-            <TextView
-                style="@style/my_text_style"
+            <LinearLayout
+                android:id="@+id/info_introduce_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="0.3"
-                android:text="个人介绍" />
+                android:background="@drawable/my_select_btn"
+                android:orientation="horizontal"
+                android:paddingRight="10dp">
 
-            <TextView
-                android:id="@+id/info_introduce_tv"
-                style="@style/my_right_text_style"
-                android:layout_width="0dp"
-                android:layout_weight="0.8"
-                />
+                <TextView
+                    style="@style/my_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="个人介绍" />
+
+                <TextView
+                    android:id="@+id/info_introduce_tv"
+                    style="@style/my_right_text_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <View style="@style/horizontal_view" />
         </LinearLayout>
-
-        <View style="@style/horizontal_view" />
-    </LinearLayout>
+    </ScrollView>
 
     <View
         android:id="@+id/body_bg_view"
