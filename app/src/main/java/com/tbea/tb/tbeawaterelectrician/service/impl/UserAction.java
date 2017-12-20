@@ -707,6 +707,17 @@ public class UserAction extends BaseAction {
     }
 
     /**
+     * 获取服务范围
+     */
+    public RspInfo1 getServicesCopeInfo() throws Exception {
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG005001002006", pairs);
+        rspInfo = gson.fromJson(result, RspInfo1.class);
+        return rspInfo;
+    }
+
+    /**
      * 获取安全级别及原绑定手机号
      */
     public RspInfo1 getPhoneInfo() throws Exception {

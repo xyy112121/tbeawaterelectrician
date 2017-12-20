@@ -335,6 +335,7 @@
         <activity android:name=".activity.account.RealNameAuthenticationActivity"/>
         <activity android:name=".activity.account.AccountIdentifiedActivity"/>
         <activity android:name=".activity.my.MultiLineEditActivity"/>
+        <activity android:name=".activity.my.ServicesCopeActivity"/>
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->

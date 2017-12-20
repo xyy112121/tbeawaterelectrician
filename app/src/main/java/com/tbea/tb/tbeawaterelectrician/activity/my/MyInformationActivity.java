@@ -56,6 +56,7 @@ import cn.qqtheme.framework.picker.OptionPicker;
 public class MyInformationActivity extends TopActivity implements View.OnClickListener {
     private final int RESULT_EMAIL = 1000;
     private final int RESULT_NICKNAME = 1001;
+    private final int RESULT_SERVICESCOPE = 1002;
     private final int ADDR_SELECT = 100;
     List<LocalMedia> mSelectList = new ArrayList<>();
     ImageView mHeaderView;
@@ -332,16 +333,14 @@ public class MyInformationActivity extends TopActivity implements View.OnClickLi
                 }
                 break;
             case R.id.info_servicescope_layout:
-                String nickName = ((TextView) findViewById(R.id.info_servicescope_tv)).getText() + "";
-                intent = new Intent(mContext, MultiLineEditActivity.class);
-                intent.putExtra("code", nickName);
-                intent.putExtra("title", "服务范围");
-                intent.putExtra("viewId", R.id.info_servicescope_tv);
-                startActivityForResult(intent, RESULT_NICKNAME);
+//                String nickName = ((TextView) findViewById(R.id.info_servicescope_tv)).getText() + "";
+                intent = new Intent(mContext, ServicesCopeActivity.class);
+//                intent.putExtra("viewId", R.id.info_servicescope_tv);
+                startActivityForResult(intent, RESULT_SERVICESCOPE);
 
                 break;
             case R.id.info_introduce_layout:
-                nickName = ((TextView) findViewById(R.id.info_introduce_tv)).getText() + "";
+                String nickName = ((TextView) findViewById(R.id.info_introduce_tv)).getText() + "";
                 intent = new Intent(mContext, MultiLineEditActivity.class);
                 intent.putExtra("code", nickName);
                 intent.putExtra("title", "个人介绍");

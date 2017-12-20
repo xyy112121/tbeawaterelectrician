@@ -2,14 +2,11 @@ package com.tbea.tb.tbeawaterelectrician.activity.account;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -42,7 +39,6 @@ import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -95,11 +91,11 @@ public class AccountAuthenticationActivity extends TopActivity {
                             personidcard2Path = useridentifyinfo.get("personidcard2");
                             personidcardwithpersonPath = useridentifyinfo.get("personidcardwithperson");
 
-                            if (TextUtils.isEmpty(personidcard1Path))
+                            if (!TextUtils.isEmpty(personidcard1Path))
                                 ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + personidcard1Path, imageView1);
-                            if (TextUtils.isEmpty(personidcard2Path))
+                            if (!TextUtils.isEmpty(personidcard2Path))
                                 ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + personidcard2Path, imageView2);
-                            if (TextUtils.isEmpty(personidcardwithpersonPath))
+                            if (!TextUtils.isEmpty(personidcardwithpersonPath))
                                 ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + personidcardwithpersonPath, imageView3);
 
                         } else {
@@ -128,49 +124,49 @@ public class AccountAuthenticationActivity extends TopActivity {
         }).start();
     }
 
-    private void setView() {
-        (findViewById(R.id.regist_realname)).setFocusable(false);
-        (findViewById(R.id.regist_personid)).setFocusable(false);
-        findViewById(R.id.register_update_image1).setClickable(false);
-        findViewById(R.id.register_update_image2).setClickable(false);
-        findViewById(R.id.register_update_image3).setClickable(false);
-        mFinishView.setEnabled(false);
-        mFinishView.setText("认证中");
-    }
+//    private void setView() {
+//        (findViewById(R.id.regist_realname)).setFocusable(false);
+//        (findViewById(R.id.regist_personid)).setFocusable(false);
+//        findViewById(R.id.register_update_image1).setClickable(false);
+//        findViewById(R.id.register_update_image2).setClickable(false);
+//        findViewById(R.id.register_update_image3).setClickable(false);
+//        mFinishView.setEnabled(false);
+//        mFinishView.setText("认证中");
+//    }
 
-    private void setViewTrue() {
-        setViewEdit(R.id.regist_realname);
-        setViewEdit(R.id.regist_personid);
-        findViewById(R.id.register_update_image1).setClickable(true);
-        findViewById(R.id.register_update_image2).setClickable(true);
-        findViewById(R.id.register_update_image3).setClickable(true);
-        mFinishView.setEnabled(true);
-        mFinishView.setBackgroundResource(R.drawable.btn_bg_blue);
-        mFinishView.setText("提交审核");
-    }
+//    private void setViewTrue() {
+//        setViewEdit(R.id.regist_realname);
+//        setViewEdit(R.id.regist_personid);
+//        findViewById(R.id.register_update_image1).setClickable(true);
+//        findViewById(R.id.register_update_image2).setClickable(true);
+//        findViewById(R.id.register_update_image3).setClickable(true);
+//        mFinishView.setEnabled(true);
+//        mFinishView.setBackgroundResource(R.drawable.btn_bg_blue);
+//        mFinishView.setText("提交审核");
+//    }
 
-    private void setViewEdit(int id) {
-        EditText editText = (EditText) findViewById(id);
-        editText.setFocusableInTouchMode(true);
-        editText.setFocusable(true);
-        if (editText.getId() == R.id.regist_realname) {
-            editText.requestFocus();
-        }
-    }
+//    private void setViewEdit(int id) {
+//        EditText editText = (EditText) findViewById(id);
+//        editText.setFocusableInTouchMode(true);
+//        editText.setFocusable(true);
+//        if (editText.getId() == R.id.regist_realname) {
+//            editText.requestFocus();
+//        }
+//    }
 
 
     public void listener() {
         mFinishView = (Button) findViewById(R.id.register_commit_review);
-        if ("identifying".equals(mIdentify) || "identified".equals(mIdentify)) {//正在认证和认证通过
-            setView();
-        }
-
-        //认证失败和认证通过
-        if ("identifyfailed".equals(mIdentify) || "identified".equals(mIdentify)) {
-            mFinishView.setBackgroundResource(R.drawable.btn_bg_red);
-            mFinishView.setEnabled(true);
-            mFinishView.setText("重新认证");
-        }
+//        if ("identifying".equals(mIdentify) || "identified".equals(mIdentify)) {//正在认证和认证通过
+//            setView();
+//        }
+//
+//        //认证失败和认证通过
+//        if ("identifyfailed".equals(mIdentify) || "identified".equals(mIdentify)) {
+//            mFinishView.setBackgroundResource(R.drawable.btn_bg_red);
+//            mFinishView.setEnabled(true);
+//            mFinishView.setText("重新认证");
+//        }
 
         getDate();
         findViewById(R.id.register_update_image1).setOnClickListener(new View.OnClickListener() {
@@ -208,80 +204,75 @@ public class AccountAuthenticationActivity extends TopActivity {
         findViewById(R.id.register_commit_review).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if ("重新认证".equals(mFinishView.getText() + "") && "identified".equals(mIdentify)) {
-                    setViewTrue();
-                } else {
-                    try {
-                        final String realname = ((EditText) findViewById(R.id.regist_realname)).getText() + "";
-                        final String personid = ((EditText) findViewById(R.id.regist_personid)).getText() + "";
-                        if (realname.equals("")) {
-                            UtilAssistants.showToast("请输入真实姓名", mContext);
-                            return;
-                        }
-                        if (isIDCard(personid) == false) {
-                            UtilAssistants.showToast("请输入正确的身份证号", mContext);
-                            return;
-                        }
-
-                        if ("".equals(personidcard1Path)) {
-                            UtilAssistants.showToast("请选择需要上传的身份证正面", mContext);
-                            return;
-                        }
-                        if ("".equals(personidcard2Path)) {
-                            UtilAssistants.showToast("请选择需要上传的身份证反面", mContext);
-                            return;
-                        }
-                        if ("".equals(personidcardwithpersonPath)) {
-                            UtilAssistants.showToast("请选择需要上传的手持身份证照片", mContext);
-                            return;
-                        }
-
-                        final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
-                        dialog.setText("请等待...");
-                        dialog.show();
-
-                        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
-                            @Override
-                            public void handleMessage(Message msg) {
-                                dialog.dismiss();
-                                switch (msg.what) {
-                                    case ThreadState.SUCCESS:
-                                        RspInfo1 re = (RspInfo1) msg.obj;
-                                        UtilAssistants.showToast(re.getMsg(), mContext);
-                                        if (re.isSuccess()) {
-                                            ShareConfig.setConfig(mContext, Constants.WHETHERIDENTIFIEDID, "identifying");
-                                            setResult(RESULT_OK);
-                                            finish();
-                                        }
-                                        break;
-                                    case ThreadState.ERROR:
-                                        UtilAssistants.showToast("操作失败，请重试！", mContext);
-                                        break;
-                                }
-                            }
-                        };
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    Register obj = new Register();
-                                    obj.setRealname(realname);
-                                    obj.setPersonid(personid);
-                                    obj.setPersonidcard1(personidcard1Path);
-                                    obj.setPersonidcard2(personidcard2Path);
-                                    obj.setPersonidcardwithperson(personidcardwithpersonPath);
-                                    UserAction action = new UserAction();
-                                    RspInfo1 result = action.accountAuthentication(obj);
-                                    handler.obtainMessage(ThreadState.SUCCESS, result).sendToTarget();
-                                } catch (Exception e) {
-                                    handler.sendEmptyMessage(ThreadState.ERROR);
-                                }
-                            }
-                        }).start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                try {
+                    final String realname = ((EditText) findViewById(R.id.regist_realname)).getText() + "";
+                    final String personid = ((EditText) findViewById(R.id.regist_personid)).getText() + "";
+                    if (realname.equals("")) {
+                        UtilAssistants.showToast("请输入真实姓名", mContext);
+                        return;
                     }
+                    if (isIDCard(personid) == false) {
+                        UtilAssistants.showToast("请输入正确的身份证号", mContext);
+                        return;
+                    }
+
+                    if ("".equals(personidcard1Path)) {
+                        UtilAssistants.showToast("请选择需要上传的身份证正面", mContext);
+                        return;
+                    }
+                    if ("".equals(personidcard2Path)) {
+                        UtilAssistants.showToast("请选择需要上传的身份证反面", mContext);
+                        return;
+                    }
+                    if ("".equals(personidcardwithpersonPath)) {
+                        UtilAssistants.showToast("请选择需要上传的手持身份证照片", mContext);
+                        return;
+                    }
+
+                    final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
+                    dialog.setText("请等待...");
+                    dialog.show();
+
+                    @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
+                        @Override
+                        public void handleMessage(Message msg) {
+                            dialog.dismiss();
+                            switch (msg.what) {
+                                case ThreadState.SUCCESS:
+                                    RspInfo1 re = (RspInfo1) msg.obj;
+                                    UtilAssistants.showToast(re.getMsg(), mContext);
+                                    if (re.isSuccess()) {
+                                        ShareConfig.setConfig(mContext, Constants.WHETHERIDENTIFIEDID, "identifying");
+                                        setResult(RESULT_OK);
+                                        finish();
+                                    }
+                                    break;
+                                case ThreadState.ERROR:
+                                    UtilAssistants.showToast("操作失败，请重试！", mContext);
+                                    break;
+                            }
+                        }
+                    };
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Register obj = new Register();
+                                obj.setRealname(realname);
+                                obj.setPersonid(personid);
+                                obj.setPersonidcard1(personidcard1Path);
+                                obj.setPersonidcard2(personidcard2Path);
+                                obj.setPersonidcardwithperson(personidcardwithpersonPath);
+                                UserAction action = new UserAction();
+                                RspInfo1 result = action.accountAuthentication(obj);
+                                handler.obtainMessage(ThreadState.SUCCESS, result).sendToTarget();
+                            } catch (Exception e) {
+                                handler.sendEmptyMessage(ThreadState.ERROR);
+                            }
+                        }
+                    }).start();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });

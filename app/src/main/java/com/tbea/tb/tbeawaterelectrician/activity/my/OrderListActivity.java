@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -72,7 +73,7 @@ public class OrderListActivity extends TopActivity {
         final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
         dialog.setText("加载中...");
         dialog.show();
-        final Handler handler = new Handler(){
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();

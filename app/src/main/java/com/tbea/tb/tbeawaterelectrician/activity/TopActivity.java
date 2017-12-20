@@ -42,25 +42,6 @@ public class TopActivity extends AppCompatActivity {
     }
 
 
-    // 显示缺失权限提示
-    public void showMissingPermissionDialog() {
-        final CustomDialog dialog = new CustomDialog(TopActivity.this, R.style.MyDialog, R.layout.tip_delete_dialog);
-        dialog.setTitle(getResources().getString(R.string.help));
-        dialog.setText(getResources().getString(R.string.string_help_text));
-        dialog.setConfirmBtnClickListener(null, getResources().getString(R.string.quit));
-        dialog.setCancelBtnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                dialog.dismiss();
-                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, SET_REQEST);
-            }
-        }, getResources().getString(R.string.settings));
-        dialog.show();
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -108,9 +89,7 @@ public class TopActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * ���ú��˵��¼�
-     */
+
     protected void initTopbar(String text, OnClickListener listener, String flag) {
         TextView tv = (TextView) findViewById(R.id.top_center);
         mBackBtn = (ImageButton) findViewById(R.id.top_left);
@@ -123,9 +102,7 @@ public class TopActivity extends AppCompatActivity {
         mBackBtn.setOnClickListener(listener);
     }
 
-    /**
-     * �����ұ�Ϊ����
-     */
+
     protected void initTopbar(String text, String rightText,
                               OnClickListener listener) {
         TextView tv = (TextView) findViewById(R.id.top_center);

@@ -53,7 +53,7 @@
             android:textColor="@color/text_color" />
 
         <ImageView
-            android:id="@+id/identification_personidcard1_tv"
+            android:id="@+id/identification_personidcard1_iv"
             android:layout_height="70dp"
             android:layout_width="120dp"
             android:layout_centerVertical="true"
@@ -75,7 +75,7 @@
             android:textColor="@color/text_color" />
 
         <ImageView
-            android:id="@+id/identification_personidcard2_tv"
+            android:id="@+id/identification_personidcard2_iv"
             android:layout_height="70dp"
             android:layout_width="120dp"
             android:layout_centerVertical="true"
@@ -97,7 +97,7 @@
             android:textColor="@color/text_color" />
 
         <ImageView
-            android:id="@+id/identification_personidcard3_tv"
+            android:id="@+id/identification_personidcard3_iv"
             android:layout_height="70dp"
             android:layout_width="120dp"
             android:layout_centerVertical="true"
