@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,25 +16,18 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.Condition;
-import com.tbea.tb.tbeawaterelectrician.entity.NearbyCompany;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
-import com.tbea.tb.tbeawaterelectrician.util.EventCity;
-import com.tbea.tb.tbeawaterelectrician.util.EventFlag;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
-import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
-
-import org.greenrobot.eventbus.EventBus;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -42,7 +36,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
  * Created by cy on 2017/1/25.
  */
 
-public class CityListActivity extends Activity{
+public class CityListActivity extends Activity {
     private String mCityName = "";
     private StickyListHeadersListView mListView;
     private MyAdapter mAdapter;
@@ -51,23 +45,22 @@ public class CityListActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_list);
-        mListView = (StickyListHeadersListView)findViewById(R.id.list);
+        mListView = (StickyListHeadersListView) findViewById(R.id.list);
         mAdapter = new MyAdapter(CityListActivity.this);
         mListView.setAdapter(mAdapter);
-        LinearLayout layout = (LinearLayout)getLayoutInflater().inflate(R.layout.activity_city_list_head,null);
+        LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_city_list_head, null);
         mListView.addHeaderView(layout);
         getDate();
         listener();
     }
 
-    private void listener(){
-        final EditText editText = (EditText)findViewById(R.id.city_list_search_text);
+    private void listener() {
+        final EditText editText = (EditText) findViewById(R.id.city_list_search_text);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId== EditorInfo.IME_ACTION_SEARCH )
-                {
-                    mCityName = editText.getText()+"";
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    mCityName = editText.getText() + "";
                     mAdapter.removeAll();
                     getDate();
                     return true;
@@ -86,11 +79,11 @@ public class CityListActivity extends Activity{
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Condition condition = (Condition) mAdapter.getItem(i-1);
+                Condition condition = (Condition) mAdapter.getItem(i - 1);
                 Intent intent = new Intent();
-                intent.putExtra("cityId",condition.getId());
-                intent.putExtra("cityName",condition.getName());
-                setResult(RESULT_OK,intent);
+                intent.putExtra("cityId", condition.getId());
+                intent.putExtra("cityName", condition.getName());
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
@@ -98,8 +91,8 @@ public class CityListActivity extends Activity{
         findViewById(R.id.city_list_head_gps).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView addrView = (TextView)findViewById(R.id.city_list_head_addr);
-                addrView.setText(MyApplication.instance.getProvince() + " "+MyApplication.instance.getCity()+" "+MyApplication.instance.getDistrict());
+                TextView addrView = (TextView) findViewById(R.id.city_list_head_addr);
+                addrView.setText(MyApplication.instance.getProvince() + " " + MyApplication.instance.getCity() + " " + MyApplication.instance.getDistrict());
             }
         });
 
@@ -108,36 +101,36 @@ public class CityListActivity extends Activity{
             public void onClick(View view) {
                 Intent intent = new Intent();
 //                intent.putExtra("cityId");
-                intent.putExtra("cityName",MyApplication.instance.getCity());
-                setResult(RESULT_OK,intent);
+                intent.putExtra("cityName", MyApplication.instance.getCity());
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
 
     }
 
-    private void getDate(){
-        final CustomDialog dialog = new CustomDialog(CityListActivity.this,R.style.MyDialog,R.layout.tip_wait_dialog);
+    private void getDate() {
+        final CustomDialog dialog = new CustomDialog(CityListActivity.this, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("加载中...");
         dialog.show();
-        final Handler handler = new Handler(){
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
-                switch (msg.what){
+                switch (msg.what) {
                     case ThreadState.SUCCESS:
-                        RspInfo re = (RspInfo)msg.obj;
-                        if(re.isSuccess()){
-                           List<Condition> list = ( List<Condition>)re.getDateObj("citylist");
-                            if(list != null)
-                            mAdapter.addAll(list);
-                        }else {
-                            UtilAssistants.showToast(re.getMsg(),CityListActivity.this);
+                        RspInfo re = (RspInfo) msg.obj;
+                        if (re.isSuccess()) {
+                            List<Condition> list = (List<Condition>) re.getDateObj("citylist");
+                            if (list != null)
+                                mAdapter.addAll(list);
+                        } else {
+                            ToastUtil.showMessage(re.getMsg(), CityListActivity.this);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",CityListActivity.this);
+                        ToastUtil.showMessage("操作失败！", CityListActivity.this);
                         break;
                 }
             }
@@ -148,8 +141,8 @@ public class CityListActivity extends Activity{
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo  re = userAction.getCityList(mCityName);
-                    handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                    RspInfo re = userAction.getCityList(mCityName);
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
                 }
@@ -166,12 +159,12 @@ public class CityListActivity extends Activity{
             inflater = LayoutInflater.from(context);
         }
 
-        public void addAll(List<Condition> list){
+        public void addAll(List<Condition> list) {
             mList.addAll(list);
             notifyDataSetChanged();
         }
 
-        public  void removeAll(){
+        public void removeAll() {
             mList.clear();
             notifyDataSetChanged();
         }

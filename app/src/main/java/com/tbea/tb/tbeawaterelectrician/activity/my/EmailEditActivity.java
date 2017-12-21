@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.util.List;
@@ -44,34 +46,33 @@ public class EmailEditActivity extends TopActivity {
     /**
      * 事件
      */
-    private void listener(){
+    private void listener() {
         findViewById(R.id.email_edit_finish).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String email = ((TextView)findViewById(R.id.email_edit_code)).getText()+"";
-                if(isEmail(email)){
-                   final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
+                final String email = ((TextView) findViewById(R.id.email_edit_code)).getText() + "";
+                if (isEmail(email)) {
+                    final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
                     dialog.setText("请等待");
                     dialog.show();
-                    final Handler handler = new Handler(){
+                    @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
                         @Override
                         public void handleMessage(Message msg) {
                             dialog.dismiss();
-                            switch (msg.what){
+                            switch (msg.what) {
                                 case ThreadState.SUCCESS:
-                                    RspInfo1 re = (RspInfo1)msg.obj;
-                                    if(re.isSuccess()){
+                                    RspInfo1 re = (RspInfo1) msg.obj;
+                                    if (re.isSuccess()) {
                                         Intent intent = new Intent();
-                                        intent.putExtra("code",email);
-                                        setResult(RESULT_OK,intent);
-                                       finish();
-                                    }else {
-                                        UtilAssistants.showToast(re.getMsg(),mContext);
+                                        intent.putExtra("code", email);
+                                        setResult(RESULT_OK, intent);
+                                        finish();
+                                    } else {
+                                        ToastUtil.showMessage(re.getMsg(), mContext);
                                     }
-
                                     break;
                                 case ThreadState.ERROR:
-                                    UtilAssistants.showToast("操作失败！",mContext);
+                                    ToastUtil.showMessage("操作失败！", mContext);
                                     break;
                             }
                         }
@@ -82,15 +83,15 @@ public class EmailEditActivity extends TopActivity {
                         public void run() {
                             try {
                                 UserAction userAction = new UserAction();
-                                RspInfo1 re = userAction.updateInfo("","",email,"","","");
-                                handler.obtainMessage(ThreadState.SUCCESS,re).sendToTarget();
+                                RspInfo1 re = userAction.updateInfo("", "", email, "", "", "");
+                                handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                             } catch (Exception e) {
                                 handler.sendEmptyMessage(ThreadState.ERROR);
                             }
                         }
                     }).start();
-                }else {
-                    UtilAssistants.showToast("请填写正确的邮箱！",mContext);
+                } else {
+                    ToastUtil.showMessage("请填写正确的邮箱！", mContext);
                 }
 
             }

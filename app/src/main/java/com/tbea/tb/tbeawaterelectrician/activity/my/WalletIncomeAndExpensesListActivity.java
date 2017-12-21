@@ -1,8 +1,8 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,25 +11,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
-import com.tbea.tb.tbeawaterelectrician.entity.Receive;
 import com.tbea.tb.tbeawaterelectrician.entity.TakeMoney;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
-import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
@@ -59,7 +55,7 @@ public class WalletIncomeAndExpensesListActivity extends TopActivity implements 
      * 获取数据
      */
     public void getDate(){
-        final Handler handler = new Handler(){
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 mRefreshLayout.endLoadingMore();
@@ -68,22 +64,8 @@ public class WalletIncomeAndExpensesListActivity extends TopActivity implements 
                     case ThreadState.SUCCESS:
                         RspInfo re = (RspInfo)msg.obj;
                         if(re.isSuccess()){
-//                            Map<String, Object> data = (Map<String, Object>) re.getData();
-//                            Map<String,String> mymoneyinfo =  (Map<String,String>) data.get("mymoneyinfo");
-//                            if(mymoneyinfo != null){
-//                                ((TextView)findViewById(R.id.my_wallet_list_currentmoney)).setText("￥ "+mymoneyinfo.get("currentmoney"));
-//                            }
-//                            List<Map<String,String>> list =  (List<Map<String,String>>) data.get("nottakemoneylist");
                             List<TakeMoney> receiveList = (List<TakeMoney>)re.getDateObj("takemoneylist");
                             if(receiveList != null){
-//                                for (int i = 0;i< list.size();i++){
-//                                    Receive obj = new Receive();
-//                                    obj.setId(list.get(i).get("id"));
-//                                    obj.setEvent(list.get(i).get("takemoneycode"));
-//                                    obj.setMoney(list.get(i).get("money"));
-//                                    obj.setTime(list.get(i).get("validexpiredtime"));
-//                                    receiveList.add(obj);
-//                                }
                                 mAdapter.addAll(receiveList);
                             }else {
                                 if(mPage >1){//防止分页的时候没有加载数据，但是页数已经增加，导致下一次查询不正确
@@ -91,12 +73,12 @@ public class WalletIncomeAndExpensesListActivity extends TopActivity implements 
                                 }
                             }
                         }else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }
@@ -247,23 +229,22 @@ public class WalletIncomeAndExpensesListActivity extends TopActivity implements 
         final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
         dialog.setText("请等待...");
         dialog.show();
-        final Handler handler = new Handler(){
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
                 switch (msg.what){
                     case ThreadState.SUCCESS:
                         RspInfo1 re = (RspInfo1)msg.obj;
+                        ToastUtil.showMessage(re.getMsg(), mContext);
                         if(re.isSuccess()){
-                            UtilAssistants.showToast(re.getMsg(),mContext);
                             mRefreshLayout.beginRefreshing();
                         }else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }

@@ -2,6 +2,7 @@ package com.tbea.tb.tbeawaterelectrician.activity.my;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,8 +24,10 @@ import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,17 +38,23 @@ import java.util.List;
 public class ServicesCopeActivity extends TopActivity implements View.OnClickListener {
     private RecyclerView mRv;
     private MyAdapter mAdapter;
+    private String mRegistZone;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_servicescope);
-        initTopbar("服务范围","修改",this);
+        initTopbar("服务范围", "修改", this);
         mRv = (RecyclerView) findViewById(R.id.rv);
         mRv.setLayoutManager(new LinearLayoutManager(mContext));
 
         mAdapter = new MyAdapter(mContext);
         mRv.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getDate();
     }
 
@@ -68,15 +77,19 @@ public class ServicesCopeActivity extends TopActivity implements View.OnClickLis
                             String json = gson.toJson(re.getData());
                             ServicesCopeInfoModel model = gson.fromJson(json, ServicesCopeInfoModel.class);
                             if (model.userinfo != null) {
+                                mRegistZone = model.userinfo.registzone;
                                 ((TextView) findViewById(R.id.registzone_tv)).setText("注册区域：" + model.userinfo.registzone);
+                            }
+                            if (model.servicescopelist != null) {
+                                mAdapter.addAll(model.servicescopelist);
                             }
 
                         } else {
-                            UtilAssistants.showToast(re.getMsg(), mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！", mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }
@@ -98,6 +111,10 @@ public class ServicesCopeActivity extends TopActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent(mContext, ServicesCopeSelectActivity.class);
+        intent.putExtra("registZone", mRegistZone);
+        intent.putExtra("selectObj", (Serializable) mAdapter.getDatas());
+        startActivity(intent);
 
     }
 
@@ -121,53 +138,21 @@ public class ServicesCopeActivity extends TopActivity implements View.OnClickLis
             return mDatas;
         }
 
-        public MyAdapter setDatas(List<ServicesCopeInfoModel.Servicescope> datas) {
+        public void addAll(List<ServicesCopeInfoModel.Servicescope> datas) {
             mDatas = datas;
-            return this;
+            notifyDataSetChanged();
         }
 
         @Override
         public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new MyAdapter.ViewHolder(mInflater.inflate(R.layout.activity_servicescope, parent, false));
+            return new MyAdapter.ViewHolder(mInflater.inflate(R.layout.activity_servicescope_item, parent, false));
         }
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             final ServicesCopeInfoModel.Servicescope model = mDatas.get(position);
-            holder.tvCity.setText(model.name);
-
-
-//            holder.content.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    final boolean isCheck = holder.ck.isChecked();
-//                    if (isCheck) {
-//                        mDesUsers.remove(model);
-//                        mDesIds.remove(userBean.getUser().getId() + "");
-//                        holder.ck.setChecked(false);
-//                    } else {
-//                        holder.ck.setChecked(true);
-//                        mDesUsers.add(model);
-//                        mDesIds.add(userBean.getUser().getId() + "");
-//                    }
-//                }
-//            });
-//            holder.ck.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    final boolean isCheck = holder.ck.isChecked();
-//                    if (isCheck) {
-//                        mDesUsers.remove(model);
-//                        mDesIds.remove(userBean.getUser().getId() + "");
-//                        holder.ck.setChecked(false);
-//                    } else {
-//                        holder.ck.setChecked(true);
-//                        mDesUsers.add(model);
-//                        mDesIds.add(userBean.getUser().getId() + "");
-//                    }
-//                }
-//            });
-
+            holder.tvCity.setText(model.servicescope);
+            holder.ck.setVisibility(View.GONE);
         }
 
         @Override
@@ -182,8 +167,8 @@ public class ServicesCopeActivity extends TopActivity implements View.OnClickLis
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                tvCity = (TextView) itemView.findViewById(R.id.tvCity);
-                ck = (CheckBox) itemView.findViewById(R.id.ck);
+                tvCity = (TextView) itemView.findViewById(R.id.servicescope_tv);
+                ck = (CheckBox) itemView.findViewById(R.id.servicescope_ck);
                 content = itemView.findViewById(R.id.content);
             }
         }

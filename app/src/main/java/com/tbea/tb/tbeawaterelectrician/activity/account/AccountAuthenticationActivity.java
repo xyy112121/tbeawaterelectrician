@@ -37,6 +37,7 @@ import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.util.ArrayList;
@@ -99,12 +100,12 @@ public class AccountAuthenticationActivity extends TopActivity {
                                 ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + personidcardwithpersonPath, imageView3);
 
                         } else {
-                            UtilAssistants.showToast(re.getMsg(), mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！", mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }
@@ -208,24 +209,26 @@ public class AccountAuthenticationActivity extends TopActivity {
                     final String realname = ((EditText) findViewById(R.id.regist_realname)).getText() + "";
                     final String personid = ((EditText) findViewById(R.id.regist_personid)).getText() + "";
                     if (realname.equals("")) {
-                        UtilAssistants.showToast("请输入真实姓名", mContext);
+                        ToastUtil.showMessage("请输入真实姓名！", mContext);
+
                         return;
                     }
                     if (isIDCard(personid) == false) {
-                        UtilAssistants.showToast("请输入正确的身份证号", mContext);
+                        ToastUtil.showMessage("请输入正确的身份证号！", mContext);
+
                         return;
                     }
 
                     if ("".equals(personidcard1Path)) {
-                        UtilAssistants.showToast("请选择需要上传的身份证正面", mContext);
+                        ToastUtil.showMessage("请选择需要上传的身份证正面！", mContext);
                         return;
                     }
                     if ("".equals(personidcard2Path)) {
-                        UtilAssistants.showToast("请选择需要上传的身份证反面", mContext);
+                        ToastUtil.showMessage("请选择需要上传的身份证反面！", mContext);
                         return;
                     }
                     if ("".equals(personidcardwithpersonPath)) {
-                        UtilAssistants.showToast("请选择需要上传的手持身份证照片", mContext);
+                        ToastUtil.showMessage("请选择需要上传的手持身份证照片！", mContext);
                         return;
                     }
 
@@ -240,7 +243,7 @@ public class AccountAuthenticationActivity extends TopActivity {
                             switch (msg.what) {
                                 case ThreadState.SUCCESS:
                                     RspInfo1 re = (RspInfo1) msg.obj;
-                                    UtilAssistants.showToast(re.getMsg(), mContext);
+                                    ToastUtil.showMessage(re.getMsg(), mContext);
                                     if (re.isSuccess()) {
                                         ShareConfig.setConfig(mContext, Constants.WHETHERIDENTIFIEDID, "identifying");
                                         setResult(RESULT_OK);
@@ -248,7 +251,7 @@ public class AccountAuthenticationActivity extends TopActivity {
                                     }
                                     break;
                                 case ThreadState.ERROR:
-                                    UtilAssistants.showToast("操作失败，请重试！", mContext);
+                                    ToastUtil.showMessage("操作失败，请重试！", mContext);
                                     break;
                             }
                         }
@@ -379,7 +382,7 @@ public class AccountAuthenticationActivity extends TopActivity {
             imageView.setImageBitmap(bitmap);
             mFlag = 0;
         } catch (Exception e) {
-            UtilAssistants.showToast("操作失败!", mContext);
+            ToastUtil.showMessage("操作失败!", mContext);
         }
     }
 

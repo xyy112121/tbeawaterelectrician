@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +20,6 @@ import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.account.AccountAuthenticationActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.account.RealNameAuthenticationActivity;
-import com.tbea.tb.tbeawaterelectrician.activity.account.RealNameAuthenticationFailActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.UpdateResponseModel;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
@@ -29,7 +29,7 @@ import com.tbea.tb.tbeawaterelectrician.util.AppVersion;
 import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
-import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.cache.DataCleanManager;
 
 import java.io.File;
@@ -112,7 +112,8 @@ public class SetionActivity extends TopActivity {
 //                        String size = getCacheSize(getApplicationContext().getExternalCacheDir());
 
                         ((TextView) findViewById(R.id.cache_size)).setText("0KB");
-                        UtilAssistants.showToast("清除成功！", mContext);
+                        ToastUtil.showMessage("清除成功！", mContext);
+
                     }
                 }, "确定");
                 dialog.setConfirmBtnClickListener(new View.OnClickListener() {
@@ -171,7 +172,7 @@ public class SetionActivity extends TopActivity {
      */
     private void getUpdateInfo() {
         try {
-            final Handler handler = new Handler() {
+            @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     switch (msg.what) {
@@ -203,11 +204,11 @@ public class SetionActivity extends TopActivity {
                                     }
                                 }
                             } else {
-                                UtilAssistants.showToast(re.getMsg(), mContext);
+                                ToastUtil.showMessage(re.getMsg(), mContext);
                             }
                             break;
                         case ThreadState.ERROR:
-                            UtilAssistants.showToast("操作失败！", mContext);
+                            ToastUtil.showMessage("操作失败！", mContext);
                             break;
                     }
                 }

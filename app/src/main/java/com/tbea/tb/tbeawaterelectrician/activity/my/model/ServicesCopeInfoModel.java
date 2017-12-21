@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,7 +16,9 @@ public class ServicesCopeInfoModel {
         public String registzone;
     }
 
-    public class Servicescope{
-        public String name;
+    public class Servicescope implements Serializable {
+        public String iscurrent;
+        public String servicescope;
+        public String servicescopeid;
     }
 }

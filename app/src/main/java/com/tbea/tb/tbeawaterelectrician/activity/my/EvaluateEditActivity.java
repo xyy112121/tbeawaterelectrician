@@ -1,7 +1,7 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,7 +22,7 @@ import com.tbea.tb.tbeawaterelectrician.entity.ProductInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
-import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 
 /**
  * Created by abc on 17/3/5.
@@ -65,7 +65,7 @@ public class EvaluateEditActivity extends TopActivity implements View.OnClickLis
     public void onClick(View view) {
         final String appraise = ((EditText)findViewById(R.id.order_evaluate_edit_appraise)).getText()+"";
         if("".equals(mStarlevel) || "".equals(appraise)){
-            UtilAssistants.showToast("请评价...",mContext);
+            ToastUtil.showMessage("请评价...", mContext);
             return;
         }
 
@@ -73,7 +73,7 @@ public class EvaluateEditActivity extends TopActivity implements View.OnClickLis
         final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
         dialog.setText("请等待");
         dialog.show();
-        final Handler handler = new Handler(){
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -83,12 +83,12 @@ public class EvaluateEditActivity extends TopActivity implements View.OnClickLis
                         if(re.isSuccess()){
                             finish();
                         }else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }

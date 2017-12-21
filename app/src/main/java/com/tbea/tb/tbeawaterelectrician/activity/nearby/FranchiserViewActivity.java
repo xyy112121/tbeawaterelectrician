@@ -35,6 +35,7 @@ import com.tbea.tb.tbeawaterelectrician.entity.NearbyCompany;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.util.ArrayList;
@@ -492,7 +493,7 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
                                     }
                                 }
                             } else {
-                                UtilAssistants.showToast(re.getMsg(), mContext);
+                                ToastUtil.showMessage(re.getMsg(), mContext);
                             }
 
                         } catch (Exception e) {
@@ -501,7 +502,7 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！", mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }
@@ -557,16 +558,15 @@ public class FranchiserViewActivity extends TopActivity implements BGARefreshLay
                                     }
                                 }
                             } else {
-                                UtilAssistants.showToast(re.getMsg(), mContext);
+                                ToastUtil.showMessage(re.getMsg(), mContext);
                             }
 
                         } catch (Exception e) {
-                            Log.e("", "");
+                            ToastUtil.showMessage("操作失败！", mContext);
                         }
-
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！", mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }

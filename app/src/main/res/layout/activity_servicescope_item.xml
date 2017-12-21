@@ -9,7 +9,7 @@
     android:paddingLeft="15dp">
 
     <TextView
-        android:id="@+id/tvCity"
+        android:id="@+id/servicescope_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
@@ -17,7 +17,7 @@
         android:textColor="@color/text_gtay2"/>
 
     <CheckBox
-        android:id="@+id/addr_edit_isdefault"
+        android:id="@+id/servicescope_ck"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_gravity="center"

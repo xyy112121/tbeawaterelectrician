@@ -18,6 +18,7 @@ import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.util.Map;
@@ -86,12 +87,12 @@ public class RealNameAuthenticationActivity extends TopActivity {
                                 tittleView.setText("你已通过实名认证");
                             }
                         } else {
-                            UtilAssistants.showToast(re.getMsg(), mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！", mContext);
+                        ToastUtil.showMessage("操作失败!", mContext);
                         break;
                 }
             }

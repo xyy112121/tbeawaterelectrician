@@ -707,12 +707,35 @@ public class UserAction extends BaseAction {
     }
 
     /**
-     * 获取服务范围
+     * 显示服务范围页面
      */
     public RspInfo1 getServicesCopeInfo() throws Exception {
         RspInfo1 rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         String result = sendRequest("TBEAENG005001002006", pairs);
+        rspInfo = gson.fromJson(result, RspInfo1.class);
+        return rspInfo;
+    }
+
+    /**
+     * 得到设置服务区域时可选的区域列表
+     */
+    public RspInfo1 getServicesCopeList() throws Exception {
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG005001002007", pairs);
+        rspInfo = gson.fromJson(result, RspInfo1.class);
+        return rspInfo;
+    }
+
+    /**
+     * 保存设置服务范围
+     */
+    public RspInfo1 saveServicesCope(String ids) throws Exception {
+        RspInfo1 rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        pairs.add(new BasicNameValuePair("servicescopeidlist", ids));
+        String result = sendRequest("TBEAENG005001002008", pairs);
         rspInfo = gson.fromJson(result, RspInfo1.class);
         return rspInfo;
     }

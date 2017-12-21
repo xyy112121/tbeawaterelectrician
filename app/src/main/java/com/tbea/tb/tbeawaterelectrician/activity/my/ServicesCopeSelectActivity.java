@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -23,6 +24,7 @@ import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.util.ArrayList;
@@ -35,6 +37,8 @@ import java.util.List;
 public class ServicesCopeSelectActivity extends TopActivity implements View.OnClickListener {
     private RecyclerView mRv;
     private MyAdapter mAdapter;
+    private List<String> mIds = new ArrayList<>();
+    private List<ServicesCopeInfoModel.Servicescope> mSeleteObjs = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +47,9 @@ public class ServicesCopeSelectActivity extends TopActivity implements View.OnCl
         initTopbar("服务范围", "保存", this);
         mRv = (RecyclerView) findViewById(R.id.rv);
         mRv.setLayoutManager(new LinearLayoutManager(mContext));
-
+        String registZone = getIntent().getStringExtra("registZone");
+        ((TextView) findViewById(R.id.registzone_tv)).setText("注册区域：" + registZone);
+        mSeleteObjs = (List<ServicesCopeInfoModel.Servicescope>) getIntent().getSerializableExtra("selectObj");
         mAdapter = new MyAdapter(mContext);
         mRv.setAdapter(mAdapter);
         getDate();
@@ -67,16 +73,15 @@ public class ServicesCopeSelectActivity extends TopActivity implements View.OnCl
                             Gson gson = new GsonBuilder().serializeNulls().create();
                             String json = gson.toJson(re.getData());
                             ServicesCopeInfoModel model = gson.fromJson(json, ServicesCopeInfoModel.class);
-                            if (model.userinfo != null) {
-                                ((TextView) findViewById(R.id.registzone_tv)).setText("注册区域：" + model.userinfo.registzone);
+                            if (model.servicescopelist != null) {
+                                mAdapter.addAll(model.servicescopelist);
                             }
-
                         } else {
-                            UtilAssistants.showToast(re.getMsg(), mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！", mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }
@@ -87,7 +92,7 @@ public class ServicesCopeSelectActivity extends TopActivity implements View.OnCl
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo1 re = userAction.getServicesCopeInfo();
+                    RspInfo1 re = userAction.getServicesCopeList();
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
@@ -98,7 +103,52 @@ public class ServicesCopeSelectActivity extends TopActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
+        if (mIds.size() < 1) {
+            ToastUtil.showMessage("请先选择服务范围", mContext);
+            return;
+        }
+        final StringBuffer buffer = new StringBuffer();
+        for (String id : mIds) {
+            buffer.append(id);
+            if (buffer.length() > 0) {
+                buffer.append(",");
+            }
+        }
+        final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
+        dialog.setText("请等待");
+        dialog.show();
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                dialog.dismiss();
+                switch (msg.what) {
+                    case ThreadState.SUCCESS:
+                        RspInfo1 re = (RspInfo1) msg.obj;
+                        if (re.isSuccess()) {
+                            finish();
+                        } else {
+                            ToastUtil.showMessage(re.getMsg(), mContext);
+                        }
+                        break;
+                    case ThreadState.ERROR:
+                        ToastUtil.showMessage("操作失败！", mContext);
+                        break;
+                }
+            }
+        };
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserAction userAction = new UserAction();
+                    RspInfo1 re = userAction.saveServicesCope(buffer.toString());
+                    handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
+                } catch (Exception e) {
+                    handler.sendEmptyMessage(ThreadState.ERROR);
+                }
+            }
+        }).start();
     }
 
     private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
@@ -121,53 +171,50 @@ public class ServicesCopeSelectActivity extends TopActivity implements View.OnCl
             return mDatas;
         }
 
-        public MyAdapter setDatas(List<ServicesCopeInfoModel.Servicescope> datas) {
+        public MyAdapter addAll(List<ServicesCopeInfoModel.Servicescope> datas) {
             mDatas = datas;
+            notifyDataSetChanged();
             return this;
         }
 
         @Override
         public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new MyAdapter.ViewHolder(mInflater.inflate(R.layout.activity_servicescope, parent, false));
+            return new MyAdapter.ViewHolder(mInflater.inflate(R.layout.activity_servicescope_item, parent, false));
         }
 
         @Override
         public void onBindViewHolder(final MyAdapter.ViewHolder holder, final int position) {
             final ServicesCopeInfoModel.Servicescope model = mDatas.get(position);
-            holder.tvCity.setText(model.name);
+            holder.tvCity.setText(model.servicescope);
+            for (ServicesCopeInfoModel.Servicescope item : mSeleteObjs) {
+                if (item.servicescopeid.equals(model.servicescopeid)) {
+                    holder.ck.setChecked(true);
+                    mIds.add(model.servicescopeid);
+                }
+            }
+            holder.ck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        mIds.add(model.servicescopeid);
+                    } else {
+                        mIds.remove(model.servicescopeid);
+                    }
+                }
+            });
 
 
-//            holder.content.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    final boolean isCheck = holder.ck.isChecked();
-//                    if (isCheck) {
-//                        mDesUsers.remove(model);
-//                        mDesIds.remove(userBean.getUser().getId() + "");
-//                        holder.ck.setChecked(false);
-//                    } else {
-//                        holder.ck.setChecked(true);
-//                        mDesUsers.add(model);
-//                        mDesIds.add(userBean.getUser().getId() + "");
-//                    }
-//                }
-//            });
-//            holder.ck.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    final boolean isCheck = holder.ck.isChecked();
-//                    if (isCheck) {
-//                        mDesUsers.remove(model);
-//                        mDesIds.remove(userBean.getUser().getId() + "");
-//                        holder.ck.setChecked(false);
-//                    } else {
-//                        holder.ck.setChecked(true);
-//                        mDesUsers.add(model);
-//                        mDesIds.add(userBean.getUser().getId() + "");
-//                    }
-//                }
-//            });
-
+            holder.content.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final boolean isCheck = holder.ck.isChecked();
+                    if (isCheck) {
+                        holder.ck.setChecked(false);
+                    } else {
+                        holder.ck.setChecked(true);
+                    }
+                }
+            });
         }
 
         @Override
@@ -182,8 +229,8 @@ public class ServicesCopeSelectActivity extends TopActivity implements View.OnCl
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                tvCity = (TextView) itemView.findViewById(R.id.tvCity);
-                ck = (CheckBox) itemView.findViewById(R.id.ck);
+                tvCity = (TextView) itemView.findViewById(R.id.servicescope_tv);
+                ck = (CheckBox) itemView.findViewById(R.id.servicescope_ck);
                 content = itemView.findViewById(R.id.content);
             }
         }
