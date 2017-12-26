@@ -66,4 +66,25 @@ public class BaseAction {
         new Thread(task).start();
         return (String)task.get();
     }
+
+    /**
+     * 图片上传
+     * @return
+     */
+    public String uploadImage(final String serviceCode,final Map<String ,String> paramsIn,final Map<String,String> fileIn ) throws  Exception{
+        FutureTask task = new FutureTask(
+                new Callable()
+                {
+                    public String call() throws Exception {
+                        ReqHead rh = new ReqHead();
+                        rh.serviceCode=serviceCode;
+                        ReqUploadFile req = new ReqUploadFile(rh, paramsIn,fileIn);
+                        req.req();
+                        String rspContext = req.getRspContext();
+                        return rspContext;
+                    }
+                });
+        new Thread(task).start();
+        return (String)task.get();
+    }
 }

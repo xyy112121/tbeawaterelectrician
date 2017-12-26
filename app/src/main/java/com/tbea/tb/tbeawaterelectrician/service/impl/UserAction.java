@@ -1,6 +1,8 @@
 package com.tbea.tb.tbeawaterelectrician.service.impl;
 
 import com.google.gson.reflect.TypeToken;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.tbea.tb.tbeawaterelectrician.activity.account.model.ImageUploadResponseModel;
 import com.tbea.tb.tbeawaterelectrician.activity.account.model.ResponseInfo;
 import com.tbea.tb.tbeawaterelectrician.activity.my.model.MessageListResponseModel;
 import com.tbea.tb.tbeawaterelectrician.activity.my.model.MessageTypeListResponseModel;
@@ -1267,9 +1269,9 @@ public class UserAction extends BaseAction {
         Map<String, String> fileIn = new HashMap<>();
         paramsIn.put("realname", register.getRealname());
         paramsIn.put("personcardid", register.getPersonid());
-        fileIn.put("personidcard1", register.getPersonidcard1());
-        fileIn.put("personidcard2", register.getPersonidcard2());
-        fileIn.put("personidcardwithperson", register.getPersonidcardwithperson());
+        paramsIn.put("personidcard1", register.getPersonidcard1());
+        paramsIn.put("personidcard2", register.getPersonidcard2());
+        paramsIn.put("personidcardwithperson", register.getPersonidcardwithperson());
         String result = regist("TBEAENG005001002003", paramsIn, fileIn);
         rspInfo = gson.fromJson(result, RspInfo1.class);
         return rspInfo;
@@ -1318,6 +1320,17 @@ public class UserAction extends BaseAction {
         RspInfo rspInfo;
         List<NameValuePair> pairs = new ArrayList<>();
         String result = sendRequest("TBEAENG005001002004", pairs);
+        rspInfo = gson.fromJson(result, RspInfo.class);
+        return rspInfo;
+    }
+
+    /**
+     * 获取是否实名认证
+     */
+    public RspInfo getAccountAuthentication1() throws Exception {
+        RspInfo rspInfo;
+        List<NameValuePair> pairs = new ArrayList<>();
+        String result = sendRequest("TBEAENG005001002009", pairs);
         rspInfo = gson.fromJson(result, RspInfo.class);
         return rspInfo;
     }
@@ -1402,6 +1415,26 @@ public class UserAction extends BaseAction {
         String result = sendRequest("TBEAENG005001002005", pairs);
         rspInfo = gson.fromJson(result, ResponseInfo.class);
         return rspInfo;
+    }
+
+    /**
+     * 图片上传
+     */
+    public ImageUploadResponseModel uploadImage(List<LocalMedia> list) throws Exception {
+        ImageUploadResponseModel model;
+        Map<String, String> paramsIn = new HashMap<>();
+        Map<String, String> fileIn = new HashMap<>();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getCompressPath() != null) {
+                fileIn.put("file" + i, list.get(i).getCompressPath());
+            } else {
+                fileIn.put("file" + i, list.get(i).getPath());
+            }
+
+        }
+        String result = uploadImage("TBEAENG002002002000", paramsIn, fileIn);
+        model = gson.fromJson(result, ImageUploadResponseModel.class);
+        return model;
     }
 
 }

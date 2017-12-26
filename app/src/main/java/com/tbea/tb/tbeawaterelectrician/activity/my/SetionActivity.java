@@ -67,7 +67,7 @@ public class SetionActivity extends TopActivity {
         if ("notidentify".equals(state)) {
             tvState.setText("未认证");
         } else if ("identifying".equals(state)) {
-            tvState.setText("认证中");
+            tvState.setText("待审核");
         } else if ("identifyfailed".equals(state)) {
             tvState.setText("认证失败");
         } else {
@@ -235,12 +235,16 @@ public class SetionActivity extends TopActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == RESULT_OK) {
-            if ("notidentify".equals(data.getStringExtra("whetheridentifiedid"))) {
-                ((TextView) findViewById(R.id.authentication_tv)).setText("未认证");
-            } else if ("identifying".equals(data.getStringExtra("whetheridentifiedid"))) {
-                ((TextView) findViewById(R.id.authentication_tv)).setText("认证中");
+            String state = ShareConfig.getConfigString(mContext, Constants.WHETHERIDENTIFIEDID, "notidentify");
+            TextView tvState = (TextView) findViewById(R.id.authentication_tv);
+            if ("notidentify".equals(state)) {
+                tvState.setText("未认证");
+            } else if ("identifying".equals(state)) {
+                tvState.setText("待审核");
+            } else if ("identifyfailed".equals(state)) {
+                tvState.setText("认证失败");
             } else {
-                ((TextView) findViewById(R.id.authentication_tv)).setText("已认证");
+                tvState.setText("已认证");
             }
         }
     }

@@ -41,10 +41,15 @@ public class AccountIdentifiedActivity extends TopActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_identified);
         initTopbar("实名认证", "重新认证", this);
-        getDate();
         findViewById(R.id.identification_personidcard1_iv).setOnClickListener(this);
         findViewById(R.id.identification_personidcard2_iv).setOnClickListener(this);
         findViewById(R.id.identification_personidcard3_iv).setOnClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getDate();
     }
 
     private void getDate() {

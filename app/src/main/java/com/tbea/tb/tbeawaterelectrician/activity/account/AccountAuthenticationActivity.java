@@ -28,6 +28,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.account.model.ImageUploadResponseModel;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.component.CustomPopWindow;
 import com.tbea.tb.tbeawaterelectrician.entity.Register;
@@ -116,7 +117,7 @@ public class AccountAuthenticationActivity extends TopActivity {
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo re = userAction.getAccountAuthentication();
+                    RspInfo re = userAction.getAccountAuthentication1();
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
@@ -348,43 +349,73 @@ public class AccountAuthenticationActivity extends TopActivity {
                 case PictureConfig.CHOOSE_REQUEST:
                     // 图片选择结果回调
                     mSelectList = PictureSelector.obtainMultipleResult(data);
-//                    ImageLoader.getInstance().displayImage("file://" + mSelectList.get(0).getCompressPath(), mHeaderView);
-                    showImage(mSelectList.get(0).getCompressPath());
+                    uploadImage(mSelectList);
                     break;
 
             }
         }
     }
 
-    public void showImage(String filePath) {
-        try {
-            Bitmap bitmap = UtilAssistants.getBitmapFromPath(filePath, new Point(1024, 1024));
-            ImageView imageView = null;
-            if (mFlag == FlagImage.personidcard1) {
-                personidcard1Path = filePath;
-                imageView = (ImageView) findViewById(R.id.register_update_image1);
-            }
-            if (mFlag == FlagImage.personidcard2) {
-                personidcard2Path = filePath;
-                imageView = (ImageView) findViewById(R.id.register_update_image2);
-            }
-            if (mFlag == FlagImage.personidcardwithperson) {
-                personidcardwithpersonPath = filePath;
-                imageView = (ImageView) findViewById(R.id.register_update_image3);
-            }
+    private void uploadImage(final List<LocalMedia> list) {
+        final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
+        dialog.setText("请等待...");
+        dialog.show();
+        if (list.size() > 0) {
+            try {
+                @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        dialog.dismiss();
+                        switch (msg.what) {
+                            case ThreadState.SUCCESS:
+                                ImageUploadResponseModel model = (ImageUploadResponseModel) msg.obj;
+                                if (model.isSuccess() && model.data.pictureinfo != null) {
+                                    ImageView imageView = null;
+                                    String name = model.data.pictureinfo.picturesavenames;
+                                    if (mFlag == FlagImage.personidcard1) {
+                                        personidcard1Path = name;
+                                        imageView = (ImageView) findViewById(R.id.register_update_image1);
+                                    }
+                                    if (mFlag == FlagImage.personidcard2) {
+                                        personidcard2Path = name;
+                                        imageView = (ImageView) findViewById(R.id.register_update_image2);
+                                    }
+                                    if (mFlag == FlagImage.personidcardwithperson) {
+                                        personidcardwithpersonPath = name;
+                                        imageView = (ImageView) findViewById(R.id.register_update_image3);
+                                    }
+                                    ImageLoader.getInstance().displayImage("file://" + mSelectList.get(0).getCompressPath(), imageView);
+                                    mFlag = 0;
+                                    mSelectList.clear();
+                                } else {
+                                    ToastUtil.showMessage(model.getMsg(), mContext);
+                                }
+                                break;
+                            case ThreadState.ERROR:
+                                ToastUtil.showMessage("操作失败！", mContext);
+                                break;
+                        }
+                    }
+                };
 
-//            int width = imageView.getWidth();
-//            if(mFlag == FlagImage.personidcard1){
-//                width = width-10;
-//            }
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(imageView.getWidth(), imageView.getHeight());
-            imageView.setLayoutParams(layoutParams);
-            imageView.setImageBitmap(bitmap);
-            mFlag = 0;
-        } catch (Exception e) {
-            ToastUtil.showMessage("操作失败!", mContext);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            UserAction action = new UserAction();
+                            ImageUploadResponseModel model = action.uploadImage(list);
+                            handler.obtainMessage(ThreadState.SUCCESS, model).sendToTarget();
+                        } catch (Exception e) {
+                            handler.sendEmptyMessage(ThreadState.ERROR);
+                        }
+                    }
+                }).start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
+
 
     private class FlagImage {
         public static final int personidcard1 = 1000;//身份证正面
