@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.nearby;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -21,16 +22,14 @@ import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.my.EvaluateListActivity;
-import com.tbea.tb.tbeawaterelectrician.activity.my.OrderListActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.Address;
-import com.tbea.tb.tbeawaterelectrician.entity.Order;
 import com.tbea.tb.tbeawaterelectrician.entity.ProductInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
-import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +55,9 @@ public class OrderViewActivity extends TopActivity {
 
     }
 
-    private void listener(){
+    private void listener() {
         findViewById(R.id.order_view_phone).setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("MissingPermission")
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mPhone));
@@ -69,7 +69,7 @@ public class OrderViewActivity extends TopActivity {
         findViewById(R.id.order_view_delect).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_delete_dialog);
+                final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_delete_dialog);
                 dialog.show();
                 dialog.setText("是否删除该订单");
                 dialog.setConfirmBtnClickListener(new View.OnClickListener() {
@@ -78,7 +78,7 @@ public class OrderViewActivity extends TopActivity {
                         dialog.dismiss();
 
                     }
-                },"否");
+                }, "否");
                 dialog.setCancelBtnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -86,18 +86,18 @@ public class OrderViewActivity extends TopActivity {
                         delect();
 
                     }
-                },"是");
+                }, "是");
             }
         });
 
     }
 
     //删除订单
-    private void delect(){
+    private void delect() {
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待...");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -105,15 +105,16 @@ public class OrderViewActivity extends TopActivity {
                     case ThreadState.SUCCESS:
                         RspInfo1 re = (RspInfo1) msg.obj;
                         if (re.isSuccess()) {
-                            UtilAssistants.showToast("删除成功!",mContext);
+                            ToastUtil.showMessage("删除成功！", mContext);
                             finish();
                         } else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
+
                         break;
                 }
             }
@@ -143,7 +144,7 @@ public class OrderViewActivity extends TopActivity {
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("加载中...");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -224,7 +225,7 @@ public class OrderViewActivity extends TopActivity {
 
                                         } else if ("orderedwithnomoney".equals(state)) {//待付款
                                             Intent intent = new Intent(mContext, PayViewActivity.class);
-                                            intent.putExtra("ordertotlefee",orderInfo.get("actualneedpaymoney"));
+                                            intent.putExtra("ordertotlefee", orderInfo.get("actualneedpaymoney"));
                                             startActivity(intent);
                                         } else {//待收货
                                         }
@@ -242,15 +243,13 @@ public class OrderViewActivity extends TopActivity {
                                 obj.setAddress(receiveaddrinfo.get("address") + "");
                                 initAddrView(obj);
                             }
-
-
                         } else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }
@@ -280,7 +279,7 @@ public class OrderViewActivity extends TopActivity {
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待...");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -288,13 +287,13 @@ public class OrderViewActivity extends TopActivity {
                     case ThreadState.SUCCESS:
                         RspInfo1 re = (RspInfo1) msg.obj;
                         if (re.isSuccess()) {
-                            UtilAssistants.showToast("提醒发货成功",mContext);
+                            ToastUtil.showMessage("提醒发货成功！", mContext);
                         } else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }

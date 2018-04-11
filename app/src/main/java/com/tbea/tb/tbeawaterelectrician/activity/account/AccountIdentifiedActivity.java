@@ -1,12 +1,13 @@
 package com.tbea.tb.tbeawaterelectrician.activity.account;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.widget.EditText;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,24 +15,40 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.MyApplication;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.nearby.PictureShowActivity;
+import com.tbea.tb.tbeawaterelectrician.activity.nearby.model.PicturelistBean;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
  * 认证通过和认证中
  */
 
-public class AccountIdentifiedActivity extends TopActivity {
+public class AccountIdentifiedActivity extends TopActivity implements View.OnClickListener {
+    Map<String, String> mUserInfo;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_identified);
-        initTopbar("实名认证");
+        initTopbar("实名认证", "重新认证", this);
+        findViewById(R.id.identification_personidcard1_iv).setOnClickListener(this);
+        findViewById(R.id.identification_personidcard2_iv).setOnClickListener(this);
+        findViewById(R.id.identification_personidcard3_iv).setOnClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getDate();
     }
 
@@ -47,26 +64,27 @@ public class AccountIdentifiedActivity extends TopActivity {
                     case ThreadState.SUCCESS:
                         RspInfo re = (RspInfo) msg.obj;
                         if (re.isSuccess()) {
-                            Map<String, String> useridentifyinfo = (Map<String, String>) re.getDateObj("useridentifyinfo");
-                            ((TextView) findViewById(R.id.identification_name_tv)).setText(useridentifyinfo.get("realname"));
-                            ((TextView) findViewById(R.id.identification_cardId_tv)).setText(useridentifyinfo.get("personcardid"));
-                            ImageView imageView1 = (ImageView) findViewById(R.id.identification_personidcard1_tv);
-                            ImageView imageView2 = (ImageView) findViewById(R.id.identification_personidcard2_tv);
-                            ImageView imageView3 = (ImageView) findViewById(R.id.identification_personidcard3_tv);
-                            if (!TextUtils.isEmpty(useridentifyinfo.get("personidcard1")))
-                                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcard1"), imageView1);
-                            if (!TextUtils.isEmpty(useridentifyinfo.get("personidcard2")))
-                                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcard2"), imageView2);
-                            if (!TextUtils.isEmpty(useridentifyinfo.get("personidcardwithperson")))
-                                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + useridentifyinfo.get("personidcardwithperson"), imageView3);
+                            mUserInfo = (Map<String, String>) re.getDateObj("useridentifyinfo");
+                            ((TextView) findViewById(R.id.identification_name_tv)).setText(mUserInfo.get("realname"));
+                            ((TextView) findViewById(R.id.identification_cardId_tv)).setText(mUserInfo.get("personcardid"));
+                            ImageView imageView1 = (ImageView) findViewById(R.id.identification_personidcard1_iv);
+                            ImageView imageView2 = (ImageView) findViewById(R.id.identification_personidcard2_iv);
+                            ImageView imageView3 = (ImageView) findViewById(R.id.identification_personidcard3_iv);
+                            if (!TextUtils.isEmpty(mUserInfo.get("personidcard1")))
+                                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + mUserInfo.get("personidcard1"), imageView1);
+                            if (!TextUtils.isEmpty(mUserInfo.get("personidcard2")))
+                                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + mUserInfo.get("personidcard2"), imageView2);
+                            if (!TextUtils.isEmpty(mUserInfo.get("personidcardwithperson")))
+                                ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + mUserInfo.get("personidcardwithperson"), imageView3);
 
                         } else {
-                            UtilAssistants.showToast(re.getMsg(), mContext);
+
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！", mContext);
+                        ToastUtil.showMessage("操作失败!", mContext);
                         break;
                 }
             }
@@ -84,5 +102,46 @@ public class AccountIdentifiedActivity extends TopActivity {
                 }
             }
         }).start();
+    }
+
+    @Override
+    public void onClick(View v) {
+        List<PicturelistBean> picturelist;
+        switch (v.getId()) {
+            case R.id.identification_personidcard1_iv:
+                picturelist = new ArrayList<>();
+                PicturelistBean bean = new PicturelistBean();
+                bean.largepicture = mUserInfo.get("personidcard1");
+                picturelist.add(bean);
+                openImage(picturelist, 0);
+                break;
+            case R.id.identification_personidcard2_iv:
+                picturelist = new ArrayList<>();
+                bean = new PicturelistBean();
+                bean.largepicture = mUserInfo.get("personidcard2");
+                picturelist.add(bean);
+                openImage(picturelist, 0);
+                break;
+            case R.id.identification_personidcard3_iv:
+                picturelist = new ArrayList<>();
+                bean = new PicturelistBean();
+                bean.largepicture = mUserInfo.get("personidcardwithperson");
+                picturelist.add(bean);
+                openImage(picturelist, 0);
+                break;
+            case R.id.top_right_text:
+                startActivity(new Intent(mContext, AccountAuthenticationActivity.class));
+                break;
+        }
+
+    }
+
+    private void openImage(List<PicturelistBean> picturelist, int index) {
+
+        Intent intent = new Intent(mContext, PictureShowActivity.class);
+        intent.putExtra("images", (Serializable) picturelist);
+        intent.putExtra("index", index);
+        startActivity(intent);
+//
     }
 }

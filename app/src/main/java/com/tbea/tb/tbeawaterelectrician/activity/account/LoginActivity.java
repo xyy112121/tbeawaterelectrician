@@ -1,6 +1,7 @@
 package com.tbea.tb.tbeawaterelectrician.activity.account;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -28,6 +29,7 @@ import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.util.Map;
@@ -149,18 +151,18 @@ public class LoginActivity extends Activity {
 
     public void login(final String mobile, final String pwd) {
         if (isMobileNO(mobile) == false) {
-            UtilAssistants.showToast("请输入正确的手机号码！",LoginActivity.this);
+            ToastUtil.showMessage("请输入正确的手机号码", LoginActivity.this);
             return;
         }
         if ("".equals(pwd)) {
-            UtilAssistants.showToast("请输入密码！",LoginActivity.this);
+            ToastUtil.showMessage("请输入密码", LoginActivity.this);
             return;
 
         }
         final CustomDialog dialog = new CustomDialog(LoginActivity.this, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -179,11 +181,11 @@ public class LoginActivity extends Activity {
                             MyApplication.instance.exit();
                             finish();
                         } else {
-                            UtilAssistants.showToast(re.getMsg(),LoginActivity.this);
+                            ToastUtil.showMessage(re.getMsg(), LoginActivity.this);
                         }
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",LoginActivity.this);
+                        ToastUtil.showMessage("操作失败", LoginActivity.this);
                         break;
                 }
             }

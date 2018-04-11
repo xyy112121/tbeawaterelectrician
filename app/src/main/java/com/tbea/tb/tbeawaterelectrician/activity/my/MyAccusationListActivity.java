@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,10 @@ import android.widget.TextView;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.entity.Appeal;
-import com.tbea.tb.tbeawaterelectrician.entity.Receive;
-import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
-import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,12 +83,12 @@ public class MyAccusationListActivity extends TopActivity implements BGARefreshL
                                 }
                             }
                         }else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        ToastUtil.showMessage("操作失败，请重试！", mContext);
                         break;
                 }
             }

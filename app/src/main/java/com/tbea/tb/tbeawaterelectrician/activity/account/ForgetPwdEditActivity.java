@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.account;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 /**
@@ -43,19 +45,19 @@ public class ForgetPwdEditActivity extends TopActivity {
                 String confirmPwd = ((TextView)findViewById(R.id.pwd_edit_confirm)).getText()+"";
 
                 if("".equals(newPwd)){
-                    UtilAssistants.showToast("新密码不能为空！",mContext);
+                    ToastUtil.showMessage("新密码不能为空!", mContext);
                     return;
                 }
 
                 if(newPwd.length() < 6 || newPwd.length() > 10){
-                    UtilAssistants.showToast("密码长度6到10位！",mContext);
+                    ToastUtil.showMessage("密码长度6到10位!", mContext);
                     return;
                 }
 
 
 
                 if(!newPwd.equals(confirmPwd)){
-                    UtilAssistants.showToast("两次密码不一致！",mContext);
+                    ToastUtil.showMessage("两次密码不一致!", mContext);
                     return;
                 }
                 String mobile = getIntent().getStringExtra("mobile");
@@ -69,7 +71,7 @@ public class ForgetPwdEditActivity extends TopActivity {
         final CustomDialog dialog = new CustomDialog(mContext,R.style.MyDialog,R.layout.tip_wait_dialog);
         dialog.setText("请等待");
         dialog.show();
-        final Handler handler = new Handler(){
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -81,11 +83,11 @@ public class ForgetPwdEditActivity extends TopActivity {
                             startActivity(intent);
                             finish();
                         }else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        ToastUtil.showMessage("操作失败!", mContext);
                         break;
                 }
             }

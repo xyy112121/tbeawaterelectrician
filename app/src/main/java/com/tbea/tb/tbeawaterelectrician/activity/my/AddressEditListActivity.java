@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.util.ArrayList;
@@ -118,7 +120,7 @@ public class AddressEditListActivity extends TopActivity {
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待...");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -129,12 +131,12 @@ public class AddressEditListActivity extends TopActivity {
                            mAdapter.removeAll();
                             getListDate();
                         } else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }
@@ -171,7 +173,7 @@ public class AddressEditListActivity extends TopActivity {
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("加载中...");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -185,12 +187,12 @@ public class AddressEditListActivity extends TopActivity {
                             }
 
                         } else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }

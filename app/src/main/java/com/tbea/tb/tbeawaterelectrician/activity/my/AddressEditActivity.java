@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 /**
@@ -54,7 +56,7 @@ public class AddressEditActivity extends TopActivity implements View.OnClickList
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("加载中...");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -72,12 +74,12 @@ public class AddressEditActivity extends TopActivity implements View.OnClickList
                                 ((CheckBox)findViewById(R.id.addr_edit_isdefault)).setChecked(true);
                             }
                         } else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        ToastUtil.showMessage("操作失败", mContext);
                         break;
                 }
             }
@@ -137,12 +139,12 @@ public class AddressEditActivity extends TopActivity implements View.OnClickList
         CheckBox ck = (CheckBox)findViewById(R.id.addr_edit_isdefault);
 
         if("".equals(name) || "".equals(contactmobile) || "".equals(address) || "".equals(citys)){
-            UtilAssistants.showToast("请填写完整的地址信息",mContext);
+            ToastUtil.showMessage("请填写完整的地址信息", mContext);
             return;
         }
 
         if(isMobileNO(contactmobile) == false){
-            UtilAssistants.showToast("请输入正确的手机号码！",mContext);
+            ToastUtil.showMessage("请输入正确的手机号码", mContext);
             return;
         }
 
@@ -158,7 +160,7 @@ public class AddressEditActivity extends TopActivity implements View.OnClickList
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待...");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -169,12 +171,12 @@ public class AddressEditActivity extends TopActivity implements View.OnClickList
                             setResult(RESULT_OK);
                             finish();
                         } else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }

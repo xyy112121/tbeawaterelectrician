@@ -1,6 +1,7 @@
 package com.tbea.tb.tbeawaterelectrician.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.Thing;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mic.etoast2.Toast;
 import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.account.LoginActivity;
 import com.tbea.tb.tbeawaterelectrician.activity.scanCode.ScanCodeActivity;
@@ -31,7 +31,7 @@ import com.tbea.tb.tbeawaterelectrician.util.AppVersion;
 import com.tbea.tb.tbeawaterelectrician.util.Constants;
 import com.tbea.tb.tbeawaterelectrician.util.ShareConfig;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
-import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import io.reactivex.functions.Consumer;
@@ -136,7 +136,7 @@ public class MainActivity extends TopActivity {
         popWindow1.setItemClickClose(new CustomPopWindow1.ItemClickClose() {
             @Override
             public void close() {
-                UtilAssistants.showToast("你需要允许访问权限，才可正常使用该功能！", mContext);
+                ToastUtil.showMessage("你需要允许访问权限，才可正常使用该功能！", mContext);
                 finish();
             }
         });
@@ -148,7 +148,7 @@ public class MainActivity extends TopActivity {
      */
     private void getUpdateInfo() {
         try {
-            final Handler handler = new Handler() {
+            @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     switch (msg.what) {
@@ -181,7 +181,7 @@ public class MainActivity extends TopActivity {
                             }
                             break;
                         case ThreadState.ERROR:
-                            UtilAssistants.showToast("操作失败！", mContext);
+                            ToastUtil.showMessage("操作失败！", mContext);
                             break;
                     }
                 }

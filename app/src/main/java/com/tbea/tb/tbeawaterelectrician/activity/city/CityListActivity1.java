@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.city;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import com.tbea.tb.tbeawaterelectrician.entity.Condition;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.util.ArrayList;
@@ -172,7 +174,7 @@ public class CityListActivity1 extends Activity {
         final CustomDialog dialog = new CustomDialog(CityListActivity1.this, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("加载中...");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -199,12 +201,12 @@ public class CityListActivity1 extends Activity {
                             }
 //                                mAdapter.addAll(list);
                         } else {
-                            UtilAssistants.showToast(re.getMsg(),CityListActivity1.this);
+                            ToastUtil.showMessage(re.getMsg(), CityListActivity1.this);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",CityListActivity1.this);
+                        ToastUtil.showMessage("操作失败！", CityListActivity1.this);
                         break;
                 }
             }

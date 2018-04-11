@@ -1,7 +1,7 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,14 +18,12 @@ import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.entity.Receive;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
-import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
-import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
@@ -92,7 +88,7 @@ public class WalletIncomeAndExpensesActivity extends TopActivity implements BGAR
      * 获取数据
      */
     public void getDate() {
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 mRefreshLayout.endLoadingMore();
@@ -110,12 +106,12 @@ public class WalletIncomeAndExpensesActivity extends TopActivity implements BGAR
                                 }
                             }
                         } else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }

@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -36,6 +37,7 @@ import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.io.File;
@@ -76,7 +78,7 @@ public class MyAccusationEditActivity extends TopActivity {
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("加载中...");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -103,12 +105,12 @@ public class MyAccusationEditActivity extends TopActivity {
                                 mObj.setCommodityid(getIntent().getStringExtra("commodityid"));
                             }
                         } else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }
@@ -135,7 +137,7 @@ public class MyAccusationEditActivity extends TopActivity {
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("加载中");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -165,12 +167,12 @@ public class MyAccusationEditActivity extends TopActivity {
                             }
 
                         } else {
-                            UtilAssistants.showToast("操作失败！",mContext);
+                            ToastUtil.showMessage("操作失败！", mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }
@@ -225,18 +227,18 @@ public class MyAccusationEditActivity extends TopActivity {
             final String appealcontent = ((EditText) findViewById(R.id.accusation_edit_appealcontent)).getText() + "";
             final String type = ((TextView) findViewById(R.id.accusation_edit_type)).getText() + "";
             if (appealcontent.equals("")) {
-                UtilAssistants.showToast("请填写完全举报信息",mContext);
+                ToastUtil.showMessage("请填写举报内容", mContext);
                 return;
             }
             if (type.equals("")) {
-                UtilAssistants.showToast("请填写完全举报信息",mContext);
+                ToastUtil.showMessage("请填写举报类型", mContext);
                 return;
             }
 
             final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
             dialog.setText("加载中");
             dialog.show();
-            final Handler handler = new Handler() {
+            @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     dialog.dismiss();
@@ -247,11 +249,11 @@ public class MyAccusationEditActivity extends TopActivity {
                                 startActivity(new Intent(mContext, MyAccusationSuccessActivity.class));
                                 finish();
                             } else {
-                                UtilAssistants.showToast(re.getMsg(),mContext);
+                                ToastUtil.showMessage(re.getMsg(), mContext);
                             }
                             break;
                         case ThreadState.ERROR:
-                            UtilAssistants.showToast("操作失败，请重试！",mContext);
+                            ToastUtil.showMessage("操作失败，请重试！", mContext);
                             break;
                     }
                 }
@@ -371,7 +373,7 @@ public class MyAccusationEditActivity extends TopActivity {
 
             parentLayout.addView(layout);
         } catch (Exception e) {
-            UtilAssistants.showToast("操作失败!",mContext);
+            ToastUtil.showMessage("操作失败，请重试！", mContext);
         }
     }
 

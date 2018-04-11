@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import com.tbea.tb.tbeawaterelectrician.entity.Condition;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
 
 import java.util.ArrayList;
@@ -87,7 +89,7 @@ public class AddressCitySelectActivity extends TopActivity implements View.OnCli
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("加载中");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -136,12 +138,12 @@ public class AddressCitySelectActivity extends TopActivity implements View.OnCli
                             picker.setAnimationStyle(R.style.PopWindowAnimationFade);
                             picker.show();
                         } else {
-                            UtilAssistants.showToast("操作失败！", mContext);
+                            ToastUtil.showMessage("操作失败！", mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！", mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }
@@ -196,7 +198,7 @@ public class AddressCitySelectActivity extends TopActivity implements View.OnCli
         String location = ((TextView) findViewById(R.id.addr_city_select_location)).getText() + "";
 
         if ("".equals(province) || "".equals(city) || "".equals(location)) {
-            UtilAssistants.showToast("请选择正确的地址", mContext);
+            ToastUtil.showMessage("请选择正确的地址！", mContext);
             return;
         }
 

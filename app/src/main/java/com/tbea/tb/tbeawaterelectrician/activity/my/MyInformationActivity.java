@@ -56,6 +56,7 @@ import cn.qqtheme.framework.picker.OptionPicker;
 public class MyInformationActivity extends TopActivity implements View.OnClickListener {
     private final int RESULT_EMAIL = 1000;
     private final int RESULT_NICKNAME = 1001;
+    private final int RESULT_SERVICESCOPE = 1002;
     private final int ADDR_SELECT = 100;
     List<LocalMedia> mSelectList = new ArrayList<>();
     ImageView mHeaderView;
@@ -213,11 +214,11 @@ public class MyInformationActivity extends TopActivity implements View.OnClickLi
                             ((TextView) findViewById(R.id.info_introduce_tv)).setText(obj.getIntroduce());
 
                         } else {
-                            UtilAssistants.showToast(re.getMsg(), mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！", mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }
@@ -248,7 +249,7 @@ public class MyInformationActivity extends TopActivity implements View.OnClickLi
         final CustomDialog dialog = new CustomDialog(mContext, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
@@ -256,13 +257,13 @@ public class MyInformationActivity extends TopActivity implements View.OnClickLi
                     case ThreadState.SUCCESS:
                         RspInfo1 re = (RspInfo1) msg.obj;
                         if (re.isSuccess()) {
-                            UtilAssistants.showToast("操作成功！", mContext);
+                            ToastUtil.showMessage("操作成功！", mContext);
                         } else {
-                            UtilAssistants.showToast(re.getMsg(), mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！", mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }
@@ -332,16 +333,14 @@ public class MyInformationActivity extends TopActivity implements View.OnClickLi
                 }
                 break;
             case R.id.info_servicescope_layout:
-                String nickName = ((TextView) findViewById(R.id.info_servicescope_tv)).getText() + "";
-                intent = new Intent(mContext, MultiLineEditActivity.class);
-                intent.putExtra("code", nickName);
-                intent.putExtra("title", "服务范围");
-                intent.putExtra("viewId", R.id.info_servicescope_tv);
-                startActivityForResult(intent, RESULT_NICKNAME);
+//                String nickName = ((TextView) findViewById(R.id.info_servicescope_tv)).getText() + "";
+                intent = new Intent(mContext, ServicesCopeActivity.class);
+//                intent.putExtra("viewId", R.id.info_servicescope_tv);
+                startActivityForResult(intent, RESULT_SERVICESCOPE);
 
                 break;
             case R.id.info_introduce_layout:
-                nickName = ((TextView) findViewById(R.id.info_introduce_tv)).getText() + "";
+                String nickName = ((TextView) findViewById(R.id.info_introduce_tv)).getText() + "";
                 intent = new Intent(mContext, MultiLineEditActivity.class);
                 intent.putExtra("code", nickName);
                 intent.putExtra("title", "个人介绍");
@@ -456,14 +455,14 @@ public class MyInformationActivity extends TopActivity implements View.OnClickLi
                         case ThreadState.SUCCESS:
                             RspInfo1 re = (RspInfo1) msg.obj;
                             if (re.isSuccess()) {
-                                UtilAssistants.showToast("操作成功！", mContext);
+                                ToastUtil.showMessage("操作成功！", mContext);
                                 EventBus.getDefault().post(new EventCity(EventFlag.EVENT_MY_HEAD));
                             } else {
-                                UtilAssistants.showToast(re.getMsg(), mContext);
+                                ToastUtil.showMessage(re.getMsg(), mContext);
                             }
                             break;
                         case ThreadState.ERROR:
-                            UtilAssistants.showToast("操作失败！", mContext);
+                            ToastUtil.showMessage("操作失败！", mContext);
                             break;
                     }
                 }
@@ -482,7 +481,7 @@ public class MyInformationActivity extends TopActivity implements View.OnClickLi
                 }
             }).start();
         } catch (Exception e) {
-            UtilAssistants.showToast("操作失败!", mContext);
+            ToastUtil.showMessage("操作失败！", mContext);
         }
     }
 
@@ -535,10 +534,10 @@ public class MyInformationActivity extends TopActivity implements View.OnClickLi
                 switch (msg.what) {
                     case ThreadState.SUCCESS:
                         RspInfo1 re = (RspInfo1) msg.obj;
-                        UtilAssistants.showToast(re.getMsg(), mContext);
+                        ToastUtil.showMessage(re.getMsg(), mContext);
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！", mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }

@@ -27,7 +27,7 @@ import com.tbea.tb.tbeawaterelectrician.http.RspInfo;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
-import com.tbea.tb.tbeawaterelectrician.util.UtilAssistants;
+import com.tbea.tb.tbeawaterelectrician.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +71,7 @@ public class RegisterActivity extends TopActivity {
     }
 
     public void getPhoneDate() {
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what) {
@@ -84,12 +84,12 @@ public class RegisterActivity extends TopActivity {
                             ((TextView) findViewById(R.id.register_cm_phone)).setText("热线电话: " + mPhone);
 
                         } else {
-                            UtilAssistants.showToast(re.getMsg(), mContext);
+                            ToastUtil.showMessage(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！", mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
             }
@@ -112,6 +112,7 @@ public class RegisterActivity extends TopActivity {
     private void listener() {
 
         findViewById(R.id.register_cm_phone).setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("MissingPermission")
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mPhone));
@@ -138,7 +139,7 @@ public class RegisterActivity extends TopActivity {
                 if (!"".equals(zone)) {
                     getDistributorList();
                 } else {
-                    UtilAssistants.showToast("请选择所在地区", mContext);
+                    ToastUtil.showMessage("请选择所在地区！", mContext);
                 }
             }
         });
@@ -165,21 +166,21 @@ public class RegisterActivity extends TopActivity {
                 String pwd2 = ((TextView) findViewById(R.id.register_pwd2)).getText() + "";
 
                 if (isMobileNO(mobile) == false) {
-                    UtilAssistants.showToast("请正确输入手机号码", mContext);
+                    ToastUtil.showMessage("请正确输入手机号码！", mContext);
                     return;
                 }
                 if (code.equals("") || "".equals(pwd) || "".equals(zone) || "".equals(distributor) || "".equals(pwd2)) {
-                    UtilAssistants.showToast("请填写全部信息", mContext);
+                    ToastUtil.showMessage("请填写全部信息！", mContext);
                     return;
                 }
 
                 if (pwd.length() < 6 || pwd.length() > 10) {
-                    UtilAssistants.showToast("密码长度6到10位！", mContext);
+                    ToastUtil.showMessage("密码长度6到10位！", mContext);
                     return;
                 }
 
                 if (!pwd.equals(pwd2)) {
-                    UtilAssistants.showToast("两次密码不一致！", mContext);
+                    ToastUtil.showMessage("两次密码不一致！", mContext);
                     return;
                 }
 
@@ -198,12 +199,12 @@ public class RegisterActivity extends TopActivity {
                                     startActivity(new Intent(mContext, RegisterSuccessActivity.class));
                                     finish();
                                 } else {
-                                    UtilAssistants.showToast(re.getMsg(), mContext);
+                                    ToastUtil.showMessage(re.getMsg(), mContext);
                                 }
 
                                 break;
                             case ThreadState.ERROR:
-                                UtilAssistants.showToast("注册失败！", mContext);
+                                ToastUtil.showMessage("注册失败！", mContext);
                                 break;
                         }
                     }
@@ -238,13 +239,13 @@ public class RegisterActivity extends TopActivity {
             public void onClick(View v) {
                 final String mobile = ((EditText) findViewById(R.id.register_phone)).getText() + "";
                 if (isMobileNO(mobile) == false) {
-                    UtilAssistants.showToast("请输入正确的手机号码！", mContext);
+                    ToastUtil.showMessage("请输入正确的手机号码！", mContext);
                     return;
                 }
                 mc = new MyCount(60000, 1000);//倒计时60秒
                 mc.start();
 
-                final Handler handler = new Handler() {
+                @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
                     @Override
                     public void handleMessage(Message msg) {
                         switch (msg.what) {
@@ -254,10 +255,10 @@ public class RegisterActivity extends TopActivity {
                                     mc.cancel();
                                     button.setText("获取验证码");
                                 }
-                                UtilAssistants.showToast(re.getMsg(), mContext);
+                                ToastUtil.showMessage(re.getMsg(), mContext);
                                 break;
                             case ThreadState.ERROR:
-                                UtilAssistants.showToast("获取验证失败，请重试！", mContext);
+                                ToastUtil.showMessage("获取验证失败，请重试！", mContext);
                                 mc.cancel();
                                 button.setText("获取验证码");
                                 break;
@@ -326,15 +327,15 @@ public class RegisterActivity extends TopActivity {
                                 mPicker.setAnimationStyle(R.style.PopWindowAnimationFade);
                                 mPicker.show();
                             } else {
-                                UtilAssistants.showToast("操作失败！", mContext);
+                                ToastUtil.showMessage("操作失败！", mContext);
                             }
                         } else {
-                            UtilAssistants.showToast("操作失败！", mContext);
+                            ToastUtil.showMessage("操作失败！", mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！", mContext);
+                        ToastUtil.showMessage("操作失败！", mContext);
                         break;
                 }
                 dialog.dismiss();
@@ -346,7 +347,7 @@ public class RegisterActivity extends TopActivity {
             public void run() {
                 try {
                     UserAction userAction = new UserAction();
-                    RspInfo re = userAction.getDistributorList(mProvinceId, mCityId, mLocationId,mProvince,mCity,mLocation);
+                    RspInfo re = userAction.getDistributorList(mProvinceId, mCityId, mLocationId, mProvince, mCity, mLocation);
                     handler.obtainMessage(ThreadState.SUCCESS, re).sendToTarget();
                 } catch (Exception e) {
                     handler.sendEmptyMessage(ThreadState.ERROR);
