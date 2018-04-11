@@ -217,6 +217,11 @@
         <activity
             android:name=".activity.my.WalletWithdrawCashActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.my.WalletWithdrawCashActivity2"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.my.WalletWithdrawCashViewActivity"
             android:screenOrientation="portrait" />

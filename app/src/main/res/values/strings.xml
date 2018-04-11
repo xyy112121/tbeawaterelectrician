@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">电工惠</string>
+    <string name="app_name">超级水电工</string>
     <string name="register">注册</string>
     <string name="title_register_phone">&#xe643; 注册手机号</string>
     <string name="real_name_authentication">&#xe626; 实名认证</string>

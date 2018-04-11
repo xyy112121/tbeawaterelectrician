@@ -35,7 +35,7 @@ import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
- * Created by cy on 2016/12/19.钱包收入列表
+ * Created by cy on 2016/12/19.钱包收入列表  没有使用的
  */
 
 public class WalletRevenueFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate{

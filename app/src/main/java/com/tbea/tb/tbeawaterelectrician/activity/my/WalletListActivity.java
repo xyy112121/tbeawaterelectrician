@@ -1,5 +1,6 @@
 package com.tbea.tb.tbeawaterelectrician.activity.my;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -7,8 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +21,6 @@ import com.tbea.tb.tbeawaterelectrician.R;
 import com.tbea.tb.tbeawaterelectrician.activity.TopActivity;
 import com.tbea.tb.tbeawaterelectrician.component.CustomDialog;
 import com.tbea.tb.tbeawaterelectrician.entity.Receive;
-import com.tbea.tb.tbeawaterelectrician.fragment.my.WalletPayFragment;
-import com.tbea.tb.tbeawaterelectrician.fragment.my.WalletRevenueFragment;
 import com.tbea.tb.tbeawaterelectrician.http.RspInfo1;
 import com.tbea.tb.tbeawaterelectrician.service.impl.UserAction;
 import com.tbea.tb.tbeawaterelectrician.util.ThreadState;
@@ -63,7 +60,7 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
      * 获取数据
      */
     public void getDate() {
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 mRefreshLayout.endLoadingMore();
@@ -73,6 +70,10 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
                         try {
                             RspInfo1 re = (RspInfo1) msg.obj;
                             if (re.isSuccess()) {
+                                Map<String, Object> data = (Map<String, Object>) re.getData();
+                                Map<String, String> takemoneymodelinfo = (Map<String, String>) data.get("takemoneymodelinfo");
+                                final String takemoneymodel = takemoneymodelinfo.get("takemoneymodel");
+
                                 if (isFirst == true) {
                                     LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_wallet_list_head, null);
                                     mListView.addHeaderView(layout);
@@ -82,15 +83,19 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
                                         @Override
                                         public void onClick(View view) {
                                             if ("0".equals(mCurrentMoney) || "0.00".equals(mCurrentMoney)) {
-                                                UtilAssistants.showToast("你当前可提现金额为0",mContext);
+                                                UtilAssistants.showToast("你当前可提现金额为0", mContext);
                                             } else {
-                                                startActivity(new Intent(WalletListActivity.this, WalletWithdrawCashActivity.class));
+                                                if ("model01".equals(takemoneymodel)) {
+                                                    startActivity(new Intent(WalletListActivity.this, WalletWithdrawCashActivity.class));
+                                                } else {
+                                                    startActivity(new Intent(WalletListActivity.this, WalletWithdrawCashActivity2.class));
+
+                                                }
                                             }
 
                                         }
                                     });
                                 }
-                                Map<String, Object> data = (Map<String, Object>) re.getData();
                                 Map<String, String> mymoneyinfo = (Map<String, String>) data.get("mymoneyinfo");
                                 if (mymoneyinfo != null) {
                                     mCurrentMoney = mymoneyinfo.get("currentmoney");
@@ -115,7 +120,7 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
                                 }
                                 isFirst = false;
                             } else {
-                                UtilAssistants.showToast(re.getMsg(),mContext);
+                                UtilAssistants.showToast(re.getMsg(), mContext);
                             }
                         } catch (Exception e) {
                             isFirst = false;
@@ -124,7 +129,7 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        UtilAssistants.showToast("操作失败！", mContext);
                         break;
                 }
             }
@@ -289,15 +294,15 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
                     case ThreadState.SUCCESS:
                         RspInfo1 re = (RspInfo1) msg.obj;
                         if (re.isSuccess()) {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            UtilAssistants.showToast(re.getMsg(), mContext);
                             mRefreshLayout.beginRefreshing();
                         } else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            UtilAssistants.showToast(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        UtilAssistants.showToast("操作失败！", mContext);
                         break;
                 }
             }
