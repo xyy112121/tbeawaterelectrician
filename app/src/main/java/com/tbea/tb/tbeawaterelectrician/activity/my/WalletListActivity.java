@@ -252,7 +252,8 @@ public class WalletListActivity extends TopActivity implements View.OnClickListe
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(mContext, WalletWithdrawCashViewActivity.class);
+                    //Intent intent = new Intent(mContext, WalletWithdrawCashViewActivity.class);
+                    Intent intent = new Intent(mContext, WalletWithdrawCashSuccessActivity2.class);
                     intent.putExtra("money", "");
                     intent.putExtra("takemoneycodeid", mList.get(position).getId());
                     startActivity(intent);

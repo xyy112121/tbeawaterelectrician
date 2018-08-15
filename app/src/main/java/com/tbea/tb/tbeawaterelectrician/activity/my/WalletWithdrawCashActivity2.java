@@ -61,13 +61,18 @@ public class WalletWithdrawCashActivity2 extends TopActivity {
 
                             Double mo = Double.parseDouble(money);
                             if (mo > Double.parseDouble(mCanexChangeMoney)) {
-                                UtilAssistants.showToast("不能大于最大提现金额",mContext);
+                                UtilAssistants.showToast("不能大于最大提现金额", mContext);
                                 return;
                             }
-                            Intent intent = new Intent(WalletWithdrawCashActivity2.this, WalletWithdrawCashViewActivity.class);
+//                            Intent intent = new Intent(WalletWithdrawCashActivity2.this, WalletWithdrawCashViewActivity.class);
+//                            intent.putExtra("money", money);
+//                            intent.putExtra("distributorid", mdistributorid);
+//                            startActivity(intent);
+                            Intent intent = new Intent(WalletWithdrawCashActivity2.this, WalletWithdrawCashSuccessActivity2.class);
                             intent.putExtra("money", money);
                             intent.putExtra("distributorid", mdistributorid);
                             startActivity(intent);
+
                             finish();
                         }
                     }, "确认");
@@ -93,7 +98,6 @@ public class WalletWithdrawCashActivity2 extends TopActivity {
         });
 
     }
-
 
 
     private void initDistributorView(Distributor obj) {
@@ -126,7 +130,7 @@ public class WalletWithdrawCashActivity2 extends TopActivity {
                             if (recommondDistriButorInfo != null) {
                                 Distributor obj = new Distributor();
                                 obj.setId(recommondDistriButorInfo.get("id") + "");
-                                obj.setName("经销商："+recommondDistriButorInfo.get("name") + "");
+                                obj.setName("经销商：" + recommondDistriButorInfo.get("name") + "");
 //                                obj.setAddress("地址:" + recommondDistriButorInfo.get("address") + "");
                                 obj.setMobilenumber("咨询电话：" + recommondDistriButorInfo.get("mobilenumber") + "");
 //                                obj.setDistance(recommondDistriButorInfo.get("distance") + "");
@@ -136,12 +140,12 @@ public class WalletWithdrawCashActivity2 extends TopActivity {
                                 initDistributorView(obj);
                             }
                         } else {
-                            UtilAssistants.showToast(re.getMsg(),mContext);
+                            UtilAssistants.showToast(re.getMsg(), mContext);
                         }
 
                         break;
                     case ThreadState.ERROR:
-                        UtilAssistants.showToast("操作失败！",mContext);
+                        UtilAssistants.showToast("操作失败！", mContext);
                         break;
                 }
             }

@@ -206,16 +206,20 @@ public class ScanCodeActivity extends TopActivity {
                             }
 
                         } else {
-                            final CustomDialog dialog1 = new CustomDialog(ScanCodeActivity.this, R.style.MyDialog, R.layout.tip_delete_dialog);
-                            dialog1.setText(re.getMsg());
-                            dialog1.setConfirmBtnIsCloseWindow(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dialog1.dismiss();
-                                    continuePreview();
-                                }
-                            });
-                            dialog1.show();
+                            continuePreview();
+                            Intent intent = new Intent(mContext, ScanCodeErrorActivity.class);
+                            intent.putExtra("title", re.getMsg());
+                            startActivity(intent);
+//                            final CustomDialog dialog1 = new CustomDialog(ScanCodeActivity.this, R.style.MyDialog, R.layout.tip_delete_dialog);
+//                            dialog1.setText(re.getMsg());
+//                            dialog1.setConfirmBtnIsCloseWindow(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    dialog1.dismiss();
+//                                    continuePreview();
+//                                }
+//                            });
+//                            dialog1.show();
                         }
 
                         break;

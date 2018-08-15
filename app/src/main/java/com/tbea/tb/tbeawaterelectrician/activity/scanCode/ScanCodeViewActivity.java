@@ -161,10 +161,10 @@ public class ScanCodeViewActivity extends TopActivity {
 
     private void setViewDate(ScanCode obj) {
         mObj = obj;
-        ((TextView) findViewById(R.id.scan_code_view_name)).setText(obj.getName());
-        ((TextView) findViewById(R.id.scan_code_view_price)).setText("￥" + obj.getPrice());
-        ImageView imageView = (ImageView) findViewById(R.id.scan_code_view_picture);
-        ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + obj.getPicture(), imageView);
+        //((TextView) findViewById(R.id.scan_code_view_name)).setText(obj.getName());
+       // ((TextView) findViewById(R.id.scan_code_view_price)).setText("￥" + obj.getPrice());
+//        ImageView imageView = (ImageView) findViewById(R.id.scan_code_view_picture);
+//        ImageLoader.getInstance().displayImage(MyApplication.instance.getImgPath() + obj.getPicture(), imageView);
         ((TextView) findViewById(R.id.scan_code_view_rebatemoney)).setText("￥" + obj.getRebatemoney());
         ((TextView) findViewById(R.id.scan_code_view_scantime)).setText(obj.getScantime());
         ((TextView) findViewById(R.id.scan_code_view_scanaddress)).setText(obj.getScanaddress());
@@ -203,7 +203,7 @@ public class ScanCodeViewActivity extends TopActivity {
         final CustomDialog dialog = new CustomDialog(ScanCodeViewActivity.this, R.style.MyDialog, R.layout.tip_wait_dialog);
         dialog.setText("请等待...");
         dialog.show();
-        final Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
